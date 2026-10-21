@@ -1,0 +1,72 @@
+# Adventurers
+
+You play an OSRS adventurer in place of a Megabonk character. Each adventurer takes over one Megabonk character's
+slot: its place on character select, its movement and its hitbox. Bonkscape changes its name, stats, starting weapon,
+portrait and model.
+
+<!-- gen:characters -->
+| Adventurer | Style (attack style) | Starting weapon | Megabonk slot | Stat changes | Worn OSRS items | Unlock | Status |
+|---|---|---|---|---|---|---|---|
+| **Warrior** | melee (aggressive) | Dragon scimitar | SirOofie | max HP +50, armour +0.15, move speed -0.02 | Rune full helm, Rune platebody, Rune platelegs, Dragon scimitar | always | <span class="st st-verified">verified</span> |
+| **Ranger** | ranged (accurate) | Magic shortbow | Robinette | armour +0.05, move speed +0.075 | Green d'hide body, Green d'hide chaps, Magic shortbow | always | <span class="st st-built">built</span> |
+| **Mage** | magic (accurate) | Fire Strike | Fox | move speed +0.04, luck +0.15 | Blue wizard hat, Blue wizard robe, Staff of fire | always | <span class="st st-built">built</span> |
+| **Pure** | melee (aggressive) | Dragon scimitar | Ninja | max HP -40, damage +0.35, move speed +0.1 | Dragon scimitar | defence 1 attack 60 | <span class="st st-todo">planned (phase 2)</span> |
+| **Ironman** | melee (defensive) | Dragon scimitar | SirChadwell | max HP +30, armour +0.1, luck +0.25 | Ironman helm, Ironman platebody, Ironman platelegs | total level 250 | <span class="st st-todo">planned (phase 2)</span> |
+<!-- /gen:characters -->
+
+Stat changes are Megabonk stat modifiers. For each stat in the row (max HP, armour, damage, size, attack speed, move
+speed, luck), Bonkscape removes the Megabonk character's own modifier for that stat and adds the row's value, if it
+isn't zero. Move speed is added to Megabonk's move speed multiplier; the others are flat. Everything else about the
+Megabonk character is left as Megabonk made it.
+
+Pure and Ironman are planned: they're in the sheet with unlock conditions, but **not built**, so character select
+shows Megabonk's own `Ninja` and `SirChadwell` characters in their slots.
+
+## Starting weapons
+
+Each adventurer starts with its row's weapon. Once your [skills](skills-and-xp.md) are high enough, it starts with a
+stronger weapon of the same style instead: the one with the highest skill requirement you meet.
+
+| Adventurer | Default | Upgrades |
+|---|---|---|
+| Warrior (melee) | Dragon scimitar | 70 Attack: **Abyssal whip** |
+| Ranger (ranged) | Magic shortbow | 55 Ranged: **Red chinchompa**; 75 Ranged: **Toxic blowpipe** |
+| Mage (magic) | Fire Strike | 75 Magic: **Trident of the seas**; 94 Magic: **Ice Barrage** |
+
+These requirements only decide the weapon you **start** with. Level-ups offer all eight weapons whatever your levels
+([Weapons](weapons-and-evolutions.md)).
+
+The character select panel shows which weapon the selected adventurer will start with. Bonkscape sets the starting
+weapon when Megabonk loads its data, which happens as the game starts. From the code, a level gained during a play
+session shows on the panel right away but may only reach the run after you restart Megabonk. That hasn't been tested
+yet ([docket](../dev/docket.md)).
+
+> **Warrior and Attack.** The Warrior fights in the *aggressive* style, so its melee damage trains **Strength**, not
+> Attack ([Skills](skills-and-xp.md#what-trains-what)). Attack is trained by melee damage from an *accurate*
+> adventurer, which means the Ranger or Mage using a melee weapon picked up on level-up.
+
+## Looks
+
+Each adventurer is built from OSRS player parts in your cache: the male identity kits listed in the sheet (head, jaw,
+torso, arms, hands, legs, feet) plus the worn items above, which hide the parts they cover, in the kits' own colours.
+The model stands in the first frame of OSRS's standing animation (808). It isn't animated yet: no walking, attacking
+or dying moves ([Known limitations](known-limitations.md)).
+
+The model follows your character, feet on the ground, and turns to face the way you move. Megabonk's own character
+model is hidden. Character select portraits are rendered from the same OSRS model.
+
+If a worn item isn't in your cache, the adventurer is built without it. If the body can't be built at all, you see
+Megabonk's character.
+
+## Size
+
+Megabonk's character height is measured once per game session, the first time it stands upright. Your adventurer is drawn at
+that height times **`Models.AdventurerScale`** (default **1.6**, from 0.5 to 3). Lumbridge is scaled to match, so the
+world keeps OSRS proportions around you.
+
+Your **hitbox** is still Megabonk's: a bigger adventurer doesn't get hit more.
+
+Monsters are drawn on your adventurer's scale: an OSRS human stands about as tall as your adventurer, and goblins,
+rats and chickens keep their OSRS ratios to them ([Monsters](monsters-and-bosses.md#size)).
+
+<!-- sources: src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/PlayerSkin.cs src/Bonkscape.Plugin/Systems/CharacterSelect.cs src/Bonkscape.Plugin/Core/Sizing.cs src/Bonkscape.Plugin/Core/Osrs.cs src/Bonkscape.Plugin/Plugin.cs sheets/characters.json sheets/weapons.json -->

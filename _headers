@@ -1,0 +1,6 @@
+/*
+  X-Robots-Tag: noindex, nofollow
+/api/*
+  Content-Type: application/json; charset=utf-8
+/docs/*
+  Content-Type: text/markdown; charset=utf-8

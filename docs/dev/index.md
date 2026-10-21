@@ -1,0 +1,46 @@
+# BSWiki: developer pages
+
+How Bonkscape is built, why it is the way it is, and what's next. Player-facing pages are in [BSWiki's player pages](../wiki/index.md).
+Written against **0.1.20** (code at `782ce3f`).
+
+| Page | What it covers |
+|---|---|
+| [Architecture](architecture.md) | Projects, load sequence, the background asset build, sheets to code, the run lifecycle, the arena pipeline, every Harmony patch, tools, build and release |
+| [Sheets reference](sheets-reference.md) | Every sheet and column, what reads it, and what the preflight checks |
+| [Gotchas](gotchas.md) | Hard-won lessons from `MODLOG.md`, grouped by topic |
+| [Testing](testing.md) | Melty test mode, self-checks, footage review, the test history |
+| [Changelog and patch notes](changelog.md) | Every version 0.0.1 to 0.1.20: date, commit, test, patch notes and changes |
+| [Docket](docket.md) | Ideas and tasks by milestone, with status |
+| [How to update these docs](updating-docs.md) | What to update with every version, the table generator and the checker |
+| [The hub](hub.md) | One page that starts and links the wiki, the map sketch tool and the docs (`Bonkscape Hub.cmd`); hosting BSWiki |
+
+## Where things are
+
+```
+sheets/*.json                      design data (source of truth)
+src/Bonkscape.Cache/               OSRS cache reader (no Unity)
+src/Bonkscape.Plugin/              the BepInEx plugin
+  Core/                            runner, asset build, sizing, Unity conversion, rows, JSON
+  Systems/                         one file per system
+  Patches/CorePatches.cs           leaderboards, data load, death screen
+  Generated/Sheets.g.cs            generated from the sheets, don't edit
+src/Bonkscape.Tools/               bonk.exe (preflight, codegen, cache and map tools)
+tools/package.py                   release zip
+tools/sketch/                      map sketch tool (port 8790)
+tools/wiki-site/                   this wiki's site (port 8791), table generator, docs checker
+tools/hub/                         the hub (port 8789): starts and links the tools; Bonkscape Hub.cmd launches it
+docs/MODLOG.md                     short log: versions, workflow, numbered gotchas
+docs/preflight.md                  generated preflight report
+docs/wiki/, docs/dev/              these wikis
+```
+
+## The working loop
+
+1. Change the sheets (design) or the code.
+2. `bonk preflight ...` until phase 1 has 0 open items (regenerates `Sheets.g.cs` and `cache_assets.json`).
+3. Bump `Plugin.Version`, `dotnet build -c Release`, `python tools/package.py <version>`.
+4. Upload and test through Melty; read the self-checks and review the footage ([Testing](testing.md)).
+5. Update the docs: changelog and patch notes, affected wiki pages, docket, statuses
+   ([How to update these docs](updating-docs.md)).
+
+<!-- sources: src/Bonkscape.Plugin/Plugin.cs -->

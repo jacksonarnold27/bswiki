@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BSWiki</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" id="hl-light" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+<link rel="stylesheet" id="hl-dark" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" disabled>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+<body>
+<div id="app">
+  <aside id="side">
+    <header>
+      <a class="brand" href="#/wiki/index">Bonkscape<span>wiki</span></a>
+      <button id="theme" type="button" title="Switch light / dark">◐</button>
+    </header>
+    <div class="search">
+      <input id="q" type="search" placeholder="Search the wikis  ( / )" autocomplete="off" spellcheck="false">
+    </div>
+    <nav id="nav"></nav>
+  </aside>
+  <main id="main">
+    <div id="topbar">
+      <button id="menu" type="button" aria-label="Pages">☰ Pages</button>
+      <span id="crumb"></span>
+    </div>
+    <div id="layout">
+      <article id="page"><p class="muted">Loading…</p></article>
+      <aside id="toc"></aside>
+    </div>
+    <footer id="foot"></footer>
+  </main>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
