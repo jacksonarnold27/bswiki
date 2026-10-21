@@ -96,7 +96,7 @@ attack and death sequences for the adventurer and every monster, played in time 
 
 | Status | Task | Notes |
 |---|---|---|
-| <span class="st st-done">done</span> | The hub | One launcher for the tools: `Bonkscape Hub.cmd` or the Desktop shortcut starts `tools/hub` (port 8789), which starts the wiki and sketch servers and links them and the other docs. A static BSWiki export is prepared for hosting, not published ([The hub](hub.md)). |
+| <span class="st st-done">done</span> | The hub | One launcher for the tools: `Bonkscape Hub.cmd` or the Desktop shortcut starts `tools/hub` (port 8789), which starts the wiki and sketch servers and links them and the other docs. BSWiki is online (public) at jacksonarnold27.github.io/bswiki from the `bswiki` repo; `export_wiki.py --push` updates it ([The hub](hub.md#hosting-bswiki)). |
 | <span class="st st-done">done</span> | Playability pass | 0.1.12: pathing, roomier collision, bigger adventurer, prayer bar |
 | <span class="st st-done">done</span> | Map sketch tool | `tools/sketch` with surface, underground and instance views |
 | <span class="st st-done">done</span> | Full cache on this PC | The RuneLite cache replaced with the full archive (backup kept); preflight 143/143 phase-1 assets; `bonk worldscan` |

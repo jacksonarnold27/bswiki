@@ -12,7 +12,7 @@ Written against **0.1.20** (code at `782ce3f`).
 | [Changelog and patch notes](changelog.md) | Every version 0.0.1 to 0.1.20: date, commit, test, patch notes and changes |
 | [Docket](docket.md) | Ideas and tasks by milestone, with status |
 | [How to update these docs](updating-docs.md) | What to update with every version, the table generator and the checker |
-| [The hub](hub.md) | One page that starts and links the wiki, the map sketch tool and the docs (`Bonkscape Hub.cmd`); hosting BSWiki |
+| [The hub](hub.md) | One page that starts and links the wiki, the map sketch tool and the docs (`Bonkscape Hub.cmd`); the public BSWiki at jacksonarnold27.github.io/bswiki |
 
 ## Where things are
 

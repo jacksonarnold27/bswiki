@@ -71,27 +71,34 @@ command to copy. A reload of the page shows it. Then add it to the table above a
 
 ## Hosting BSWiki
 
-Prepared, **not done**: nothing is published, and there's no remote repo or site.
+BSWiki is online, **public**, at <https://jacksonarnold27.github.io/bswiki/>: the player and developer pages, from the
+public repo [jacksonarnold27/bswiki](https://github.com/jacksonarnold27/bswiki) (GitHub Pages, branch `main`). That repo
+holds only the exported wiki; Bonkscape's own repo stays private. Its local copy is `D:\Modding\bswiki`, and its
+commits use the GitHub no-reply address, not your e-mail.
 
-`python tools/hub/export_wiki.py` writes BSWiki as a static site to `build/bswiki-site/` (gitignored): the wiki site's
-`index.html`, `app.js` and `style.css`, the Markdown pages, `api/nav` and `api/pages` (what the local server's API
-returns), `robots.txt` and a `_headers` file asking search engines not to index it, and `.nojekyll` (so GitHub Pages
-serves the `.md` files as they are). It saves what the wiki server serves, so it's the local site page for page.
-`--with-dev` adds the developer pages; `--serve` shows the export on <http://localhost:8799>.
+**To update it** after editing the docs (also on the hub's Commands card):
 
-**What would be public:** the player pages (`docs/wiki`) by default. With `--with-dev`, also the developer pages:
-the architecture with every Harmony patch on Megabonk, the docket, gotchas, test history and changelog. Never map
-tiles, sprites, models, renders or anything else read from the OSRS cache or Megabonk: the export is text only and
-refuses a page that embeds an image or any other file. Player pages link into the developer pages in a few places;
-those links break when the developer pages are left out, and the export lists them.
+```
+python tools/hub/export_wiki.py --with-dev --out D:\Modding\bswiki --push
+```
 
-The export uses relative paths, so it works at a domain's root or in a subfolder. Two ways to put it online:
+It exports, commits in `D:\Modding\bswiki` and pushes; the site changes a minute or two later. Nothing is pushed
+when the export hasn't changed.
 
-- **Cloudflare Pages:** `npx wrangler pages deploy build/bswiki-site --project-name bswiki`. To keep it private, put a
-  Cloudflare Access application (Zero Trust; free for up to 50 users) in front of the `pages.dev` hostname, allowing
-  only your e-mail address.
-- **GitHub Pages:** a small public repo holding only the export (say `bswiki`, served at
-  `https://<user>.github.io/bswiki/`), so Bonkscape's own repo can stay private. On a free account Pages needs a public
-  repo, and the site is public either way.
+**What the export holds:** the wiki site's `index.html`, `app.js` (its paths made relative, so it works in a
+subfolder) and `style.css`, the Markdown pages, `api/nav` and `api/pages` (what the local server's API returns), plus
+`robots.txt`, a `_headers` file (for Cloudflare Pages) and a `noindex` tag asking search engines not to list it, and
+`.nojekyll` (so GitHub Pages serves the `.md` files as they are). It saves what the wiki server serves, so it's the
+local site page for page. Without `--with-dev` it's the player pages only; `--serve` shows an export on
+<http://localhost:8799>; with no `--out` it goes to `build/bswiki-site/` (gitignored).
+
+**Never online:** map tiles, sprites, models, renders or anything else read from the OSRS cache or Megabonk. The
+export is text only and refuses a page that embeds an image or any other file. Anything written in `docs/wiki` or
+`docs/dev` goes public with the next update, so keep personal paths and private notes out of those pages.
+
+For a private copy instead, Cloudflare Pages can serve the same export
+(`npx wrangler pages deploy build/bswiki-site --project-name bswiki`) behind a Cloudflare Access application (Zero
+Trust, free for up to 50 users) that lets in only your e-mail address. GitHub Pages sites on a free account are
+always public.
 
 <!-- sources: tools/hub/ -->
