@@ -13,6 +13,37 @@ inside each release's DLL in `dist/`. No version has been published yet: every r
 
 ---
 
+## 0.8.0: Al Kharid
+
+*Build 2026-10-22 07:00, code in `70b4f98`. Test `7b1d13bb`: publish test, 3 runs x 2 min, passed. Run 1 Durial321 on
+Al Kharid (its desert monsters, the boss portal into the Kalphite Lair, the crawling Queen), run 2 the Ranger on
+Morytania as the Desert's second stage (Verac the hidden brother), run 3 TzHaar City (the Fight Caves and Jad). All 12
+self-checks each.*
+
+**Patch notes**
+- Al Kharid opens the Desert: the desert town from your cache, its scorpions, lizards, wolves, bandits, kalphites and
+  more, Kalphite Guardians as minibosses, and the boss portal into the Kalphite Lair.
+- The Kalphite Queen: three OSRS attacks (Jaws, Spines, Lightning) every 2.4 s, each a smaller share of your health
+  than Jad's. Kill her crawling form and she rises again, airborne, at full health; only her second death counts.
+- Morytania is now the Desert's second stage, on a 9-minute timeline, at full difficulty (it was 0.8).
+
+**Changes**
+- New `bosses` columns `second_form` (an `enemies` id the boss rises as) and `second_form_spotanim`. New
+  `Systems/SecondForm.cs`: an `Enemy.EnemyDied` prefix calls the first form's death off (health back in full, death
+  flags cleared, `BossFight.CancelAttack`), `EnemySkins.Reskin` puts the second form's model on the same enemy, the
+  spotanim plays where she fell, and her `spawn` sequence holds her still and unhurt until `SecondForm.Tick` lets go.
+  `Combat` skips the called-off death; `Unlocks` and `Rows.BossOf`/`FinalFormId` count the last form. Hook
+  `boss_second_form`.
+- `BossFight`: an attack's `seq`, `spotanim*` and `projectile` may be a [first form, second form] pair; the hit's share
+  of max health is scaled by the attack's `damage` against Jad's 97 (the Queen's 31: 18-27%).
+- Rows: `al_kharid` (Desert stage 0, (3264, 3110)-(3391, 3330), *Al Kharid*, fallback Scorpion), ten Al Kharid
+  monsters, `kalphite_guardian`, `kalphite_queen` (963) and `kalphite_queen_airborne` (965, never on a slot of its own),
+  Al Kharid's waves and `kalphite_queen_boss` (the Kalphite Lair (3456, 9472)-(3519, 9535), every 2400 ms, second
+  form with spotanim 1055). `morytania` moves to stage 1 (9 minutes, difficulty 1.0), its brothers to `Pharaoh2` and
+  its waves earlier (minibosses at 2 and 7, swarms at 3 and 6, the boss at 9).
+- `Prayer`'s hit log names the block applied (*boss, fully blocked* for Jad). Test mode: optional check
+  `boss-second-form`; a scenario's `kill` step reports a risen second form; scenarios `al-kharid`, `kalphite-lair`.
+
 ## 0.7.0: the Barrows
 
 *Build 2026-10-22 06:08, code in `508f097`. Test `4b4dffee`: publish test, 3 runs x 2 min, passed. Run 1 the Warrior

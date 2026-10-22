@@ -29,8 +29,8 @@ writes its self-checks (log: `Melty test mode: hand-over`). For what autoplay ca
 `%LOCALAPPDATA%\Bonkscape\test-rotation.txt`. Quick checks are always run 1, so before the rotation autoplay only ever
 played the Warrior. The log says `autoplay adventurer: <name> (<style>)`. `Dev.AutoStartRun` still plays the first.
 
-**Map rotation** (0.2.1). The map is `rotation mod <phase-1 maps>` over `Rows.Maps` (Lumbridge on the Forest,
-Morytania on the Desert, TzHaar City on the Desert's third stage). The rotation goes up with every game launch and
+**Map rotation** (0.2.1). The map is `rotation mod <phase-1 maps>` over `Rows.Maps` (Lumbridge on the Forest;
+Al Kharid, Morytania and TzHaar City on the Desert's three stages). The rotation goes up with every game launch and
 each run is one, so a test of as many runs as maps plays each, as 0.5.0's three-run test did (with the run number added too, as for the adventurer, it moved by 2 a run and both of
 0.2.1's first test runs played Lumbridge). The
 log says `autoplay map: <name> (Megabonk's <map>)`. `Dev.AutoStartRun` plays Lumbridge.
@@ -105,7 +105,9 @@ adventurer's `extra_weapons` given), `shop-refused` (a shopkeeper refused an adv
 `character-unlocked` (an `unlock_condition` other than `always` met). Since 0.7: `hidden-brother` (a boss pool's
 hidden brother picked), `barrows-piece` and `barrows-set` (a piece given; a set completed), `set-effect` (a set
 effect triggered) and `weapon-takeover` (a brother's weapon put on its shared Megabonk type). Since 0.8:
-`boss-second-form` (a two-form boss's first form fell and its second rose).
+`boss-second-form` (a two-form boss's first form fell and its second rose). Since 0.9: `crypt-left` (a Graveyard run left its starting crypt by its exit door), `pker-ambush` and `pker-spec` (a PKer came, and fired its special attack) and `boss-breath-effect` (a boss's breath poisoned, froze or shocked the adventurer).
+
+**Each Melty run's own log** (0.9.1): in Melty's test mode Bonkscape copies its log lines to `%LOCALAPPDATA%/Bonkscape/melty-run-N.log` as they come, since BepInEx's `LogOutput.log` starts over with each launch and a test's first run was gone by its last. Test mode never calls a boss while the game is paused (time scale 0).
 
 Every 30 s of a test run the log also says `animations: monster attacks N, deaths N (corpses N), mole digs N (N in its lair),
 adventurer attacks N, moved …`, and the cache build logs each monster's and adventurer's baked sequences
@@ -196,6 +198,7 @@ Times are local (UTC-5). From Melty's release list and test results.
 | 0.5.0 | `f40eeddc` | 3 x 2 min | **passed (publish test)** | Run 1 on Lumbridge: the boss portal into the Mole's lair, the Dragon scimitar's spec there. Run 2 on Morytania: Dharok at the Barrows, Ice Barrage's spec. Run 3 on TzHaar City (the Desert's third stage, reached by the jump): the city's lava cracks, Tokkul, TzHaar and TzHaar-Ket, the final portal into the Fight Caves, Yt-MejKot and Ket-Zek waves, TzTok-Jad released with his boss bar dropping. All 12 each. The first 0.5.0 test, `f9cc7928`, failed only its TzHaar run's `evolution`: the test casket landed in the final portal's stage reload (fixed in `f1c619d`). |
 | 0.6.0 | `b459ddbb` | 3 x 2 min | **passed (publish test)** | Run 1 the Zerker on Lumbridge: his OSRS model, the Void knight mace among the level-up offers, the Mole's lair fight. Run 2 Durial321 on Morytania: his model, his extra Ice Barrage firing round him, Dharok; the Deep Freeze ice block on its target drew as an opaque tan box. Run 3 TzHaar City: the city, the Fight Caves' waves and TzTok-Jad. All 12 each. |
 | 0.7.0 | `4b4dffee` | 3 x 2 min | **passed (publish test)** | Run 1 the Warrior on Lumbridge: the Void knight mace and whip among the offers, the Mole's lair. Run 2 the Mage on Morytania: the hidden brother was Torag the Corrupted, named on the boss bar, in his armour with his hammers (Megabonk's boss beams). Run 3 the Void Knight on TzHaar City: the final portal, *You enter TzTok-Jad's arena; the waves come first.*, the waves, Jad with his telegraphs. All 12 each. The review read Jad's prayed hits as half blocked: `Prayer` labels every boss hit `boss, half blocked`, also one blocked fully. |
+| 0.8.0 | `7b1d13bb` | 3 x 2 min | **passed (publish test)** | Run 1 Durial321 on Al Kharid: the desert town, scorpions, desert wolves, lizards, a bandit and an Al Kharid warrior, the boss portal into the Kalphite Lair, the crawling Queen fighting (boss bar 7,142). Run 2 the Ranger on Morytania, reached by the jump to the Desert's second stage: Verac the hidden brother at the Barrows. Run 3 TzHaar City: the Fight Cave, its waves, Jad's telegraphs. All 12 each. The Queen's second form wasn't reached in the run's 30 s with her (seen locally in `kalphite-lair`). |
 
 Blank cells weren't looked up. `mcp__melty__test_result` with the test id gives the full record.
 
@@ -233,7 +236,7 @@ through `EnemyManager.SpawnBoss`; `"weapon": "<weapons id>"` gives one; `"drop":
 (the Fire cape after Jad; a test adventurer can't kill a third-stage boss in a scenario's time); `"shop": "interact"` puts the adventurer by the nearest Shady Guy (or the shopkeeper standing in for him) and
 presses Interact, reporting whether he traded (`shop-refused` for an Ironman); `"lava": "edge"` puts
 the adventurer against the nearest lava edge with a burn due at once (autoplay never walks into one: lava has colliders);
-`"spec": "<weapons id>"` arms that held weapon's special attack, fills the bar and fires it, `"spec": "switch"` presses
+`"probe": "<regex>"` logs the active scene objects whose type matches (`"text:<regex>"`: the on-screen texts) and `"interact": "<type>"` presses the nearest interactable of that type (0.9's study of the Graveyard; a scenario on a map not built yet plays Megabonk's own map under it and runs only its steps and shots); `"teleport": "x,y,z"` moves the adventurer; `"pause": "on"` or `"off"` sets Megabonk's time scale as its level-up and reward windows do (the scenario clock stops with it, so a step meant under the pause shares its time); `"spec": "<weapons id>"` arms that held weapon's special attack, fills the bar and fires it, `"spec": "switch"` presses
 the switch key; `"camera": "far"`, `"near"` or `"north"` sets the camera; `"evolve": "<evolutions id>"` readies an evolution (the weapon levelled, its passive given) and does
 what a casket's Open button does). A spawned monster can't be hurt for about its first second (`Enemy.CanTakeDamage`),
 so a spec step comes 1.5 s after its monsters' spawn,
@@ -258,7 +261,7 @@ written as PNG by the plugin (Unity's own capture and PNG encoder are stripped f
 
 | Scenario | What it checks |
 |---|---|
-| `smoke` | Morytania as the Mage, a whip given at 2 s, a potion dropped at 4 s, `player-hit` |
+| `smoke` | Morytania (the Desert's second stage since 0.8, reached by the jump) as the Mage, a whip given at 2 s, a potion dropped at 4 s, `player-hit` |
 | `mole-lair` | Lumbridge, the boss portal opened at 12 s: the lair swap (`boss-arena`) and a dig (`lair-dig`) |
 | `spawn-mole` | the Mole spawned straight in as the stage boss, a goblin, a blowpipe, preset levels (not saved) |
 | `ui` | the main menu, character select, map select and settings, then the run's HUD, at 1280x720, 1920x1080, 2560x1440 and 3840x2160 (about a minute) |
@@ -277,11 +280,16 @@ written as PNG by the plugin (Unity's own capture and PNG encoder are stripped f
 | `adventurer-zerker`, `adventurer-void-knight` | Lumbridge as that adventurer for 25 s: a kill and the OSRS model animated |
 | `adventurer-durial321` | the same on Morytania, and his Ice Barrage given beside the whip (`extra-weapon`) |
 | `adventurer-ironman` | Lumbridge as the Ironman, the Warrior seeded at level 30 in every skill (`seed_levels`, not saved) so he unlocks (`character-unlocked`), the Shady Guy pressed at 6 s (`shop-refused`) |
-| `morytania-barrows`, `barrows-save` | Morytania as the Warrior, the boss called at 10 s and killed at about 30 s: `hidden-brother`, `boss-spawned` (the first), `barrows-piece`; `barrows-save` saves it for real |
+| `morytania-barrows`, `barrows-save` | Morytania (Desert stage 1 since 0.8) as the Warrior, the boss called at 10 s and killed at about 30 s: `hidden-brother`, `boss-spawned` (the first), `barrows-piece`; `barrows-save` saves it for real |
 | `barrows-load` | `reload_saves`: the piece `barrows-save` wrote comes back from `unlocks.json` |
 | `barrows-dharok`, `barrows-guthan` | `seed_barrows`: that brother's set owned in memory, played on Lumbridge (`character-unlocked`; Guthan's warspear on its shared type, `weapon-takeover`) |
 | `barrows-sets-enemies` | the Warrior at 99 Hitpoints and Defence among spawned brothers: `player-hit`, `set-effect`, the effect counts in the report |
 | `barrows-sets-guthan`, `barrows-sets-karil` | that brother played for 60 s: his set's effect on his hits (`set-effect`) |
+| `al-kharid` | Al Kharid (the Desert's first stage since 0.8) as the Warrior for 60 s: the map built, a kill, the monsters animated |
+| `kalphite-lair` | Al Kharid as the Mage with Prayer, Hitpoints and Magic at 99 (not saved), the boss portal at 12 s: the Kalphite Queen's lair (`boss-arena`), her scripted Spines and Lightning, the first `kill` at 30 s calls her death off and she rises airborne out of the husk (`boss-second-form`), the second at 55 s kills her |
+| `wilderness` | The Wilderness (Megabonk's Graveyard) as the Warrior for 90 s: the starting crypt left (`crypt-left`), the map built, a kill, a PKer's ambush at 40 s and its spec (`pker-ambush`, `pker-spec`) |
+| `kbd-lair` | The Wilderness as the Mage with Prayer, Hitpoints and Magic at 99 (not saved), the boss door opened at 12 s: Megabonk's final stage, its final boss skinned as the King Black Dragon in his lair (`boss-arena`), his weighted attacks, killed at 75 s: "Defeat the Final Boss" and Megabonk's end-of-run portal |
+| `kbd-late` | The same with the boss door opened at 85 s, after a PKer's ambush, as Melty's runs do: the final stage and the KBD in his lair |
 
 **Deaths in test runs** (`Systems/TestGuard.cs`): no blanket invulnerability, which would hide broken hits. Every hit
 lands in full through Megabonk's damage path; only one that would kill (`PlayerHealth.WillDamageKill`) is cut to

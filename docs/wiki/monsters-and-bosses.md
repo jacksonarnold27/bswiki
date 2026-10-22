@@ -10,11 +10,9 @@ turns to face you.
 
 For ordinary monsters, Bonkscape also replaces Megabonk's **HP, damage, speed and knockback resistance** with the
 row's values. **Minibosses and bosses keep Megabonk's own stats**, so the Giant Mole fights with the HP and damage of
-the Megabonk boss it replaces, not the sheet's 9000 HP (TzTok-Jad: not its 8000). A map's difficulty scales HP and damage for all of them:
-Morytania's is 0.8 (its monsters have 0.8 of their row's, its minibosses and its boss 0.8 of Megabonk's); Lumbridge's
-and TzHaar City's are 1. Each row joins the spawn pool of its own maps (the roster's **Maps** column): Lumbridge's
-monsters on Megabonk's Forest, Morytania's and TzHaar City's on the Desert. Those two share the Desert's enemy types:
-when the Desert's third stage starts, TzHaar City's rows take the types over (names, models and stats). The Fight
+the Megabonk boss it replaces, not the sheet's 9000 HP (TzTok-Jad and the Kalphite Queen: not their 8000). A map's difficulty (`maps.difficulty`) scales HP and damage for all of them; every map's is 1. Each row joins the spawn pool of its own maps (the roster's **Maps** column): Lumbridge's
+monsters on Megabonk's Forest; Al Kharid's, Morytania's and TzHaar City's on the Desert. Those three share the
+Desert's enemy types: when a Desert stage starts, its map's rows take the types over (names, models and stats). The Fight
 Caves' monsters (Maps `tztok_jad_boss`) join no pool; the arena spawns them itself. Megabonk enemies that no row takes
 over are removed from the Forest's and the Desert's pools, so only OSRS monsters spawn on Bonkscape's maps. On a later
 stage, Megabonk's own stage scaling multiplies every monster's HP and damage on top, as it does in any run.
@@ -42,10 +40,10 @@ stage, Megabonk's own stage scaling multiplies every monster's HP and damage on 
 | **Vampyre Juvinate** | Vampyre Juvinate (4430) | 4427, 4428 | 54 | melee | MummyTank | 45 | 30 | 5 | 0.3 | 1 | morytania | <span class="st st-built">built</span> |
 | **Vyrewatch** | Vyrewatch (3719) | 3717, 3730 | 105 | melee | MummyAncient | 70 | 40 | 5 | 0.5 | 1 | morytania | <span class="st st-built">built</span> |
 | **Vyrewatch Sentinel** | Vyrewatch Sentinel (9761) | 9759, 9756 | 151 | melee | MinibossScorpion | 250 | 35 | 7 | 0.8 | 1.2 | morytania | <span class="st st-todo">planned (phase 2)</span> |
-| **Dharok the Wretched** | Dharok the Wretched (1673) | 12317, 12323 | 115 | melee | Pharaoh1, MinibossGolemSand, MinibossScorpion | 8000 | 40 | 7 | 1 | 1.6 | morytania | <span class="st st-built">built</span> |
-| **Ahrim the Blighted** | Ahrim the Blighted (1672) | - | 98 | magic | Pharaoh1, MinibossGolemSand, MinibossScorpion | 8000 | 40 | 7 | 1 | 1.6 | morytania | <span class="st st-built">built</span> |
-| **Green dragon** | Green dragon (260) | 261, 262, 263, 264 | 79 | magic | GhostPurple | 40 | 20 | 8 | 0.4 | 1 | wilderness | <span class="st st-todo">planned (phase 2)</span> |
-| **Revenant imp** | Revenant imp (7881) | - | 7 | magic | Ghost | 10 | 10 | 6 | 0 | 1 | wilderness | <span class="st st-todo">planned (phase 2)</span> |
+| **Dharok the Wretched** | Dharok the Wretched (1673) | 12317, 12323 | 115 | melee | Pharaoh2, MinibossGolemSand, MinibossScorpion | 8000 | 40 | 7 | 1 | 1.6 | morytania | <span class="st st-built">built</span> |
+| **Ahrim the Blighted** | Ahrim the Blighted (1672) | - | 98 | magic | Pharaoh2, MinibossGolemSand, MinibossScorpion | 8000 | 40 | 7 | 1 | 1.6 | morytania | <span class="st st-built">built</span> |
+| **Green dragon** | Green dragon (260) | 261, 263, 264, 262 | 79 | melee | Zombie | 12 | 20 | 6.5 | 0 | 1 | wilderness | <span class="st st-built">built</span> |
+| **Revenant imp** | Revenant imp (7881) | 14814 | 7 | melee | Head | 12 | 8 | 7 | 0 | 1 | wilderness | <span class="st st-built">built</span> |
 | **TzHaar-Ket** | TzHaar-Ket (2179) | 2173, 2174, 2175, 2176 | 149 | melee | ScorpionMedium, MummyTank, MummyAncient | 30 | 30 | 6.5 | 0 | 1 | tzhaar_city | <span class="st st-verified">verified</span> |
 | **TzHaar-Xil** | TzHaar-Xil (2171) | 2168, 2172, 2167, 2169 | 133 | melee | ArmoredSkeletonDusty | 25 | 16 | 4.5 | 0 | 1 | tzhaar_city | <span class="st st-verified">verified</span> |
 | **TzHaar-Hur** | TzHaar-Hur (7684) | 2166, 7686, 2161, 2162 | 74 | melee | Mummy, Wisp, Scorpion, SkeletonDusty, Tumblebone | 8 | 13 | 5.5 | 0 | 1 | tzhaar_city | <span class="st st-verified">verified</span> |
@@ -59,10 +57,39 @@ stage, Megabonk's own stage scaling multiplies every monster's HP and damage on 
 | **Yt-MejKot** | Yt-MejKot (3123) | 3124 | 180 | melee | MummyTank | 45 | 30 | 5 | 1 | 1 | tztok_jad_boss | <span class="st st-verified">verified</span> |
 | **Ket-Zek** | Ket-Zek (3125) | 3126, 15572 | 360 | magic | MummyAncient | 70 | 40 | 5 | 1 | 1 | tztok_jad_boss | <span class="st st-verified">verified</span> |
 | **Yt-HurKot** | Yt-HurKot (3128) | 7701, 7705 | 108 | melee | SkeletonDusty | 16 | 22 | 6.5 | 0 | 1 | tztok_jad_boss | <span class="st st-verified">verified</span> |
-| **Guthan the Infested** | Guthan the Infested (1674) | 12318, 12324 | 115 | melee | Pharaoh1, MinibossGolemSand, MinibossScorpion | 8000 | 40 | 7 | 1 | 1.6 | morytania | <span class="st st-todo">planned (phase 1)</span> |
-| **Karil the Tainted** | Karil the Tainted (1675) | 12319, 12325 | 98 | ranged | Pharaoh1, MinibossGolemSand, MinibossScorpion | 8000 | 40 | 7 | 1 | 1.6 | morytania | <span class="st st-todo">planned (phase 1)</span> |
-| **Torag the Corrupted** | Torag the Corrupted (1676) | 12320, 12326 | 115 | melee | Pharaoh1, MinibossGolemSand, MinibossScorpion | 8000 | 40 | 7 | 1 | 1.6 | morytania | <span class="st st-todo">planned (phase 1)</span> |
-| **Verac the Defiled** | Verac the Defiled (1677) | 12321, 12327 | 115 | melee | Pharaoh1, MinibossGolemSand, MinibossScorpion | 8000 | 40 | 7 | 1 | 1.6 | morytania | <span class="st st-todo">planned (phase 1)</span> |
+| **Guthan the Infested** | Guthan the Infested (1674) | 12318, 12324 | 115 | melee | Pharaoh2, MinibossGolemSand, MinibossScorpion | 8000 | 40 | 7 | 1 | 1.6 | morytania | <span class="st st-built">built</span> |
+| **Karil the Tainted** | Karil the Tainted (1675) | 12319, 12325 | 98 | ranged | Pharaoh2, MinibossGolemSand, MinibossScorpion | 8000 | 40 | 7 | 1 | 1.6 | morytania | <span class="st st-built">built</span> |
+| **Torag the Corrupted** | Torag the Corrupted (1676) | 12320, 12326 | 115 | melee | Pharaoh2, MinibossGolemSand, MinibossScorpion | 8000 | 40 | 7 | 1 | 1.6 | morytania | <span class="st st-built">built</span> |
+| **Verac the Defiled** | Verac the Defiled (1677) | 12321, 12327 | 115 | melee | Pharaoh2, MinibossGolemSand, MinibossScorpion | 8000 | 40 | 7 | 1 | 1.6 | morytania | <span class="st st-built">built</span> |
+| **Scorpion** | Scorpion (3024) | 13001, 2480 | 14 | melee | Mummy | 8 | 13 | 5.5 | 0 | 1 | al_kharid | <span class="st st-built">built</span> |
+| **Al Kharid warrior** | Al Kharid warrior (3292) | - | 9 | melee | Tumblebone | 7 | 9 | 11 | 0 | 1 | al_kharid | <span class="st st-built">built</span> |
+| **Hill Giant** | Hill Giant (10374) | 10375, 10376, 2098, 2099 | 28 | melee | CactusShooter | 15 | 30 | 5 | 0 | 1 | al_kharid | <span class="st st-built">built</span> |
+| **Shantay Guard** | Shantay Guard (4643) | - | 22 | melee | Wisp | 8 | 13 | 7.5 | 0 | 1 | al_kharid | <span class="st st-built">built</span> |
+| **Ugthanki** | Ugthanki (4652) | - | 42 | melee | ScorpionMedium | 30 | 30 | 6.5 | 0 | 1 | al_kharid | <span class="st st-built">built</span> |
+| **Kalphite Worker** | Kalphite Worker (956) | 955, 961 | 28 | melee | ArmoredSkeletonDusty | 25 | 16 | 4.5 | 0 | 1 | al_kharid | <span class="st st-built">built</span> |
+| **Kalphite Soldier** | Kalphite Soldier (958) | 957, 138 | 85 | melee | MummyAncient | 70 | 40 | 5 | 1 | 1 | al_kharid | <span class="st st-built">built</span> |
+| **Desert Lizard** | Desert Lizard (460) | 459, 461, 12003 | 24 | melee | Scorpion | 16 | 20 | 7 | 0 | 1 | al_kharid | <span class="st st-built">built</span> |
+| **Bandit** | Bandit (695) | 690, 6605 | 57 | melee | MummyTank | 45 | 30 | 5 | 1 | 1 | al_kharid | <span class="st st-built">built</span> |
+| **Desert Wolf** | Desert Wolf (4649) | 4650, 4651 | 27 | melee | SkeletonDusty | 16 | 22 | 6.5 | 0 | 1 | al_kharid | <span class="st st-built">built</span> |
+| **Kalphite Guardian** | Kalphite Guardian (960) | 959, 962 | 141 | melee | MinibossScorpion, MinibossGolemSand | 250 | 35 | 7 | 0.8 | 1.2 | al_kharid | <span class="st st-built">built</span> |
+| **Kalphite Queen** | Kalphite Queen (963) | 4303, 6500 | 333 | melee | Pharaoh1 | 8000 | 40 | 7 | 1 | 1 | al_kharid | <span class="st st-built">built</span> |
+| **Kalphite Queen** | Kalphite Queen (965) | 4304, 6501 | 333 | melee | Pharaoh1 | 8000 | 40 | 7 | 1 | 1 | al_kharid | <span class="st st-built">built</span> |
+| **Revenant goblin** | Revenant goblin (7931) | 14864 | 15 | melee | Ghost | 10 | 10 | 6 | 0 | 1 | wilderness | <span class="st st-built">built</span> |
+| **Revenant hobgoblin** | Revenant hobgoblin (7933) | 15178 | 60 | melee | Ghoul | 9 | 12 | 9 | 0 | 1 | wilderness | <span class="st st-built">built</span> |
+| **Revenant cyclops** | Revenant cyclops (7934) | 15179 | 82 | melee | GreaterGhost | 20 | 13 | 7 | 1 | 1 | wilderness | <span class="st st-built">built</span> |
+| **Revenant hellhound** | Revenant hellhound (7935) | 15180 | 90 | melee | Skeleton | 20 | 20 | 5.5 | 0 | 1 | wilderness | <span class="st st-built">built</span> |
+| **Revenant demon** | Revenant demon (7936) | 15181 | 98 | melee | ArmoredSkeleton | 30 | 25 | 4 | 0 | 1 | wilderness | <span class="st st-built">built</span> |
+| **Revenant knight** | Revenant knight (7939) | 15184 | 126 | melee | GhostPurple | 40 | 20 | 8 | 1 | 1 | wilderness | <span class="st st-built">built</span> |
+| **Revenant dragon** | Revenant dragon (7940) | 15185 | 135 | melee | GhostRed | 100 | 30 | 10 | 1 | 1 | wilderness | <span class="st st-built">built</span> |
+| **Chaos Elemental** | Chaos Elemental (2054) | 6505 | 305 | magic | CalciumDad | 320 | 40 | 8 | 0.8 | 1.2 | wilderness | <span class="st st-built">built</span> |
+| **Revenant maledictus** | Revenant maledictus (11246) | - | 397 | ranged | Ghostham | 320 | 45 | 6.5 | 0.8 | 1.2 | wilderness | <span class="st st-built">built</span> |
+| **King Black Dragon** | King Black Dragon (239) | 6502, 12440 | 276 | melee | Ent1 | 30000 | 40 | 7 | 1 | 1 | wilderness | <span class="st st-built">built</span> |
+| **Pure Spec** | Rogue (6603) | - | 70 | ranged | SkeletonDusty | 70 | 25 | 6.5 | 0 | 1 | wilderness | <span class="st st-built">built</span> |
+| **Ice Tank** | Rogue (6603) | - | 98 | magic | SkeletonDusty | 98 | 29 | 6.5 | 0 | 1 | wilderness | <span class="st st-built">built</span> |
+| **Ags Main** | Rogue (6603) | - | 126 | melee | SkeletonDusty | 126 | 34 | 6.5 | 0 | 1 | wilderness | <span class="st st-built">built</span> |
+| **Claw Swap** | Rogue (6603) | - | 126 | melee | SkeletonDusty | 126 | 34 | 6.5 | 0 | 1 | wilderness | <span class="st st-built">built</span> |
+| **Whip Hybrid** | Rogue (6603) | - | 112 | melee | SkeletonDusty | 112 | 32 | 6.5 | 0 | 1 | wilderness | <span class="st st-built">built</span> |
+| **Pipe Ranger** | Rogue (6603) | - | 104 | ranged | SkeletonDusty | 104 | 30 | 6.5 | 0 | 1 | wilderness | <span class="st st-built">built</span> |
 <!-- /gen:enemies -->
 
 The **Combat** column is the monster's OSRS combat level. It isn't used in play yet, and neither are the sheet's
@@ -72,7 +99,7 @@ drops the same things ([Loot](#loot)).
 ## Combat styles
 
 Every monster fights in **melee**, **ranged** or **magic**. In Lumbridge only the guards are ranged and only the giant
-frogs are magic. In Morytania banshees and Ahrim the Blighted are magic, Karil the Tainted is ranged, and the rest are melee. In TzHaar City the
+frogs are magic. In Al Kharid every monster is melee. In Morytania banshees and Ahrim the Blighted are magic, Karil the Tainted is ranged, and the rest are melee. In TzHaar City the
 TzHaar-Mej are magic and the rest melee; in the Fight Caves the Tok-Xil are ranged, the Ket-Zek magic and the rest
 melee, and each of TzTok-Jad's attacks has its own style ([below](#tztok-jad)). The OSRS skill icon for its style (Attack, Ranged or Magic) floats over the 10
 nearest monsters, so you know which [protection prayer](prayer.md) to use. The style is the monster's, not its
@@ -98,32 +125,59 @@ attack's: a guard's hit counts as ranged even when Megabonk has it attack up clo
 | tzhaar_city | 4 | TzHaar-Hur | swarm | <span class="st st-verified">verified</span> |
 | tzhaar_city | 5 | TzHaar-Ket | miniboss | <span class="st st-verified">verified</span> |
 | tzhaar_city | 8 | TzTok-Jad | boss | <span class="st st-verified">verified</span> |
-| morytania | 0 | Myre blamish snail, Bat, Crawling Hand, Ghoul, Loar Shade, Banshee | start | <span class="st st-todo">planned (phase 1)</span> |
-| morytania | 1.5 | Vampyre Juvenile | unlock | <span class="st st-todo">planned (phase 1)</span> |
-| morytania | 3 | Vampyre Juvinate, Feral Vampyre | unlock | <span class="st st-todo">planned (phase 1)</span> |
-| morytania | 3 | Dharok the Wretched, Ahrim the Blighted, Guthan the Infested, Karil the Tainted, Torag the Corrupted, Verac the Defiled | miniboss | <span class="st st-todo">planned (phase 1)</span> |
-| morytania | 4 | Myre blamish snail | swarm | <span class="st st-todo">planned (phase 1)</span> |
-| morytania | 6 | Vyrewatch | unlock | <span class="st st-todo">planned (phase 1)</span> |
-| morytania | 7 | Crawling Hand | swarm | <span class="st st-todo">planned (phase 1)</span> |
-| morytania | 8 | Dharok the Wretched, Ahrim the Blighted, Guthan the Infested, Karil the Tainted, Torag the Corrupted, Verac the Defiled | miniboss | <span class="st st-todo">planned (phase 1)</span> |
-| morytania | 10 | Dharok the Wretched, Ahrim the Blighted, Guthan the Infested, Karil the Tainted, Torag the Corrupted, Verac the Defiled | boss | <span class="st st-todo">planned (phase 1)</span> |
+| al_kharid | 0 | Scorpion, Shantay Guard, Desert Lizard, Desert Wolf, Hill Giant, Al Kharid warrior | start | <span class="st st-built">built</span> |
+| al_kharid | 1.5 | Kalphite Worker | unlock | <span class="st st-built">built</span> |
+| al_kharid | 3 | Ugthanki, Bandit | unlock | <span class="st st-built">built</span> |
+| al_kharid | 3 | Kalphite Guardian | miniboss | <span class="st st-built">built</span> |
+| al_kharid | 4 | Scorpion | swarm | <span class="st st-built">built</span> |
+| al_kharid | 6 | Kalphite Soldier | unlock | <span class="st st-built">built</span> |
+| al_kharid | 7 | Desert Lizard | swarm | <span class="st st-built">built</span> |
+| al_kharid | 8 | Kalphite Guardian | miniboss | <span class="st st-built">built</span> |
+| al_kharid | 10 | Kalphite Queen | boss | <span class="st st-built">built</span> |
+| morytania | 0 | Myre blamish snail, Loar Shade, Crawling Hand, Ghoul, Banshee, Bat | start | <span class="st st-built">built</span> |
+| morytania | 1.5 | Vampyre Juvenile | unlock | <span class="st st-built">built</span> |
+| morytania | 2 | Dharok the Wretched, Ahrim the Blighted, Guthan the Infested, Karil the Tainted, Torag the Corrupted, Verac the Defiled | miniboss | <span class="st st-built">built</span> |
+| morytania | 3 | Feral Vampyre, Vampyre Juvinate | unlock | <span class="st st-built">built</span> |
+| morytania | 3 | Myre blamish snail | swarm | <span class="st st-built">built</span> |
+| morytania | 6 | Vyrewatch | unlock | <span class="st st-built">built</span> |
+| morytania | 6 | Crawling Hand | swarm | <span class="st st-built">built</span> |
+| morytania | 7 | Dharok the Wretched, Ahrim the Blighted, Guthan the Infested, Karil the Tainted, Torag the Corrupted, Verac the Defiled | miniboss | <span class="st st-built">built</span> |
+| morytania | 9 | Dharok the Wretched, Ahrim the Blighted, Guthan the Infested, Karil the Tainted, Torag the Corrupted, Verac the Defiled | boss | <span class="st st-built">built</span> |
+| wilderness | 0 | Revenant imp, Revenant goblin, Revenant hobgoblin, Green dragon, Revenant hellhound | start | <span class="st st-built">built</span> |
+| wilderness | 1.5 | Revenant demon | unlock | <span class="st st-built">built</span> |
+| wilderness | 3 | Revenant cyclops | unlock | <span class="st st-built">built</span> |
+| wilderness | 3 | Chaos Elemental, Revenant maledictus | miniboss | <span class="st st-built">built</span> |
+| wilderness | 4 | Revenant goblin | swarm | <span class="st st-built">built</span> |
+| wilderness | 7 | Revenant knight | unlock | <span class="st st-built">built</span> |
+| wilderness | 7 | Chaos Elemental, Revenant maledictus | miniboss | <span class="st st-built">built</span> |
+| wilderness | 8 | Revenant cyclops | swarm | <span class="st st-built">built</span> |
+| wilderness | 10 | Chaos Elemental, Revenant maledictus | miniboss | <span class="st st-built">built</span> |
+| wilderness | 11 | Revenant knight | swarm | <span class="st st-built">built</span> |
+| wilderness | 12 | Revenant dragon | unlock | <span class="st st-built">built</span> |
+| wilderness | 13 | Chaos Elemental, Revenant maledictus | miniboss | <span class="st st-built">built</span> |
+| wilderness | 14 | Revenant dragon | swarm | <span class="st st-built">built</span> |
+| wilderness | 16 | King Black Dragon | boss | <span class="st st-built">built</span> |
 <!-- /gen:waves -->
 
-How those rows apply, each on its own map's stage (Lumbridge on the Forest's first, Morytania on the Desert's first,
-TzHaar City on the Desert's third):
+How those rows apply, each on its own map's stage (Lumbridge on the Forest's first; Al Kharid, Morytania and TzHaar
+City on the Desert's first, second and third):
 
-- **start** (minute 0): the run's first monsters. Lumbridge: chickens, goblins, giant rats and guards. Morytania: Myre
+- **start** (minute 0): the run's first monsters. Lumbridge: chickens, goblins, giant rats and guards. Al Kharid: scorpions, Shantay Guards,
+  desert lizards, desert wolves, hill giants and Al Kharid warriors. Morytania: Myre
   blamish snails, bats, crawling hands, ghouls, Loar Shades and banshees. TzHaar City: TzHaar-Hur and TzHaar-Mej.
-- **unlock**: the rows join the spawn pool from that minute. Lumbridge: cows and giant frogs at 1.5. Morytania:
+- **unlock**: the rows join the spawn pool from that minute. Lumbridge: cows and giant frogs at 1.5. Al Kharid: Kalphite
+  Workers at 1.5, ugthanki and bandits at 3, Kalphite Soldiers at 6. Morytania:
   vampyre juveniles at 1.5, vampyre juvinates and feral vampyres at 3, the Vyrewatch at 6. TzHaar City:
   TzHaar-Xil at 1.5, TzHaar-Ket at 3.
 - **swarm**: Megabonk's swarm event at that minute spawns the row's monsters. Lumbridge: goblins at 4, giant rats at
-  7. Morytania: Myre blamish snails at 4, crawling hands at 7. TzHaar City: TzHaar-Hur at 2.5 and 4.
+  7. Al Kharid: scorpions at 4, desert lizards at 7. Morytania: Myre blamish snails at 3,
+  crawling hands at 6. TzHaar City: TzHaar-Hur at 2.5 and 4.
 - **miniboss**: Megabonk's miniboss event at that minute spawns each row's miniboss. Lumbridge: a Cow and a Giant frog
-  at 3 and 8. Morytania: Barrows brothers at 3 and 8, the five not hidden this run in turn ([below](#the-barrows-brothers)). TzHaar City: a TzHaar-Ket champion at
+  at 3 and 8. Al Kharid: a Kalphite Guardian at 3 and 8. Morytania: Barrows brothers at 2
+  and 7, the five not hidden this run in turn ([below](#the-barrows-brothers)). TzHaar City: a TzHaar-Ket champion at
   1.5 and 5.
-- **boss** (minute 10; TzHaar City's 8): the plan only. The stage boss comes when you open the boss portal
-  (Lumbridge: the Giant Mole; Morytania: the run's hidden Barrows brother); TzHaar City's when you open its final portal
+- **boss** (minute 10; Morytania's 9, TzHaar City's 8): the plan only. The stage boss comes when you open the boss
+  portal (Lumbridge: the Giant Mole; Al Kharid: the Kalphite Queen; Morytania: the run's hidden Barrows brother); TzHaar City's when you open its final portal
   (TzTok-Jad, in the Fight Caves).
 
 A swarm or miniboss row whose minute has no matching event in Megabonk's timeline spawns nothing; the log says how
@@ -138,7 +192,7 @@ in your cache, they use their NPC model and its stand-ins as below.
 Your OSRS client downloads a model the first time it shows it, so your cache may not have every monster. For each
 monster Bonkscape tries its own NPC first, then each **stand-in NPC id** in the order listed, and uses the first one
 whose models are all in your cache (the log says *"Goblin: NPC 3031 isn't in this cache, using stand-in NPC 3029"*).
-If none is there, the monster borrows the map's fallback monster (Lumbridge: the Goblin; Morytania: the Ghoul;
+If none is there, the monster borrows the map's fallback monster (Lumbridge: the Goblin; Al Kharid: the Scorpion; Morytania: the Ghoul;
 TzHaar City and its Fight Caves: TzHaar-Hur). If that's missing too, you see
 Megabonk's own model.
 
@@ -151,7 +205,7 @@ A monster's height is worked out when it spawns, and once more a moment later:
 1. **OSRS proportions on your adventurer's scale**: its model height in OSRS units, converted to metres exactly like
    your adventurer's. So an OSRS human (a guard) stands about as tall as your adventurer, and every other monster keeps
    its OSRS ratio to them.
-2. Times the row's **Size x** (Cow 1.1, Giant frog 1.6, Giant Mole 2.2, Vyrewatch 1.2, the Barrows brothers 1.6, TzHaar-Ket champion 1.2) and
+2. Times the row's **Size x** (Cow 1.1, Giant frog 1.6, Giant Mole 2.2, Vyrewatch 1.2, the Barrows brothers 1.6, Kalphite Guardian 1.2, TzHaar-Ket champion 1.2) and
    `Models.MonsterSize`.
 3. Times part of Megabonk's own enlargement of elites, minibosses and bosses, capped by tier (below). Megabonk
    enlarges them a moment after they spawn, so this is applied again once the monster's hitbox is live.
@@ -210,6 +264,8 @@ instead, like OSRS monsters:
 |---|---|---|---|---|
 | **Giant Mole** | Claw (melee, 0 ms telegraph, contact); Dig (melee, 1200 ms telegraph, burrow teleport every 12s) | 50% HP | Baby Mole, 1/3000 | <span class="st st-built">built</span> |
 | **TzTok-Jad** | Magic (magic, 1800 ms telegraph, random); Ranged (ranged, 1800 ms telegraph, random); Bite (melee, 0 ms telegraph, random) | 50% HP | TzRek-Jad, 1/200 | <span class="st st-verified">verified</span> |
+| **Kalphite Queen** | Jaws (melee, 0 ms telegraph, random); Spines (ranged, 600 ms telegraph, random); Lightning (magic, 900 ms telegraph, random) | 50% HP | Kalphite Princess, 1/3000 | <span class="st st-built">built</span> |
+| **King Black Dragon** | Bite (melee, 0 ms telegraph, random); Dragonfire (magic, 600 ms telegraph, random); Toxic breath (magic, 600 ms telegraph, random); Icy breath (magic, 600 ms telegraph, random); Shocking breath (magic, 600 ms telegraph, random) | 50% HP | Prince Black Dragon, 1/3000 | <span class="st st-built">built</span> |
 <!-- /gen:bosses -->
 
 The Giant Mole is Lumbridge's stage boss <span class="st st-built">built</span>. You call it by using the boss portal
@@ -233,14 +289,45 @@ Dying in the lair restarts the run on Lumbridge with its own sky.
 
 Planned for the Mole: its own drops (Mole claw, the Baby mole pet at 1/3000) and OSRS stats. Neither is built.
 
+## Al Kharid
+
+Al Kharid's monsters are desert folk and beasts, all melee: scorpions, Shantay Guards, desert lizards, desert wolves,
+hill giants and Al Kharid warriors from the start, Kalphite Workers from 1.5 minutes, ugthanki and bandits from 3,
+Kalphite Soldiers from 6. Its minibosses are **Kalphite Guardians** (OSRS NPC 960, on Megabonk's `MinibossScorpion`
+and `MinibossGolemSand`, size x 1.2), with Megabonk's miniboss stats and attacks. Its boss is the Kalphite Queen.
+
+## The Kalphite Queen
+
+Opening Al Kharid's boss portal moves the fight into [the Kalphite Lair](maps.md#the-kalphite-lair). The Queen (OSRS
+NPC 963, on Megabonk's `Pharaoh1`) fights in two forms, as in OSRS: **crawling** first, then **airborne**.
+
+**Her attacks are OSRS's.** Megabonk's own attacks are off and touching her doesn't hurt. Every **2.4 seconds**, start
+to start, she uses one of three at random, with her form's OSRS animation and graphics:
+
+| Attack | Style | Lands | |
+|---|---|---|---|
+| Jaws | melee | 0.3 s after she starts it | Only when you're beside her; it misses if you've stepped away |
+| Spines | ranged | 1.8 s after | Her spines fly at you |
+| Lightning | magic | 2.1 s after | Lightning strikes you |
+
+Her OSRS max hit is 31 against Jad's 97, so a hit is dealt as 18% to 27% of your maximum health. The right protection
+prayer halves it, as for any boss (only Jad's are blocked completely).
+
+**Her second form.** When the crawling Queen dies, her death is called off: she's back at full health, the crawling
+husk stays behind, and she rises airborne (OSRS NPC 965), still and unhurt while she rises; the chat says *"Kalphite
+Queen rises again!"* Then she fights on with the same attacks in her airborne animations. Only her second death
+counts: it ends the fight and the stage. *(unconfirmed: needs a Melty run or footage)*
+
+The planned pet (Kalphite Princess, 1/3000) isn't built.
+
 ## The Barrows brothers
 
-Morytania's boss is one of the six Barrows brothers, **hidden**: each time a run (or a restart after a death) starts on
-Morytania, one is picked at random, and he rises when you open the boss portal at the Barrows
+Morytania's boss is one of the six Barrows brothers, **hidden**: each time Morytania's stage starts, one is picked at
+random, and he rises when you open the boss portal at the Barrows
 ([Maps](maps.md#morytania)), named on the boss bar. The other five are the map's **minibosses**, one after another at
-Megabonk's miniboss events. All six take over Megabonk's `Pharaoh1` (as the boss) and its `MinibossGolemSand` and
+Megabonk's miniboss events. All six take over Megabonk's `Pharaoh2` (as the boss) and its `MinibossGolemSand` and
 `MinibossScorpion` (as minibosses), size x 1.6, each in his own armour with his own weapon and animations. As boss or
-miniboss they keep Megabonk's attacks and stats, times Morytania's 0.8.
+miniboss they keep Megabonk's attacks and stats.
 
 | Brother | Style | Set effect, on his hits (and yours, when you play him) |
 |---|---|---|
@@ -335,4 +422,4 @@ those is built.
 Green dragons and revenant imps (the Wilderness) are in the roster above as planned rows for a planned map. Neither
 spawns yet.
 
-<!-- sources: src/Bonkscape.Plugin/Systems/EnemySkins.cs src/Bonkscape.Plugin/Systems/Animator.cs src/Bonkscape.Plugin/Systems/Bosses.cs src/Bonkscape.Plugin/Systems/Pathing.cs src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Combat.cs src/Bonkscape.Plugin/Core/Sizing.cs src/Bonkscape.Plugin/Core/Osrs.cs src/Bonkscape.Plugin/Core/Rows.cs sheets/enemies.json sheets/bosses.json sheets/waves.json sheets/drops.json src/Bonkscape.Plugin/Systems/BossFight.cs src/Bonkscape.Plugin/Systems/Bonk.cs src/Bonkscape.Plugin/Systems/Unlocks.cs sheets/maps.json src/Bonkscape.Plugin/Systems/Barrows.cs src/Bonkscape.Plugin/Systems/SetEffects.cs -->
+<!-- sources: src/Bonkscape.Plugin/Systems/EnemySkins.cs src/Bonkscape.Plugin/Systems/Animator.cs src/Bonkscape.Plugin/Systems/Bosses.cs src/Bonkscape.Plugin/Systems/Pathing.cs src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Combat.cs src/Bonkscape.Plugin/Core/Sizing.cs src/Bonkscape.Plugin/Core/Osrs.cs src/Bonkscape.Plugin/Core/Rows.cs sheets/enemies.json sheets/bosses.json sheets/waves.json sheets/drops.json src/Bonkscape.Plugin/Systems/BossFight.cs src/Bonkscape.Plugin/Systems/Bonk.cs src/Bonkscape.Plugin/Systems/Unlocks.cs sheets/maps.json src/Bonkscape.Plugin/Systems/Barrows.cs src/Bonkscape.Plugin/Systems/SetEffects.cs src/Bonkscape.Plugin/Systems/SecondForm.cs -->

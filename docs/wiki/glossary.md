@@ -49,7 +49,7 @@
 | Term | Meaning |
 |---|---|
 | **Adventurer** | Your OSRS character: Warrior, Ranger, Mage, Zerker, Void Knight, Durial321, Ironman or a Barrows brother. |
-| **Arena** | A real OSRS map built from your cache (Lumbridge on the Forest, Morytania and TzHaar City on the Desert, and the bosses' lairs) that replaces the stage's ground. |
+| **Arena** | A real OSRS map built from your cache (Lumbridge on the Forest; Al Kharid, Morytania and TzHaar City on the Desert; and the bosses' lairs) that replaces the stage's ground. |
 | **Fallback stage** | Megabonk's own map (the Forest or the Desert) dressed in OSRS scenery, used when the arena can't be built. |
 | **Gear passive** | A piece of OSRS gear that replaces a Megabonk tome. One per gear slot. |
 | **Evolution** | A maxed weapon plus its gear passive becoming its OSRS upgrade when a casket opens. |

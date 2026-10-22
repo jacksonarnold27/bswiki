@@ -153,6 +153,27 @@ step: MODLOG is the short log, this page explains). Unnumbered ones were found w
   added this wait, and 0.1.9, with re-wound ground triangles, was the first arena build to pass.)
 - **Megabonk's bosses and minibosses** are recognised in `Content.ApplyEnemies` as `Miniboss*` names or
   `maps == None && hp >= 1000`; their stats are left alone.
+- **Calling off an enemy's death** (0.8, the Kalphite Queen's second form): a prefix on `Enemy.EnemyDied(DamageContainer)`
+  returning false keeps it, but by then Megabonk has flagged it (`isDyingNextFrame`, `deathFunctionCalled`) and its
+  health is 0, so `SecondForm` clears both flags and sets `hp` and `controlHp` back to `maxHp`. Harmony still runs the
+  postfixes of a skipped original, so Combat's death postfix asks `SecondForm.TakeCalledOff` first. Megabonk's boss
+  bar keeps its old number until the next hit, and turns blue while the boss is `MakeInvulnerable(true)`.
+- **Two enemies rows on one Megabonk enemy of one map: the last one listed takes the slot** (`Rows.EnemyByMapBonk`).
+  The Queen's airborne row, after the crawling one on `Pharaoh1`, took it, so she spawned airborne (no lair, no second
+  form). A boss's `second_form` is left out of the slot lookups (`Rows.Build`).
+- **Megabonk's Graveyard starts in a crypt** (0.9): a maze far from the surface, "Find the exit". The stage clock
+  and its monsters start only when its exit door (`InteractableCryptLeave`) is used: moved out by a teleport, the
+  run stayed on "Find the exit" with no monsters for three minutes. Its boss is reached through coffins, crypt keys,
+  the surface `InteractableCrypt` and the Ghost King's room of lamps (`GraveyardBossRoom`, which isn't in the scene
+  until then); `MapController.LoadFinalStage` instead loads Megabonk's final-boss map (`MapGenerationFinalBoss`),
+  whose final boss is **Ent1** (the dump's stage `boss`), and its death ends the run.
+- **`GoldenSkeleton` runs from the player** (`isRunningFromPlayer` in the dump): nothing that should fight can ride it.
+- **A pooled enemy keeps whatever was keyed to its pointer:** Megabonk reused the dead KBD's enemy for a ghoul, which
+  went on breathing his dragonfire until `EnemySkins.OnSpawn` cleared `BossFight`'s scripted state (as `SecondForm`'s).
+- **`MapController.LoadFinalStage` under a pause loads a frozen stage:** with time scale 0 (a level-up or reward
+  window open) the final stage stays at time scale 0 with Megabonk's cinematic bars up and no boss, for good (0.9's
+  `kbd-paused` experiment; 0.9.0's Melty run 1 went black when test mode opened the Graveyard's boss door then).
+  Test mode's boss call and the boss door both wait for the pause to end.
 
 ## OSRS cache and models
 

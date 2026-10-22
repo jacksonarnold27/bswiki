@@ -40,16 +40,16 @@ How the projectiles look in a run is *(unconfirmed: needs a Melty run or footage
 | **Trident of the seas** | Trident of the Seas | magic | LightningStaff | 8 | 1 | 1 | 1 | 0.5 | 0 | 1 | 1 | 75 Magic | <span class="st st-built">built</span> |
 | **Red chinchompa** | Red chinchompa | ranged | Rockets | 11 | 0.35 | 1.2 | 1 | 1 | 0 | 5 | 2 | 55 Ranged | <span class="st st-built">built</span> |
 | **Dwarf multicannon** | Cannon base | ranged | new: deployable | 6 | 4 | 1 | 1 | 2 | 0 | 10 | 0.5 | 1 Ranged | <span class="st st-todo">planned (phase 3)</span> |
-| **Dharok's greataxe** | Dharok's greataxe | melee | Axe | 14 | 1.6 | 1.3 | 1 | 0.5 | 0 | 0.82 | 2 | character:dharok | <span class="st st-todo">planned (phase 1)</span> |
+| **Dharok's greataxe** | Dharok's greataxe | melee | Axe | 14 | 1.6 | 1.3 | 1 | 0.5 | 0 | 0.82 | 2 | character:dharok | <span class="st st-built">built</span> |
 | **Scythe of vitur** | Scythe of Vitur | melee | Scythe | 12 | 0.85 | 1.4 | 3 | 1 | 0 | 0.5 | 1 | 80 Attack, 90 Strength | <span class="st st-built">built</span> |
 | **Armadyl godsword** | Armadyl godsword | melee | HeroSword | 16 | 1.2 | 1.3 | 1 | 30 | 0 | 0.5 | 3 | 75 Attack | <span class="st st-built">built</span> |
 | **Dragon claws** | Dragon claws | melee | Dexecutioner | 9 | 0.6 | 1 | 1 | 1 | 0 | 0.5 | 1 | 60 Attack | <span class="st st-built">built</span> |
 | **Void knight mace** | Void knight mace | melee | CorruptSword | 10 | 0.85 | 1.1 | 1 | 1 | 0 | 0.5 | 2.5 | none (a starting weapon) | <span class="st st-built">built</span> |
-| **Ahrim's staff** | Ahrim's staff | magic | BloodMagic | 10 | 1.1 | 1 | 1 | 1 | 0 | 0.75 | 1 | character:ahrim | <span class="st st-todo">planned (phase 1)</span> |
-| **Guthan's warspear** | Guthan's warspear | melee | CorruptSword | 11 | 0.85 | 1.2 | 1 | 1 | 0 | 0.5 | 1.5 | character:guthan | <span class="st st-todo">planned (phase 1)</span> |
-| **Karil's crossbow** | Karil's crossbow | ranged | Sniper | 12 | 0.7 | 1 | 1 | 2 | 1 | 1 | 1 | character:karil | <span class="st st-todo">planned (phase 1)</span> |
-| **Torag's hammers** | Torag's hammers | melee | CorruptSword | 12 | 0.85 | 1.1 | 1 | 1 | 0 | 0.5 | 2.5 | character:torag | <span class="st st-todo">planned (phase 1)</span> |
-| **Verac's flail** | Verac's flail | melee | CorruptSword | 11 | 0.85 | 1.2 | 1 | 1 | 0 | 0.5 | 2 | character:verac | <span class="st st-todo">planned (phase 1)</span> |
+| **Ahrim's staff** | Ahrim's staff | magic | BloodMagic | 10 | 1.1 | 1 | 1 | 1 | 0 | 0.75 | 1 | character:ahrim | <span class="st st-built">built</span> |
+| **Guthan's warspear** | Guthan's warspear | melee | CorruptSword | 11 | 0.85 | 1.2 | 1 | 1 | 0 | 0.5 | 1.5 | character:guthan | <span class="st st-built">built</span> |
+| **Karil's crossbow** | Karil's crossbow | ranged | Sniper | 12 | 0.7 | 1 | 1 | 2 | 1 | 1 | 1 | character:karil | <span class="st st-built">built</span> |
+| **Torag's hammers** | Torag's hammers | melee | CorruptSword | 12 | 0.85 | 1.1 | 1 | 1 | 0 | 0.5 | 2.5 | character:torag | <span class="st st-built">built</span> |
+| **Verac's flail** | Verac's flail | melee | CorruptSword | 11 | 0.85 | 1.2 | 1 | 1 | 0 | 0.5 | 2 | character:verac | <span class="st st-built">built</span> |
 <!-- /gen:weapons -->
 
 "Skill levels to start a run with it" only matters for the **starting** weapon
@@ -75,16 +75,16 @@ When a weapon levels up, Megabonk offers upgrades from its pool. Bonkscape's poo
 | **Trident of the seas** | damage +2.0 (flat); projectiles +1 (flat); bounces +1 (flat); attack size +0.2 (addition) | Tidal Chain (chain:5:3:1.0, not built) | <span class="st st-built">built</span> |
 | **Red chinchompa** | damage +2.0 (flat); projectiles +1 (flat); projectile speed +0.2 (addition); attack size +0.15 (addition) | - | <span class="st st-built">built</span> |
 | **Dwarf multicannon** | damage +1.5 (flat); attack speed +0.1 (addition); duration +0.2 (flat) | - | <span class="st st-todo">planned (phase 3)</span> |
-| **Dharok's greataxe** | damage +3.0 (flat); attack size +0.15 (addition) | - | <span class="st st-todo">planned (phase 1)</span> |
+| **Dharok's greataxe** | damage +3.0 (flat); attack size +0.15 (addition) | - | <span class="st st-built">built</span> |
 | **Scythe of vitur** | damage +2.0 (flat); attack size +0.2 (addition) | - | <span class="st st-built">built</span> |
 | **Armadyl godsword** | damage +3.0 (flat); attack size +0.2 (addition) | The Judgement (hit:2.5,aoe:2:0.5, not built) | <span class="st st-built">built</span> |
 | **Dragon claws** | damage +2.0 (flat); crit chance +0.08 (flat) | Slice and Dice (hits:1.2/0.6/0.4/0.4:0.12, not built) | <span class="st st-built">built</span> |
 | **Void knight mace** | damage +2.0 (flat); attack size +0.2 (addition); knockback +0.25 (addition); attack speed +0.08 (addition) | - | <span class="st st-built">built</span> |
-| **Ahrim's staff** | damage +2.0 (flat); projectiles +1 (flat); attack size +0.15 (addition) | - | <span class="st st-todo">planned (phase 1)</span> |
-| **Guthan's warspear** | damage +2.0 (flat); attack size +0.2 (addition); attack speed +0.08 (addition) | - | <span class="st st-todo">planned (phase 1)</span> |
-| **Karil's crossbow** | damage +2.0 (flat); projectiles +1 (flat); projectile speed +0.2 (addition); crit chance +0.08 (flat) | - | <span class="st st-todo">planned (phase 1)</span> |
-| **Torag's hammers** | damage +2.0 (flat); attack size +0.15 (addition); knockback +0.25 (addition) | - | <span class="st st-todo">planned (phase 1)</span> |
-| **Verac's flail** | damage +2.0 (flat); attack size +0.2 (addition); crit chance +0.06 (flat) | - | <span class="st st-todo">planned (phase 1)</span> |
+| **Ahrim's staff** | damage +2.0 (flat); projectiles +1 (flat); attack size +0.15 (addition) | - | <span class="st st-built">built</span> |
+| **Guthan's warspear** | damage +2.0 (flat); attack size +0.2 (addition); attack speed +0.08 (addition) | - | <span class="st st-built">built</span> |
+| **Karil's crossbow** | damage +2.0 (flat); projectiles +1 (flat); projectile speed +0.2 (addition); crit chance +0.08 (flat) | - | <span class="st st-built">built</span> |
+| **Torag's hammers** | damage +2.0 (flat); attack size +0.15 (addition); knockback +0.25 (addition) | - | <span class="st st-built">built</span> |
+| **Verac's flail** | damage +2.0 (flat); attack size +0.2 (addition); crit chance +0.06 (flat) | - | <span class="st st-built">built</span> |
 <!-- /gen:weapon-levels -->
 
 ## Special attacks

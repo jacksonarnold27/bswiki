@@ -21,10 +21,10 @@ What isn't there yet, or behaves differently from what you'd expect. The [docket
 - **Megabonk's other maps change a little too.** Bonkscape edits Megabonk's data when the game loads, so its reskinned
   weapons, tomes and characters keep their OSRS names, icons and stats on every map, and the Megabonk enemies it remaps
   keep the OSRS rows' HP, damage and speed.
-- **Most stages share an arena.** The Forest's later stages are renamed *Lumbridge Swamp* and *Lumbridge Swamp
-  Caves* but build the same Lumbridge; the Desert's first two stages are both *Morytania* (its third is TzHaar City).
-- **Minibosses and bosses use Megabonk's stats** (times their map's difficulty) and, all but TzTok-Jad, Megabonk's
-  own attacks; only ordinary monsters take the sheet's HP, damage and speed.
+- **The Forest's stages share an arena.** Its later stages are renamed *Lumbridge Swamp* and *Lumbridge Swamp Caves*
+  but build the same Lumbridge; each Desert stage has its own map.
+- **Minibosses and bosses use Megabonk's stats** (times their map's difficulty) and, all but TzTok-Jad and the Kalphite
+  Queen, Megabonk's own attacks; only ordinary monsters take the sheet's HP, damage and speed.
 - **An adventurer's attack style decides its melee skill**: the Warrior, Zerker and Dharok train Strength, the Void
   Knight, Durial321, Guthan and Verac Attack, and only the Ironman and Torag Defence.
 - **The Barrows brothers fight as Megabonk's boss and minibosses**, with their attacks; only the set effects are
@@ -49,10 +49,10 @@ These only show up in Melty's automated test runs (autoplay):
 
 - Autoplay checks two tiles ahead on the map's grid and turns along walls; whether that stops it pressing into
   walls is *(unconfirmed: needs footage)*.
-- Autoplay plays the adventurers this PC has unlocked in turn, and the maps in turn (Lumbridge, Morytania, TzHaar
-  City), so a three-run test plays all three. A TzHaar City run starts on the Desert's first stage and moves to its
-  third a second in; since its adventurer arrives without the levels two stages bring, monsters there get their HP and
-  hits without Megabonk's stage scaling.
+- Autoplay plays the adventurers this PC has unlocked in turn, and the maps in turn (Lumbridge, Al Kharid, Morytania,
+  TzHaar City). A Morytania or TzHaar City run starts on the Desert's first stage and moves to its own a second in;
+  since its adventurer arrives without the levels the earlier stages bring, monsters there get their HP and hits
+  without Megabonk's stage scaling.
 - Autoplay always takes the first level-up offer, so most weapons aren't exercised. It opens chests, and a test
   shortcut readies the first evolution.
 - 1:15 into a test run (test runs last 2 minutes), the adventurer is moved to the boss portal and opens it, so each

@@ -1,16 +1,17 @@
 # Maps
 
-Bonkscape has three maps, each built from **your own OSRS cache** in place of a Megabonk map or stage:
+Bonkscape has four maps, each built from **your own OSRS cache** in place of a Megabonk map or stage:
 
 - **Lumbridge & Swamp** on Megabonk's Forest <span class="st st-verified">verified</span> (Melty publish test of
   0.1.11: courtyard start, castle, river and bridges, swamp, minibosses, death and restart).
-- **[Morytania](#morytania)** on Megabonk's Desert <span class="st st-built">built</span>: Canifis, Mort Myre and the
-  Barrows.
+- **[Al Kharid](#al-kharid)** on Megabonk's Desert: the desert town, with [the Kalphite Lair](#the-kalphite-lair) as its
+  boss arena.
+- **[Morytania](#morytania)** on the Desert's second stage: Canifis, Mort Myre and the Barrows.
 - **[TzHaar City](#tzhaar-city)** on the Desert's third stage: the TzHaar's underground city of obsidian and lava,
   with [the Fight Caves](#the-fight-caves) as its boss arena.
 
-Which one you play is the Megabonk map you pick: the Forest is Lumbridge; the Desert is Morytania for its first two
-stages and TzHaar City for its third. The rest of this page describes Lumbridge first; the other maps work the same
+Which one you play is the Megabonk map you pick: the Forest is Lumbridge; the Desert's three stages are Al Kharid,
+Morytania and TzHaar City. The rest of this page describes Lumbridge first; the other maps work the same
 way except where their sections say otherwise.
 
 ## The Lumbridge arena
@@ -44,8 +45,8 @@ with it, so there's room to run. See [Adventurers](adventurers.md#size).
 ### When it's built
 
 1. While the main menu loads, every map's world data (tiles, scenery, colliders) and minimap are built in the
-   background from your cache, Lumbridge first, then Morytania, TzHaar City and the bosses' lairs (the Giant Mole's
-   and the Fight Caves); their meshes are then made
+   background from your cache, Lumbridge first, then Al Kharid, Morytania, TzHaar City and the bosses' lairs (the Giant
+   Mole's, the Kalphite Lair and the Fight Caves); their meshes are then made
    a few at a time, at most 8 ms of each frame.
 2. When a run starts, the screen goes black with OSRS's *Loading - please wait.* box, so Megabonk's own stage never
    shows. Bonkscape waits 0.3 s, then for Megabonk's spawn intro to finish (your character on the ground and done
@@ -95,9 +96,30 @@ It stays solid while hidden.
 Megabonk's Forest map has several stages. Bonkscape names them **Lumbridge & Swamp**, **Lumbridge Swamp** and
 **Lumbridge Swamp Caves**, but for now every stage builds the same Lumbridge arena.
 
+## Al Kharid
+
+Al Kharid takes over the **first stage** of Megabonk's Desert. Its arena is OSRS world tiles **(3264, 3110) to
+(3391, 3330)**, 128 x 221 tiles: the desert town and the sand around it.
+
+| What | Where |
+|---|---|
+| **You** | OSRS tile (3329, 3220). The chat box says *"Welcome to Al Kharid. Press 1, 2 or 3 to pray against melee, missiles or magic."* |
+| **Boss portal** | OSRS tile (3323, 3319). It leads into [the Kalphite Lair](#the-kalphite-lair). |
+| **Monsters** | Al Kharid's desert roster, with Kalphite Guardians as minibosses ([Monsters](monsters-and-bosses.md#al-kharid)). |
+| **Chests, shrines, monster spawns, skilling spots** | As on Lumbridge, on Al Kharid's ground and its own trees, rocks and shores. |
+
+Its music (experimental) is *Al Kharid*.
+
+### The Kalphite Lair
+
+Opening Al Kharid's boss portal moves the fight into the Kalphite Lair, the Kalphite Queen's cave, as the Giant Mole's
+portal moves it into its lair: OSRS tiles (3456, 9472) to (3519, 9535), 64 x 64 tiles, from your cache, under the
+loading screen. You land at OSRS tile (3486, 9515), the Queen stands at (3476, 9498), and the chat box says *"You
+follow the Kalphite Queen down into its lair."* ([Monsters](monsters-and-bosses.md#the-kalphite-queen)).
+
 ## Morytania
 
-Morytania takes over Megabonk's **Desert** map. Its arena is OSRS world tiles **(3400, 3158) to (3783, 3607)**,
+Morytania takes over the **second stage** of Megabonk's Desert. Its arena is OSRS world tiles **(3400, 3158) to (3783, 3607)**,
 384 x 450 tiles, about eight times Lumbridge's area: Canifis, Mort Myre swamp and the Barrows.
 
 | What | Where |
@@ -109,25 +131,23 @@ Morytania takes over Megabonk's **Desert** map. Its arena is OSRS world tiles **
 
 What's different from Lumbridge:
 
-- **A dark sky and easier monsters.** The Desert stage's fog and sky turn a dark purple (`maps.sky`), and its
-  sunlight and ambient light lose the desert's warm tint. Morytania's monsters have 0.8 of their row's HP and damage,
-  its minibosses and boss 0.8 of Megabonk's own (`maps.difficulty`).
-- **Built at load, after Lumbridge.** If a run starts on the Desert before Morytania's build is done, it waits behind
-  the loading screen: up to 45 s for the build and then up to 30 s for the meshes; past 45 s the run stays on
-  Megabonk's Desert.
+- **A dark sky.** The Desert stage's fog and sky turn a dark purple (`maps.sky`), and its sunlight and ambient light
+  lose the desert's warm tint.
+- **A shorter timeline**: 9 minutes, and Megabonk's own scaling for a second stage.
+- **Built at load.** If a stage starts before its map's build is done, it waits behind the loading screen: up to 45 s
+  for the build and then up to 30 s for the meshes; past 45 s the stage stays Megabonk's own.
 - **A detail budget.** Maps bigger than 40,000 tiles leave out ground decorations (flowers, grass tufts, small
   stones) and 1 x 1 scenery that blocks nothing and has fewer than 300 faces (`Map.LargeMapMinFaces`; 0 keeps
   everything). Trees and ore rocks are always kept, for skilling. Lumbridge is under the limit, so it keeps everything.
 - **Raised houses.** Canifis's houses stand on stilts, as in OSRS: their floors, walls, windows and furniture are at
   the raised level, with the posts underneath.
-- **Stages.** The Desert's first two stages build the same Morytania arena and are both named *Morytania*; its third
-  is [TzHaar City](#tzhaar-city).
-- **The welcome line** reads *"Welcome to Morytania. Press 1, 2 or 3 to pray against melee, missiles or magic."*
+- **Stages.** The Desert's first stage is [Al Kharid](#al-kharid) and its third [TzHaar City](#tzhaar-city).
+- **The welcome line**, reaching it from Al Kharid, reads *"Welcome to Morytania."*
 
 ## TzHaar City
 
-TzHaar City takes over the **third stage** of Megabonk's Desert, the map's last: you reach it after Morytania's two
-stages, and the stage is named *TzHaar City*. Its arena is OSRS world tiles **(2432, 5056) to (2559, 5183)**, 128 x
+TzHaar City takes over the **third stage** of Megabonk's Desert, the map's last: you reach it after Al Kharid and
+Morytania, and the stage is named *TzHaar City*. Its arena is OSRS world tiles **(2432, 5056) to (2559, 5183)**, 128 x
 128 tiles.
 
 | What | Where |
@@ -185,14 +205,16 @@ Every map in `sheets/maps.json`, built or planned:
 | Map | Megabonk map | OSRS area (x0, y0, x1, y1) | Music (planned) | Minutes | Special rule | Status |
 |---|---|---|---|---|---|---|
 | **Lumbridge & Swamp** | Forest stage 0 | 3140, 3140, 3266, 3300 | Harmony | 10 | none | <span class="st st-verified">verified</span> |
-| **Morytania** | Desert stage 0 | 3400, 3158, 3783, 3607 | Village | 10 | none | <span class="st st-verified">verified</span> |
-| **The Wilderness** | Graveyard stage 0 | - | Wilderness | 12 | skull | <span class="st st-todo">planned (phase 2)</span> |
+| **Morytania** | Desert stage 1 | 3400, 3158, 3783, 3607 | Village | 9 | none | <span class="st st-built">built</span> |
+| **The Wilderness** | Graveyard stage 0 | 2944, 3520, 3391, 3967 | Wilderness | 16 | pkers_revenants | <span class="st st-built">built</span> |
 | **God Wars Dungeon** | Graveyard stage 1 | - | Armadyl Alliance | 10 | none | <span class="st st-todo">planned (phase 3)</span> |
 | **TzHaar City** | Desert stage 2 | 2432, 5056, 2559, 5183 | Mor Ul Rek | 8 | none | <span class="st st-verified">verified</span> |
+| **Al Kharid** | Desert stage 0 | 3264, 3110, 3391, 3330 | Al Kharid | 10 | none | <span class="st st-built">built</span> |
 <!-- /gen:maps -->
 
-Each map has an OSRS track (Lumbridge: *Harmony*; Morytania: *Village*; TzHaar City: *Mor Ul Rek*). An experimental player plays it from your
+Each map has an OSRS track (Lumbridge: *Harmony*; Al Kharid: *Al Kharid*; Morytania: *Village*; TzHaar City: *Mor Ul
+Rek*). An experimental player plays it from your
 cache (`Audio.OsrsMusic`), but only with its engine, which release builds don't include, so they play Megabonk's
 music ([HUD and chat](hud-and-chat.md#sounds)). More boss arenas are on the [docket](../dev/docket.md).
 
-<!-- sources: src/Bonkscape.Plugin/Systems/Arena.cs src/Bonkscape.Plugin/Systems/MapProps.cs src/Bonkscape.Plugin/Systems/Skilling.cs src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Core/Osrs.cs src/Bonkscape.Plugin/Core/Runner.cs src/Bonkscape.Cache/World/ sheets/maps.json src/Bonkscape.Plugin/Systems/LavaBurn.cs src/Bonkscape.Plugin/Systems/BossFight.cs src/Bonkscape.Plugin/Systems/Bonk.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Barrows.cs -->
+<!-- sources: src/Bonkscape.Plugin/Systems/Arena.cs src/Bonkscape.Plugin/Systems/MapProps.cs src/Bonkscape.Plugin/Systems/Skilling.cs src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Core/Osrs.cs src/Bonkscape.Plugin/Core/Runner.cs src/Bonkscape.Cache/World/ sheets/maps.json src/Bonkscape.Plugin/Systems/LavaBurn.cs src/Bonkscape.Plugin/Systems/BossFight.cs src/Bonkscape.Plugin/Systems/Bonk.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Barrows.cs src/Bonkscape.Plugin/Systems/SecondForm.cs -->

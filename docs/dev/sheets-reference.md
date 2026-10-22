@@ -16,20 +16,20 @@ through `Generated/Sheets.g.cs`. Each file has the same shape:
 | Sheet | Rows | Columns | Row statuses |
 |---|---|---|---|
 | `audio.json` | 17 | 6 | 14 built, 3 todo |
-| `bosses.json` | 2 | 18 | 1 built, 1 verified |
-| `cache_assets.json` | 401 | 9 | 5 todo, 396 verified |
-| `characters.json` | 14 | 21 | 2 built, 7 todo, 5 verified |
-| `drops.json` | 36 | 10 | 7 built, 27 todo, 2 verified |
-| `enemies.json` | 39 | 21 | 13 built, 7 todo, 19 verified |
+| `bosses.json` | 4 | 19 | 3 built, 1 verified |
+| `cache_assets.json` | 496 | 9 | 6 todo, 490 verified |
+| `characters.json` | 14 | 21 | 8 built, 1 todo, 5 verified |
+| `drops.json` | 36 | 10 | 31 built, 3 todo, 2 verified |
+| `enemies.json` | 68 | 22 | 48 built, 1 todo, 19 verified |
 | `evolutions.json` | 4 | 10 | 3 built, 1 todo |
-| `hooks.json` | 44 | 9 | 14 built, 30 verified |
-| `maps.json` | 5 | 23 | 2 todo, 3 verified |
+| `hooks.json` | 45 | 9 | 15 built, 30 verified |
+| `maps.json` | 6 | 23 | 3 built, 1 todo, 2 verified |
 | `passives.json` | 11 | 11 | 11 built |
 | `prayers.json` | 3 | 12 | 3 verified |
 | `skills.json` | 10 | 8 | 5 built, 5 verified |
 | `ui.json` | 41 | 8 | 4 built, 1 todo, 36 verified |
-| `waves.json` | 24 | 8 | 7 built, 9 todo, 8 verified |
-| `weapons.json` | 19 | 27 | 11 built, 7 todo, 1 verified |
+| `waves.json` | 47 | 8 | 39 built, 8 verified |
+| `weapons.json` | 19 | 27 | 17 built, 1 todo, 1 verified |
 <!-- /gen:sheet-list -->
 
 ## Rules the preflight checks on every sheet
@@ -165,6 +165,7 @@ One row per OSRS monster; each takes over Megabonk enemies. Read by `Content.App
 | `animation_ids` | JSON of OSRS sequence ids: `stand`, `walk`, `attack`, `death` (the Giant Mole also `dig_down`, `dig_up`), checked against the cache's gamevals (`<name>_ready/_walk/_attack/_death` siblings). Baked on the primary NPC's model only (a stand-in NPC may have another skeleton, so it uses its own definition's stand and walk). Rows without ids fall back to the NPC definition's stand and walk (0.2.0). | |
 | `maps` | Map rows it belongs to: its bases join those maps' Megabonk spawn pools (`Content.ApplyEnemies`, via `Bonk.MapOf`), and on a Megabonk map two map rows share (the Desert's stages) the stage's own rows go onto the shared `EnemyData` when it starts (`Rows.EnemyByMapBonk`, `Content.ApplyStage`); a row with no phase-1 map joins Lumbridge's. A bosses id instead keeps the row for that boss's arena alone (0.5: the Fight Caves' monsters are `["tztok_jad_boss"]`; `arena_waves` and `healers` spawn them, no map does). | rows of `maps` or `bosses` |
 | `set_effect` | JSON: a Barrows brother's set effect on his hits (0.7), as on his `characters` row. `{}` for none. | |
+| `pk_weapon` | A PKer (0.9): the `weapons` row whose special attack it fires (its sequence from `animation_ids` `spec`, the weapon's `spec_spotanim`, a hit of a fifth to a third of the adventurer's health in the weapon's style). A PKer is never on a Megabonk slot or in the waves: it comes only by an ambush (`Pkers`), its body from `model_ids` `worn:`, its health and damage from this row scaled against the Megabonk enemy it rides (`SkeletonDusty`: a walker that doesn't flee). `none`: an ordinary monster. | `none` or a `weapons` id |
 | `phase`, `status` | | |
 
 ## bosses
@@ -176,7 +177,7 @@ Boss behaviour layered on an enemies row. Read by `Systems/Bosses.cs` (phase 1: 
 |---|---|---|
 | `id` | Key, referenced by `maps.boss_id`. | |
 | `enemy_id` | The enemies row. | row of `enemies` |
-| `attacks` | JSON list: `name`, `style`, `telegraph_ms`, `damage`, `pattern`. `burrow_teleport_every_<N>s` gives the Mole's dig period and telegraph (`Bosses`). `random` attacks are a scripted boss's own (`BossFight`, with `attack_every_ms`): `seq` (the OSRS sequence it plays), `spotanim_launch` (on the boss), `projectile` (flying to the adventurer), `spotanim` (on the adventurer as it lands), `hit_delay_ms` (added to `telegraph_ms` before the hit lands) and `range` (`melee`: only beside the adventurer; `any`). The hit is the adventurer's max health x 0.55 to 0.85 in the attack's style, which the matching protection prayer blocks (`prayer_blocks_fully`). | each `style` is melee/ranged/magic |
+| `attacks` | JSON list: `name`, `style`, `telegraph_ms`, `damage`, `pattern`. `burrow_teleport_every_<N>s` gives the Mole's dig period and telegraph (`Bosses`). `random` attacks are a scripted boss's own (`BossFight`, with `attack_every_ms`): `seq` (the OSRS sequence it plays), `spotanim_launch` (on the boss), `projectile` (flying to the adventurer), `spotanim` (on the adventurer as it lands), `hit_delay_ms` (added to `telegraph_ms` before the hit lands), `range` (`melee`: only beside the adventurer; `any`), `weight` (its share when the boss picks, 1 by default: the KBD's bite and dragonfire 1.5, each breath 0.5), `effect` (`poison`, `freeze` or `shock`, through Megabonk's own player effects, when the right prayer wasn't up), `effect_chance` (1 by default) and `freeze_ms` (capped at 3 s). A per-form id (`seq`, `projectile`, `spotanim_launch`...) may be a list `[first form, second form]` (`bosses.second_form`). The hit's share of the adventurer's health is scaled by `damage`, the OSRS max hit, against Jad's 97. The hit is the adventurer's max health x 0.55 to 0.85 in the attack's style, which the matching protection prayer blocks (`prayer_blocks_fully`). | each `style` is melee/ranged/magic |
 | `phase_thresholds` | HP fractions; the first one speeds up the dig (x0.66 period). | |
 | `music_override` | Not used yet. | |
 | `osrs_arena` | `[x0, y0, x1, y1]` in OSRS world tiles: the boss's own lair (the Mole's is the Falador Mole Lair), built at load like a map and keyed by the boss id; when the current map's boss (`maps.boss_id`) is summoned, `Arena` moves the fight there under the loading cover and the Mole digs to tiles you can walk to. `[]` for none (the fight stays on the map). | x0 < x1, y0 < y1; every region the area covers is in the dev and player caches (empty void around it is fine) |
@@ -188,6 +189,7 @@ Boss behaviour layered on an enemies row. Read by `Systems/Bosses.cs` (phase 1: 
 | `healers` | JSON `{"enemy": enemies id, "count": n, "at_hp": fraction}`: healers called once when the boss drops below `at_hp` (Jad's four Yt-HurKot at half health); they walk to the boss and heal it until the adventurer hits them, then fight the adventurer. `{}` for none. | |
 | `prayer_blocks_fully` | `true`: the right protection prayer blocks this boss's hits completely (Jad), not the half every other boss's hits are cut by. | |
 | `second_form` | An `enemies` id: the form the boss rises in when its first form (`enemy_id`) dies (0.8: the Kalphite Queen's airborne form). Megabonk's death is called off, the health comes back in full and the second form's model takes the first's place on the same enemy (`SecondForm`); only the second form's death clears the stage and counts for unlocks. `none`: one form. | `none` or an `enemies` id |
+| `second_form_spotanim` | A spotanim played where the first form fell as the second rises (the Kalphite Queen's crawling husk, 1055, frame for frame with her 6270 rise), in place of the first form's corpse. While the second form's `spawn` sequence plays it stands still and can't be hurt. -1: none. | -1 or a spotanim id |
 | `pet_item_id`, `pet_rate` | Pet item and 1-in-N rate. Not used yet. | item resolves |
 | `phase`, `status` | | |
 
@@ -208,7 +210,8 @@ One row per map. Read by `Bonk`, `Arena`, `Osrs.BuildArena`, `Skilling`, `MapPro
 | `waves_id` | Its `waves` rows (by `map_id`). | row of `waves` |
 | `boss_id` | `bosses` row or `none`. | row of `bosses` or `none` |
 | `fallback_enemy` | Enemy row used when a Megabonk enemy has no row, or a monster's model is missing. | row of `enemies` |
-| `length_minutes`, `special_rule` | Planned (`skull` for the Wilderness). Not used yet. | |
+| `length_minutes` | Planned. Not used yet. | |
+| `special_rule` | `pkers_revenants` (0.9, the Wilderness): PKers ambush the adventurer, one every three to four minutes (`Pkers`; the first after about a minute, 40 s in test runs). `none`: no rule. | `none`, `pkers_revenants` |
 | `difficulty` | Multiplier on the hp and damage of the map's monsters (1 = Megabonk's stats); minibosses and bosses scale from Megabonk's own stats. Morytania 0.8. | `Content.ApplyEnemies` |
 | `sky` | `megabonk` (keep the stage's sky) or a `#rrggbb` colour: the stage's fog takes it, its skybox (a copy) is tinted to it, and the ambient and sun light keep their brightness in cooler tones. Morytania `#170d22`. | `Content.ApplySky`, `Arena.ApplySkyNow` |
 | `underground` | `true` for a map under the ground (TzHaar City): built and lit as a cave, black beyond its walls, as the Mole's lair is. Not built yet (0.5). | |

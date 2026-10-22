@@ -1,7 +1,7 @@
 # Architecture
 
 Bonkscape is a BepInEx 6 IL2CPP plugin for Megabonk (Unity 2023.2.22f1, IL2CPP, build 1.0.69) that reads the player's
-Old School RuneScape cache at run time. Nothing from either game is shipped. Written against **0.7.0** (`508f097`).
+Old School RuneScape cache at run time. Nothing from either game is shipped. Written against **0.8.0** (`70b4f98`).
 
 ## Projects
 
@@ -121,7 +121,8 @@ skilling nodes, fallback enemy, music).
 4. Run end: when active turns false, `OnRunEnd`.
 5. While active: the props/arena timer, `Arena.TryBuild` until it succeeds, `Arena.Tick`, `BossFight.Tick` (a boss
    arena's waves and the held boss's release, healers), `LavaBurn.Tick` (lava edges, once per 0.6 s), `Content.GiveExtraWeapons` (an adventurer's `extra_weapons`, once
-   the inventory exists), `SetEffects.Tick` (monsters' set-effect slows run out), `Pathing.Tick`,
+   the inventory exists), `SetEffects.Tick` (monsters' set-effect slows run out), `SecondForm.Tick` (a risen
+   second form moves and can be hurt once its arrival sequence has played), `Pathing.Tick`,
    `Prayer.Tick`, `CameraTweak.Tick` (the `[Camera] ToggleKey`, V, flips between `Distance` and `FarDistance`, and
    `NearPitch`/`FarPitch`), `Specials.Tick` (energy, the fire and switch keys), `Skills.GameTick`, `Loot.Tick`, `Skilling.Tick`, death detection.
 6. Always: `Skills.Tick` (autosave every 20 s), `Hud.Tick` (skipped when `Debug.OsrsHud` is off; hitsplats, XP drops, health bar timers, dialogues,
@@ -142,7 +143,7 @@ retried every 2 s and again when the screen size changes, else estimated) and dr
 
 **`OnStage(player)`**: on the first stage of a run, or the first stage after the adventurer died (Megabonk's restart
 keeps the map and only makes a new player), resets the run clock, prayer, evolutions, loot, lava burns, extra weapons, set
-effect counts and chat, puts a Barrows brother's own weapon on its shared Megabonk type
+effect counts, second forms and chat, puts a Barrows brother's own weapon on its shared Megabonk type
 (`Content.ApplyCharacterWeapons`), and posts the welcome line; a later stage on another maps row (TzHaar City after Morytania) gets the short *Welcome to
 <map>.* Every stage: `Sizing.Measure`, `CameraTweak.Apply`, `PlayerSkin.Apply` (if not skinned yet),
 `Skilling.SpawnForRun` (Forest-style nodes around the player, replaced if the arena builds), a 1.5 s timer, and
@@ -257,6 +258,9 @@ target still exists ([docket](docket.md)).
 | `Enemy.DamageFromPlayerWeapon` | prefix + postfix | Systems/Combat | HP before/after: hitsplat and skill XP for damage dealt | `enemy_damaged` |
 | `Enemy.EnemyDied(DamageContainer)` | postfix | Systems/Combat | Kill count, prayer potion drops, `osrs-enemy-killed` | `enemy_died` |
 | `Enemy.EnemyDied(DamageContainer)` | prefix | Systems/SecondForm | A two-form boss's first death is called off: full health, Megabonk's death flags cleared, the second form's model in its place (`bosses.second_form`) | `boss_second_form` |
+| `InteractableCrypt.Interact` | prefix | Systems/Graveyard | The Graveyard's crypt door on a map with a boss lair loads Megabonk's final stage instead (the KBD's ladder) | `graveyard_door` |
+| `InteractableCrypt.CanInteract` | postfix | Systems/Graveyard | The door can be opened until the final stage | `graveyard_door` |
+| `InteractableCrypt.GetInteractString` | postfix | Systems/Graveyard | The door says *Climb down to* the map's boss | `graveyard_door` |
 | `DamageNumbers.SetDamage(float, Color, Vector3, int)` | postfix | Systems/Combat | Blank Megabonk's damage numbers in Lumbridge | `damage_numbers` |
 | `DamageNumbers.SetDamage(string, Color, Vector3, int)` | postfix | Systems/Combat | Blank Megabonk's "-N" player damage text | none (covered by `damage_numbers` in spirit) |
 | `PlayerHealth.Damage` | prefix + postfix | Systems/Prayer | Protection prayers reduce or cancel damage by monster style (prefix); the player hitsplat from what the hit actually took, hp + shield + overheal (postfix): hits Megabonk's hit cooldown stops or 0-damage touches show nothing. In test runs the lethal-hit guard (`TestGuard`) cuts a hit that would kill to leave 1 hitpoint, then heals to half (prefix and postfix) | `player_damage` |
@@ -345,6 +349,7 @@ into data fields instead), `music` (`MusicController.PlayMusicTrack`: no music s
 | `shop_prompt` | loot | `InteractableShadyGuy.GetInteractString` | postfix | the same adventurer's prompt reads "Ironmen can't trade" | <span class="st st-built">built</span> |
 | `character_buy` | data | `CharacterMenu.BuyCharacter` | prefix | Megabonk's purchase of an adventurer Bonkscape keeps locked is refused (characters.unlock_condition) | <span class="st st-built">built</span> |
 | `boss_second_form` | enemies | `Enemy.EnemyDied` | prefix | a two-form boss's first death called off: full health, the second form's model on the same enemy (the Kalphite Queen) | <span class="st st-built">built</span> |
+| `graveyard_door` | map | `InteractableCrypt.Interact, CanInteract, GetInteractString` | prefix + postfix | the Graveyard's crypt door on a map with a boss lair loads Megabonk's final stage, whose final boss is the map's boss (the KBD) | <span class="st st-built">built</span> |
 <!-- /gen:hooks -->
 
 ## Systems at a glance
@@ -370,7 +375,9 @@ into data fields instead), `music` (`MusicController.PlayMusicTrack`: no music s
 | `Systems/LavaBurn.cs` | Lava edges burn (0.5): standing within 0.35 tiles of a lava tile (the world build's `FlagLava`, overlay texture 31) costs 2.4% of max health each OSRS tick through Megabonk's damage call; lava stays blocked, and the middle of a one-tile bridge is safe |
 | `Systems/Unlocks.cs` | Permanent unlocks per adventurer (0.5): a boss's death unlocks the passives whose `unlocked_by` names it (the Fire cape for Jad); saved in `%LOCALAPPDATA%/Bonkscape/unlocks.json` (not while skill saving is off, as in scenarios); gear offers leave locked ones out; `CharacterUnlocked` reads `characters.unlock_condition` (`always`, `total_level_N` on any one adventurer, `TotalLevel`), worked out at most every 2 s |
 | `Systems/BossFight.cs` | Boss fights beyond the Mole's dig (0.5): a boss arena's own waves (`bosses.arena_waves`, the boss held on its tile, frozen, unhurt and unseen until `boss_at`), scripted attacks (`attack_every_ms` with `random` attacks: Megabonk's own special attacks off, the sheet's attack picked each interval, its sequence and spot animations, the hit landed at impact with its style so the prayer counts then; Megabonk's touches don't hurt), healers (`bosses.healers`: called below a share of health, walk to the boss and heal it until hit), `SpawnAs` (a monster skinned as a given row) |
-| `Systems/SecondForm.cs` | A boss's second form (0.8, `bosses.second_form`: the Kalphite Queen): its first form's death called off (the `EnemyDied` prefix), its health back in full, `EnemySkins.Reskin` puts the second form's model on the same enemy (the first falls on a corpse) and plays its `spawn` sequence when it has one; Combat's death postfix skips the called-off death |
+| `Systems/SecondForm.cs` | A boss's second form (0.8, `bosses.second_form`: the Kalphite Queen): its first form's death called off (the `EnemyDied` prefix), its health back in full, `EnemySkins.Reskin` puts the second form's model on the same enemy (the first falls on a corpse, or `bosses.second_form_spotanim` plays in its place: the Queen's husk) and plays its `spawn` sequence when it has one, still and unhurt meanwhile; Combat's death postfix skips the called-off death. A second form never takes a Megabonk slot of its own (`Rows.Build` leaves it out of the slot lookups) |
+| `Systems/Graveyard.cs` | Megabonk's Graveyard under an OSRS map (0.9, the Wilderness): the starting crypt left by its exit door before the arena moves the adventurer (the stage clock starts only then), the surface crypt door put on the boss tile as the way down to the map's boss, opening it loads Megabonk's final stage (as TzHaar City's final portal does), whose final boss (Ent1) is the map's boss row in its lair |
+| `Systems/Pkers.cs` | PKers (0.9, `maps.special_rule` `pkers_revenants`): an ambush every three to four minutes from the map's `pk_weapon` rows (none in a boss's lair), each PKer's health and damage from its row, and its weapon's special attack every 10-14 s in reach |
 | `Systems/Specials.cs` | Special attacks (0.4): the energy bar (60 s, plus 0.25% a kill, capped), the fire and switch keys, each spec's steps (`weapons.spec_effect`) through Megabonk's own damage and debuff calls, targets only monsters that can take damage, autoplay's specs in test runs, the scenario `spec` step |
 | `Systems/SpotFx.cs` | OSRS spot animations as flipbooks on the HUD (the specs' graphics), rendered from the cache off the main thread |
 | `Systems/Skills.cs` | Persistent skills, XP table, combat level |
