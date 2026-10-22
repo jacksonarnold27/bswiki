@@ -18,7 +18,7 @@ its description, for example *"Amulet of fury (neck slot): +8% damage per level,
 | **Kraken tentacle** | weapon upgrade | Size | attack size (addition) | +10% | 8 | <span class="st st-built">built</span> |
 | **Tome of fire** | shield | Duration | duration (addition) | +15% | 8 | <span class="st st-built">built</span> |
 | **Godsword shard** | weapon upgrade2 | Knockback | knockback (addition) | +20% | 3 | <span class="st st-built">built</span> |
-| **Fire cape** | cape | Health | max HP (flat) | +25 | 8 | <span class="st st-todo">planned (phase 2)</span> |
+| **Fire cape** | cape | Health | max HP (flat) | +25 | 8 | <span class="st st-built">built</span> |
 <!-- /gen:passives -->
 
 ## One item per gear slot
@@ -34,13 +34,21 @@ A piece also stops being offered once it reaches its max level (8).
 
 ## What's left out
 
-On Bonkscape's maps (Lumbridge and Morytania), level-ups offer only the gear above. Megabonk tomes without a row (Health, for example, until the Fire
-cape is built) don't appear there.
+On Bonkscape's maps, level-ups offer only the gear above, and the Fire cape only once you've earned it
+([below](#the-fire-cape)). Megabonk tomes without a row don't appear there.
 
 Three pieces matter for [evolutions](weapons-and-evolutions.md#evolutions): the **Kraken tentacle** (Abyssal whip
 into Abyssal tentacle), the **Tome of fire** (Fire Strike into Fire Surge) and the **Godsword shard** (Armadyl godsword
 into Armadyl godsword (i)).
 
-The Fire cape is planned (phase 2), with its evolution, the Infernal cape.
+## The Fire cape
 
-<!-- sources: src/Bonkscape.Plugin/Systems/Content.cs sheets/passives.json -->
+The Fire cape (cape slot, on Megabonk's Health tome: +25 maximum HP a level, up to 8) is earned. Killing
+[TzTok-Jad](monsters-and-bosses.md#tztok-jad) unlocks it for the adventurer you're playing, for good: the chat box
+says *"You have been awarded a Fire cape!"*, and from then on level-ups can offer it to that adventurer. Each
+adventurer earns it separately. Unlocks are kept in `%LOCALAPPDATA%\Bonkscape\unlocks.json`, beside the skill saves.
+*(unconfirmed: needs a Melty run or footage)*
+
+Its evolution, the Infernal cape, is planned; it can't happen yet.
+
+<!-- sources: src/Bonkscape.Plugin/Systems/Content.cs sheets/passives.json src/Bonkscape.Plugin/Systems/Unlocks.cs src/Bonkscape.Plugin/Systems/Combat.cs -->

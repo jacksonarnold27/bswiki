@@ -71,6 +71,32 @@ step: MODLOG is the short log, this page explains). Unnumbered ones were found w
   that was caught; since then the loop backs every save up before a launch and restores it byte for byte after
   ([Testing](testing.md#the-local-loop)). The scenario and report live in the game folder (`BepInEx/config/Bonkscape`),
   which every process sees.
+- **`MapController.StartNewMap` always starts on the map's first stage**: its `RunConfig.stageData` isn't read, and
+  `MapController.TestMap` starts nothing (the loop timed out waiting). `MapController.GetStageIndex()` counts the
+  stages played in the run, not which stage is loaded: find `MapController.currentStage` in `currentMap.stages`
+  (`Bonk.StageIndex`). A test run on a later stage starts on the first and moves on with `MapController.index` set to
+  the stage before it and `LoadNextStage()` (`TestMode.JumpToStage`), as Megabonk's own stage end does; the scenarios
+  that said `"stage": 1` or `2` before 0.5 played stage 0.
+- **A map's last stage has a different boss portal**: `InteractableBossSpawnerFinal` (`GenerateTileObjects.bossSpawnerFinal`),
+  not `InteractableBossSpawner`, which it doesn't derive from. Opening it summons the stage's final boss in place, as the
+  other does (Pharaoh3, `IsFinalBoss`, about 10 s later). TzHaar City is the Desert's third and last stage, so 0.5's
+  first Fight Caves runs found "no boss portal": the test boss call and the arena's portal placement take both.
+- **Megabonk scales a monster's hp and hits by stage, and its `CombatScaling` getters are inlined**: a monster's hp is
+  its base x `RunConfig.GetEnemyHp` (0.8) x (1 + `CombatScaling.GetStageHpMultiplier()`), and that stage share is 0 on
+  a map's first stage and 145 on the Desert's third (hits: about 4 more). A run that gets there brings two stages of
+  levels and upgrades; a test run that jumped there brings none, and 0.5's first TzHaar City run met a TzHaar-Mej with
+  15 hp in the sheet and 1,752 in the game. Postfixes on `GetStageHpMultiplier` / `GetStageDamageMultiplier` never ran
+  (inlined, as above), so jumped test runs divide the share back out themselves: `TestMode.StageScale`, applied to each
+  monster's hp as it spawns (`EnemySkins`) and to each hit on the adventurer (`Prayer`). A player's run keeps
+  Megabonk's scaling.
+- **Megabonk's Desert stages share their enemy types** (Mummy, Scorpion, the sand golem... on all three; only the
+  bosses differ: Pharaoh1, 2, 3), so two maps on one Megabonk map key their monsters by map row (`Rows.EnemyByMapBonk`)
+  and the stage's rows go onto the shared `EnemyData` when it starts (`Content.ApplyStage`).
+- **`PlayerHealth.Heal` does nothing at 0 hp.** 0.5's first Fight Caves run lost the adventurer to a death the guard in
+  `Damage` didn't catch (after a TzHaar-Ket champion, Megabonk's sand golem, joined), and the backstop's heal then left
+  them at 0: "healed to 0/105", 74 times over. The backstop now sets `hp` itself. Some of Megabonk's hits carry no
+  monster (`dc.enemy` null: the champion's slam hit for 91), and its second damage call, `DamagePlayerExternal` (a
+  bare amount, used by shooters' projectiles), goes on to `Damage`.
 - **A monster can't be hurt for about its first second** (`Enemy.CanTakeDamage()` false): every hit then is ignored,
   Bonkscape's and Megabonk's alike, and `hp` doesn't change. When it can, `DamageFromPlayerWeapon` takes the hp off at
   once (armour first: `armorCurrent`). 0.4's first spec tests fired 0.5 s after a spawn and looked like specs did no
@@ -78,6 +104,12 @@ step: MODLOG is the short log, this page explains). Unnumbered ones were found w
 - **`MapController.StartNewMap` in a run keeps the player**: like a stage change, the next run has the same adventurer
   and inventory (`MapController.inventory`; `TryCleanupInventory` leaves it, and clearing it isn't enough either). A
   real new run goes through the main menu (`TransitionUI.Instance.LoadMenu()`), as scenario suites do since 0.4.
+- **A suite's last run can start a stage again after the next scenario loads** (0.6: smoke's Morytania run started
+  once more as weapon-ranger loaded, and "playing as Mage, not Ranger" was judged on it). `Scenario.Tick` waits for the
+  scenario's own run request (`TestMode.RunRequested`).
+- **A character is applied before the player's inventory names it** (`PlayerRenderer.SetCharacter` comes first, and
+  Runner's stage start measures before both), so `Sizing.Measure` takes the character from `PlayerSkin.Apply`; until
+  0.6 the first measure had no name and a switch between runs was never seen.
 - **Megabonk puts its saved character back into the selection as the menu opens**
   (`SaveManager.config.preferences.selectedCharacter`): a scenario starting 0.3 s after the menu sometimes had its
   `CharacterMenu.selectedCharacter` overwritten and played the saved one (two of 0.4's suite runs: the Mage asked for,

@@ -1,6 +1,6 @@
 # Skilling
 
-Each map's own trees, rocks and shores are skilling spots (Lumbridge's, Morytania's). <span class="st st-built">built</span>
+Each map's own trees, rocks and shores are skilling spots (Lumbridge's, Morytania's, TzHaar City's). <span class="st st-built">built</span>
 
 ## How to gather
 

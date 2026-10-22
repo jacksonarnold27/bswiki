@@ -1,7 +1,7 @@
 # Architecture
 
 Bonkscape is a BepInEx 6 IL2CPP plugin for Megabonk (Unity 2023.2.22f1, IL2CPP, build 1.0.69) that reads the player's
-Old School RuneScape cache at run time. Nothing from either game is shipped. Written against **0.4.0** (`ea2a255`).
+Old School RuneScape cache at run time. Nothing from either game is shipped. Written against **0.5.0** (`f1c619d`).
 
 ## Projects
 
@@ -119,14 +119,15 @@ skilling nodes, fallback enemy, music).
    Megabonk's music source paused while an OSRS track plays). In test mode, `Dev.Breadcrumbs` marks each step.
 3. Stage start: when active and `MyPlayer.Instance` exists and is a new object (first stage, or a new stage), `OnStage`.
 4. Run end: when active turns false, `OnRunEnd`.
-5. While active: the props/arena timer, `Arena.TryBuild` until it succeeds, `Arena.Tick`, `Pathing.Tick`,
+5. While active: the props/arena timer, `Arena.TryBuild` until it succeeds, `Arena.Tick`, `BossFight.Tick` (a boss
+   arena's waves and the held boss's release, healers), `LavaBurn.Tick` (lava edges, once per 0.6 s), `Pathing.Tick`,
    `Prayer.Tick`, `CameraTweak.Tick` (the `[Camera] ToggleKey`, V, flips between `Distance` and `FarDistance`, and
    `NearPitch`/`FarPitch`), `Specials.Tick` (energy, the fire and switch keys), `Skills.GameTick`, `Loot.Tick`, `Skilling.Tick`, death detection.
 6. Always: `Skills.Tick` (autosave every 20 s), `Hud.Tick` (skipped when `Debug.OsrsHud` is off; hitsplats, XP drops, health bar timers, dialogues,
    `LevelUpFx.Tick`; outside a run `MegabonkHud.Restore` puts back the Megabonk HUD pieces it hid), `Chat.Tick`.
 
 **`LateUpdate`** (while active): `EnemySkins.LateTick` (models follow enemies, Megabonk renderers stay hidden, hitbox
-floor, animation, `Bosses.Tick`, `Corpses.Tick`), `Arena.LateTick` (see-through walls, and `PlayerMoveFix.LateTick`), `PlayerSkin.LateTick`
+floor, animation, `Bosses.Tick`, `BossFight.TickBoss` (a scripted boss's attacks), `Corpses.Tick`), `Arena.LateTick` (see-through walls, and `PlayerMoveFix.LateTick`), `PlayerSkin.LateTick`
 (follow and animate), then `TestMode.LateTick` (autoplay's movement written into `PlayerInput` after Megabonk's own
 update).
 
@@ -139,8 +140,9 @@ with `HudLayout.Arrange` against Megabonk's minimap (`OsrsUi.Minimap`: measured 
 retried every 2 s and again when the screen size changes, else estimated) and draws them through `OsrsUi`.
 
 **`OnStage(player)`**: on the first stage of a run, or the first stage after the adventurer died (Megabonk's restart
-keeps the map and only makes a new player), resets the run clock, prayer, evolutions, loot and chat, and posts
-the welcome line. Every stage: `Sizing.Measure`, `CameraTweak.Apply`, `PlayerSkin.Apply` (if not skinned yet),
+keeps the map and only makes a new player), resets the run clock, prayer, evolutions, loot, lava burns and chat, and
+posts the welcome line; a later stage on another maps row (TzHaar City after Morytania) gets the short *Welcome to
+<map>.* Every stage: `Sizing.Measure`, `CameraTweak.Apply`, `PlayerSkin.Apply` (if not skinned yet),
 `Skilling.SpawnForRun` (Forest-style nodes around the player, replaced if the arena builds), a 1.5 s timer, and
 `Hud.FindGoldCounter` (also clears health bars, XP drops and the minimap measurement for the new stage), and
 `Music.PlayForStage` (the map's `osrs_music_track`).
@@ -255,6 +257,7 @@ target still exists ([docket](docket.md)).
 | `DamageNumbers.SetDamage(float, Color, Vector3, int)` | postfix | Systems/Combat | Blank Megabonk's damage numbers in Lumbridge | `damage_numbers` |
 | `DamageNumbers.SetDamage(string, Color, Vector3, int)` | postfix | Systems/Combat | Blank Megabonk's "-N" player damage text | none (covered by `damage_numbers` in spirit) |
 | `PlayerHealth.Damage` | prefix + postfix | Systems/Prayer | Protection prayers reduce or cancel damage by monster style (prefix); the player hitsplat from what the hit actually took, hp + shield + overheal (postfix): hits Megabonk's hit cooldown stops or 0-damage touches show nothing. In test runs the lethal-hit guard (`TestGuard`) cuts a hit that would kill to leave 1 hitpoint, then heals to half (prefix and postfix) | `player_damage` |
+| `PlayerHealth.DamagePlayerExternal` | prefix + postfix | Systems/Prayer | Megabonk's other damage call, with a bare amount (0.5: the hits the guard never saw came after a TzHaar-Ket champion, Megabonk's sand golem, joined): in jumped test runs the monster's hit loses the stage share, and the lethal-hit guard trims it; the first call logs whether it goes on to `Damage` (if not, the hit is counted here) | `player_damage_external` |
 | `PlayerHealth.PlayerDied` | prefix | Systems/TestGuard | Test runs: a death by any other way than a guarded hit is stopped and logged (heals to half); off with a scenario's `"deaths": "allow"` | none |
 | `PlayerHealth.KillPlayer` | prefix | Systems/TestGuard | The same for Megabonk's direct kill | none |
 | `PlayerHealth.Evade` | postfix | Systems/Prayer | A Megabonk evade shows OSRS's 0 hitsplat (a miss) | `player_evade` |
@@ -264,6 +267,9 @@ target still exists ([docket](docket.md)).
 | `MusicController.OnPause` | postfix | Systems/Music | Megabonk's pause also pauses the OSRS track (experimental OSRS music) | none |
 | `Pickup.ApplyPickup` | prefix + postfix | Systems/Loot | Food heals by its row; pickup sounds; `osrs-item-picked` | `pickup_apply` |
 | `InteractableChest.Start` | postfix | Systems/Loot | Chests wear the OSRS casket | `chest_spawn` |
+| `InteractableShadyGuy.Start` | postfix | Systems/Loot | The map's shopkeeper NPC (`maps.shopkeeper_npc`, TzHaar-Hur-Tel in TzHaar City) stands in for the Shady Guy | none |
+| `InteractableShadyGuy.Interact` | prefix | Systems/Loot | An adventurer whose `characters.can_buy` is false (the Ironman) is refused by the Shady Guy and every shopkeeper standing in for him: the interaction is stopped and the chat says so | `shop_refuse` |
+| `InteractableShadyGuy.GetInteractString` | postfix | Systems/Loot | The same adventurer's prompt reads "Ironmen can't trade" | `shop_prompt` |
 | `MoneyFlying.Set` | postfix | Systems/Loot | Flying coins wear the OSRS coin stack | none |
 | `MoneyFlying.Pickup` | postfix | Systems/Loot | Coin sound (rate-limited), `osrs-item-picked` | none |
 | `ChestWindowUi.OpenButton` | postfix | Systems/Evolutions | Try evolutions when a casket's Open button is pressed (the old target, a private method, is inlined by IL2CPP and never ran); in test runs the first casket prepares one | `chest_open` |
@@ -304,6 +310,7 @@ into data fields instead), `music` (`MusicController.PlayMusicTrack`: no music s
 | `enemy_damaged` | combat | `Enemy.DamageFromPlayerWeapon` | prefix + postfix | OSRS hitsplats and skill XP from damage dealt | <span class="st st-verified">verified</span> |
 | `enemy_died` | combat | `Enemy.EnemyDied` | postfix | kill counting, prayer potion drops, test check | <span class="st st-verified">verified</span> |
 | `player_damage` | prayer | `PlayerHealth.Damage` | prefix + postfix | protection prayers cut damage by enemy style; the player hitsplat from what the hit actually took | <span class="st st-verified">verified</span> |
+| `player_damage_external` | prayer | `PlayerHealth.DamagePlayerExternal` | prefix + postfix | Megabonk's other damage call (a bare amount): jumped test runs' stage share and the lethal-hit guard, whether or not it goes on to Damage | <span class="st st-built">built</span> |
 | `damage_numbers` | presentation | `DamageNumbers.SetDamage` | postfix | hide Megabonk's floating numbers where an OSRS hitsplat shows instead | <span class="st st-verified">verified</span> |
 | `pickup_spawn` | loot | `PickupManager.SpawnPickup` | postfix | coins and food pickups wear OSRS item models | <span class="st st-built">built</span> |
 | `pickup_apply` | loot | `Pickup.ApplyPickup` | prefix + postfix | food heals, item pickup sound and test check | <span class="st st-verified">verified</span> |
@@ -330,13 +337,15 @@ into data fields instead), `music` (`MusicController.PlayMusicTrack`: no music s
 | `player_evade` | presentation | `PlayerHealth.Evade` | postfix | a Megabonk evade shows OSRS's 0 hitsplat (a miss) | <span class="st st-built">built</span> |
 | `player_aegis` | presentation | `PlayerHealth.UseAegis` | postfix | an Aegis block shows OSRS's 0 hitsplat | <span class="st st-built">built</span> |
 | `weapon_used` | models | `WeaponAttack.SuccessfullySpawnedProjectile` | postfix | the adventurer plays the weapon's OSRS attack sequence | <span class="st st-built">built</span> |
+| `shop_refuse` | loot | `InteractableShadyGuy.Interact` | prefix | an adventurer who can't buy (characters.can_buy false: the Ironman) is refused by the Shady Guy and the shopkeepers standing in for him | <span class="st st-built">built</span> |
+| `shop_prompt` | loot | `InteractableShadyGuy.GetInteractString` | postfix | the same adventurer's prompt reads "Ironmen can't trade" | <span class="st st-built">built</span> |
 <!-- /gen:hooks -->
 
 ## Systems at a glance
 
 | File | System |
 |---|---|
-| `Systems/Bonk.cs` | Is this a Bonkscape run, and on which map? (`Active`, `Rows.Current`, `MapOf`, `RowOf`) |
+| `Systems/Bonk.cs` | Is this a Bonkscape run, and on which map? (`Active`, `Rows.Current`, `MapOf`, `RowOf`) Since 0.5 a Megabonk map can carry one maps row per stage: the run's row is the one for its map and stage (`Bonk.StageIndex`: the loaded stage, not Megabonk's played-stage count), else the map's first; a change of row puts that stage's monsters on Megabonk's shared enemy types (`Content.ApplyStage`). |
 | `Systems/Content.cs` | Sheets into Megabonk's data; names, icons, level-up pools, unlocks, starting weapons; `maps.difficulty` on enemy hp and damage; `maps.sky` on the stage's fog, skybox (a copy), ambient and sun (`ApplySky`), and each stage's look kept for after a lair (`KeepLook`) |
 | `Systems/Arena.cs` | The OSRS arenas (maps and boss lairs), the loading cover |
 | `Systems/PlayerMoveFix.cs` | The adventurer on an arena: slope limit 62 degrees (`PlayerMovement.maxSlopeAngle`), and after 0.25 s of holding a direction without moving, a slide along the wall in front or a hop up a ledge; restored when the arena goes |
@@ -350,6 +359,9 @@ into data fields instead), `music` (`MusicController.PlayMusicTrack`: no music s
 | `Systems/CameraTweak.cs` | `Camera.Distance`, and the toggle to `Camera.FarDistance` Since 0.4 the camera faces north (yaw 0: the arena puts OSRS north on +z) at `NearPitch` when the adventurer lands on a spawn tile (a run's start, a restart, a boss's lair and back; `Arena.Tick`), through `PlayerInput.cameraRotation` and `desiredCameraRotation` ((pitch, yaw, roll); Megabonk starts at (20, 270, 0)); the toggle key sets `FarPitch` or `NearPitch` too |
 | `Systems/Combat.cs` | Damage dealt, kills, Megabonk damage numbers |
 | `Systems/Prayer.cs` | Protection prayers |
+| `Systems/LavaBurn.cs` | Lava edges burn (0.5): standing within 0.35 tiles of a lava tile (the world build's `FlagLava`, overlay texture 31) costs 2.4% of max health each OSRS tick through Megabonk's damage call; lava stays blocked, and the middle of a one-tile bridge is safe |
+| `Systems/Unlocks.cs` | Permanent unlocks per adventurer (0.5): a boss's death unlocks the passives whose `unlocked_by` names it (the Fire cape for Jad); saved in `%LOCALAPPDATA%/Bonkscape/unlocks.json` (not while skill saving is off, as in scenarios); gear offers leave locked ones out |
+| `Systems/BossFight.cs` | Boss fights beyond the Mole's dig (0.5): a boss arena's own waves (`bosses.arena_waves`, the boss held on its tile, frozen, unhurt and unseen until `boss_at`), scripted attacks (`attack_every_ms` with `random` attacks: Megabonk's own special attacks off, the sheet's attack picked each interval, its sequence and spot animations, the hit landed at impact with its style so the prayer counts then; Megabonk's touches don't hurt), healers (`bosses.healers`: called below a share of health, walk to the boss and heal it until hit), `SpawnAs` (a monster skinned as a given row) |
 | `Systems/Specials.cs` | Special attacks (0.4): the energy bar (60 s, plus 0.25% a kill, capped), the fire and switch keys, each spec's steps (`weapons.spec_effect`) through Megabonk's own damage and debuff calls, targets only monsters that can take damage, autoplay's specs in test runs, the scenario `spec` step |
 | `Systems/SpotFx.cs` | OSRS spot animations as flipbooks on the HUD (the specs' graphics), rendered from the cache off the main thread |
 | `Systems/Skills.cs` | Persistent skills, XP table, combat level |

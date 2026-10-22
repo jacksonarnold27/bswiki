@@ -16,20 +16,20 @@ through `Generated/Sheets.g.cs`. Each file has the same shape:
 | Sheet | Rows | Columns | Row statuses |
 |---|---|---|---|
 | `audio.json` | 17 | 6 | 14 built, 3 todo |
-| `bosses.json` | 2 | 12 | 1 built, 1 todo |
-| `cache_assets.json` | 263 | 9 | 6 todo, 257 verified |
-| `characters.json` | 5 | 17 | 2 todo, 3 verified |
+| `bosses.json` | 2 | 17 | 1 built, 1 verified |
+| `cache_assets.json` | 332 | 9 | 6 todo, 326 verified |
+| `characters.json` | 8 | 19 | 2 built, 1 todo, 5 verified |
 | `drops.json` | 12 | 10 | 7 built, 3 todo, 2 verified |
-| `enemies.json` | 23 | 20 | 14 built, 3 todo, 6 verified |
+| `enemies.json` | 35 | 20 | 14 built, 2 todo, 19 verified |
 | `evolutions.json` | 4 | 10 | 3 built, 1 todo |
-| `hooks.json` | 39 | 9 | 9 built, 30 verified |
-| `maps.json` | 6 | 19 | 4 todo, 2 verified |
-| `passives.json` | 11 | 10 | 10 built, 1 todo |
+| `hooks.json` | 42 | 9 | 12 built, 30 verified |
+| `maps.json` | 6 | 22 | 3 todo, 3 verified |
+| `passives.json` | 11 | 11 | 11 built |
 | `prayers.json` | 3 | 12 | 3 verified |
 | `skills.json` | 10 | 8 | 5 built, 5 verified |
 | `ui.json` | 41 | 8 | 4 built, 1 todo, 36 verified |
-| `waves.json` | 16 | 8 | 16 built |
-| `weapons.json` | 13 | 27 | 10 built, 2 todo, 1 verified |
+| `waves.json` | 24 | 8 | 16 built, 8 verified |
+| `weapons.json` | 14 | 27 | 11 built, 2 todo, 1 verified |
 <!-- /gen:sheet-list -->
 
 ## Rules the preflight checks on every sheet
@@ -79,7 +79,9 @@ One row per playable adventurer; each takes over a Megabonk character. Read by `
 | `bonk_base_character` | Megabonk `ECharacter` whose slot, prefab, movement and hitbox it takes. | `ECharacter` value |
 | `hp`, `armor`, `damage`, `area`, `cooldown`, `speed`, `luck` | Stat modifiers replacing the Megabonk character's own for `MaxHealth`, `Armor`, `DamageMultiplier`, `SizeMultiplier`, `AttackSpeed` (flat) and `MoveSpeedMultiplier` (addition), `Luck` (flat). 0 = remove Megabonk's. | |
 | `osrs_player_model` | JSON: `osrs_items` (worn item ids), `osrs_kits_male` (identity kit ids), `osrs_colors` (0 = kit colours, the only value used), `osrs_stand_anim` (sequence for the pose), `osrs_walk_anim` (819), `osrs_run_anim` (824) and `osrs_death_anim` (836) for animations (0.2.0). | every kit and worn item resolves; the whole body builds |
-| `unlock_condition` | `always`, or a condition for phase-2 characters (`defence_1_attack_60`, `total_level_250`). Not read by the code yet. | |
+| `can_buy` | `false`: the Shady Guy, and every map's shopkeeper standing in for him (TzHaar-Hur-Tel), refuse this adventurer (the Ironman; `Loot`'s Interact patch, "Ironmen can't trade" on the prompt). | bool |
+| `extra_weapons` | JSON list of weapons ids given beside the starting weapon once a run's inventory exists, their `gear_reqs` not asked (`Content.GiveExtraWeapons`): Durial321's `["ice_barrage"]`. `[]` for none. | each a phase-1 `weapons` row |
+| `unlock_condition` | Replaces Megabonk's unlock for the base character the row takes over, either way (`Unlocks.CharacterUnlocked`, 0.6): `always`; `total_level_N`: any one adventurer has a total level of N (Ironman, 250). Conditions not built yet (Pure's `defence_1_attack_60`, 0.14) keep the character locked. | |
 | `phase`, `status` | See above. | |
 
 ## weapons
@@ -136,6 +138,7 @@ postfix.
 | `max_level` | Level cap: no longer offered at this level. | |
 | `gear_slot` | Holding one item of a slot removes the others of that slot from the offers. | |
 | `osrs_item_id` | Icon. | item resolves |
+| `unlocked_by` | A bosses id whose death unlocks this passive for good for the adventurer who killed it (`Systems/Unlocks.cs`, saved in `unlocks.json`); before that it isn't offered. `none`: always offered. The Fire cape: `tztok_jad_boss`. | `none` or a bosses id |
 | `phase`, `status` | | |
 
 ## enemies
@@ -158,7 +161,7 @@ One row per OSRS monster; each takes over Megabonk enemies. Read by `Content.App
 | `recolors` | `from_npc_def` (the only value): taken from the NPC definition. | |
 | `scale` | Size multiplier on top of OSRS proportions. | |
 | `animation_ids` | JSON of OSRS sequence ids: `stand`, `walk`, `attack`, `death` (the Giant Mole also `dig_down`, `dig_up`), checked against the cache's gamevals (`<name>_ready/_walk/_attack/_death` siblings). Baked on the primary NPC's model only (a stand-in NPC may have another skeleton, so it uses its own definition's stand and walk). Rows without ids fall back to the NPC definition's stand and walk (0.2.0). | |
-| `maps` | Map rows it belongs to: its bases join those maps' Megabonk spawn pools (`Content.ApplyEnemies`, via `Bonk.MapOf`); a row with no phase-1 map joins Lumbridge's. | rows of `maps` |
+| `maps` | Map rows it belongs to: its bases join those maps' Megabonk spawn pools (`Content.ApplyEnemies`, via `Bonk.MapOf`), and on a Megabonk map two map rows share (the Desert's stages) the stage's own rows go onto the shared `EnemyData` when it starts (`Rows.EnemyByMapBonk`, `Content.ApplyStage`); a row with no phase-1 map joins Lumbridge's. A bosses id instead keeps the row for that boss's arena alone (0.5: the Fight Caves' monsters are `["tztok_jad_boss"]`; `arena_waves` and `healers` spawn them, no map does). | rows of `maps` or `bosses` |
 | `phase`, `status` | | |
 
 ## bosses
@@ -170,12 +173,17 @@ Boss behaviour layered on an enemies row. Read by `Systems/Bosses.cs` (phase 1: 
 |---|---|---|
 | `id` | Key, referenced by `maps.boss_id`. | |
 | `enemy_id` | The enemies row. | row of `enemies` |
-| `attacks` | JSON list: `name`, `style`, `telegraph_ms`, `damage`, `pattern`. Only `burrow_teleport_every_<N>s` is read (dig period and telegraph). | each `style` is melee/ranged/magic |
+| `attacks` | JSON list: `name`, `style`, `telegraph_ms`, `damage`, `pattern`. `burrow_teleport_every_<N>s` gives the Mole's dig period and telegraph (`Bosses`). `random` attacks are a scripted boss's own (`BossFight`, with `attack_every_ms`): `seq` (the OSRS sequence it plays), `spotanim_launch` (on the boss), `projectile` (flying to the adventurer), `spotanim` (on the adventurer as it lands), `hit_delay_ms` (added to `telegraph_ms` before the hit lands) and `range` (`melee`: only beside the adventurer; `any`). The hit is the adventurer's max health x 0.55 to 0.85 in the attack's style, which the matching protection prayer blocks (`prayer_blocks_fully`). | each `style` is melee/ranged/magic |
 | `phase_thresholds` | HP fractions; the first one speeds up the dig (x0.66 period). | |
 | `music_override` | Not used yet. | |
 | `osrs_arena` | `[x0, y0, x1, y1]` in OSRS world tiles: the boss's own lair (the Mole's is the Falador Mole Lair), built at load like a map and keyed by the boss id; when the current map's boss (`maps.boss_id`) is summoned, `Arena` moves the fight there under the loading cover and the Mole digs to tiles you can walk to. `[]` for none (the fight stays on the map). | x0 < x1, y0 < y1; every region the area covers is in the dev and player caches (empty void around it is fine) |
 | `arena_spawn_tile` | `[x, y]` where the adventurer lands in the lair. | inside `osrs_arena`, a walkable tile within 3 |
 | `arena_boss_tile` | `[x, y]` where the boss is put in the lair. | inside `osrs_arena`, a walkable tile within 3 |
+| `arena_waves` | JSON list `[{"at": seconds, "enemies": [enemies ids], "count": n}, ...]`: the boss arena's own waves before the boss (0.5: the Fight Caves), spawned by the arena from the time the adventurer moves in (`BossFight.Tick`; `osrs_wave` notes which OSRS wave an entry stands for). `[]`: the boss comes at once, as the Mole does. | each id an `enemies` row |
+| `boss_at` | Seconds after the move into the arena when the boss itself comes, after `arena_waves`. Until then the boss waits on its tile, hidden, frozen and unhurt. | 0 or more |
+| `attack_every_ms` | For a boss whose `attacks` have `pattern` `random`: how often it picks one (Jad: 4800, every 8 ticks). Megabonk's own special attacks are switched off for it, and its touches do no damage. 0: the boss keeps Megabonk's attacks. | 0 or more |
+| `healers` | JSON `{"enemy": enemies id, "count": n, "at_hp": fraction}`: healers called once when the boss drops below `at_hp` (Jad's four Yt-HurKot at half health); they walk to the boss and heal it until the adventurer hits them, then fight the adventurer. `{}` for none. | |
+| `prayer_blocks_fully` | `true`: the right protection prayer blocks this boss's hits completely (Jad), not the half every other boss's hits are cut by. | |
 | `pet_item_id`, `pet_rate` | Pet item and 1-in-N rate. Not used yet. | item resolves |
 | `phase`, `status` | | |
 
@@ -199,6 +207,9 @@ One row per map. Read by `Bonk`, `Arena`, `Osrs.BuildArena`, `Skilling`, `MapPro
 | `length_minutes`, `special_rule` | Planned (`skull` for the Wilderness). Not used yet. | |
 | `difficulty` | Multiplier on the hp and damage of the map's monsters (1 = Megabonk's stats); minibosses and bosses scale from Megabonk's own stats. Morytania 0.8. | `Content.ApplyEnemies` |
 | `sky` | `megabonk` (keep the stage's sky) or a `#rrggbb` colour: the stage's fog takes it, its skybox (a copy) is tinted to it, and the ambient and sun light keep their brightness in cooler tones. Morytania `#170d22`. | `Content.ApplySky`, `Arena.ApplySkyNow` |
+| `underground` | `true` for a map under the ground (TzHaar City): built and lit as a cave, black beyond its walls, as the Mole's lair is. Not built yet (0.5). | |
+| `currency_item` | The OSRS item the map's gold is shown as: its stack models on coins and pickups, its own cache name on the HUD counter (995 Coins; 6529 TokKul in TzHaar City). | an item in the cache |
+| `shopkeeper_npc` | An OSRS NPC that stands in for Megabonk's Shady Guy on this map (`Loot`'s shopkeeper patch: TzHaar-Hur-Tel, 2183, in TzHaar City); 0 keeps the Shady Guy. | 0 or an NPC in the cache |
 | `phase`, `status` | | |
 
 ## waves

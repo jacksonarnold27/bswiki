@@ -13,6 +13,59 @@ inside each release's DLL in `dist/`. No version has been published yet: every r
 
 ---
 
+## 0.5.0: TzHaar
+
+*Build 2026-10-22 03:54, code in `f1c619d`. Test `f40eeddc`: publish test, 3 runs x 2 min, passed. Run 1 Lumbridge
+into the Mole's lair, run 2 Morytania with Dharok, run 3 TzHaar City: the city, Tokkul, the TzHaar, the final portal
+into the Fight Caves, the waves and TzTok-Jad joining the fight. All 12 self-checks each.*
+
+**Patch notes**
+- TzHaar City: the Desert's third stage is the TzHaar's underground city from your cache, with TzHaar-Hur, -Mej, -Xil
+  and -Ket, TzHaar-Ket champions as minibosses, Tokkul in place of coins and TzHaar-Hur-Tel standing in for the Shady
+  Guy. Lava edges burn (4% of your health a second); walk the middle of the bridges.
+- The Fight Caves: TzHaar City's final portal leads into them. Six timed waves (Tz-Kih, Tz-Kek, Tok-Xil, Yt-MejKot,
+  Ket-Zek), then TzTok-Jad: a random Magic, Ranged or Bite attack with its OSRS animation, landing after its wind-up
+  for most of your health unless the right protection prayer is on, which blocks it completely. Below half health four
+  Yt-HurKot come to heal him until you hit them.
+- The Fire cape: killing Jad unlocks it for that adventurer for good, and level-ups then offer it (+25 max HP a
+  level).
+
+**Changes**
+- Maps per stage: `Bonk` keys maps rows by (Megabonk map, stage), with the map's first row for a stage without one;
+  `Bonk.StageIndex` is the loaded stage in the map's list (`MapController.GetStageIndex` counts stages played).
+  `Rows.Maps` holds every phase-1 map, lowest stage first. A map's first stage's monster rows go on at load
+  (`Content.AtLoad`), a later stage's when it starts (`Content.ApplyStage`, onto the enemy types the stages share),
+  a boss arena's never. Stage names and waves per stage row. A later stage on another row gets *Welcome to <map>.*
+- New `maps` columns `underground` (built walled and lit as a cave; interactables on roofed tiles too),
+  `currency_item` (`Osrs.CurrencyItem` and `CurrencyName`: ground and flying gold and the HUD label; 995 when 0) and
+  `shopkeeper_npc` (`InteractableShadyGuy.Start` postfix: the NPC over the Shady Guy, at the adventurer's height).
+  New `bosses` columns `arena_waves`, `boss_at`, `attack_every_ms`, `healers`, `prayer_blocks_fully`; new
+  `passives.unlocked_by`. Rows: `tzhaar_city` (Desert stage 2, (2432, 5056)-(2559, 5183), Mor Ul Rek, Tokkul,
+  TzHaar-Hur-Tel), five TzHaar monsters, seven Fight Caves monsters keyed by `tztok_jad_boss`, TzHaar City's waves,
+  `tztok_jad_boss` (the Fight Caves (2368, 5056)-(2431, 5119), six waves, Jad at 120 s, random Magic 2656, Ranged
+  2652 and Bite 2655 every 4.8 s, four Yt-HurKot at half health) and `fire_cape` at phase 1. Preflight: a monster's
+  `maps` may name a `bosses` row; hyphenated track names (`mor-ul-rek`) are found.
+- New `Systems/BossFight.cs`: a lair's waves (`BeginArena` from `Arena`, `Tick` from the run loop, `SpawnAs` through
+  `EnemySkins.NextRow`) with the boss held (invulnerable, speed 0, model hidden) until `boss_at`; scripted attacks
+  (`TickBoss`: Megabonk's special attacks off and its touches dropped in `Prayer`'s damage prefix; the next attack 4.8
+  s after a hit lands; the hit, 55-85% of max hp, through `PlayerHealth.Damage` with the attack's style for prayer;
+  `prayer_blocks_fully` blocks it all); healers (`Pathing` walks them to the boss, 2% of its max hp every 1.2 s
+  within 4 m, drawn off by a weapon hit in `Combat`).
+- New `Systems/LavaBurn.cs` (`WorldData.FlagLava`: overlay texture 31, not on bridges): 2.4% of max hp per 0.6 s
+  within 0.35 tiles of lava, damage source `lava`, which `Prayer` leaves alone. New `Systems/Unlocks.cs`:
+  `%LOCALAPPDATA%/Bonkscape/unlocks.json` per adventurer, `Unlocks.BossDied` from `Combat`'s kill postfix, gear
+  offers leave locked passives out. `Arena` places a last stage's `InteractableBossSpawnerFinal` on the boss tile.
+  New patch `PlayerHealth.DamagePlayerExternal` (hook `player_damage_external`).
+- Test mode: the map rotation covers all three maps; a later stage's run starts on the first and moves on through
+  `LoadNextStage` (`TestMode.JumpToStage`), its monsters' hp and hits without Megabonk's stage share
+  (`TestMode.StageScale`). The boss call comes at 40 s on a map whose boss has `arena_waves`, retried each second
+  for 30 s, and opens a final portal; Melty runs play arenas at x0.25 (`ArenaTimeScale`). The test casket runs at 30
+  s there and is retried every 3 s for 30 s (the first 0.5.0 test, `f9cc7928`, lost `evolution` in its TzHaar run
+  to the final portal's stage reload). Autoplay prays on a boss's wind-up (`Prayer.AutoplayBraceFor`); the lethal-hit
+  guard covers `DamagePlayerExternal` and heals from 0 hp. Optional checks `arena-waves`, `arena-boss-released`,
+  `boss-healers`, `boss-healed`, `boss-blocked-fully`, `lava-burned`, `unlock-earned`; scenario key
+  `arena_time_scale`, steps `kill` and `lava`; scenarios `tzhaar-city`, `fight-caves`, `fight-caves-quick`.
+
 ## 0.4.0: special attacks
 
 *Build 2026-10-22 02:11, code in `ea2a255`. Test `4ff4bb99`: publish test, 2 runs x 2 min, passed. Run 1 Ranger on

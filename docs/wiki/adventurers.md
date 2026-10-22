@@ -11,7 +11,10 @@ portrait and model.
 | **Ranger** | ranged (accurate) | Magic shortbow | Robinette | armour +0.05, move speed +0.075 | Green d'hide body, Green d'hide chaps, Magic shortbow | always | <span class="st st-verified">verified</span> |
 | **Mage** | magic (accurate) | Fire Strike | Fox | move speed +0.04, luck +0.15 | Blue wizard hat, Blue wizard robe, Staff of fire | always | <span class="st st-verified">verified</span> |
 | **Pure** | melee (aggressive) | Dragon scimitar | Ninja | max HP -40, damage +0.35, move speed +0.1 | Dragon scimitar | defence 1 attack 60 | <span class="st st-todo">planned (phase 2)</span> |
-| **Ironman** | melee (defensive) | Dragon scimitar | SirChadwell | max HP +30, armour +0.1, luck +0.25 | Ironman helm, Ironman platebody, Ironman platelegs | total level 250 | <span class="st st-todo">planned (phase 2)</span> |
+| **Zerker** | melee (aggressive) | Dragon scimitar | Calcium | max HP +30, armour +0.08, damage +0.15 | Helm of Neitiznot, Fighter torso, Rune platelegs, Dragon defender, Dragon scimitar, Climbing boots, Amulet of glory | always | <span class="st st-verified">verified</span> |
+| **Void Knight** | melee (accurate) | Void knight mace | Athena | max HP +25, armour +0.1, damage +0.1 | Void melee helm, Elite void top, Elite void robe, Void knight gloves, Void knight mace | always | <span class="st st-built">built</span> |
+| **Durial321** | melee (accurate) | Abyssal whip | Vlad | max HP +40, armour +0.1, damage +0.05, move speed +0.03 | Green partyhat, Ahrim's robetop, Ahrim's robeskirt, Fire cape, Barrows gloves, Abyssal whip, Toktz-ket-xil, Climbing boots | always | <span class="st st-verified">verified</span> |
+| **Ironman** | melee (defensive) | Dragon scimitar | SirChadwell | max HP +30, armour +0.1, luck +0.25 | Ironman helm, Ironman platebody, Ironman platelegs | total level 250 | <span class="st st-built">built</span> |
 <!-- /gen:characters -->
 
 Stat changes are Megabonk stat modifiers. For each stat in the row (max HP, armour, damage, size, attack speed, move

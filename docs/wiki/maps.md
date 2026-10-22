@@ -1,14 +1,17 @@
 # Maps
 
-Bonkscape has two maps, each built from **your own OSRS cache** in place of one of Megabonk's:
+Bonkscape has three maps, each built from **your own OSRS cache** in place of a Megabonk map or stage:
 
 - **Lumbridge & Swamp** on Megabonk's Forest <span class="st st-verified">verified</span> (Melty publish test of
   0.1.11: courtyard start, castle, river and bridges, swamp, minibosses, death and restart).
 - **[Morytania](#morytania)** on Megabonk's Desert <span class="st st-built">built</span>: Canifis, Mort Myre and the
   Barrows.
+- **[TzHaar City](#tzhaar-city)** on the Desert's third stage: the TzHaar's underground city of obsidian and lava,
+  with [the Fight Caves](#the-fight-caves) as its boss arena.
 
-Which one you play is the Megabonk map you pick. The rest of this page describes Lumbridge first; Morytania works
-the same way except where [its section](#morytania) says otherwise.
+Which one you play is the Megabonk map you pick: the Forest is Lumbridge; the Desert is Morytania for its first two
+stages and TzHaar City for its third. The rest of this page describes Lumbridge first; the other maps work the same
+way except where their sections say otherwise.
 
 ## The Lumbridge arena
 
@@ -41,7 +44,8 @@ with it, so there's room to run. See [Adventurers](adventurers.md#size).
 ### When it's built
 
 1. While the main menu loads, every map's world data (tiles, scenery, colliders) and minimap are built in the
-   background from your cache, Lumbridge first, then Morytania and the Giant Mole's lair; their meshes are then made
+   background from your cache, Lumbridge first, then Morytania, TzHaar City and the bosses' lairs (the Giant Mole's
+   and the Fight Caves); their meshes are then made
    a few at a time, at most 8 ms of each frame.
 2. When a run starts, the screen goes black with OSRS's *Loading - please wait.* box, so Megabonk's own stage never
    shows. Bonkscape waits 0.3 s, then for Megabonk's spawn intro to finish (your character on the ground and done
@@ -116,14 +120,52 @@ What's different from Lumbridge:
   everything). Trees and ore rocks are always kept, for skilling. Lumbridge is under the limit, so it keeps everything.
 - **Raised houses.** Canifis's houses stand on stilts, as in OSRS: their floors, walls, windows and furniture are at
   the raised level, with the posts underneath.
-- **Stages.** Every stage of the Desert builds the same Morytania arena and is named *Morytania*.
+- **Stages.** The Desert's first two stages build the same Morytania arena and are both named *Morytania*; its third
+  is [TzHaar City](#tzhaar-city).
 - **The welcome line** reads *"Welcome to Morytania. Press 1, 2 or 3 to pray against melee, missiles or magic."*
+
+## TzHaar City
+
+TzHaar City takes over the **third stage** of Megabonk's Desert, the map's last: you reach it after Morytania's two
+stages, and the stage is named *TzHaar City*. Its arena is OSRS world tiles **(2432, 5056) to (2559, 5183)**, 128 x
+128 tiles.
+
+| What | Where |
+|---|---|
+| **You** | OSRS tile (2480, 5167). The chat box says *"Welcome to TzHaar City."* |
+| **Final portal** | The Fight Cave entrance, OSRS tile (2439, 5170). The Desert's last stage has Megabonk's final portal instead of a boss portal; it leads into [the Fight Caves](#the-fight-caves). |
+| **Monsters** | The TzHaar, with TzHaar-Ket champions as minibosses ([Monsters](monsters-and-bosses.md#tzhaar-city)). |
+| **Chests, shrines, monster spawns, skilling spots** | As on Lumbridge, on TzHaar City's ground and its own scenery. Chests and shrines may stand on roofed ground too, as in a lair. |
+
+What's different:
+
+- **Underground.** It's built and lit as a cave, like a boss's lair: darker, black beyond its walls, no sky, and
+  walled off wherever it's blocked.
+- **Lava burns.** Lava tiles block you, as in OSRS. Standing pressed against a lava tile's edge (within 0.35 of a
+  tile) burns 2.4% of your maximum health every OSRS tick (0.6 s), 4% a second. It goes through Megabonk's own damage,
+  so it shows as a hitsplat, and no prayer stops it. The first burn of a run says *"The lava's heat burns you!"* The
+  middle of a one-tile bridge is half a tile from the lava on each side, so walking across is safe. *(unconfirmed:
+  needs a Melty run or footage)*
+- **Tokkul instead of coins.** Megabonk's gold is drawn as OSRS's Tokkul, on the ground and flying to you, and the
+  [coin counter](hud-and-chat.md#in-a-run) says *Tokkul*.
+- **TzHaar-Hur-Tel.** Megabonk's Shady Guy, the merchant, is drawn as TzHaar-Hur-Tel (NPC 2183), as tall as your
+  adventurer. *(unconfirmed: needs a Melty run or footage)*
+- **Harder monsters.** Its difficulty is 1, but as on any later stage, Megabonk's own stage scaling multiplies every
+  monster's HP and damage on top.
+
+### The Fight Caves
+
+Opening the final portal moves the fight into the Fight Caves, TzTok-Jad's arena, the way the Giant Mole's portal
+moves it into its lair: OSRS tiles (2368, 5056) to (2431, 5119), 64 x 64 tiles, from your cache, under the loading
+screen. You land at OSRS tile (2413, 5115) and the chat box says *"You follow the TzTok-Jad down into its lair."*
+Six timed waves of Fight Caves monsters come first; TzTok-Jad joins after them, at OSRS tile (2399, 5087)
+([Monsters](monsters-and-bosses.md#tztok-jad)). Its lava burns as the city's does.
 
 ## When a map isn't built
 
 You get Megabonk's own map instead (the Forest or the Desert), dressed in OSRS scenery, when:
 
-- the `Map.RealLumbridge` setting is off: it covers both maps ([Settings](settings.md)),
+- the `Map.RealLumbridge` setting is off: it covers every map and lair ([Settings](settings.md)),
 - your cache is missing any of the map's regions (the log says *"Lumbridge isn't in this OSRS cache"*, or
   *"Morytania ..."*),
 - the map's build isn't done 45 s into its run, or
@@ -147,11 +189,11 @@ Every map in `sheets/maps.json`, built or planned:
 | **Barrows crypts** | Desert stage 1 | - | Dangerous Way | 10 | none | <span class="st st-todo">planned (phase 2)</span> |
 | **The Wilderness** | Graveyard stage 0 | - | Wilderness | 12 | skull | <span class="st st-todo">planned (phase 2)</span> |
 | **God Wars Dungeon** | Graveyard stage 1 | - | Armadyl Alliance | 10 | none | <span class="st st-todo">planned (phase 3)</span> |
-| **Fight Caves** | Desert stage 2 | - | TzHaar! | 10 | none | <span class="st st-todo">planned (phase 3)</span> |
+| **TzHaar City** | Desert stage 2 | 2432, 5056, 2559, 5183 | Mor Ul Rek | 8 | none | <span class="st st-verified">verified</span> |
 <!-- /gen:maps -->
 
-Each map has an OSRS track (Lumbridge: *Harmony*; Morytania: *Village*). An experimental player plays it from your
+Each map has an OSRS track (Lumbridge: *Harmony*; Morytania: *Village*; TzHaar City: *Mor Ul Rek*). An experimental player plays it from your
 cache (`Audio.OsrsMusic`), but only with its engine, which release builds don't include, so they play Megabonk's
-music ([HUD and chat](hud-and-chat.md#sounds)). Underground and instanced arenas (caves, dungeons, boss rooms) are on the [docket](../dev/docket.md).
+music ([HUD and chat](hud-and-chat.md#sounds)). More boss arenas are on the [docket](../dev/docket.md).
 
-<!-- sources: src/Bonkscape.Plugin/Systems/Arena.cs src/Bonkscape.Plugin/Systems/MapProps.cs src/Bonkscape.Plugin/Systems/Skilling.cs src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Core/Osrs.cs src/Bonkscape.Plugin/Core/Runner.cs src/Bonkscape.Cache/World/ sheets/maps.json -->
+<!-- sources: src/Bonkscape.Plugin/Systems/Arena.cs src/Bonkscape.Plugin/Systems/MapProps.cs src/Bonkscape.Plugin/Systems/Skilling.cs src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Core/Osrs.cs src/Bonkscape.Plugin/Core/Runner.cs src/Bonkscape.Cache/World/ sheets/maps.json src/Bonkscape.Plugin/Systems/LavaBurn.cs src/Bonkscape.Plugin/Systems/BossFight.cs src/Bonkscape.Plugin/Systems/Bonk.cs src/Bonkscape.Plugin/Systems/Loot.cs -->

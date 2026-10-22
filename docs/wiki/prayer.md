@@ -27,13 +27,15 @@ When a monster hits you and your prayer matches **that monster's style**:
 | Monster | Damage blocked |
 |---|---|
 | Bosses (anything Megabonk flags as a boss, stage boss or final boss, such as the Giant Mole) | **50%** |
+| TzTok-Jad's own attacks | **100%**, when the prayer matches the attack's style as it lands ([Monsters](monsters-and-bosses.md#tztok-jad)) |
 | Every other monster | **100%**: the hit shows as a blue 0 hitsplat |
 
 Megabonk counts its minibosses as bosses (a test run's log: `MinibossGolem … IsBoss True`), so a protection prayer
 halves a miniboss's hits too, like the Giant Mole's. Elites aren't bosses: prayers stop all of their damage.
 
 The overhead prayer icon glints (a small sparkle) whenever the prayer stops or halves a hit. Hits from a style you're
-not praying against go through in full. Checked in test runs: Protect from Melee stops chickens, giant rats, goblins
+not praying against go through in full. Lava burns ([Maps](maps.md#tzhaar-city)) have no style, so no prayer stops
+them. Checked in test runs: Protect from Melee stops chickens, giant rats, goblins
 and cows, Protect from Missiles stops Lumbridge guards, Protect from Magic stops giant frogs, and the wrong prayer
 lets hits through.
 
@@ -65,4 +67,4 @@ when full, yellow at half and red when empty, and the orb lights up while a pray
 For the first 45 seconds of a run, a hint above the panel reads *"Pray against the icon over a monster: 1 Melee 2
 Missiles 3 Magic"*.
 
-<!-- sources: src/Bonkscape.Plugin/Systems/Prayer.cs src/Bonkscape.Plugin/Systems/Hud.cs src/Bonkscape.Plugin/Systems/HudLayout.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Combat.cs sheets/prayers.json sheets/drops.json -->
+<!-- sources: src/Bonkscape.Plugin/Systems/Prayer.cs src/Bonkscape.Plugin/Systems/Hud.cs src/Bonkscape.Plugin/Systems/HudLayout.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Combat.cs sheets/prayers.json sheets/drops.json src/Bonkscape.Plugin/Systems/BossFight.cs src/Bonkscape.Plugin/Systems/LavaBurn.cs -->

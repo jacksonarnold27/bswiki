@@ -29,21 +29,26 @@ adventurer is `(run - 1 + rotation) mod 3`, where the rotation counts tests in
 played the Warrior. The log says `autoplay adventurer: <name> (<style>)`. `Dev.AutoStartRun` still plays the first.
 
 **Map rotation** (0.2.1). The map is `rotation mod <phase-1 maps>` over `Rows.Maps` (Lumbridge on the Forest,
-Morytania on the Desert). The rotation goes up with every game launch and each run is one, so the two runs of a
-two-run test play both maps (with the run number added too, as for the adventurer, it moved by 2 a run and both of
+Morytania on the Desert, TzHaar City on the Desert's third stage). The rotation goes up with every game launch and
+each run is one, so a test of as many runs as maps plays each, as 0.5.0's three-run test did (with the run number added too, as for the adventurer, it moved by 2 a run and both of
 0.2.1's first test runs played Lumbridge). The
 log says `autoplay map: <name> (Megabonk's <map>)`. `Dev.AutoStartRun` plays Lumbridge.
 
 **Autoplay.**
 
 1. **Main menu**: once the cache is decoded and Megabonk's data loaded, wait 3 s, select the rotation's adventurer and
-   start the rotation's map at its row's stage directly (`MapController.StartNewMap`).
+   start the rotation's map (`MapController.StartNewMap`, which always begins on the map's first stage). A later
+   stage's row (TzHaar City) is reached a second in through Megabonk's `LoadNextStage` (`TestMode.JumpToStage`), and
+   its monsters' hp and hits there leave out Megabonk's stage share (`TestMode.StageScale`): the adventurer arrives
+   without the levels a real run brings.
 2. **Level-ups**: every 0.8 s of real time (the game is paused), press the first active `UpgradeButton`; if none but
    Megabonk is levelling up, `UpgradePicker.AutoSelectUpgrade`; otherwise take the first offer of any open reward
    window (shrines). In a chest window (0.1.16): press Open, then Take about 3 s later; discard the item if the window
    is still open after 8 s.
 3. **Prayer**: every 4 s, switch to the protection prayer against the style most monsters within 10 m use; after a hit
-   of a style the prayer doesn't cover, switch to that style on the next tick and hold it for 6 s (0.2.1).
+   of a style the prayer doesn't cover, switch to that style on the next tick and hold it for 6 s (0.2.1). When a
+   scripted boss starts an attack (Jad), pray against its style at once and hold it until after the hit
+   (`Prayer.AutoplayBraceFor`).
 4. **Movement** (`TestMode.LateTick`, after Megabonk's own update; the `PlayerInput.MovementInput` postfix too when it
    runs): a slow circle (0.35 rad/s), bent away from any monster within 7 m and turned along walls found two tiles
    ahead on the map's tile grid, turned into camera-relative input. Until `prayer-blocked` has passed, monsters whose
@@ -55,7 +60,10 @@ log says `autoplay map: <name> (Megabonk's <map>)`. `Dev.AutoStartRun` plays Lum
 6. **Death**: 6 s on the death screen, then `DeathScreen.Restart()` and a new run.
 7. **Boss**: 1:15 into a test run, the adventurer is moved next to Megabonk's boss portal (on the row's `boss_tile`)
    and the portal is opened (`InteractableBossSpawner.Interact`): autoplay never walks there, and the stage boss (the
-   Giant Mole, Dharok) was never seen in a test. Logged as `test mode: opened the boss portal at ...`.
+   Giant Mole, Dharok) was never seen in a test. Logged as `test mode: opened the boss portal at ...`. On a map whose
+   boss has `arena_waves` (TzHaar City) the call comes at 40 s and opens Megabonk's final portal
+   (`InteractableBossSpawnerFinal`), retried each second for up to 30 s while there's none yet, and the arena plays at
+   0.25 of its sheet times (`TestMode.ArenaTimeScale`).
 
 ## Self-checks
 
@@ -66,7 +74,7 @@ Each is reported once per game session as a `pass <name>` line (or `fail <name>:
 |---|---|---|
 | `spec-fired` | A special attack was fired (0.4; autoplay fires the armed weapon's spec whenever it's affordable and a monster that can take damage is in reach). It took `osrs-cache`'s place in the twelve: `osrs-arena` can't pass without the cache. | `Specials.Fire` |
 | `run-started` | A run on a Bonkscape map has been active for 1 s. | `TestMode.Tick` |
-| `osrs-arena` | The run's OSRS map (Lumbridge or Morytania) was built and the adventurer moved in. (`lumbridge-arena` from 0.1.7; renamed in 0.2.1 when test runs began alternating maps, since every recipe check must pass in every run.) | `Arena.Build` |
+| `osrs-arena` | The run's OSRS map (Lumbridge, Morytania or TzHaar City) was built and the adventurer moved in. (`lumbridge-arena` from 0.1.7; renamed in 0.2.1 when test runs began alternating maps, since every recipe check must pass in every run.) | `Arena.Build` |
 | `osrs-enemy-killed` | A monster wearing an OSRS model died. | `Combat` (`EnemyDied`) |
 | `osrs-item-picked` | Coins, food, flying coins or a prayer potion were picked up. | `Loot` |
 | `prayer-switched` | A protection prayer was turned on. | `Prayer.Toggle` |
@@ -75,7 +83,7 @@ Each is reported once per game session as a `pass <name>` line (or `fail <name>:
 | `adventurer-animated` | The adventurer played OSRS walk or run and a weapon's attack sequence (0.2.0). | `TestMode.Tick` (`PlayerSkin.Moved`, `PlayerSkin.Attacks`) |
 | `prayer-blocked` | A protection prayer stopped (or halved) a hit of its style. | `Prayer.DamagePatch` |
 | `skills-saved` | A skills save was written and reads back exactly as written. | `Skills.Save` |
-| `evolution` | A casket turned a weapon into its upgrade. In test runs the first casket prepares it: the first `evolutions` row's weapon (added if missing) is levelled to its level and the required passive given at max (`Evolutions.PrepareForTest`), then the evolution runs as for a player. A run where autoplay never walks into a casket runs the same steps 45 s in (`Evolutions.TestCasket`); a real casket logs `casket opened (its Open button)`. | `Evolutions.TryEvolve` |
+| `evolution` | A casket turned a weapon into its upgrade. In test runs the first casket prepares it: the first `evolutions` row's weapon (added if missing) is levelled to its level and the required passive given at max (`Evolutions.PrepareForTest`), then the evolution runs as for a player. A run where autoplay never walks into a casket runs the same steps 45 s in (30 s on a map whose boss fights waves first, before its 40 s boss call), again every 3 s for up to 30 s while the player is being remade (`Evolutions.TestCasket`; a final portal's stage load remakes it); a real casket logs `casket opened (its Open button)`. | `Evolutions.TryEvolve` |
 
 Not in the recipe (autoplay doesn't reach them every run), and only logged (`check passed: <name> (optional, log only)`),
 never written to Melty's checks file (`osrs-cache` among them since 0.4: the cache decoded and the OSRS icons
@@ -88,7 +96,10 @@ boss took its OSRS model: `EnemySkins`, log `boss skinned: <Megabonk boss> as <r
 fight moved into the boss's lair, log `arena: in Giant Mole's lair after N ms`), `lair-dig` (the Mole resurfaced on a
 reachable lair tile, log `boss: the Giant Mole resurfaced in its lair at ...`), `skilling-gathered`
 (`Skilling.Gather`) and `gear-slot-rules` (`Content.TomePool` left a passive out of the offers because its gear slot
-was taken or it reached its max level; the log says `gear offers: left out …`).
+was taken or it reached its max level; the log says `gear offers: left out …`). Since 0.5: `arena-waves` (a boss
+arena's first wave), `arena-boss-released` (the held boss joined after the waves), `boss-healers` and `boss-healed`
+(Jad's healers called, and one healed him), `boss-blocked-fully` (a boss hit blocked completely), `lava-burned` (a lava
+burn cost health) and `unlock-earned` (a boss's death unlocked a passive).
 
 Every 30 s of a test run the log also says `animations: monster attacks N, deaths N (corpses N), mole digs N (N in its lair),
 adventurer attacks N, moved …`, and the cache build logs each monster's and adventurer's baked sequences
@@ -176,6 +187,7 @@ Times are local (UTC-5). From Melty's release list and test results.
 | 0.2.12 | `80711319` | 2 x 2 min | **passed (publish test)** | Run 1 on Morytania (walled stilt houses, Dharok). Run 2 Mage on Lumbridge: the lair fight with no falls (lair swap in 45 ms, a dig to a reachable tile, 2 spawns moved onto the floor); a death in the lair restarts on Lumbridge with its sky back. All 12 each, no mod warnings. |
 | 0.3.0 | `00b2a313` | 2 x 2 min | **passed (publish test)** | Run 1 Mage on Morytania: an evolution to the Abyssal tentacle, a chest, no death, `skills-saved` without one. Run 2 Ranger on Lumbridge: the boss call into the Mole's lair, the Mole surfacing beside the adventurer. All 12 each. Footage: Megabonk's Settings window showed on the menu for 2 s before run 2 began. |
 | 0.4.0 | `4ff4bb99` | 2 x 2 min | **passed (publish test)** | Run 1 Ranger on Morytania: the spec orb, a spec switch (*Special attack: Abyssal whip (Energy Drain).*), the Godsword shard among the offers, Dharok. Run 2 Warrior on Lumbridge, starting facing north; Energy Drain and Sever fired in the Mole's lair. All 12 each, `spec-fired` in place of `osrs-cache`. |
+| 0.5.0 | `f40eeddc` | 3 x 2 min | **passed (publish test)** | Run 1 on Lumbridge: the boss portal into the Mole's lair, the Dragon scimitar's spec there. Run 2 on Morytania: Dharok at the Barrows, Ice Barrage's spec. Run 3 on TzHaar City (the Desert's third stage, reached by the jump): the city's lava cracks, Tokkul, TzHaar and TzHaar-Ket, the final portal into the Fight Caves, Yt-MejKot and Ket-Zek waves, TzTok-Jad released with his boss bar dropping. All 12 each. The first 0.5.0 test, `f9cc7928`, failed only its TzHaar run's `evolution`: the test casket landed in the final portal's stage reload (fixed in `f1c619d`). |
 
 Blank cells weren't looked up. `mcp__melty__test_result` with the test id gives the full record.
 
@@ -188,7 +200,7 @@ Blank cells weren't looked up. `mcp__melty__test_result` with the test id gives 
    `Bonkscape.dll`, `Bonkscape.Cache.dll` and the local-only music engine, switches Melty's loader on
    (`winhttp.dll.melty-off` to `winhttp.dll`) and writes the scenario to `BepInEx/config/Bonkscape/scenario.json`.
 3. Backs up every save a run writes (Megabonk's `Saves` folder, which Steam Cloud syncs, and its Player logs;
-   Bonkscape's skill saves, breadcrumbs and test rotation) and launches `Megabonk.exe` directly (no Steam hand-off on
+   Bonkscape's skill saves, unlocks, breadcrumbs and test rotation) and launches `Megabonk.exe` directly (no Steam hand-off on
    this PC). Claude's app package doesn't isolate them: it redirects only new AppData files, and a run overwrites
    existing saves ([Gotchas](gotchas.md#megabonk-runtime)). Scenarios also turn skill saving off unless they test it
    (`"save_skills": true`). Megabonk ignores Unity's `-screen-*` flags and runs at its own settings.
@@ -200,15 +212,26 @@ Blank cells weren't looked up. `mcp__melty__test_result` with the test id gives 
    checks that passed, every Bonkscape warning or error, the dead-hook report and the scenario report. Several
    scenario files run one after another with a combined table; `--one-launch` runs them as a suite in one game.
 
-**Scenarios** (`Systems/Scenario.cs`, files in `tools/scenarios/`): `map`, `stage`, `adventurer`, `autoplay`,
-`boss_at` (seconds), `seconds`, `steps` (`{"at": 3, "spawn": "giant_mole"}` spawns a monster 4 tiles ahead
+**Scenarios** (`Systems/Scenario.cs`, files in `tools/scenarios/`): `map`, `stage` (a later stage is reached from the
+first, `TestMode.JumpToStage`; the clock waits for it, and its monsters lose Megabonk's per-stage hp and damage share, as
+the adventurer arrives without the levels a real run brings: [Gotchas](gotchas.md)), `adventurer`, `autoplay`,
+`boss_at` (seconds: the boss portal is opened, or a map's last stage's final portal, tried each second until one
+exists), `arena_time_scale` (a boss arena's wave times and `boss_at` multiplied by it; Melty's autoplay runs use 0.25
+and call the boss at 40 s on a map whose boss has `arena_waves`, 75 s otherwise, so the Fight Caves' waves and Jad fit
+a two-minute run), `seconds`, `steps` (`{"at": 3, "spawn": "giant_mole"}` spawns a monster 4 tiles ahead
 (`"goblin:1"`: one tile ahead), or the stage boss
 through `EnemyManager.SpawnBoss`; `"weapon": "<weapons id>"` gives one; `"drop": "prayer_potion"` or `"casket"`;
+`"kill": "boss"` ends the live stage or final boss through Megabonk's own death call, so what a boss's death unlocks runs
+(the Fire cape after Jad; a test adventurer can't kill a third-stage boss in a scenario's time); `"shop": "interact"` puts the adventurer by the nearest Shady Guy (or the shopkeeper standing in for him) and
+presses Interact, reporting whether he traded (`shop-refused` for an Ironman); `"lava": "edge"` puts
+the adventurer against the nearest lava edge with a burn due at once (autoplay never walks into one: lava has colliders);
 `"spec": "<weapons id>"` arms that held weapon's special attack, fills the bar and fires it, `"spec": "switch"` presses
 the switch key; `"camera": "far"`, `"near"` or `"north"` sets the camera; `"evolve": "<evolutions id>"` readies an evolution (the weapon levelled, its passive given) and does
 what a casket's Open button does). A spawned monster can't be hurt for about its first second (`Enemy.CanTakeDamage`),
 so a spec step comes 1.5 s after its monsters' spawn,
-`levels` (preset, never saved), `save_skills` (`true` to test saving; the loop restores the files after), `shots` (seconds), `expect` (checks the report marks `pass` or `MISSING`), `deaths`
+`levels` (preset, never saved), `seed_levels` (`{"warrior": 30}`: every skill of another adventurer at that level, in
+memory only, for unlocks that look at other adventurers: Ironman's total level 250; the report says whether the
+playing adventurer is unlocked), `save_skills` (`true` to test saving; the loop restores the files after), `shots` (seconds), `expect` (checks the report marks `pass` or `MISSING`), `deaths`
 (`"allow"` for real deaths), `ui` (the UI test), `suite` (several scenarios in one launch: each run is ended as at a
 run's end and Megabonk goes back to its main menu, `TransitionUI.LoadMenu`, where the next run starts as after a launch;
 about 5 s a scenario. Starting it straight from the run with `MapController.StartNewMap` kept the last run's player,
@@ -237,6 +260,9 @@ written as PNG by the plugin (Unity's own capture and PNG encoder are stripped f
 | `weapon-warrior` | the Warrior given the magic shortbow and Ice Barrage on Morytania: the bow in hand for its shots, the scimitar back |
 | `camera` | Lumbridge without autoplay: the run starts facing north at the near pitch, the far camera at 3 s, the near one again at 5.5 s (screenshots at 4 and 7 s) |
 | `saves` | `"save_skills": true`: `Skills.Tick`'s save (every 20 s once XP changed) reads back as written, `skills-saved`; the loop restores the save after |
+| `tzhaar-city` | TzHaar City (the Desert's third stage, reached by the jump) as the Warrior: a kill, and at 15 s the adventurer put against a lava edge (`lava-burned`) |
+| `fight-caves` | TzHaar City as the Mage with Prayer, Hitpoints and Magic at 99 (not saved), the final portal at 3 s: the Fight Caves (`boss-arena`), the waves at the sheet's times (`arena-waves`), Jad released at 120 s (`arena-boss-released`) and his hits (`player-hit`) |
+| `fight-caves-quick` | the same as the Ranger at Melty's speed (`arena_time_scale` 0.25), Jad killed at 72 s by the `kill` step: `boss-blocked-fully` and `unlock-earned` |
 
 **Deaths in test runs** (`Systems/TestGuard.cs`): no blanket invulnerability, which would hide broken hits. Every hit
 lands in full through Megabonk's damage path; only one that would kill (`PlayerHealth.WillDamageKill`) is cut to
@@ -258,7 +284,11 @@ its `"menus"` list through Megabonk's own `MainMenu.GoTo*` calls (`characters`, 
 `shop`, `logs`, `leaderboards`, `credits`), screenshotting each. The report lists each screen's buttons the first time
 (`B_Back`, `B_Confirm`...); on character select it checks Bonkscape's levels panel against everything of Megabonk's a
 player sees there (texts by their first words, icons, buttons), not only the buttons: the first version, buttons only,
-passed a panel lying over the adventurer's description and weapon name. In the run it screenshots the HUD at each
+passed a panel lying over the adventurer's description and weapon name. It also says whose model the preview shows
+(0.6: the adventurer's OSRS model, `CharacterSelect.Preview`; the panel sits in the free gap it measures between
+Megabonk's two windows, and passes at all four sizes). `"adventurers": true` in `"ui"` presses each phase-1 adventurer's
+button there too and screenshots it (`menu-characters-<id>-WxH`); a locked one (the Ironman, before total level 250)
+is reported as locked, as Megabonk keeps the last selection. In the run it screenshots the HUD at each
 resolution and checks Bonkscape's HUD boxes against the real minimap (`HudLayout.Boxes` and `Problems`: the orb cluster
 drawn as one, the minimap as a circle). `bonk uilayout [w h ...]` runs the HUD check offline for eight resolutions. A
 text's box can be wider than its letters, so a covered text is worth a look at the screenshot before it's called a

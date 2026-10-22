@@ -25,7 +25,7 @@ The `Debug.OsrsHud` setting turns it off, and with `Debug.HideMegabonkHud` off M
 | **Prayer glint** | On the overhead prayer icon | A small sparkle for 0.45 s when your prayer stops or halves a hit |
 | **Minimap frame and compass** | Round Megabonk's minimap | OSRS's minimap frame, with the compass in its socket turning as the camera turns. Drawn only when Bonkscape could measure where Megabonk's minimap is on screen. |
 | **Skilling markers** | Over usable trees, rocks and fishing spots within 10 tiles | The skill's icon (Woodcutting, Mining or Fishing), with a progress bar under it while you gather; gone while the spot comes back ([Skilling](skilling.md)) |
-| **Coins** | Left side, about a third down | The OSRS coin stack for your amount, the amount in OSRS's colours (yellow, then white with K from 100,000, green with M from 10 million) and "Coins". Megabonk's own gold number and icon are hidden. |
+| **Coins** | Left side, about a third down | The OSRS coin stack for your amount, the amount in OSRS's colours (yellow, then white with K from 100,000, green with M from 10 million) and "Coins"; in TzHaar City the Tokkul stack and "Tokkul" ([Maps](maps.md#tzhaar-city)). Megabonk's own gold number and icon are hidden. |
 | **Chat box** | Bottom left corner | See [below](#chat-box) |
 | **Level-up** | Chat box, and at your feet | OSRS's level-up dialogue covers the chat box for 3 s: *"Congratulations, you just advanced a Strength level."*, *"Your Strength level is now 41."* and *"Click here to continue"*, with the skill's icon. OSRS's level-up fireworks play at your adventurer's feet, and keep playing while Megabonk's level-up window pauses the game. |
 | **Evolution** | Chat box | The new weapon's name, like *"Fire Surge!"*, as a dialogue for 3.5 s |
@@ -47,6 +47,7 @@ What it says:
 | When | Message |
 |---|---|
 | A run starts | *Welcome to Lumbridge. Press 1, 2 or 3 to pray against melee, missiles or magic.* (in Morytania: *Welcome to Morytania. ...*) |
+| A later stage is another map | *Welcome to TzHaar City.* |
 | A skill levels up | *Congratulations, you just advanced a Mining level. You are now level 12.* |
 | You eat | *You eat the lobster. It heals some health.* |
 | You drink a prayer potion | *You drink some of your prayer potion.* |
@@ -57,6 +58,11 @@ What it says:
 | You press `F` without enough energy, or with nothing in reach | *You don't have enough special attack energy left.* / *There's nothing in reach.* |
 | You press `V` (`Camera.ToggleKey`) | *Camera: far.* / *Camera: near.* |
 | The Giant Mole digs | *The Giant Mole burrows into the ground!* |
+| A boss fight moves into its lair | *You follow the Giant Mole down into its lair.* (the Fight Caves: *You follow the TzTok-Jad down into its lair.*) |
+| TzTok-Jad joins after the waves | *TzTok-Jad appears!* |
+| TzTok-Jad drops below half health | *TzTok-Jad calls for help!* |
+| A boss you kill unlocks gear | *You have been awarded a Fire cape!* |
+| Lava first burns you in a run | *The lava's heat burns you!* |
 | You gather | *You get some logs.* / *You manage to mine some tin.* (the rock's ore; *stone* for plain rocks) / *You catch some shrimps.* |
 
 Every chat line is also written to the BepInEx log as `[chat] ...`.
@@ -83,7 +89,7 @@ monsters (at most every 0.12 s) and killing them (every 0.2 s), each weapon's at
 weapon), level-ups and evolutions, each prayer going on, prayer off, running out of prayer, picking up coins, eating
 and drinking, chopping, mining and fishing.
 
-OSRS **music**: an experimental player plays the map's track (Lumbridge: *Harmony*; Morytania: *Village*) from your cache in place of Megabonk's music
+OSRS **music**: an experimental player plays the map's track (Lumbridge: *Harmony*; Morytania: *Village*; TzHaar City: *Mor Ul Rek*) from your cache in place of Megabonk's music
 (`Audio.OsrsMusic`), but only with its engine, `OsrsKit.Music.dll`, which release builds don't include; without it
 Megabonk's music plays. OSRS's jingles (level-up, death) aren't built.
 
@@ -162,4 +168,4 @@ The OSRS sprites and fonts each element uses (`sheets/ui.json`):
 Two rows aren't drawn although the sheet marks them done: `run_timer` (Bonkscape's OSRS-font clock was removed in
 0.1.7) and `hitsplat_poison` (nothing poisons yet).
 
-<!-- sources: src/Bonkscape.Plugin/Systems/Projectiles.cs src/Bonkscape.Plugin/Systems/Skilling.cs src/Bonkscape.Plugin/Systems/Music.cs src/Bonkscape.Plugin/Systems/Hud.cs src/Bonkscape.Plugin/Systems/HudLayout.cs src/Bonkscape.Plugin/Systems/OsrsUi.cs src/Bonkscape.Plugin/Systems/MegabonkHud.cs src/Bonkscape.Plugin/Systems/LevelUpFx.cs src/Bonkscape.Cache/SpotAnimFrames.cs src/Bonkscape.Plugin/Systems/Chat.cs src/Bonkscape.Plugin/Systems/Evolutions.cs src/Bonkscape.Plugin/Systems/CharacterSelect.cs src/Bonkscape.Plugin/Systems/Combat.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Sfx.cs src/Bonkscape.Plugin/Core/OsrsAudio.cs src/Bonkscape.Plugin/Patches/CorePatches.cs sheets/ui.json sheets/audio.json -->
+<!-- sources: src/Bonkscape.Plugin/Systems/Projectiles.cs src/Bonkscape.Plugin/Systems/Skilling.cs src/Bonkscape.Plugin/Systems/Music.cs src/Bonkscape.Plugin/Systems/Hud.cs src/Bonkscape.Plugin/Systems/HudLayout.cs src/Bonkscape.Plugin/Systems/OsrsUi.cs src/Bonkscape.Plugin/Systems/MegabonkHud.cs src/Bonkscape.Plugin/Systems/LevelUpFx.cs src/Bonkscape.Cache/SpotAnimFrames.cs src/Bonkscape.Plugin/Systems/Chat.cs src/Bonkscape.Plugin/Systems/Evolutions.cs src/Bonkscape.Plugin/Systems/CharacterSelect.cs src/Bonkscape.Plugin/Systems/Combat.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Sfx.cs src/Bonkscape.Plugin/Core/OsrsAudio.cs src/Bonkscape.Plugin/Patches/CorePatches.cs sheets/ui.json sheets/audio.json src/Bonkscape.Plugin/Systems/BossFight.cs src/Bonkscape.Plugin/Systems/LavaBurn.cs src/Bonkscape.Plugin/Systems/Unlocks.cs src/Bonkscape.Plugin/Systems/Arena.cs src/Bonkscape.Plugin/Core/Runner.cs src/Bonkscape.Plugin/Core/Osrs.cs -->

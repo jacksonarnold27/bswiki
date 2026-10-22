@@ -20,6 +20,7 @@
 | **Game tick** | OSRS's 0.6-second heartbeat. Bonkscape groups XP drops per tick. |
 | **Combat level** | One number summing up your combat skills, worked out with OSRS's formula. |
 | **Casket** | An OSRS reward container. In Bonkscape, Megabonk's chests. |
+| **Tokkul** | The TzHaar's currency. In TzHaar City, Megabonk's gold. |
 | **Sequence** | An OSRS animation: frames that move a model's parts (stand, walk, run, attack, death). |
 | **Interleave** | How the OSRS client plays an attack on the upper body while the legs keep walking or running. |
 | **Spot animation (spotanim)** | A graphic effect such as a spell's projectile or impact. Bonkscape uses them for spell projectiles and the level-up fireworks. |
@@ -34,6 +35,7 @@
 | **Level-up offer** | The choice of upgrades Megabonk shows when you level up. |
 | **Elite / miniboss / boss** | Bigger, stronger enemies. Megabonk enlarges them; Bonkscape caps how much of that it passes on. |
 | **Boss portal** | The object you use to call a stage's boss. |
+| **Final portal** | The boss portal of a map's last stage; it calls the final boss. |
 | **Shrine** | A Megabonk interactable that offers a reward. |
 | **Swarm** | A timeline event that spawns a crowd of one kind of enemy. |
 | **Hitbox** | The invisible shape that decides whether something hits. Bonkscape never changes hitboxes, only how things look. |
@@ -43,7 +45,7 @@
 | Term | Meaning |
 |---|---|
 | **Adventurer** | Your OSRS character: Warrior, Ranger or Mage. |
-| **Arena** | A real OSRS map built from your cache (Lumbridge on the Forest, Morytania on the Desert) that replaces the stage's ground. |
+| **Arena** | A real OSRS map built from your cache (Lumbridge on the Forest, Morytania and TzHaar City on the Desert, and the bosses' lairs) that replaces the stage's ground. |
 | **Fallback stage** | Megabonk's own map (the Forest or the Desert) dressed in OSRS scenery, used when the arena can't be built. |
 | **Gear passive** | A piece of OSRS gear that replaces a Megabonk tome. One per gear slot. |
 | **Evolution** | A maxed weapon plus its gear passive becoming its OSRS upgrade when a casket opens. |
@@ -54,7 +56,7 @@
 | **Status** | A row's state: *todo* (planned), *built* (in the mod) or *verified* (confirmed in a Melty test run). |
 | **Preflight** | The `bonk preflight` tool that checks every sheet against Megabonk and an OSRS cache before a build. |
 | **Melty** | The service that installs, tests and publishes the mod. |
-| **Test mode / autoplay** | How Melty's automated test plays a Lumbridge run by itself. |
+| **Test mode / autoplay** | How Melty's automated test plays a run by itself. |
 | **Self-check** | A named result the mod reports to Melty during a test run, such as `prayer-switched`. |
 
 <!-- sources: sheets/ -->

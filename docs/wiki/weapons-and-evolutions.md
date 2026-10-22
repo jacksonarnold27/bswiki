@@ -11,7 +11,7 @@ attacks, its projectile and its visuals. Bonkscape replaces the rest:
 - **Name and icon**: the OSRS name, and an icon rendered from your cache. Fire Strike, Ice Barrage and Fire Surge use
   their OSRS spell icons; the rest use the item's inventory icon.
 
-On Bonkscape's maps (Lumbridge and Morytania), level-ups offer only these eleven weapons, and they all count as unlocked whatever your Megabonk progress
+On Bonkscape's maps, level-ups offer only these eleven weapons, and they all count as unlocked whatever your Megabonk progress
 is. When a weapon fires:
 
 - its projectile carries the OSRS model from the sheet, about a quarter of a tile along its longest side, centred
@@ -42,6 +42,7 @@ How the projectiles look in a run is *(unconfirmed: needs a Melty run or footage
 | **Scythe of vitur** | Scythe of Vitur | melee | Scythe | 12 | 0.85 | 1.4 | 3 | 1 | 0 | 0.5 | 1 | 80 Attack, 90 Strength | <span class="st st-built">built</span> |
 | **Armadyl godsword** | Armadyl godsword | melee | HeroSword | 16 | 1.2 | 1.3 | 1 | 30 | 0 | 0.5 | 3 | 75 Attack | <span class="st st-built">built</span> |
 | **Dragon claws** | Dragon claws | melee | Dexecutioner | 9 | 0.6 | 1 | 1 | 1 | 0 | 0.5 | 1 | 60 Attack | <span class="st st-built">built</span> |
+| **Void knight mace** | Void knight mace | melee | CorruptSword | 10 | 0.85 | 1.1 | 1 | 1 | 0 | 0.5 | 2.5 | none (a starting weapon) | <span class="st st-built">built</span> |
 <!-- /gen:weapons -->
 
 "Skill levels to start a run with it" only matters for the **starting** weapon
@@ -71,6 +72,7 @@ When a weapon levels up, Megabonk offers upgrades from its pool. Bonkscape's poo
 | **Scythe of vitur** | damage +2.0 (flat); attack size +0.2 (addition) | - | <span class="st st-built">built</span> |
 | **Armadyl godsword** | damage +3.0 (flat); attack size +0.2 (addition) | The Judgement (hit:2.5,aoe:2:0.5, not built) | <span class="st st-built">built</span> |
 | **Dragon claws** | damage +2.0 (flat); crit chance +0.08 (flat) | Slice and Dice (hits:1.2/0.6/0.4/0.4:0.12, not built) | <span class="st st-built">built</span> |
+| **Void knight mace** | damage +2.0 (flat); attack size +0.2 (addition); knockback +0.25 (addition); attack speed +0.08 (addition) | - | <span class="st st-built">built</span> |
 <!-- /gen:weapon-levels -->
 
 ## Special attacks
