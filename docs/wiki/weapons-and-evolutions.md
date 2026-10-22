@@ -11,9 +11,17 @@ attacks, its projectile and its visuals. Bonkscape replaces the rest:
 - **Name and icon**: the OSRS name, and an icon rendered from your cache. Fire Strike, Ice Barrage and Fire Surge use
   their OSRS spell icons; the rest use the item's inventory icon.
 
-In Lumbridge, level-ups offer only these eight weapons, and they all count as unlocked whatever your Megabonk progress
-is. What you see and hear when a weapon fires is still Megabonk's: the OSRS projectiles and weapon sounds listed in
-the sheet aren't used yet.
+On Bonkscape's maps (Lumbridge and Morytania), level-ups offer only these eight weapons, and they all count as unlocked whatever your Megabonk progress
+is. When a weapon fires:
+
+- its projectile carries the OSRS model from the sheet, about a quarter of a tile along its longest side, centred
+  on the projectile and turned to point along its flight: the Magic shortbow's rune
+  arrow, the Toxic blowpipe's dragon dart, the Red chinchompa, and Fire Strike's, Ice Barrage's and the Trident's
+  spell graphics (the Abyssal whip and Dragon scimitar have none). Megabonk's own projectile effects stay;
+- the weapon's OSRS attack sound plays, at most every 0.3 s;
+- your adventurer plays the weapon's OSRS attack animation ([Adventurers](adventurers.md#looks)).
+
+How the projectiles look in a run is *(unconfirmed: needs a Melty run or footage)*.
 
 ## Weapons
 
@@ -96,4 +104,4 @@ Fire Surge's "projectiles x1" leaves the number of projectiles as it was.
 To aim for one: take the **Abyssal whip** with the **Kraken tentacle**, or **Fire Strike** with the **Tome of fire**
 ([Gear passives](gear-passives.md)), level the weapon to 8, then open a casket.
 
-<!-- sources: src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/Evolutions.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Combat.cs sheets/weapons.json sheets/evolutions.json -->
+<!-- sources: src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/Projectiles.cs src/Bonkscape.Plugin/Systems/PlayerSkin.cs src/Bonkscape.Plugin/Systems/Evolutions.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Combat.cs sheets/weapons.json sheets/evolutions.json -->

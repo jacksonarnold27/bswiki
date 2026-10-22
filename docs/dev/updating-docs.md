@@ -7,6 +7,27 @@ to the same folder: start there after each version is built and its Melty test h
 patch notes and the wiki pages it touches say what the code now does. The wikis describe the code as it is, not the
 plan: a planned feature is marked planned until it's built.
 
+## With every commit
+
+A Claude Code hook (`.claude/hooks/bonkscape_after_commit.py`, registered in the user's `~/.claude/settings.json` for
+Bash and PowerShell `git` commands, so it runs in every session whatever its folder) follows each commit to this repo
+and tells the session that made it:
+
+- **Docket:** unless the commit already changed [docket.md](docket.md), update the row of any task it starts,
+  finishes or blocks, add `todo` rows for follow-ups it turned up, set "Last updated <date>, at <version>", and commit
+  `docs/dev/docket.md` alone, by name. Game code is `done` only once it is in a version whose Melty test passed;
+  until then `doing`, with the commit hash. Tools and docs work is `done` when committed. Nothing changed on the
+  docket: leave it.
+- **Milestone plan:** when a row in a "Milestone X.Y" section changes, the release's Status in the "at a glance" table
+  of `docs/design/milestones.md` follows it: `todo`, `doing` once a row has started, `done` when every row is. The
+  docs check fails when the two disagree, and when a release is in one but not the other.
+- **Docs check:** the result of `check_docs.py --head --release`, the same check `package.py` runs; any FAIL is fixed
+  in a follow-up commit by the session that caused it.
+- **New version:** when the commit bumps `Plugin.Version`, to run the `wiki-update` skill once that version is built
+  and tested.
+
+It reports each commit once, says nothing for other commands or other repositories, and never blocks a commit.
+
 ## With every version
 
 1. **Changelog** ([changelog.md](changelog.md)): add the version at the top with
@@ -65,6 +86,7 @@ emergencies only; it prints a warning, and the docs still need fixing.
 | Sheet columns | A sheet column isn't mentioned in the Sheets reference. |
 | Self-checks | A name in `TestMode.Checks` isn't on the Testing page. |
 | Version | `Plugin.Version` has no changelog heading, or the wiki home doesn't name it. Skipped with `--release`. |
+| Docket | A task row's status isn't one of `todo`/`doing`/`done`/`blocked` (as `<span class="st st-X">X</span>`), a task appears twice, a backticked `src/`, `sheets/`, `tools/` or `docs/` path doesn't exist, or the "Last updated ..., at X.Y.Z" line is missing or names a version newer than `Plugin.Version`. Without `--release` it must name `Plugin.Version` itself. |
 | Links | A relative link points to a missing page or heading. |
 
 It also lists **pages to re-read**: every page ends with a `<!-- sources: ... -->` comment naming the code and sheets

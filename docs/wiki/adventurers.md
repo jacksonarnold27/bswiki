@@ -8,8 +8,8 @@ portrait and model.
 | Adventurer | Style (attack style) | Starting weapon | Megabonk slot | Stat changes | Worn OSRS items | Unlock | Status |
 |---|---|---|---|---|---|---|---|
 | **Warrior** | melee (aggressive) | Dragon scimitar | SirOofie | max HP +50, armour +0.15, move speed -0.02 | Rune full helm, Rune platebody, Rune platelegs, Dragon scimitar | always | <span class="st st-verified">verified</span> |
-| **Ranger** | ranged (accurate) | Magic shortbow | Robinette | armour +0.05, move speed +0.075 | Green d'hide body, Green d'hide chaps, Magic shortbow | always | <span class="st st-built">built</span> |
-| **Mage** | magic (accurate) | Fire Strike | Fox | move speed +0.04, luck +0.15 | Blue wizard hat, Blue wizard robe, Staff of fire | always | <span class="st st-built">built</span> |
+| **Ranger** | ranged (accurate) | Magic shortbow | Robinette | armour +0.05, move speed +0.075 | Green d'hide body, Green d'hide chaps, Magic shortbow | always | <span class="st st-verified">verified</span> |
+| **Mage** | magic (accurate) | Fire Strike | Fox | move speed +0.04, luck +0.15 | Blue wizard hat, Blue wizard robe, Staff of fire | always | <span class="st st-verified">verified</span> |
 | **Pure** | melee (aggressive) | Dragon scimitar | Ninja | max HP -40, damage +0.35, move speed +0.1 | Dragon scimitar | defence 1 attack 60 | <span class="st st-todo">planned (phase 2)</span> |
 | **Ironman** | melee (defensive) | Dragon scimitar | SirChadwell | max HP +30, armour +0.1, luck +0.25 | Ironman helm, Ironman platebody, Ironman platelegs | total level 250 | <span class="st st-todo">planned (phase 2)</span> |
 <!-- /gen:characters -->
@@ -24,8 +24,8 @@ shows Megabonk's own `Ninja` and `SirChadwell` characters in their slots.
 
 ## Starting weapons
 
-Each adventurer starts with its row's weapon. Once your [skills](skills-and-xp.md) are high enough, it starts with a
-stronger weapon of the same style instead: the one with the highest skill requirement you meet.
+Each adventurer starts with its row's weapon. Once that adventurer's own [skills](skills-and-xp.md) are high enough,
+it starts with a stronger weapon of the same style instead: the one with the highest skill requirement it meets.
 
 | Adventurer | Default | Upgrades |
 |---|---|---|
@@ -49,8 +49,16 @@ yet ([docket](../dev/docket.md)).
 
 Each adventurer is built from OSRS player parts in your cache: the male identity kits listed in the sheet (head, jaw,
 torso, arms, hands, legs, feet) plus the worn items above, which hide the parts they cover, in the kits' own colours.
-The model stands in the first frame of OSRS's standing animation (808). It isn't animated yet: no walking, attacking
-or dying moves ([Known limitations](known-limitations.md)).
+It plays OSRS's player animations:
+
+- **standing** (808) when you're still;
+- **walking** (819) or **running** (824) by how fast you really move: running from 1.5 times OSRS's walking speed at
+  the model's size, each cycle sped up or slowed to match;
+- each weapon's OSRS **attack** when it fires ([Weapons](weapons-and-evolutions.md)), on the upper body while the legs
+  keep walking or running, the way the OSRS client merges them;
+- the **death** animation (836) when the run ends in death.
+
+How they look in a run is *(unconfirmed: needs a Melty run or footage)*.
 
 The model follows your character, feet on the ground, and turns to face the way you move. Megabonk's own character
 model is hidden. Character select portraits are rendered from the same OSRS model.
@@ -60,8 +68,9 @@ Megabonk's character.
 
 ## Size
 
-Megabonk's character height is measured once per game session, the first time it stands upright. Your adventurer is drawn at
-that height times **`Models.AdventurerScale`** (default **1.6**, from 0.5 to 3). Lumbridge is scaled to match, so the
+Megabonk's character height is measured the first time it stands upright, and again when you switch to another
+adventurer. Your adventurer is drawn at
+that height times **`Models.AdventurerScale`** (default **1.6**, from 0.5 to 3). The maps are scaled to match, so the
 world keeps OSRS proportions around you.
 
 Your **hitbox** is still Megabonk's: a bigger adventurer doesn't get hit more.
@@ -69,4 +78,4 @@ Your **hitbox** is still Megabonk's: a bigger adventurer doesn't get hit more.
 Monsters are drawn on your adventurer's scale: an OSRS human stands about as tall as your adventurer, and goblins,
 rats and chickens keep their OSRS ratios to them ([Monsters](monsters-and-bosses.md#size)).
 
-<!-- sources: src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/PlayerSkin.cs src/Bonkscape.Plugin/Systems/CharacterSelect.cs src/Bonkscape.Plugin/Core/Sizing.cs src/Bonkscape.Plugin/Core/Osrs.cs src/Bonkscape.Plugin/Plugin.cs sheets/characters.json sheets/weapons.json -->
+<!-- sources: src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/PlayerSkin.cs src/Bonkscape.Plugin/Systems/Animator.cs src/Bonkscape.Plugin/Systems/CharacterSelect.cs src/Bonkscape.Plugin/Core/Sizing.cs src/Bonkscape.Plugin/Core/Osrs.cs src/Bonkscape.Plugin/Plugin.cs sheets/characters.json sheets/weapons.json -->

@@ -93,9 +93,12 @@ A fresh save (10 Hitpoints, everything else 1) is combat level 3. Combat level d
 
 ## Saving
 
-Skills are saved to **`%LOCALAPPDATA%\Bonkscape\skills.json`**, a plain list of each skill's XP. Bonkscape saves when
-anything changed, every 20 seconds, at the end of a run and when you quit Megabonk. If the file can't be read, you
-start fresh (the log says *"skills save unreadable, starting fresh"*). To reset your skills, delete the file while
-Megabonk is closed.
+Each adventurer keeps their own skills: **`%LOCALAPPDATA%\Bonkscape\skills_<adventurer>.json`** (`skills_warrior.json`,
+`skills_ranger.json`, `skills_mage.json`), a plain list of each skill's XP. An adventurer without a save yet starts from
+the older shared `skills.json` if there is one (it is left as it was). The character select panel shows the hovered
+adventurer's own levels and combat level. Bonkscape saves when anything changed, every 20 seconds, at the end of a run
+and when you quit Megabonk, writing a temporary file first so a crash never leaves half a save. If a file can't be
+read, that adventurer starts fresh (the log says *"skills save of … unreadable, starting fresh"*). To reset an
+adventurer's skills, delete their file while Megabonk is closed.
 
 <!-- sources: src/Bonkscape.Plugin/Systems/Skills.cs src/Bonkscape.Plugin/Systems/Combat.cs src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/Prayer.cs src/Bonkscape.Plugin/Systems/Skilling.cs src/Bonkscape.Plugin/Systems/CharacterSelect.cs src/Bonkscape.Plugin/Systems/Hud.cs src/Bonkscape.Plugin/Systems/HudLayout.cs src/Bonkscape.Plugin/Systems/LevelUpFx.cs sheets/skills.json -->

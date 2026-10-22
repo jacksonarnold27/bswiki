@@ -12,8 +12,9 @@ started by hand. It runs on this PC only, at <http://localhost:8789>.
 - **Claude Code:** the `bonkscape-hub` entry in `.claude/launch.json` (serves the hub without opening a browser).
 
 Starting the hub starts the wiki and the map sketch tool when they aren't running, then opens the hub in your browser.
-Launching it again while it runs just opens the page. When `hub.py` changed since the running hub started, the new
-hub replaces it; the servers keep running. `python tools/hub/hub.py --stop-all` stops the hub and every server.
+Launching it again while it runs just opens the page. When `hub.py` or `hub.json` changed since the running hub
+started, the new hub replaces it; the servers keep running. `python tools/hub/hub.py --stop-all` stops the hub and
+every server.
 
 ## What's on it
 
@@ -49,25 +50,41 @@ Outside the repo, in `%LOCALAPPDATA%\Bonkscape\hub\`:
 - `logs\<server>.log`: each server's output (the card's Log button shows the end), trimmed past 1 MB.
 - `logs\hub.log`: the hub's own output when it runs without a console.
 - `state.json`: the hub's port, and each server's last port and pid.
+- `config.txt`: the hub config that owns this folder; another project with the same name gets
+  `%LOCALAPPDATA%\Bonkscape-<6 hex>\hub\` instead.
+
+The engine also lists this hub in `%LOCALAPPDATA%\project-hub\hubs.json`, the PC-wide registry the kit's
+`scaffold.py` reads to give a new project ports no other hub uses.
 - `hub.ico`: the shortcut's icon, drawn by `hub.py` (no image file in the repo).
 
 If double-clicking does nothing, read `hub.log`, or run `python tools/hub/hub.py --open` in a terminal to see the error.
 
 ## Safety
 
-- It listens on 127.0.0.1 only. It refuses requests whose `Host` isn't `localhost` or `127.0.0.1` (DNS rebinding), and
-  its buttons send an `X-Bonkscape-Hub` header that another website can't send to it, so no web page can start or stop
-  anything.
-- The doc viewer serves only the files `DOCS` in `hub.py` lists; the folder buttons open only `FOLDERS`.
+- It listens on 127.0.0.1 only. It refuses requests whose `Host` isn't `localhost` or `127.0.0.1` (DNS rebinding),
+  and buttons that change anything send an `X-Project-Hub` header that another website can't send to it; a foreign
+  `Origin` is refused too. So no web page can start or stop anything.
+- The doc viewer serves only the files `hub.json`'s doc groups list; the folder buttons open only its `folders`.
 - Stdlib Python, nothing to install. Made for Windows: elsewhere pids come from `lsof`, and there's no shortcut and no
   older-code check.
 
 ## Adding a tool
 
-In `tools/hub/hub.py`, add a row to `SERVICES` for a server (id, name, default port, script, a probe path and a
-function that recognises the answer, links), to `DOCS` for Markdown the hub should render, or to `COMMANDS` for a
-command to copy. A reload of the page shows it. Then add it to the table above and to
+Everything Bonkscape-specific is in `tools/hub/hub.json`: `services` (a server: id, name, port, the command with
+`{port}`, a `probe` that only it answers, links), `docs` (Markdown the hub renders, and `routes` for pages the wiki
+renders), `folders` and `commands`. The full list of keys is in the project-hub kit's `config.md`. Then:
+
+```
+python tools/hub/hub.py --check       validates hub.json
+python tools/hub/hub.py --selftest    serves the hub on a spare port and fetches every page and doc
+```
+
+Relaunch the hub (it replaces the running one, because hub.json changed), then add the tool to the table above and to
 [Architecture](architecture.md#projects).
+
+**The engine** (`hub.py`, `index.html`, `app.js`, `style.css`, `doc.html`, `doc.js`) is a copy from the project-hub
+kit at `D:\Modding\project-hub`, which any project can use. Don't edit it here: change the kit, then copy it in with
+`python D:\Modding\project-hub\scaffold.py update D:\Modding\Bonkscape`. `export_wiki.py` is Bonkscape's own.
 
 ## Hosting BSWiki
 

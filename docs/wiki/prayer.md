@@ -29,10 +29,13 @@ When a monster hits you and your prayer matches **that monster's style**:
 | Bosses (anything Megabonk flags as a boss, stage boss or final boss, such as the Giant Mole) | **50%** |
 | Every other monster | **100%**: the hit shows as a blue 0 hitsplat |
 
-Whether Megabonk flags its minibosses (the Cow and Giant frog minibosses) as bosses hasn't been checked yet.
+Megabonk counts its minibosses as bosses (a test run's log: `MinibossGolem … IsBoss True`), so a protection prayer
+halves a miniboss's hits too, like the Giant Mole's. Elites aren't bosses: prayers stop all of their damage.
 
-*"Protected!"* flashes over your adventurer whenever the prayer stops (or halves) a hit. Hits from a style you're not
-praying against go through in full.
+The overhead prayer icon glints (a small sparkle) whenever the prayer stops or halves a hit. Hits from a style you're
+not praying against go through in full. Checked in test runs: Protect from Melee stops chickens, giant rats, goblins
+and cows, Protect from Missiles stops Lumbridge guards, Protect from Magic stops giant frogs, and the wrong prayer
+lets hits through.
 
 ## Prayer points
 
@@ -42,7 +45,7 @@ praying against go through in full.
   more points in later runs.
 - At 0 points the prayer switches off with OSRS's empty-prayer sound and the chat says *"You have run out of Prayer
   points, you can recharge at an altar."* Pressing a key with no points left says *"You need to recharge your Prayer
-  at an altar."* There's no altar in Lumbridge yet: potions are the only way back.
+  at an altar."* Bonkscape has no altars to pray at yet: potions are the only way back.
 
 ## Prayer potions
 

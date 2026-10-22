@@ -13,9 +13,564 @@ inside each release's DLL in `dist/`. No version has been published yet: every r
 
 ---
 
+## 0.3.0: the testing tools milestone
+
+*Build 2026-10-22 00:33, code in `2ae6424`. Test `00b2a313`: publish test, 2 runs x 2 min, passed. Run 1 Mage on
+Morytania (an evolution, no death), run 2 Ranger on Lumbridge into the Mole's lair; all 12 self-checks each.*
+
+**Patch notes**
+- The OSRS HUD follows Megabonk's minimap after you change the resolution or resize the window (it kept the first
+  size's position).
+- Otherwise no change for players: 0.3 is the testing tools milestone.
+
+**Changes**
+- `OsrsUi.Minimap`: measured again when the screen size changes.
+- `Arena`: a map whose Megabonk stage never calls `MapEdges.Set` (the Desert: Morytania) is centred on the origin, as
+  the Forest's is, never on a centre an earlier map left (log *"arena centred on X,Z (...)"*). Found by the dead-hook
+  report; every map measured so far is centred on the origin, so nothing moved in practice.
+- `Runner` also saves skills every 60 s during a run (30 s in test runs and scenarios). `Skills.Tick` already saved
+  every 20 s while XP changed, so saves come no less often than before.
+- Test runs: `TestGuard`, the lethal-hit guard (a hit that would kill leaves 1 hitpoint, then heals to half and is
+  logged; every other hit lands in full); `DeadHooks`, a counting prefix on every patched method and a report of the
+  patches that never ran; optional `run-restarted` check.
+- Scenario test mode (`Systems/Scenario.cs`): while `BepInEx/config/Bonkscape/scenario.json` exists, the game starts
+  into its map, stage and adventurer and runs timed steps (call the boss, spawn monsters, give weapons, preset skill
+  levels that are never saved, force drops), writing `scenario-report.txt`; `tools/loop.py` runs it locally, with a
+  save guard. `Shot` takes in-game screenshots for scenarios; `Dev.Timing` logs startup and run timing marks;
+  `HudLayout.Boxes`/`Problems` lay out the HUD for the UI test.
+- `bonk` tools: render colours, `tiles` rim walls, `boxes` grid only, `npcs`/`items` by id.
+
+## 0.2.12: no holes in the ground
+
+*Build 2026-10-21 22:30, code in `4e610d5`. Test `80711319`: publish test, 2 runs x 2 min, passed. Run 1 on Morytania,
+run 2 Mage on Lumbridge with the lair fight and no falls; all 12 self-checks each.*
+
+**Patch notes**
+- No more falling through gaps in the ground: tiles with no floor are walled off, in the Giant Mole's lair and on
+  every map.
+
+**Changes**
+- `WorldBuilder`: a tile whose ground draws nothing on either level isn't walkable, and beside ground it gets a long
+  tall box, marked solid so pathing goes round it, on every map (Morytania has 133). `bonk world` takes a 9th
+  argument `cave` (built as a boss lair).
+
+## 0.2.11: stilt house walls, a closed-in lair
+
+*Build 2026-10-21 22:19, code in `82ad139`. Test `036cdc9a`: publish test, 2 runs x 2 min, passed. Run 1 Ranger on
+Morytania (Canifis's stilt houses walled), run 2 on Lumbridge with the lair fight; all 12 self-checks each.*
+
+**Patch notes**
+- Canifis's stilt houses have their walls and windows again.
+- In the Giant Mole's lair you can't climb the cave walls and fall out, and monsters no longer appear on top of them.
+
+**Changes**
+- `WorldBuilder`: walls and wall decorations (loc types 0 to 4 and 9) on a level-1 tile next to a bridge tile are
+  built at that level (a stilt house's walls); `WorldOptions.WallOffBlocked` (caves): unwalkable tiles beside
+  walkable ones become long tall boxes, marked solid for pathing.
+- New postfixes on `SpawnPositions.GetEnemySpawnPosition`, `GetEnemySpawnPositionBiased` and
+  `GetEnemySpawnPositionAroundPoint`: in a boss's lair, a spawn off the cave floor moves to a reachable floor tile.
+- Tools: `bonk members <interopDir> <TypeName>` (a game type's methods and fields), `bonk tiles <x0 y0 x1 y1>`
+  (bridge flags and wall locs by level), and `bonk world`'s `cave` option.
+
+## 0.2.10: the Giant Mole fights in its lair
+
+*Build 2026-10-21 22:04, code in `2d3823b`. Test `ae55a279`: publish test, 2 runs x 2 min, passed. Run 1 Mage on
+Morytania, run 2 Ranger on Lumbridge, where the boss call moved the fight into the Falador Mole Lair and the Mole dug
+to another spot; all 12 self-checks each. Where Megabonk's next-stage portal appears after the Mole is killed in its
+lair is unconfirmed: no test has killed it.*
+
+**Patch notes**
+- Summoning the Giant Mole takes the fight into its lair, the Falador Mole Lair from your own OSRS cache, behind the
+  loading screen. When it digs, it comes up somewhere else in the lair that you can walk to.
+- Dying in the lair restarts the run on Lumbridge.
+
+**Changes**
+- `bosses.osrs_arena`, `arena_spawn_tile`, `arena_boss_tile` (the Giant Mole: 1728, 5120 to 1791, 5247; spawn
+  1752, 5152; boss 1759, 5188), built at load like a map and keyed by the boss id (`Rows.BossArenas`); only the
+  regions the area covers must exist. The preflight checks a lair like a map.
+- `Arena.BossSummoned` (from `EnemySkins`, when the map's boss with a lair is skinned): on the next tick the fight
+  moves to the lair under the loading cover, the boss to its tile; a cave look (black fog, a black copy of the
+  stage's skybox, dimmer ambient, vertex colours at 82%), with each stage's look kept at load (`Content.KeepLook`)
+  and put back by `LeaveBossArena` at each stage start and run end. Optional checks `boss-arena` and `lair-dig`.
+- `Bosses`: in the lair the Mole resurfaces on a random tile 8 to 18 steps' walk from the adventurer
+  (`Pathing.RandomReachable`).
+- Test runs (2 minutes now): until `prayer-blocked` passes, prayer doesn't drain and autoplay prays against the
+  nearest monster within 9 m every second.
+
+## 0.2.9: the camera settles under the cover
+
+*Build 2026-10-21 21:41, code in `526dca6`. Test `239639c9`: failed. Run 1 of 2 x 2 min reported 11 of the 12
+self-checks: `prayer-blocked` never came in a 2-minute run.*
+
+**Patch notes**
+- The loading screen stays up until the camera has settled, so a run opens cleanly on the OSRS map.
+
+**Changes**
+- `Arena`: the cover stays 1 s after the adventurer lands on the map, while Megabonk's follow camera swings in.
+- Test mode for 2-minute runs: the boss call at 1:15 (was 2:30), the casket fallback at 45 s (was 75 s).
+
+## 0.2.8: a loading screen instead of Megabonk's stage
+
+*Build 2026-10-21 21:31, code in `6ce3408`. Test `52687ce4`: publish test, 2 runs x 4 min, passed. Run 1 Mage on
+Lumbridge, run 2 Ranger on Morytania; all 12 self-checks each, no loader errors.*
+
+**Patch notes**
+- A run opens straight into Lumbridge or Morytania behind OSRS's *Loading - please wait.* screen, instead of showing
+  Megabonk's stage for a few seconds first; the same after a death restart.
+- Morytania is built at load with Lumbridge, so its first run doesn't wait for it.
+- Morytania's sky is darker, close to black.
+
+**Changes**
+- Every phase-1 map's arena is built at `ready` (Lumbridge first); `Arena.Prewarm` makes every built map's meshes in
+  the menu, the current map's first.
+- The loading cover: `Arena.BeginCover` in `OnStage` when the map has an arena, off when the adventurer stands on
+  the map, the build fails or times out, the arena fails or the run ends, and after 20 s at most
+  (*"arena: loading cover off after N s (why)"*). `Hud.DrawLoadingCover`: black, with OSRS's loading box. While it's
+  up, `Prewarm` gets 40 ms a frame; the arena path's props timer is 0.3 s (1.5 s without an arena).
+- `ApplySky`: more skybox tint property names (`_TintColor` and others, for the Desert's cubemap skybox), exposure
+  0.12.
+- Test autoplay: a chest's Open, Take and Discard each in their own try, logged as info (Melty fails a run on any
+  warning from the mod).
+
+## 0.2.7: unstuck on hills, a far camera, Morytania's sky
+
+*Build 2026-10-21 21:19, code in `430c7df`. Test `46bd824f`: failed. 2 runs x 4 min, all 12 self-checks in both, but
+run 2 (Morytania) failed `loader-errors` on test autoplay's chest warnings.*
+
+**Patch notes**
+- You no longer get stuck on Lumbridge's hills, at the castle steps or beside fountains.
+- Press `V` to switch between the near and a far camera.
+- Morytania is a little easier and under a dark purple sky.
+
+**Changes**
+- New `Systems/PlayerMoveFix.cs`, while an arena is up: `PlayerMovement.maxSlopeAngle` raised to 62 degrees
+  (restored after); after 0.25 s of holding a direction without moving, a knee-height raycast on the solid and ground
+  layers slides the adventurer along a wall, or, with nothing there, hops it up (0.45 s apart). Log every 30 s:
+  *"player movement assist: N slides along walls, M hops up ledges so far"*.
+- `WorldBox.Round`: square scenery footprints (fountains, statues) become an upright `CapsuleCollider` (radius 0.45
+  of the side) instead of a box.
+- New `[Camera] FarDistance` (1.6, 0.4 to 3) and `[Camera] ToggleKey` (`V`): `CameraTweak.Tick` flips the camera
+  and the chat says *Camera: far.* or *Camera: near.*
+- New `maps.difficulty` (Morytania 0.8): ordinary rows' hp and damage times it; minibosses and bosses from Megabonk's
+  own stats times it. New `maps.sky` (Morytania `#170d22`): `Content.ApplySky` tints the stage's fog, a copy of its
+  skybox, its ambient and its sun; `Arena` sets fog and skybox again when the arena is built. The preflight checks
+  both columns.
+- `bonk boxes <area> <cx cy r>`: the arena's colliders and terrain heights around a tile, and the steepest slopes.
+
+## 0.2.6: only the recipe's checks reach Melty
+
+*Build 2026-10-21 11:00, code in `e49e81c`. Test `e5b8ef9b`: publish test, 2 runs x 4 min, passed. Run 1 Ranger on
+Lumbridge (with the Giant Mole), run 2 Warrior on Morytania; exactly the 12 recipe checks reported in each.*
+
+**Patch notes**
+- No change for players: test runs report exactly the recipe's checks to Melty.
+
+**Changes**
+- `TestMode.InRecipe`: only checks in `TestMode.Checks` (the recipe's 12) are written to Melty's checks file, for
+  passes, fails and the replay when the test file turns up. Optional checks (`skill-rules`, `gear-slot-rules`,
+  `boss-spawned`, `skilling-gathered`) are only logged, as *"check passed: <name> (optional, log only)"*. Melty
+  reads at most 12 check lines, so an optional pass written early pushed a required one out.
+
+## 0.2.5: an XP rules self-check
+
+*Build 2026-10-21 10:50, code in `e5f1d61`. Test `a6122d1e`: 2 runs x 4 min, no crash, the game fine in both
+(Mage on Lumbridge, Ranger on Morytania), but neither run counted: the new optional `skill-rules` line took one of
+the 12 check lines Melty reads, so run 1 lost `evolution` and run 2 `osrs-item-picked`.*
+
+**Patch notes**
+- No change for players: test runs also check the skill XP rules.
+
+**Changes**
+- `Skills.SelfTest`, run once 2 s into a test run on scratch data (never the saves): level 99 needs 13,034,431 XP
+  and 13,034,430 is still 98; Hitpoints starts at 1,154 XP (level 10); the 200M cap (`Skills.MaxXp`); Hitpoints XP
+  is a third of combat's; a new adventurer is combat 3 and a maxed one 126; damage trains Strength (aggressive),
+  Attack (accurate), Defence (defensive) and Magic; an unreadable save is set aside. All hold: optional check
+  `skill-rules` passes; otherwise it fails with the reasons.
+
+## 0.2.4: Dharok and Ahrim in their armour
+
+*Build 2026-10-21 10:38, code in `1ad4559`. Test `3bf7479b`: publish test, 2 runs x 4 min, passed. Run 1 Warrior on
+Lumbridge with the Giant Mole; run 2 Mage on Morytania, where the boss call brought Dharok in his own armour. All 12
+self-checks each.*
+
+**Patch notes**
+- Dharok the Wretched and Ahrim the Blighted wear their own Barrows armour; they were drawn pink.
+- When an OSRS map can't be built, its fallback uses its own scenery (a second map falling back in one session got
+  the first one's).
+
+**Changes**
+- `enemies.model_ids` `worn:<item ids>` (Dharok `worn:4716,4720,4722,4718`, Ahrim `worn:4708,4712,4714,4710`):
+  `Osrs.BuildWorn` builds a male body (the Warrior's kits) in that gear in the row's stand pose and bakes its
+  `animation_ids` (with `attack+walk`). Items missing: the NPC model as before (log *"<name>: worn gear not in this
+  cache, using its NPC model"*). The Barrows brothers' NPC models are hue 60 (pink) on every face in the cache. The
+  preflight checks each worn item, and that `model_ids` is `from_npc_def` or `worn:`.
+- `MapProps` reads `maps.props` for each map (before, the first map to fall back fixed them for the session).
+- `maps.morytania` status `verified`; `cache_assets` rows for the eight worn items.
+- `bonk modelcolors <model...>`: a model's format, face count and commonest face colours.
+
+## 0.2.3: test runs call the stage boss
+
+*Build 2026-10-21 10:20, code in `012e7ea`. Test `7c7d1d9f`: 2 runs x 4 min, all 12 self-checks in each, no crash.
+Run 1 (Ranger on Lumbridge) reviewed: the boss call brought the Giant Mole at 2:30 and it dug once (log). Run 2
+(Warrior on Morytania) reviewed: the boss call brought Dharok at the Barrows, drawn pink. A publish test (graduates).*
+
+**Patch notes**
+- No change for players: test runs now open the boss portal, so the Giant Mole and Dharok get tested.
+
+**Changes**
+- `TestMode.CallBoss`: 2:30 into a test run (`runTimer` > 150 s), the adventurer is moved next to Megabonk's
+  `InteractableBossSpawner` and the portal's `Interact()` is called; logged as *"test mode: opened the boss portal
+  at ..."*.
+- New optional self-check `boss-spawned` (not in the recipe's checks): `EnemySkins` passes it when it skins a
+  boss-tier enemy that isn't a `Miniboss*` (log: *"boss skinned: <Megabonk enemy> as <row>"*).
+
+## 0.2.2: Morytania without the freeze
+
+*Build 2026-10-21 10:12, code in `5c89010`. Test `4e2dd148`: publish test, 2 runs x 4 min, passed. Run 1 Mage on
+Lumbridge, run 2 Ranger on Morytania, all 12 self-checks each; footage reviewed.*
+
+**Patch notes**
+- Morytania no longer stops the game while it's made: its first run plays on in Megabonk's desert for a few
+  seconds, then Canifis appears.
+- Morytania's ore rocks are back, so mining works there.
+
+**Changes**
+- `Arena.Prewarm(8)`, called every frame from `Runner.Update` once the cache is ready: makes the current map's Unity
+  meshes a few at a time within 8 ms (terrain first, kept readable for its colliders; scenery and walls uploaded
+  without a CPU copy), so Lumbridge's are made in the menu and another map's while its first run waits.
+  `Arena.TryBuild` waits up to 30 s more for them, then makes the rest at once. Log: *"Morytania: N meshes made a
+  few at a time (M ms of work)"*. In 0.2.1 they were made in one go when the arena was placed (Morytania's took
+  3.5 s on the main thread).
+- `WorldBuilder`: the detail budget spares objects whose name is in `WorldOptions.TrackNames` (trees, ore rocks), so
+  big maps keep their skilling spots; 0.2.1's first Morytania run found only 5 plain rocks.
+
+## 0.2.1: Morytania
+
+*Build 2026-10-21 09:59, code in `581c8c0`. Test `008a84a6`: publish test, 2 runs x 4 min, passed. Run 1 Warrior on
+Lumbridge, run 2 Mage on Morytania, all 12 self-checks each; footage reviewed (the Mage died three times on
+Morytania). The first 0.2.1 zip carried a DLL built before the last edits (it said 0.2.0), and its test played
+Lumbridge in both runs; `581c8c0` fixed that, the map rotation and `tools/package.py`, and was rebuilt as 0.2.1.*
+
+**Patch notes**
+- Morytania, a second OSRS map, on Megabonk's Desert: Canifis, Mort Myre and the Barrows, 384 x 450 tiles from your
+  OSRS cache, with its own monsters (Myre blamish snails, bats, crawling hands, ghouls, Loar Shades, banshees,
+  vampyres, Ahrim the Blighted, the Vyrewatch) and Dharok the Wretched as its boss.
+- Arrows, coins and food are drawn at their proper size (flat ones were fitted by their height and came out huge).
+- Monsters swing at you as soon as they reach you, and banshees and guards as they shoot.
+- New settings for big maps: `Map.DrawDistance` (200 m) and `Map.LargeMapMinFaces` (300).
+
+**Changes**
+- Sheets: `maps.morytania` (Desert stage 0, `osrs_area` 3400, 3158, 3783, 3607, spawn 3494, 3488 in Canifis, boss
+  tile 3565, 3290 at the Barrows, music *Village*, fallback enemy `ghoul`); 12 new `enemies` rows (Myre blamish snail,
+  bat, crawling hand, ghoul, Loar Shade, banshee, vampyre juvenile, juvinate and feral vampyre, Vyrewatch and
+  Vyrewatch Sentinel on `MinibossGolemSand` and `MinibossScorpion`, Dharok on `Pharaoh1`/`Pharaoh2`) and Ahrim moved to Morytania
+  (phase 1); the planned rows whose bases Morytania now uses moved (green dragon to `GhostPurple`, revenant imp to `Ghost`,
+  TzTok-Jad to `Pharaoh3`); Morytania's `waves`; `maps.barrows` to Desert
+  stage 1 and `god_wars` to the Graveyard.
+- One arena per phase-1 map: `Rows.Maps` (one row per Megabonk map) and `Rows.Current`; `Bonk.Active` is true on
+  any of them and sets `Rows.Current`. Per-map spawn and boss tiles, props, skilling nodes, fallback enemy, welcome
+  line and music track.
+- `Content`: each enemy row joins the pools of its own `maps`; unmapped Megabonk enemies leave both maps' pools;
+  `ApplyWaves` per map now also fills `EMiniBoss` events from `miniboss` rows (each row's `Miniboss*` base) and logs
+  *"waves: <map> on Megabonk's <EMap> stage N: M timeline events set"*; stage names per map.
+- `Osrs.EnsureArena`/`Osrs.Arenas`: Lumbridge's arena is built at load; another map's on a background thread on its
+  first run, one build at a time. `Arena.TryBuild` waits up to 45 s for it, then keeps Megabonk's stage. Maps over
+  40,000 tiles get a detail budget: `WorldOptions.SkipGroundDecor` and `MinObjectFaces` = new `[Map]
+  LargeMapMinFaces` (300, 0 to 5000). `bonk world` takes the same two options.
+- `Arena`: meshes made once per map and kept; colliders grouped on one object per 32-tile chunk and turn; scenery
+  and walls past new `[Map] DrawDistance` (200 m, 0 to 5000; 0 draws everything) hidden, checked every 0.25 s.
+  `[Map] RealLumbridge` now covers both maps. Self-check `lumbridge-arena` renamed `osrs-arena`.
+- `UnityConv.Longest`/`AttachFit`: models fitted by their longest side, not their height. Pickups (`Loot`) use it;
+  projectiles are a quarter of a tile along their longest side (a third, by height, before), centred and turned
+  along their flight. The minimap texture is copied in one `Marshal.Copy`.
+- `EnemySkins.SwingWhenInReach`: a monster starts its attack when within max(1.2 m, 0.4 x its height) + 0.8 m of the
+  adventurer, or when its `specialAttackController` starts attacking, not only when a hit lands.
+- `Pathing`: the search stays within 48 tiles of the adventurer.
+- Test mode: `TestMode.AutoplayMap` alternates the phase-1 maps by the launch rotation; autoplay prays against what
+  just hit it (held 6 s) and, until `prayer-blocked` passes, lets monsters of the prayed style reach it.
+- `tools/package.py` builds the plugin first and refuses when `Plugin.Version` isn't the version asked for.
+
+## 0.2.0: the animations milestone
+
+*Build 2026-10-21 09:13, built from `4c41ae5`, code in `b57bab5`. Test `04338614`: 2 runs x 3 min. Run 1 reported all
+12 self-checks; run 2 all but `prayer-blocked` (and `gear-slot-rules` too). Neither run's footage has been reviewed,
+so it doesn't count as a publish test yet.*
+
+**Patch notes**
+- The animations release, the same code as 0.1.37: monsters stand, walk, attack and die with their own OSRS
+  animations, and your adventurer walks, runs, swings or casts each weapon's OSRS attack (even while running) and dies.
+- Also since 0.1.20: the run-start crash fixed, hitsplats on bodies, skills per adventurer, weapon evolutions from
+  caskets, OSRS projectiles and combat sounds, skilling markers and richer OSRS colours.
+
+**Changes**
+- `Plugin.Version` 0.2.0; no other code changed from 0.1.37.
+
+## 0.1.37: the character panel fits its skills
+
+*Build 2026-10-21 09:05, built from `eec7619`, code in `4c41ae5`. Test `fb5286b9`: 1-run quick check, passed (all 12
+self-checks).*
+
+**Patch notes**
+- The character select panel is as wide as its longest skill name, so *Woodcutting* no longer runs into its level.
+
+**Changes**
+- New `HudLayout.DrawCharacterPanel`: the Bonkscape panel's columns are sized to the longest skill name plus a
+  two-digit level; `CharacterSelect` hands it the hovered adventurer's skill lines. `bonk uisprites mock` draws it.
+- `Content` (`GetAvailableTomes` postfix): in test mode, the gear offers the slot rules left out are logged
+  (*"gear offers: left out ..."*) and `gear-slot-rules` passes (it isn't in the recipe's check list).
+- Sheets: `characters.ranger` and `characters.mage` are `verified`.
+
+## 0.1.36: OSRS projectiles and combat sounds
+
+*Build 2026-10-21 08:59, built from `c8a564b`, code in `8f67903`. Test `a7436954`: 1-run quick check (4 min), passed
+(all 12 self-checks).*
+
+**Patch notes**
+- Your weapons fire OSRS projectiles: rune arrows, dragon darts, chinchompas and each spell's graphic.
+- Each weapon plays its OSRS attack sound, and hitting and killing monsters plays OSRS's hit and kill sounds.
+
+**Changes**
+- New `Systems/Projectiles.cs`: from the `WeaponAttack.SuccessfullySpawnedProjectile` postfix, each projectile gets its
+  `weapons.osrs_projectile_or_spotanim_id` model (an item, or a spot animation's), about a third of a tile long with
+  its longest axis along the flight; Megabonk's own projectile effects stay. The weapon's `sfx_id` plays at most every
+  0.3 s per weapon.
+- `Osrs` builds the projectile item meshes and `SpotAnimMeshes` in the background build.
+- `Combat`: `enemy_hit` sound on a damaging hit (at most every 0.12 s) and `kill` on a death (every 0.2 s).
+- Test mode: `TestMode.LateTick` writes autoplay's movement into `PlayerInput` after Megabonk's own update, so it no
+  longer depends on the `PlayerInput.MovementInput` patch; an `animations: ...` summary line in the log.
+
+## 0.1.35: skilling rewards from the sheet, HUD sprites as UI rows
+
+*Build 2026-10-21 08:52, built from `c7c7d98`, code in `c5cdfec`. Test `a4d9016b`: 1-run quick check, passed (all 12
+self-checks, `evolution` for the first time).*
+
+**Patch notes**
+- No change you'd notice: skilling rewards now come from the drops sheet (still 25 coins and Haste for logs, Shield
+  for ore, 20 HP for shrimps).
+
+**Changes**
+- `maps.lumbridge.skilling_nodes` entries name a `drop` (*Logs*, *Copper ore*, *Raw shrimps*); `Skilling` applies that
+  `drops` row's `effect` string: `gold:N` (coins), `heal:N`, `speed:...` (Megabonk's Haste), `armor:...` (its Shield).
+- `sheets/ui.json`: 25 `hud_sprite` rows (orbs and their icons, the XP button, counter tile, total XP icon, prayer
+  glow, minimap frame, compass, the three health bar sizes) and `dialogue_font` (`font:q8_full`), so the preflight
+  checks every HUD sprite against the caches (`cache_assets.json`: 177 to 202 assets). `ui.run_timer` is phase 3.
+- Test mode: 75 s into a run with no casket opened, `Evolutions.TestCasket` does what a casket's Open button does.
+
+## 0.1.34: evolutions on the casket's Open button, true OSRS colours
+
+*Build 2026-10-21 08:46, built from `c751a15`, code in `c7c7d98`. Test `7e4aeda1`: 1-run quick check, failed:
+`evolution` never reported (no casket was opened in the run); the other 11 self-checks passed.*
+
+**Patch notes**
+- Opening a casket evolves your weapon when it's ready (in 0.1.33 it never did).
+- Colours are as rich as in OSRS instead of washed out.
+- Skilling spots show their skill's icon, with a progress bar while you gather, and mining names the ore.
+
+**Changes**
+- Evolutions run in a `ChestWindowUi.OpenButton` postfix; `InteractableChest.OpenChestImplementation` is a small
+  private method IL2CPP inlined, so its patch never ran. `hooks.chest_open` retargeted.
+- `UnityConv`: in Linear colour space every OSRS vertex colour channel goes through gamma-to-linear first (log:
+  *"colours: Linear colour space, OSRS colours converted from gamma"*).
+- `Arena` tracks ore rocks by name (*Copper rocks*, *Tin rocks*, *Iron rocks*, *Clay rocks*, *Coal rocks*) and uses
+  them for mining spots, plain *Rocks* only when there are fewer than 4.
+- `Skilling`: spots carry their object's name; the mining line names its ore (*stone* for plain rocks);
+  `Skilling.ForEachNear` feeds the HUD, which draws the skill icon over usable spots within 10 tiles (30 m at least)
+  and a 30 px health bar as the progress bar.
+
+## 0.1.33: clean restarts, more self-checks
+
+*Build 2026-10-21 08:40, built from `094ef01`, code in `c751a15`. Test `9ee50cc1`: 1-run quick check, failed:
+`evolution` never reported (chests opened, but the chest hook never ran); the other 11 self-checks passed.*
+
+**Patch notes**
+- Restarting after a death starts a clean run: evolutions, prayer and loot reset.
+- Megabonk's poison damage shows as OSRS's green poison hitsplat.
+- The level-up line reads *"an Attack level"*.
+
+**Changes**
+- `Runner`: a stage after the adventurer died counts as a new run (Megabonk's restart keeps the map and only makes a
+  new player); the shader report logs the colour space.
+- `Combat`: `dc.damageEffect == Poison` draws `hitsplat_poison`. `Hud`: *a*/*an* before the skill name.
+- New self-checks: `prayer-blocked` (a protection prayer stopped a hit), `skills-saved` (the save reads back as
+  written), `evolution` (a weapon evolved). For `evolution`, the first casket of a test run levels the first
+  evolution's weapon to 8 and gives its gear passive at max (`Evolutions.PrepareForTest`).
+- New `Dev.ManualTest` (`false`): Melty test runs without autoplay, for hand-over tests; self-checks still written.
+- Autoplay checks its way two tiles ahead on the tile grid and turns along walls.
+
+## 0.1.32: weapon attack animations
+
+*Build 2026-10-21 08:33, built from `936a346`, code in `094ef01`. Test `7c981d69`: 1-run quick check, passed (all nine
+self-checks, both animation checks).*
+
+**Patch notes**
+- Your adventurer swings or casts each weapon's OSRS attack, starting as the weapon fires.
+
+**Changes**
+- The adventurer's attack sequence starts from a `WeaponAttack.SuccessfullySpawnedProjectile` postfix (every weapon
+  attack, melee swings too, spawns a projectile there); the `WeaponBase.Use` postfix never ran for weapon attacks.
+  Repeats are ignored until the swing is over (at most 1.2 s). `hooks.weapon_used` retargeted.
+
+## 0.1.31: OSRS animations
+
+*Build 2026-10-21 08:27, code in `3a3d322`. Test `2e28e80e`: 1-run quick check, failed: `adventurer-animated` never
+reported (the weapon hook never ran); `monster-animated` and the other seven self-checks passed.*
+
+**Patch notes**
+- Monsters stand, walk, attack and die with their own OSRS animations; the Giant Mole burrows with its own sequences.
+- Your adventurer stands, walks, runs and dies with OSRS's animations. (Weapon attacks only play from 0.1.32.)
+
+**Changes**
+- `Osrs` bakes every sequence once (`Anim.Bake`): stand, walk, attack, death and the Mole's `dig_down`/`dig_up` per
+  monster from `enemies.animation_ids`; stand, walk, run, death and each weapon's `osrs_attack_anim` per adventurer,
+  plus attack-while-walking and attack-while-running clips merged the way the client interleaves them
+  (`Anim.Merge`, RuneLite's `Model.animate2`).
+- New `Systems/Animator.cs`: `ModelAnimator` swaps a model's mesh frame by frame (frame meshes shared per type);
+  `Corpses` plays a dead monster's death sequence on a copy where it fell (at most 1.8 s), so Megabonk can pool it.
+- `EnemySkins`: walk cycles at the speed the monster really moves (against OSRS's one tile per 0.6 s at its size),
+  the attack when its hit reaches `PlayerHealth.Damage`, death from `Combat`'s `EnemyDied`. `PlayerSkin`: stand, walk
+  or run by speed, death on the death screen. `Bosses`: the dig plays the Mole's own sequences.
+- New self-checks `monster-animated` and `adventurer-animated`; `WeaponBase.Use` postfix (`hooks.weapon_used`).
+- `Music` checks for `OsrsKit.Music.dll` before using it and logs *"OSRS music: the music engine (OsrsKit.Music.dll)
+  isn't installed with this build; Megabonk's music plays"*, with no exception text.
+- Tools: `bonk anim <npc> <seq>` (frames side by side), `bonk seqinfo`, `bonk mergeinfo`.
+
+## 0.1.30: skills per adventurer, real-damage hitsplats
+
+*Build 2026-10-21 08:15, built from `dc931f1`, code in `5ffe5f3`. Test `06432eda`: 1-run quick check, failed only on
+`loader-errors`: the log's *"OSRS music unavailable (start): FileNotFoundException: Could not load file or assembly
+'OsrsKit.Music'..."* (release zips leave that DLL out); all seven self-checks passed.*
+
+**Patch notes**
+- Each adventurer keeps their own skills, started from your old shared save.
+- Your hitsplats show what a hit actually did: a blue 0 only when something stopped it (your prayer, an evade or an
+  Aegis block), and nothing for a hit Megabonk's hit cooldown stopped.
+- Experimental OSRS music (Lumbridge's *Harmony*) in builds that include `OsrsKit.Music.dll`; release builds keep
+  Megabonk's music.
+
+**Changes**
+- `Skills`: one save per adventurer, `skills_<id>.json` (`default` without one), each seeded once from the old
+  `skills.json` (left as it was) and written through a `.tmp` copy; `Skills.Level(character, id)` and
+  `CombatLevel(character)` for the character select panel and starting weapons.
+- `Prayer`: the `PlayerHealth.Damage` prefix records HP, shield and overheal and the new postfix draws the hitsplat from
+  what was lost; new `PlayerHealth.Evade` and `PlayerHealth.UseAegis` postfixes (0 hitsplats).
+- New `Systems/Music.cs` (code from 0.1.29, `206af63`, a build never uploaded): `maps.osrs_music_track` through
+  OsrsKit.Music, a port of the client's synthesiser, mixed by `OsrsAudio` while Megabonk's music source is paused; a
+  `MusicController.OnPause` postfix. Publish-gated: `tools/package.py` doesn't ship `OsrsKit.Music.dll`. Settings
+  `Audio.OsrsMusic` (`true`) and `Audio.OsrsMusicVolume` (`1`, 0 to 2).
+- `Sizing` measures again when the adventurer changes. `EnemySkins` logs Megabonk's boss flags on each monster type's
+  first skin.
+- Test mode: runs rotate through the phase-1 adventurers by run number plus a per-PC counter
+  (`%LOCALAPPDATA%\Bonkscape\test-rotation.txt`); the log says *"autoplay adventurer: ..."*.
+- Sheets: `characters.osrs_player_model` gains `osrs_walk_anim` 819, `osrs_run_anim` 824, `osrs_death_anim` 836;
+  `enemies.animation_ids` get stand, walk, attack and death ids; new `weapons.osrs_attack_anim`; `hooks.json` has a row
+  for every patch.
+- Release tooling: `README.md` lists every setting; `tools/package.py` refuses a README that doesn't name every
+  `Config.Bind` key.
+
+## 0.1.28: no stray 0 hitsplats on monsters
+
+*Build 2026-10-21 07:48, built from `7edc0b8`, code in `0bd94ca`. Test `9865f40b`: 1-run quick check, passed.*
+
+**Patch notes**
+- No more 0 hitsplats from a volley's extra projectiles hitting a monster that's already dead.
+- Any damage shows as at least 1 (in OSRS a 0 means a miss).
+
+**Changes**
+- `Combat`: no hitsplat or XP for a hit on a monster already at 0 HP; test mode counts zero-damage hits by cause and
+  logs them with the prayer tally. `Hud.EnemyHit` shows positive damage as at least 1.
+
+## 0.1.27: hit tally details (diagnostic)
+
+*Build 2026-10-21 07:43, built from `83b1720`, code in `7edc0b8`. Test `401ff9c6`: 1-run quick check, passed.*
+
+**Patch notes**
+- No change for players: more test-mode logging.
+
+**Changes**
+- The test-mode prayer hit tally records each row's damage range and the enemy's current special attack, and logs
+  each enemy type's special attacks once with their damage multipliers.
+
+## 0.1.26: a bigger glint, no empty health bar
+
+*Build 2026-10-21 07:36, built from `737aa71`, code in `239c85d`. Test `e49f90a5`: 1-run quick check, passed.*
+
+**Patch notes**
+- The glint for a blocked hit is bigger.
+- Megabonk's top-left health bar is hidden completely (no empty black bar).
+
+**Changes**
+- `HudLayout.DrawSparkle` and `SparkleSpot` (arms up to 9 px, a thicker inner cross).
+- `MegabonkHud`: a small `HealthUI` widget that doesn't follow the player (the top-left bar) has all its images and
+  texts hidden; other health bars lose their background image too.
+- Test mode: `Prayer.TallyTick` logs every 30 s a tally of hits on the adventurer by style, attacker, damage source,
+  prayer and outcome.
+
+## 0.1.25: a glint for blocked hits
+
+*Build 2026-10-21 07:29, built from `a02ab54`, code in `54803d3`. Test `cb852f01`: 1-run quick check, passed.*
+
+**Patch notes**
+- A hit your protection prayer blocks flashes a small glint on the overhead prayer icon, in place of *"Protected!"*.
+
+**Changes**
+- `Hud.Protected()` starts a 0.45 s sparkle at the overhead icon's top right (white core, pale blue arms, corner
+  flecks); the *"Protected!"* text is gone.
+
+## 0.1.24: HUD on the adventurer's feet
+
+*Build 2026-10-21 07:22, built from `4f3a8dd`, code in `a02ab54`. Test `82afafcb`: 1-run quick check, passed.*
+
+**Patch notes**
+- Your health bar, overhead prayer, hitsplats and level-up fireworks sit on your adventurer instead of a head too high.
+
+**Changes**
+- `PlayerSkin.Feet` (the collider's bottom); the HUD measures everything over the adventurer from it, not from the
+  player's transform, which sits inside Megabonk's capsule.
+
+## 0.1.23: hitsplats on the body
+
+*Build 2026-10-21 07:20, built from `d14cd39`, code in `4f3a8dd`. Test `9950ac3a`: 1-run quick check, passed.*
+
+**Patch notes**
+- Hitsplats sit on the body, at half its height as in OSRS, in OSRS's four slots instead of over the head.
+
+**Changes**
+- `Hud`: hitsplat slots (middle, above, above left, above right: (0, 0), (0, -20), (-15, -10), (15, -10) OSRS
+  pixels) at the body's middle; with all four showing, the newest takes the hit's damage. The adventurer's work the
+  same way.
+
+## 0.1.22: the run-start crash fixed
+
+*Build 2026-10-21 07:15, built from `2f0376f`, code in `d14cd39`. Test `8619f342`: 1-run quick check, passed (all
+seven self-checks, no crash).*
+
+**Patch notes**
+- Fixes the crash on the first frame of a run (0.1.17 to 0.1.21).
+
+**Changes**
+- `OsrsUi` draws part of a sprite frame from its own cut texture (`UnityConv.SpritePart`, clipped to whole pixels and
+  kept) instead of `GUI.DrawTextureWithTexCoords`: that method is stripped from Megabonk, and Il2CppInterop's rebuilt
+  copy smashed the stack (MODLOG gotcha 19). `UnityConv.ToTexture` refuses empty or short images.
+- Tools: `bonk unstripped <Bonkscape.dll> <interopDir>` lists rebuilt (stripped) methods the plugin calls (exit 3 when
+  it finds any).
+
+## 0.1.21: crash breadcrumbs (diagnostic)
+
+*Build 2026-10-21 07:03, built from `8f6f9be`, code in `2f0376f`. Test `6e8c2d64`: 1-run quick check, failed: the same
+crash in `coreclr.dll` (c0000005) at 0:16; only `osrs-cache` reported.*
+
+**Patch notes**
+- No change for players: a diagnostic build.
+
+**Changes**
+- New `Dev/Breadcrumbs.cs`: in test mode, `%LOCALAPPDATA%\Bonkscape\breadcrumbs.txt` gets one flushed line per step
+  (time, frame, step; repeats counted) for the first 4 minutes, marked through `Runner` and the HUD's draw steps, so
+  after a native crash its last line names the step that never returned.
+
 ## 0.1.20: monsters on the adventurer's scale
 
-*Build 2026-10-21 06:58, built from `6b33dbe`, code in `782ce3f`. Test `9634e18a`: running.*
+*Build 2026-10-21 06:58, built from `6b33dbe`, code in `782ce3f`. Test `9634e18a`: 1-run quick check, failed: the
+same crash in `coreclr.dll` (c0000005) at 0:15 with `Debug.HideMegabonkHud=false`; only `osrs-cache` reported.*
 
 **Patch notes**
 - Monsters are drawn on your adventurer's own scale, so OSRS's proportions hold between everyone: a guard about as

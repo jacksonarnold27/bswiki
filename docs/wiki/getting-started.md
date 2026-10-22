@@ -11,8 +11,8 @@
 > **Your cache fills up as you play OSRS.** The OSRS client downloads most game files the first time it needs them.
 > If you've only logged in once, some monsters or items may be missing from your cache. Bonkscape then uses an OSRS
 > stand-in that *is* in your cache (another chicken for a chicken, for example; see
-> [Monsters](monsters-and-bosses.md#stand-ins)). If Lumbridge's map regions are missing, you get Megabonk's Forest
-> with OSRS scenery instead of the real Lumbridge ([Maps](maps.md#when-lumbridge-isnt-built)).
+> [Monsters](monsters-and-bosses.md#stand-ins)). If a map's regions are missing, you get Megabonk's own map (the
+> Forest or the Desert) with OSRS scenery instead ([Maps](maps.md#when-a-map-isnt-built)).
 
 ## Installing
 
@@ -49,17 +49,19 @@ start Megabonk again."* and the mod stays out of the way.
 1. Start Megabonk the way Melty tells you to. The first start after installing takes longer, because BepInEx
    prepares itself.
 2. While the main menu loads, Bonkscape decodes what it needs from your cache in the background: monsters, the three
-   adventurers, items and icons, sprites, fonts, sounds, then the Lumbridge arena. Menus work meanwhile; the log line
+   adventurers, items and icons, sprites, fonts, sounds, then the Lumbridge, Morytania and Mole lair
+   arenas. Menus work meanwhile; the log line
    `OSRS assets ready in ... ms` says how long it took.
 3. On character select, a **Bonkscape** panel on the right shows your combat level, your skill levels and the weapon
    the selected adventurer will start with ([HUD](hud-and-chat.md#character-select-panel)).
 4. Pick **Warrior** (it takes Megabonk's `SirOofie` slot), **Ranger** (`Robinette`) or **Mage** (`Fox`) and start a
-   run on Megabonk's Forest map, which Bonkscape renames **Lumbridge & Swamp**. Bonkscape weapons, gear and adventurers count
+   run on Megabonk's Forest map, which Bonkscape renames **Lumbridge & Swamp**, or its Desert map, which becomes
+   **Morytania** ([Maps](maps.md#morytania)). Bonkscape weapons, gear and adventurers count
    as unlocked whatever your Megabonk progress is.
-5. After Megabonk's spawn intro you're moved into the castle courtyard. A chat line greets you: *"Welcome to
-   Lumbridge. Press 1, 2 or 3 to pray against melee, missiles or magic."*
+5. Behind OSRS's *Loading - please wait.* screen you're moved into the castle courtyard (in Morytania, Canifis). A chat line greets
+   you: *"Welcome to Lumbridge. Press 1, 2 or 3 to pray against melee, missiles or magic."*
 
-Only the Forest map becomes Lumbridge. Megabonk's other maps aren't fully plain Megabonk, though: Bonkscape edits
+Only the Forest and the Desert become OSRS maps. Megabonk's other maps aren't fully plain Megabonk, though: Bonkscape edits
 Megabonk's data once when the game loads, so the weapons, tomes and characters it reskins keep their OSRS names,
 icons and stats on every map, and the Megabonk enemies it remaps keep the OSRS rows' HP, damage and speed. On those
 maps, monsters keep Megabonk's models and level-ups offer Megabonk's full pool
@@ -71,7 +73,7 @@ Runs with Bonkscape loaded never upload scores to Megabonk's Steam leaderboards.
 
 ## Where your progress lives
 
-- Skills: `%LOCALAPPDATA%\Bonkscape\skills.json` ([Skills and XP](skills-and-xp.md#saving)).
+- Skills: `%LOCALAPPDATA%\Bonkscape\skills_<adventurer>.json`, one per adventurer ([Skills and XP](skills-and-xp.md#saving)).
 - Settings: `BepInEx/config/gg.melty.bonkscape.cfg` in Megabonk's folder ([Settings](settings.md)).
 - Log: `BepInEx/LogOutput.log`. Bonkscape's lines start with `[Info   : Bonkscape]`, and every chat message is
   logged too, as `[chat] ...`.

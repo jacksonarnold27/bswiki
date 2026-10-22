@@ -5,6 +5,9 @@ step: MODLOG is the short log, this page explains). Unnumbered ones were found w
 
 ## Melty and the loader
 
+- **Melty reads at most 12 check lines per run.** Write only the recipe's `test.checks` to the checks file: an optional
+  check written early pushes a required one past the limit, and the run doesn't count although the log shows it passed
+  (0.2.0 run 2, 0.2.5 run 1). `TestMode.Pass` writes recipe checks only.
 - **Melty must be started by the user, not from Claude's shell** [1]. `Start-Process melty://...` from the Claude
   desktop app runs Melty inside the app's MSIX package; its AppData writes (the test file, `settings.properties`) land in
   `Packages/Claude_*/LocalCache`, invisible to Megabonk, which Steam starts.
@@ -50,7 +53,33 @@ step: MODLOG is the short log, this page explains). Unnumbered ones were found w
 - **Static initialisers that touch Unity can kill a whole class.** 0.1.0's test logged *"The type initializer for
   'Bonkscape.Core.UnityConv' threw an exception"* on every use. Create Unity objects lazily, on the main thread.
 
+- **IL2CPP inlines small methods, and a patch on an inlined method never runs** [20]. Harmony patches the method, but
+  its callers carry their own copy. Three Bonkscape hooks never fired: `WeaponBase.Use` for weapon attacks (0.1.31;
+  `WeaponAttack.SuccessfullySpawnedProjectile` works), `InteractableChest.OpenChestImplementation` for caskets (0.1.33;
+  `ChestWindowUi.OpenButton` works) and `PlayerInput.MovementInput` for autoplay (0.1.35; movement is now written in
+  `LateUpdate`). Give every hook a counter or a self-check, and prefer public entry points.
+
 ## Megabonk runtime
+
+- **A game started from Claude's shell writes the user's real saves**: Claude's desktop app is an MSIX package, and
+  programs its shell starts see AppData through it, but it redirects only **new** files (into
+  `%LOCALAPPDATA%\Packages\Claude_*\LocalCache`, seen only from inside the package). Overwriting a file that already
+  exists writes the real one. Megabonk saves in place (`LocalLow\Ved\Megabonk\Saves\CloudDir\<steam id>\stats.json`,
+  `progression.json`, synced by Steam Cloud; `LocalDir\config.json`), and `Skills.Save` writes a new `.tmp` (redirected)
+  then copies it over the existing `skills_<adventurer>.json` (real). The 0.3 loop first assumed the package isolated
+  them (a probe file, a new file, landed in `LocalCache`), and 24 launches on 2026-10-21/22 changed the real saves before
+  that was caught; since then the loop backs every save up before a launch and restores it byte for byte after
+  ([Testing](testing.md#the-local-loop)). The scenario and report live in the game folder (`BepInEx/config/Bonkscape`),
+  which every process sees.
+- **Megabonk ignores Unity's `-screen-fullscreen/-screen-width/-screen-height` flags** and runs at its own settings;
+  the UI test sets sizes in game with `Screen.SetResolution`, which clamps to the desktop (3840x2160 became
+  3840x1934 on a 2560x1600 screen).
+- **`ScreenCapture.CaptureScreenshot` and `ImageConversion.EncodeToPNG` are stripped from Megabonk** (`bonk
+  unstripped`), and the interop has only the generic `GetRawTextureData<T>`: screenshots are `ReadPixels` in an IMGUI
+  repaint, `GetPixels32`, and a PNG written by the plugin (`Systems/Shot.cs`).
+- **A boss summoned before the arena is built never gets its lair**: `Arena.BossSummoned` needs `Arena.Active`.
+  Players can't reach the portal that fast, but a scenario spawning at 3 s could (a suite's later runs build their
+  arena in 3-4 s): scenario clocks start once the arena is built.
 
 - **Megabonk's transforms are scaled and rotated for its own art** [7]: enemy and player renderer bounds report about
   4.5 m. OSRS models are separate objects that follow their owner (positioned every `LateUpdate`, facing the player or
@@ -73,6 +102,8 @@ step: MODLOG is the short log, this page explains). Unnumbered ones were found w
 
 ## OSRS cache and models
 
+- **OSRS item models lie flat.** Fit ground items and projectiles by their longest side (`UnityConv.Longest`,
+  `AttachFit`), not their height: 0.2.0 drew rune arrows metres long and single coins as big gold discs.
 - **Players' caches are partial** (the client downloads models on demand), hence stand-ins and graceful fallbacks
   everywhere. The creator's PC uses `OSRS.CacheFolder = D:/Modding/osrscache/cache`, a full cache, for testing; this
   PC's RuneLite cache now has the full archive too (preflight: 143/143 phase-1 assets).
@@ -88,14 +119,23 @@ step: MODLOG is the short log, this page explains). Unnumbered ones were found w
   spawn raycasts fall through (fixed in 0.1.9).
 - **The current map index (5) is unnamed** [14]: one group per region numbered `x << 8 | y`, file 0 terrain (16-bit
   attributes, a trailing byte), file 1 objects, readable without XTEA keys. Older caches name them `m{x}_{y}`/`l{x}_{y}`.
+- **The Barrows brothers' NPC models are pink in the cache** [22]: hue 60 on every face, recoloured by the client at
+  run time; their armour items are grey. `enemies.model_ids` `worn:<item ids>` builds Dharok and
+  Ahrim as a male body in their own armour instead (`Osrs.BuildWorn`); `bonk modelcolors <model...>` prints a
+  model's commonest face colours.
 - **Textures are one average colour.** Faces with a texture are drawn in its sprite's average colour, part of why
   Lumbridge looks paler than in OSRS.
 
+- **Megabonk renders in Linear colour space** [21]. OSRS colours are gamma (sRGB) values; as vertex colours in a Linear
+  project they come out paler. `UnityConv` converts each channel gamma-to-linear when
+  `QualitySettings.activeColorSpace` is Linear (logged as *"colours: Linear colour space, ..."*).
+
 ## Sizing and the arena
 
-- **Measure the character once, upright** [18]. Player collider bounds read 0 (or tilted) at some moments. Note that
-  `Sizing.Reset()` is never called, so the height is measured once per **game session**, not per run: switching to
-  an adventurer whose Megabonk character has a different collider keeps the first measurement.
+- **Measure the character once, upright** [18]. Player collider bounds read 0 (or tilted) at some moments. The
+  height is kept for the game session while the adventurer stays the same; since 0.1.30 `Sizing.Measure` resets and
+  measures again when the adventurer changes (`sizing: adventurer changed (A -> B), measuring again` in the log), so an
+  adventurer whose Megabonk character has a different collider gets its own measurement.
 - **Arena colliders** [17]: walls are separate meshes in 8x8-tile cells, hidden while between camera and adventurer.
   MODLOG describes the first version, colliders on layer 0. Since 0.1.11 they sit on a free physics layer (the highest
   unnamed one) that is set to collide with the player's and the enemy layer, while Megabonk's camera, spawn raycasts
@@ -110,6 +150,9 @@ step: MODLOG is the short log, this page explains). Unnumbered ones were found w
 
 ## Build, release and docs
 
+- **`tools/package.py` builds the plugin itself.** Before, it zipped whatever was in `bin/Release`: 0.2.1's
+  first zip carried a DLL built before the last three edits (its log said 0.2.0). It now runs `dotnet build -c Release`
+  first and refuses when `Plugin.Version` isn't the version asked for.
 - **Renaming a config key is how you reset a default.** BepInEx keeps the value already in a player's `.cfg`, so a
   new default never reaches existing installs. `HitboxFill` became `MinHitboxShare` in 0.1.15 for that reason (and
   `PlayerFit` became `AdventurerScale` in 0.1.12, with a new default); the old lines are then ignored.

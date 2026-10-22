@@ -34,7 +34,7 @@ A piece also stops being offered once it reaches its max level (8).
 
 ## What's left out
 
-In Lumbridge, level-ups offer only the gear above. Megabonk tomes without a row (Health and Knockback, for example,
+On Bonkscape's maps (Lumbridge and Morytania), level-ups offer only the gear above. Megabonk tomes without a row (Health and Knockback, for example,
 until the Fire cape and Godsword shard are built) don't appear there.
 
 Two pieces matter for [evolutions](weapons-and-evolutions.md#evolutions): the **Kraken tentacle** (Abyssal whip into

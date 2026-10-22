@@ -16,20 +16,20 @@ through `Generated/Sheets.g.cs`. Each file has the same shape:
 | Sheet | Rows | Columns | Row statuses |
 |---|---|---|---|
 | `audio.json` | 17 | 6 | 14 built, 3 todo |
-| `bosses.json` | 2 | 9 | 1 built, 1 todo |
-| `cache_assets.json` | 177 | 9 | 5 todo, 172 verified |
-| `characters.json` | 5 | 17 | 2 built, 2 todo, 1 verified |
+| `bosses.json` | 2 | 12 | 1 built, 1 todo |
+| `cache_assets.json` | 242 | 9 | 6 todo, 236 verified |
+| `characters.json` | 5 | 17 | 2 todo, 3 verified |
 | `drops.json` | 12 | 10 | 7 built, 3 todo, 2 verified |
-| `enemies.json` | 11 | 20 | 1 built, 4 todo, 6 verified |
+| `enemies.json` | 23 | 20 | 14 built, 3 todo, 6 verified |
 | `evolutions.json` | 4 | 10 | 2 built, 2 todo |
-| `hooks.json` | 26 | 9 | 6 built, 20 verified |
-| `maps.json` | 5 | 17 | 4 todo, 1 verified |
+| `hooks.json` | 39 | 9 | 9 built, 30 verified |
+| `maps.json` | 6 | 19 | 4 todo, 2 verified |
 | `passives.json` | 11 | 10 | 9 built, 2 todo |
 | `prayers.json` | 3 | 12 | 3 verified |
 | `skills.json` | 10 | 8 | 5 built, 5 verified |
-| `ui.json` | 16 | 8 | 4 built, 12 verified |
-| `waves.json` | 7 | 8 | 7 built |
-| `weapons.json` | 13 | 22 | 7 built, 5 todo, 1 verified |
+| `ui.json` | 41 | 8 | 4 built, 1 todo, 36 verified |
+| `waves.json` | 16 | 8 | 16 built |
+| `weapons.json` | 13 | 23 | 7 built, 5 todo, 1 verified |
 <!-- /gen:sheet-list -->
 
 ## Rules the preflight checks on every sheet
@@ -78,7 +78,7 @@ One row per playable adventurer; each takes over a Megabonk character. Read by `
 | `starting_weapon` | Weapon row it starts with before skill upgrades. | row of `weapons` |
 | `bonk_base_character` | Megabonk `ECharacter` whose slot, prefab, movement and hitbox it takes. | `ECharacter` value |
 | `hp`, `armor`, `damage`, `area`, `cooldown`, `speed`, `luck` | Stat modifiers replacing the Megabonk character's own for `MaxHealth`, `Armor`, `DamageMultiplier`, `SizeMultiplier`, `AttackSpeed` (flat) and `MoveSpeedMultiplier` (addition), `Luck` (flat). 0 = remove Megabonk's. | |
-| `osrs_player_model` | JSON: `osrs_items` (worn item ids), `osrs_kits_male` (identity kit ids), `osrs_colors` (0 = kit colours, the only value used), `osrs_stand_anim` (sequence for the pose). | every kit and worn item resolves; the whole body builds |
+| `osrs_player_model` | JSON: `osrs_items` (worn item ids), `osrs_kits_male` (identity kit ids), `osrs_colors` (0 = kit colours, the only value used), `osrs_stand_anim` (sequence for the pose), `osrs_walk_anim` (819), `osrs_run_anim` (824) and `osrs_death_anim` (836) for animations (0.2.0). | every kit and worn item resolves; the whole body builds |
 | `unlock_condition` | `always`, or a condition for phase-2 characters (`defence_1_attack_60`, `total_level_250`). Not read by the code yet. | |
 | `phase`, `status` | See above. | |
 
@@ -97,8 +97,9 @@ One row per OSRS weapon; each reuses a Megabonk weapon's behaviour. Read by `Con
 | `gear_reqs` | `"starting_weapon"`, or `{"skill": level}`: levels needed to **start** a run with it. | skills are rows of `skills` |
 | `osrs_item_id` | Item for the icon (and model). | item resolves |
 | `osrs_icon_sprite_id` | Sprite to use as the icon instead (spells), or `none`. | sprite resolves |
-| `osrs_projectile_or_spotanim_id` | `item:<id>`, `spotanim:<id>` or `none`. **Not used by the plugin yet.** | resolves |
-| `sfx_id` | Attack sound. Decoded, **not played yet**. | sound synthesises |
+| `osrs_projectile_or_spotanim_id` | `item:<id>`, `spotanim:<id>` or `none`: the OSRS model each projectile the weapon spawns carries (`Systems/Projectiles.cs`, 0.1.36), its longest axis along the flight. | resolves |
+| `sfx_id` | Attack sound, played when the weapon fires (at most every 0.3 s per weapon; 0.1.36). | sound synthesises |
+| `osrs_attack_anim` | OSRS sequence the adventurer plays when this weapon attacks (from OpenRune's `attack_anim_stance1`, resolved with `osrs gamevals seq`; spells use their cast: Fire Strike 1162, Ice Barrage 1979, trident 1167). -1 = none yet. Baked on each adventurer's model (0.2.0). | |
 | `spec_name`, `spec_effect` | Special attack name and effect. **Not built.** | |
 | `phase`, `status` | | |
 
@@ -149,15 +150,17 @@ One row per OSRS monster; each takes over Megabonk enemies. Read by `Content.App
 | `hp`, `damage`, `speed`, `knockback_resist` | Replace the base's `EnemyData` values (not for minibosses and bosses). | |
 | `xp_value` | Not used yet (XP comes from damage). | |
 | `drop_table_id` | Not used yet (drops are global). | row of `drops` (`table_id`) |
-| `model_ids`, `recolors` | `from_npc_def` (the only value): taken from the NPC definition. | |
+| `model_ids` | `from_npc_def`: the NPC definition's models. `worn:<item ids>`: a male body (the Warrior's kits) in that worn gear, built like an adventurer; used for Dharok and Ahrim, whose NPC models are pink in the cache (hue 60 on every face). The preflight checks each item's worn model. | `Osrs.BuildWorn` |
+| `recolors` | `from_npc_def` (the only value): taken from the NPC definition. | |
 | `scale` | Size multiplier on top of OSRS proportions. | |
-| `animation_ids` | JSON plan for animations (`walk`, `dig`, `attack`, with a `phase`). Not used yet: the 0.2.0 milestone (animations). | |
-| `maps` | Map rows it belongs to. | rows of `maps` |
+| `animation_ids` | JSON of OSRS sequence ids: `stand`, `walk`, `attack`, `death` (the Giant Mole also `dig_down`, `dig_up`), checked against the cache's gamevals (`<name>_ready/_walk/_attack/_death` siblings). Baked on the primary NPC's model only (a stand-in NPC may have another skeleton, so it uses its own definition's stand and walk). Rows without ids fall back to the NPC definition's stand and walk (0.2.0). | |
+| `maps` | Map rows it belongs to: its bases join those maps' Megabonk spawn pools (`Content.ApplyEnemies`, via `Bonk.MapOf`); a row with no phase-1 map joins Lumbridge's. | rows of `maps` |
 | `phase`, `status` | | |
 
 ## bosses
 
-Boss behaviour layered on an enemies row. Read by `Systems/Bosses.cs` (phase 1: the Mole's dig pattern and threshold).
+Boss behaviour layered on an enemies row. Read by `Systems/Bosses.cs` (phase 1: the Mole's dig pattern and threshold),
+`Osrs` (lairs built at load) and `Arena` (the fight moved into the lair).
 
 | Column | Meaning | Preflight |
 |---|---|---|
@@ -166,6 +169,9 @@ Boss behaviour layered on an enemies row. Read by `Systems/Bosses.cs` (phase 1: 
 | `attacks` | JSON list: `name`, `style`, `telegraph_ms`, `damage`, `pattern`. Only `burrow_teleport_every_<N>s` is read (dig period and telegraph). | each `style` is melee/ranged/magic |
 | `phase_thresholds` | HP fractions; the first one speeds up the dig (x0.66 period). | |
 | `music_override` | Not used yet. | |
+| `osrs_arena` | `[x0, y0, x1, y1]` in OSRS world tiles: the boss's own lair (the Mole's is the Falador Mole Lair), built at load like a map and keyed by the boss id; when the current map's boss (`maps.boss_id`) is summoned, `Arena` moves the fight there under the loading cover and the Mole digs to tiles you can walk to. `[]` for none (the fight stays on the map). | x0 < x1, y0 < y1; every region the area covers is in the dev and player caches (empty void around it is fine) |
+| `arena_spawn_tile` | `[x, y]` where the adventurer lands in the lair. | inside `osrs_arena`, a walkable tile within 3 |
+| `arena_boss_tile` | `[x, y]` where the boss is put in the lair. | inside `osrs_arena`, a walkable tile within 3 |
 | `pet_item_id`, `pet_rate` | Pet item and 1-in-N rate. Not used yet. | item resolves |
 | `phase`, `status` | | |
 
@@ -176,17 +182,19 @@ One row per map. Read by `Bonk`, `Arena`, `Osrs.BuildArena`, `Skilling`, `MapPro
 | Column | Meaning | Preflight |
 |---|---|---|
 | `id`, `name` | Key and shown name (`GetName` on the map). | |
-| `bonk_base_map` | Megabonk `EMap` it takes over; `Bonk.Active` is true on this map. | `EMap` value |
+| `bonk_base_map` | Megabonk `EMap` it takes over. One phase-1 row per `EMap` counts (the lowest `bonk_base_stage`; `Rows.Maps`): `Bonk.Active` is true on that map, and sets `Rows.Current` to the row. | `EMap` value |
 | `bonk_base_stage` | Stage index whose timeline `waves` edits (and that autoplay starts). | |
-| `osrs_area` | `[x0, y0, x1, y1]` in OSRS world tiles, built as the arena; `[]` for none. | x0 < x1, y0 < y1; the area builds from the dev and player caches with no missing region |
+| `osrs_area` | `[x0, y0, x1, y1]` in OSRS world tiles, built as the arena; `[]` for none. | x0 < x1, y0 < y1; every region the area covers is in the dev and player caches |
 | `spawn_tile`, `boss_tile` | `[x, y]` for the adventurer and the boss portal. | inside the area, a walkable tile within 3 |
-| `osrs_music_track` | Track name. Music isn't built. | track exists (reported phase 2+) |
-| `props` | `{"tree"|"oak"|"rock"|"bush": [object ids]}` for the Forest fallback. | objects resolve |
-| `skilling_nodes` | List of `{type, osrs_object_id | osrs_npc_id, count, respawn_s}`. `count` is used by the Forest fallback; `respawn_s` by both. | object or NPC resolves |
+| `osrs_music_track` | Track `Music.PlayForStage` plays on the map's stages (experimental; needs `OsrsKit.Music.dll`, which release zips leave out). | track exists (reported phase 2+) |
+| `props` | `{"tree"|"oak"|"rock"|"bush": [object ids]}` for the fallback stage (`MapProps`, per map). | objects resolve |
+| `skilling_nodes` | List of `{type, osrs_object_id | osrs_npc_id, count, respawn_s, drop}`. `count` is used by the fallback stage; `respawn_s` by both; `drop` names the `drops` row (table `skilling`) whose `effect` a gather applies (`gold:N`, `heal:N`, `speed:…` as Megabonk's Haste, `armor:…` as its Shield). | object or NPC resolves |
 | `waves_id` | Its `waves` rows (by `map_id`). | row of `waves` |
 | `boss_id` | `bosses` row or `none`. | row of `bosses` or `none` |
 | `fallback_enemy` | Enemy row used when a Megabonk enemy has no row, or a monster's model is missing. | row of `enemies` |
 | `length_minutes`, `special_rule` | Planned (`skull` for the Wilderness). Not used yet. | |
+| `difficulty` | Multiplier on the hp and damage of the map's monsters (1 = Megabonk's stats); minibosses and bosses scale from Megabonk's own stats. Morytania 0.8. | `Content.ApplyEnemies` |
+| `sky` | `megabonk` (keep the stage's sky) or a `#rrggbb` colour: the stage's fog takes it, its skybox (a copy) is tinted to it, and the ambient and sun light keep their brightness in cooler tones. Morytania `#170d22`. | `Content.ApplySky`, `Arena.ApplySkyNow` |
 | `phase`, `status` | | |
 
 ## waves
@@ -199,7 +207,7 @@ Spawn plan per map; Megabonk's own credit system paces spawns. Read by `Content.
 | `minute` | When the row applies. | |
 | `enemy_ids` | Enemy rows. | rows of `enemies` |
 | `spawn_rate`, `max_alive` | `megabonk` (keep Megabonk's pacing). Not read. | |
-| `events` | `start`: the stage timeline's start enemies. `unlock`: the rows' non-miniboss bases get `canSpawnAfterTime = minute x 60`. `swarm`: the `ESwarm` event at that minute spawns these. `miniboss`, `boss`: documentation of Megabonk's own events (not read). | |
+| `events` | `start`: the stage timeline's start enemies. `unlock`: the rows' non-miniboss bases get `canSpawnAfterTime = minute x 60`. `swarm`: the `ESwarm` event at that minute spawns these. `miniboss`: the `EMiniBoss` event at that minute spawns each row's miniboss base (its first `Miniboss*` base, else its first). A minute with no matching event in Megabonk's timeline changes nothing. `boss`: documentation only (the boss portal calls the stage boss). | |
 | `phase`, `status` | | |
 
 ## drops
@@ -215,7 +223,7 @@ What things drop and what picking them up does. Read by `Rows` (food, potion, co
 | `weight_or_rate` | Weight among food rows, or a per-kill chance (potion 0.025), or `megabonk`. | |
 | `amount` | Not read. | |
 | `osrs_item_id` | Model and icon. | item resolves |
-| `effect` | `heal:N` is read for food; the potion's `prayer:7+0.25` matches the code but is hard-coded; skilling effects aren't read (the code uses Megabonk's Haste/Shield). | |
+| `effect` | `heal:N` is read for food; the potion's `prayer:7+0.25` matches the code but is hard-coded; the `skilling` rows' effects are what gathering gives (`Skilling.ApplyEffect`: `gold:N` coins, `heal:N`, `speed:...` Megabonk's Haste, `armor:...` its Shield, the numbers after `speed`/`armor` not used). | |
 | `phase`, `status` | | |
 
 ## prayers

@@ -1,12 +1,12 @@
 # BSWiki
 
 Bonkscape is a Megabonk mod that puts an Old School RuneScape adventurer into a Megabonk horde-survival run through
-the real Lumbridge. The town, monsters, items, icons, fonts and sound effects are read from your own OSRS install while
-the game starts. Nothing from either game ships with the mod.
+real OSRS places: Lumbridge and Morytania. The maps, monsters, items, icons, fonts and sound effects are read from
+your own OSRS install while the game starts. Nothing from either game ships with the mod.
 
 This wiki says how each system works **in the code as it is now**. It doesn't describe plans as if they were built.
 
-> **Version:** BSWiki matches Bonkscape **0.1.20** (code at `782ce3f`). What changed in each version:
+> **Version:** BSWiki matches Bonkscape **0.3.0** (code at `2ae6424`). What changed in each version:
 > [patch notes](../dev/changelog.md). How each version tested: [test history](../dev/testing.md#test-history).
 
 ## Pages
@@ -14,7 +14,7 @@ This wiki says how each system works **in the code as it is now**. It doesn't de
 | Page | What it covers |
 |---|---|
 | [Getting started](getting-started.md) | What you need, installing through Melty, the first launch |
-| [Maps](maps.md) | The Lumbridge arena: what's built from your cache, spawn, boss portal, minimap, see-through walls |
+| [Maps](maps.md) | Lumbridge and Morytania: what's built from your cache, spawn, boss portal, minimap, see-through walls |
 | [Adventurers](adventurers.md) | Warrior, Ranger and Mage: starting weapons, stats, looks and size |
 | [Weapons and evolutions](weapons-and-evolutions.md) | Every weapon, its Megabonk behaviour and level-ups; caskets and the two evolutions |
 | [Gear passives](gear-passives.md) | The OSRS gear that replaces Megabonk's tomes, one item per slot |
@@ -41,14 +41,16 @@ the same way everywhere:
 
 - You start a run on Megabonk's first map. With Bonkscape loaded it's **Lumbridge & Swamp**: you appear in the
   castle courtyard, and the castle, the River Lum, the church, the fields and the swamp are built from your cache.
+  Megabonk's Desert becomes **[Morytania](maps.md#morytania)**: Canifis, Mort Myre and the Barrows.
 - You play one of three adventurers: [Warrior, Ranger or Mage](adventurers.md). Level-ups offer
   [OSRS weapons](weapons-and-evolutions.md) and [OSRS gear](gear-passives.md) in place of Megabonk's.
-- [Monsters](monsters-and-bosses.md) are chickens, goblins, giant rats, guards, cows and giant frogs, and the Giant
-  Mole is the boss. Each one fights in melee, ranged or magic, shown by the icon over its head.
+- [Monsters](monsters-and-bosses.md) in Lumbridge are chickens, goblins, giant rats, guards, cows and giant frogs,
+  with the Giant Mole as the boss; Morytania has its snails, ghouls, banshees, vampyres and the Vyrewatch, with
+  Dharok the Wretched. Each one fights in melee, ranged or magic, shown by the icon over its head.
 - Press **1 / 2 / 3** to [pray](prayer.md) against melee, missiles or magic.
 - Damage trains your OSRS [skills](skills-and-xp.md), and they're kept between runs. High levels change your starting
   weapon.
-- Stand next to Lumbridge's trees, rocks and fishing spots to [skill](skilling.md) for coins, buffs and food.
+- Stand next to the maps' trees, rocks and fishing spots to [skill](skilling.md) for coins, buffs and food.
 
 Developer documentation (architecture, sheets, gotchas, testing, changelog, task docket) is in [BSWiki's developer pages](../dev/index.md).
 

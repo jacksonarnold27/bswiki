@@ -19,15 +19,16 @@
 | **Game tick** | OSRS's 0.6-second heartbeat. Bonkscape groups XP drops per tick. |
 | **Combat level** | One number summing up your combat skills, worked out with OSRS's formula. |
 | **Casket** | An OSRS reward container. In Bonkscape, Megabonk's chests. |
-| **Stand animation** | The looping idle animation of a model. Bonkscape uses its first frame as a static pose. |
-| **Spot animation (spotanim)** | A graphic effect such as a spell's projectile or impact. Named in the sheets, not used yet. |
+| **Sequence** | An OSRS animation: frames that move a model's parts (stand, walk, run, attack, death). |
+| **Interleave** | How the OSRS client plays an attack on the upper body while the legs keep walking or running. |
+| **Spot animation (spotanim)** | A graphic effect such as a spell's projectile or impact. Bonkscape uses them for spell projectiles and the level-up fireworks. |
 
 ## Megabonk
 
 | Term | Meaning |
 |---|---|
 | **Run** | One game from character select until you die or win. |
-| **Stage** | One part of a map's run; the Forest map has several. |
+| **Stage** | One part of a map's run; the Forest and the Desert have several each. |
 | **Tome** | Megabonk's passive upgrades. Bonkscape turns them into OSRS gear. |
 | **Level-up offer** | The choice of upgrades Megabonk shows when you level up. |
 | **Elite / miniboss / boss** | Bigger, stronger enemies. Megabonk enlarges them; Bonkscape caps how much of that it passes on. |
@@ -41,8 +42,8 @@
 | Term | Meaning |
 |---|---|
 | **Adventurer** | Your OSRS character: Warrior, Ranger or Mage. |
-| **Arena** | The real Lumbridge, built from your cache, that replaces the Forest's ground. |
-| **Forest fallback** | Megabonk's Forest dressed in OSRS scenery, used when Lumbridge can't be built. |
+| **Arena** | A real OSRS map built from your cache (Lumbridge on the Forest, Morytania on the Desert) that replaces the stage's ground. |
+| **Fallback stage** | Megabonk's own map (the Forest or the Desert) dressed in OSRS scenery, used when the arena can't be built. |
 | **Gear passive** | A piece of OSRS gear that replaces a Megabonk tome. One per gear slot. |
 | **Evolution** | A maxed weapon plus its gear passive becoming its OSRS upgrade when a casket opens. |
 | **Stand-in** | Another OSRS NPC used when a monster's own model isn't in your cache. |
