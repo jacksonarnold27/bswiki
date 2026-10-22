@@ -1,11 +1,13 @@
 # Maps
 
-Bonkscape has six maps, each built from **your own OSRS cache** in place of a Megabonk map or stage:
+Bonkscape has seven maps, each built from **your own OSRS cache** in place of a Megabonk map or stage:
 
 - **Lumbridge & Swamp** on Megabonk's Forest <span class="st st-verified">verified</span> (Melty publish test of
   0.1.11: courtyard start, castle, river and bridges, swamp, minibosses, death and restart).
 - **[Ardougne & Seers' Village](#ardougne-and-seers-village)** on the Forest's second stage: from East Ardougne's
   market to Seers' Village and Camelot.
+- **[The God Wars Dungeon](#the-god-wars-dungeon)** on the Forest's third stage: the icy cavern under Trollheim,
+  where the four gods' armies fight.
 - **[Al Kharid](#al-kharid)** on Megabonk's Desert: the desert town, with [the Kalphite Lair](#the-kalphite-lair) as its
   boss arena.
 - **[Morytania](#morytania)** on the Desert's second stage: Canifis, Mort Myre and the Barrows.
@@ -14,7 +16,7 @@ Bonkscape has six maps, each built from **your own OSRS cache** in place of a Me
 - **[TzHaar City](#tzhaar-city)** on the Desert's third stage: the TzHaar's underground city of obsidian and lava,
   with [the Fight Caves](#the-fight-caves) as its boss arena.
 
-Which one you play is the Megabonk map you pick: the Forest is Lumbridge, then Ardougne & Seers' Village on its second stage; the Desert's three stages are Al Kharid,
+Which one you play is the Megabonk map you pick: the Forest is Lumbridge, then Ardougne & Seers' Village and the God Wars Dungeon; the Desert's three stages are Al Kharid,
 Morytania and TzHaar City; the Graveyard is the Wilderness. The rest of this page describes Lumbridge first; the other maps work the same
 way except where their sections say otherwise.
 
@@ -98,8 +100,7 @@ It stays solid while hidden.
 ### Stages
 
 Megabonk's Forest map has three stages: **Lumbridge & Swamp**, then
-[Ardougne & Seers' Village](#ardougne-and-seers-village), then **Lumbridge Swamp Caves**, which builds the same
-Lumbridge arena again.
+[Ardougne & Seers' Village](#ardougne-and-seers-village), then [the God Wars Dungeon](#the-god-wars-dungeon).
 
 ## Ardougne and Seers' Village
 
@@ -115,6 +116,27 @@ Seers' Village and Camelot, so the detail budget applies ([Morytania](#morytania
 | **Chests, shrines, monster spawns, skilling spots** | As on Lumbridge, on its own ground, trees, rocks and shores. |
 
 Its music (experimental) is *Knightly*.
+
+## The God Wars Dungeon
+
+The **God Wars Dungeon** takes over the **third stage** of Megabonk's Forest, its last. Its arena is OSRS world tiles
+**(2816, 5248) to (2943, 5375)**, 128 x 128 tiles, built from OSRS's level 2 there (the cavern floor), as an
+underground map: lit as a cave and walled off wherever it's blocked.
+
+| What | Where |
+|---|---|
+| **You** | OSRS tile (2881, 5310). The chat box says *"Welcome to God Wars Dungeon."* |
+| **Final portal** | OSRS tile (2846, 5334). It loads Megabonk's final stage, whose final boss is this run's general, in his own room ([Monsters](monsters-and-bosses.md#the-god-wars-generals)). |
+| **Monsters** | The four gods' armies, with spiritual warriors and mages as minibosses ([Monsters](monsters-and-bosses.md#the-god-wars-dungeon)). |
+| **Chests, shrines, monster spawns, skilling spots** | As on Lumbridge; chests and shrines may stand on roofed ground too, as in a lair. |
+
+Its music (experimental) is *Armageddon*.
+
+### The generals' rooms
+
+Each run one of the four generals is picked at random, and the final stage puts you in his room, built from your
+cache: General Graardor's, Kree'arra's and K'ril Tsutsaroth's on level 2, Commander Zilyana's on level 0. His death
+ends the run, as any final boss's does. *(unconfirmed: needs a Melty run or footage)*
 
 ## Al Kharid
 
@@ -254,15 +276,15 @@ Every map in `sheets/maps.json`, built or planned:
 | **Lumbridge & Swamp** | Forest stage 0 | 3140, 3140, 3266, 3300 | Harmony | 10 | none | <span class="st st-verified">verified</span> |
 | **Morytania** | Desert stage 1 | 3400, 3158, 3783, 3607 | Village | 9 | none | <span class="st st-built">built</span> |
 | **The Wilderness** | Graveyard stage 0 | 2944, 3520, 3391, 3967 | Wilderness | 16 | pkers_revenants | <span class="st st-built">built</span> |
-| **God Wars Dungeon** | Graveyard stage 1 | - | Armadyl Alliance | 10 | none | <span class="st st-todo">planned (phase 3)</span> |
+| **God Wars Dungeon** | Forest stage 2 | 2816, 5248, 2943, 5375 | Armageddon | 8 | none | <span class="st st-built">built</span> |
 | **TzHaar City** | Desert stage 2 | 2432, 5056, 2559, 5183 | Mor Ul Rek | 8 | none | <span class="st st-verified">verified</span> |
 | **Al Kharid** | Desert stage 0 | 3264, 3110, 3391, 3330 | Al Kharid | 10 | none | <span class="st st-built">built</span> |
 | **Ardougne & Seers' Village** | Forest stage 1 | 2496, 3264, 2783, 3535 | Knightly | 9 | none | <span class="st st-built">built</span> |
 <!-- /gen:maps -->
 
 Each map has an OSRS track (Lumbridge: *Harmony*; Al Kharid: *Al Kharid*; Morytania: *Village*; TzHaar City: *Mor Ul
-Rek*; the Wilderness: *Wilderness*; Ardougne & Seers' Village: *Knightly*). An experimental player plays it from your
+Rek*; the Wilderness: *Wilderness*; Ardougne & Seers' Village: *Knightly*; the God Wars Dungeon: *Armageddon*). An experimental player plays it from your
 cache (`Audio.OsrsMusic`), but only with its engine, which release builds don't include, so they play Megabonk's
 music ([HUD and chat](hud-and-chat.md#sounds)). More boss arenas are on the [docket](../dev/docket.md).
 
-<!-- sources: src/Bonkscape.Plugin/Systems/Arena.cs src/Bonkscape.Plugin/Systems/MapProps.cs src/Bonkscape.Plugin/Systems/Skilling.cs src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Core/Osrs.cs src/Bonkscape.Plugin/Core/Runner.cs src/Bonkscape.Cache/World/ sheets/maps.json src/Bonkscape.Plugin/Systems/LavaBurn.cs src/Bonkscape.Plugin/Systems/BossFight.cs src/Bonkscape.Plugin/Systems/Bonk.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Barrows.cs src/Bonkscape.Plugin/Systems/SecondForm.cs src/Bonkscape.Plugin/Systems/Graveyard.cs -->
+<!-- sources: src/Bonkscape.Plugin/Systems/Arena.cs src/Bonkscape.Plugin/Systems/MapProps.cs src/Bonkscape.Plugin/Systems/Skilling.cs src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Core/Osrs.cs src/Bonkscape.Plugin/Core/Runner.cs src/Bonkscape.Cache/World/ sheets/maps.json src/Bonkscape.Plugin/Systems/LavaBurn.cs src/Bonkscape.Plugin/Systems/BossFight.cs src/Bonkscape.Plugin/Systems/Bonk.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Barrows.cs src/Bonkscape.Plugin/Systems/SecondForm.cs src/Bonkscape.Plugin/Systems/Graveyard.cs src/Bonkscape.Cache/World/WorldBuilder.cs -->

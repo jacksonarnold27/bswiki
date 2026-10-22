@@ -1,6 +1,6 @@
 # Skilling
 
-Each map's own trees, rocks and shores are skilling spots (Lumbridge's, Ardougne & Seers' Village's, Al Kharid's, Morytania's, TzHaar City's, the Wilderness's). <span class="st st-built">built</span>
+Each map's own trees, rocks and shores are skilling spots (Lumbridge's, Ardougne & Seers' Village's, the God Wars Dungeon's, Al Kharid's, Morytania's, TzHaar City's, the Wilderness's). <span class="st st-built">built</span>
 
 ## How to gather
 

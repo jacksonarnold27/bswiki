@@ -10,9 +10,9 @@ turns to face you.
 
 For ordinary monsters, Bonkscape also replaces Megabonk's **HP, damage, speed and knockback resistance** with the
 row's values. **Minibosses and bosses keep Megabonk's own stats**, so the Giant Mole fights with the HP and damage of
-the Megabonk boss it replaces, not the sheet's 9000 HP (TzTok-Jad, the Kalphite Queen and the King Black Dragon: not
-theirs). A map's difficulty (`maps.difficulty`) scales HP and damage for all of them; every map's is 1. Each row joins the spawn pool of its own maps (the roster's **Maps** column): Lumbridge's
-and Ardougne & Seers' Village's monsters on Megabonk's Forest; Al Kharid's, Morytania's and TzHaar City's on the Desert; the Wilderness's on the Graveyard. The maps of one Megabonk
+the Megabonk boss it replaces, not the sheet's 9000 HP (TzTok-Jad, the Kalphite Queen, the King Black Dragon and the God Wars
+generals: not theirs). A map's difficulty (`maps.difficulty`) scales HP and damage for all of them; every map's is 1. Each row joins the spawn pool of its own maps (the roster's **Maps** column): Lumbridge's,
+Ardougne & Seers' Village's and the God Wars Dungeon's monsters on Megabonk's Forest; Al Kharid's, Morytania's and TzHaar City's on the Desert; the Wilderness's on the Graveyard. The maps of one Megabonk
 map share its enemy types: when a stage starts, its map's rows take the types over (names, models and stats). The Fight
 Caves' monsters (Maps `tztok_jad_boss`) join no pool; the arena spawns them itself. Megabonk enemies that no row takes
 over are removed from those maps' pools, so only OSRS monsters spawn on Bonkscape's maps. On a later
@@ -111,6 +111,34 @@ stage, Megabonk's own stage scaling multiplies every monster's HP and damage on 
 | **Sir Lucan** | Sir Lucan (4357) | 4342 | 120 | melee | MummyTank | 228 | 33 | 6 | 1 | 1 | knights_boss | <span class="st st-built">built</span> |
 | **Sir Gawain** | Sir Gawain (4356) | 4348 | 122 | melee | MummyAncient | 239 | 33 | 6 | 1 | 1 | knights_boss | <span class="st st-built">built</span> |
 | **Sir Kay** | Sir Kay (4355) | 4349 | 124 | melee | Tumblebone | 239 | 38 | 6 | 0 | 1 | knights_boss | <span class="st st-built">built</span> |
+| **Imp** | Imp (3134) | 5007, 14207 | 7 | melee | Slime | 6 | 8 | 6.5 | 0 | 1 | god_wars | <span class="st st-built">built</span> |
+| **Goblin** | Goblin (2248) | 2487, 2489 | 15 | melee | Goblin | 7 | 15 | 5 | 0 | 1 | god_wars | <span class="st st-built">built</span> |
+| **Aviansie** | Aviansie (3169) | 3177, 3178 | 69 | ranged | Bee | 10 | 15 | 6.5 | 0 | 1 | god_wars | <span class="st st-built">built</span> |
+| **Hobgoblin** | Hobgoblin (2241) | 3050, 132 | 47 | melee | Ghoul | 9 | 12 | 9 | 0 | 1 | god_wars | <span class="st st-built">built</span> |
+| **Bloodveld** | Bloodveld (3138) | 484, 485 | 81 | magic | GoblinStrong | 15 | 25 | 5.5 | 0 | 1 | god_wars | <span class="st st-built">built</span> |
+| **Werewolf** | Werewolf (3136) | 3135, 2593 | 93 | melee | Skeleton | 20 | 20 | 5.5 | 0 | 1 | god_wars | <span class="st st-built">built</span> |
+| **Knight of Saradomin** | Knight of Saradomin (2214) | 2213 | 101 | melee | Golem | 20 | 20 | 5 | 1 | 1 | god_wars | <span class="st st-built">built</span> |
+| **Ork** | Ork (2240) | 2237, 2238, 2239 | 107 | melee | BoomerSpider | 18 | 30 | 6 | 0 | 1 | god_wars | <span class="st st-built">built</span> |
+| **Saradomin priest** | Saradomin priest (2209) | - | 113 | magic | ArmoredSkeleton | 30 | 25 | 4 | 0 | 1 | god_wars | <span class="st st-built">built</span> |
+| **Spiritual ranger** | Spiritual ranger (3167) | 2211, 3160 | 127 | ranged | GoblinTank | 40 | 30 | 5 | 1 | 1 | god_wars | <span class="st st-built">built</span> |
+| **Spiritual warrior** | Spiritual warrior (2243) | 2210, 3166 | 134 | melee | MinibossGolem | 250 | 40 | 6 | 0.8 | 1.2 | god_wars | <span class="st st-built">built</span> |
+| **Spiritual mage** | Spiritual mage (2212) | 3161, 2244 | 120 | magic | MinibossPig | 250 | 40 | 6 | 0.8 | 1.2 | god_wars | <span class="st st-built">built</span> |
+| **General Graardor** | General Graardor (2215) | 6494, 12444 | 624 | melee | Ent3 | 10000 | 22 | 3 | 1 | 1 | god_wars | <span class="st st-built">built</span> |
+| **Sergeant Strongstack** | Sergeant Strongstack (2216) | - | 141 | melee | SkeletonDusty | 125 | 10 | 6 | 0 | 1 | graardor_boss | <span class="st st-built">built</span> |
+| **Sergeant Steelwill** | Sergeant Steelwill (2217) | - | 142 | magic | Zombie | 125 | 10 | 6 | 0 | 1 | graardor_boss | <span class="st st-built">built</span> |
+| **Sergeant Grimspike** | Sergeant Grimspike (2218) | - | 142 | ranged | Mummy | 143 | 14 | 6 | 0 | 1 | graardor_boss | <span class="st st-built">built</span> |
+| **Kree'arra** | Kree'arra (3162) | 6492, 12443, 15697 | 580 | ranged | Ent3 | 10000 | 22 | 3 | 1 | 1 | god_wars | <span class="st st-built">built</span> |
+| **Flight Kilisa** | Flight Kilisa (3165) | - | 159 | melee | Ghost | 130 | 9 | 6 | 0 | 1 | kree_arra_boss | <span class="st st-built">built</span> |
+| **Wingman Skree** | Wingman Skree (3163) | - | 143 | magic | GreaterGhost | 119 | 9 | 6 | 1 | 1 | kree_arra_boss | <span class="st st-built">built</span> |
+| **Flockleader Geerin** | Flockleader Geerin (3164) | - | 149 | ranged | GhostPurple | 129 | 14 | 6 | 1 | 1 | kree_arra_boss | <span class="st st-built">built</span> |
+| **K'ril Tsutsaroth** | K'ril Tsutsaroth (3129) | 6495, 12446 | 650 | melee | Ent3 | 10000 | 22 | 3 | 1 | 1 | god_wars | <span class="st st-built">built</span> |
+| **Tstanon Karlak** | Tstanon Karlak (3130) | - | 145 | melee | SkeletonDusty | 139 | 12 | 6 | 0 | 1 | kril_boss | <span class="st st-built">built</span> |
+| **Zakl'n Gritch** | Zakl'n Gritch (3131) | - | 142 | ranged | Zombie | 147 | 17 | 6 | 0 | 1 | kril_boss | <span class="st st-built">built</span> |
+| **Balfrug Kreeyath** | Balfrug Kreeyath (3132) | - | 151 | magic | Mummy | 158 | 13 | 6 | 0 | 1 | kril_boss | <span class="st st-built">built</span> |
+| **Commander Zilyana** | Commander Zilyana (2205) | 6493, 12445 | 596 | melee | Ent3 | 10000 | 22 | 3 | 1 | 1 | god_wars | <span class="st st-built">built</span> |
+| **Starlight** | Starlight (2206) | - | 149 | melee | SkeletonDusty | 157 | 22 | 6 | 0 | 1 | zilyana_boss | <span class="st st-built">built</span> |
+| **Growler** | Growler (2207) | - | 139 | magic | Zombie | 143 | 24 | 6 | 0 | 1 | zilyana_boss | <span class="st st-built">built</span> |
+| **Bree** | Bree (2208) | - | 146 | ranged | Mummy | 159 | 24 | 6 | 0 | 1 | zilyana_boss | <span class="st st-built">built</span> |
 <!-- /gen:enemies -->
 
 The **Combat** column is the monster's OSRS combat level. It isn't used in play yet, and neither are the sheet's
@@ -120,7 +148,9 @@ drops the same things ([Loot](#loot)).
 ## Combat styles
 
 Every monster fights in **melee**, **ranged** or **magic**. In Lumbridge only the guards are ranged and only the giant
-frogs are magic. In Ardougne & Seers' Village only the guards are ranged. In Al Kharid every monster is melee. In the Wilderness the Chaos Elemental is magic, the Revenant maledictus ranged
+frogs are magic. In Ardougne & Seers' Village only the guards are ranged. In the God Wars Dungeon aviansies and spiritual rangers are
+ranged, bloodvelds, Saradomin priests and spiritual mages magic, and the rest melee; each general's bodyguards are one
+of each style. In Al Kharid every monster is melee. In the Wilderness the Chaos Elemental is magic, the Revenant maledictus ranged
 and the rest melee, PKers fight in their weapon's style, and the King Black Dragon's attacks each have their own. In Morytania banshees and Ahrim the Blighted are magic, Karil the Tainted is ranged, and the rest are melee. In TzHaar City the
 TzHaar-Mej are magic and the rest melee; in the Fight Caves the Tok-Xil are ranged, the Ket-Zek magic and the rest
 melee, and each of TzTok-Jad's attacks has its own style ([below](#tztok-jad)). The OSRS skill icon for its style (Attack, Ranged or Magic) floats over the 10
@@ -187,34 +217,46 @@ attack's: a guard's hit counts as ranged even when Megabonk has it attack up clo
 | ardougne_seers | 6 | Guard | swarm | <span class="st st-built">built</span> |
 | ardougne_seers | 7 | Paladin, Hero | miniboss | <span class="st st-built">built</span> |
 | ardougne_seers | 9 | Sir Lancelot | boss | <span class="st st-built">built</span> |
+| god_wars | 0 | Imp, Goblin, Hobgoblin, Aviansie, Bloodveld, Werewolf, Ork | start | <span class="st st-built">built</span> |
+| god_wars | 1.5 | Knight of Saradomin, Saradomin priest | unlock | <span class="st st-built">built</span> |
+| god_wars | 1.5 | Spiritual warrior, Spiritual mage | miniboss | <span class="st st-built">built</span> |
+| god_wars | 2.5 | Goblin | swarm | <span class="st st-built">built</span> |
+| god_wars | 3 | Spiritual ranger | unlock | <span class="st st-built">built</span> |
+| god_wars | 4 | Bloodveld | swarm | <span class="st st-built">built</span> |
+| god_wars | 5 | Spiritual mage, Spiritual warrior | miniboss | <span class="st st-built">built</span> |
+| god_wars | 8 | General Graardor, Kree'arra, K'ril Tsutsaroth, Commander Zilyana | boss | <span class="st st-built">built</span> |
 <!-- /gen:waves -->
 
-How those rows apply, each on its own map's stage (Lumbridge on the Forest's first, Ardougne & Seers' Village on its second; Al Kharid, Morytania and TzHaar
+How those rows apply, each on its own map's stage (Lumbridge on the Forest's first, Ardougne & Seers' Village on its second, the God Wars Dungeon on its third; Al Kharid, Morytania and TzHaar
 City on the Desert's first, second and third; the Wilderness on the Graveyard's first):
 
 - **start** (minute 0): the run's first monsters. Lumbridge: chickens, goblins, giant rats and guards. Ardougne & Seers' Village: monkeys,
-  goblins, snakes, giant bats, guards, grizzly bears and guard dogs. Al Kharid: scorpions, Shantay Guards,
+  goblins, snakes, giant bats, guards, grizzly bears and guard dogs. The God Wars Dungeon: imps, goblins, hobgoblins, aviansies, bloodvelds,
+  werewolves and orks. Al Kharid: scorpions, Shantay Guards,
   desert lizards, desert wolves, hill giants and Al Kharid warriors. Morytania: Myre
   blamish snails, bats, crawling hands, ghouls, Loar Shades and banshees. TzHaar City: TzHaar-Hur and TzHaar-Mej. The Wilderness:
   revenant imps, goblins, hobgoblins and hellhounds, and green dragons.
 - **unlock**: the rows join the spawn pool from that minute. Lumbridge: cows and giant frogs at 1.5. Ardougne & Seers' Village:
-  warriors and Knights of Ardougne at 1.5, ogres at 3. Al Kharid: Kalphite
+  warriors and Knights of Ardougne at 1.5, ogres at 3. The God Wars Dungeon: Knights of Saradomin and Saradomin priests
+  at 1.5, spiritual rangers at 3. Al Kharid: Kalphite
   Workers at 1.5, ugthanki and bandits at 3, Kalphite Soldiers at 6. Morytania:
   vampyre juveniles at 1.5, vampyre juvinates and feral vampyres at 3, the Vyrewatch at 6. TzHaar City:
   TzHaar-Xil at 1.5, TzHaar-Ket at 3. The Wilderness: revenant demons at 1.5, cyclopes at 3, knights at 7, dragons
   at 12.
 - **swarm**: Megabonk's swarm event at that minute spawns the row's monsters. Lumbridge: goblins at 4, giant rats at
-  7. Ardougne & Seers' Village: goblins at 3, guards at 6. Al Kharid: scorpions at 4, desert lizards at 7. Morytania: Myre blamish snails at 3,
+  7. Ardougne & Seers' Village: goblins at 3, guards at 6. The God Wars Dungeon: goblins
+  at 2.5, bloodvelds at 4. Al Kharid: scorpions at 4, desert lizards at 7. Morytania: Myre blamish snails at 3,
   crawling hands at 6. TzHaar City: TzHaar-Hur at 2.5 and 4. The Wilderness: revenant goblins at 4, cyclopes at 8,
   knights at 11, dragons at 14.
 - **miniboss**: Megabonk's miniboss event at that minute spawns each row's miniboss. Lumbridge: a Cow and a Giant frog
-  at 3 and 8. Ardougne & Seers' Village: a Warrior and a Paladin at 2, a Paladin and a Hero at 7. Al Kharid:
+  at 3 and 8. Ardougne & Seers' Village: a Warrior and a Paladin at 2, a Paladin and a Hero at 7. The God Wars Dungeon: a
+  spiritual warrior and a spiritual mage at 1.5 and 5. Al Kharid:
   a Kalphite Guardian at 3 and 8. Morytania: Barrows brothers at 2
   and 7, the five not hidden this run in turn ([below](#the-barrows-brothers)). TzHaar City: a TzHaar-Ket champion at
   1.5 and 5. The Wilderness: the Chaos Elemental and the Revenant maledictus at 3, 7, 10 and 13.
-- **boss** (minute 10; Ardougne & Seers' Village's and Morytania's 9, TzHaar City's 8, the Wilderness's 16): the plan only. The stage boss comes when you open the boss
+- **boss** (minute 10; Ardougne & Seers' Village's and Morytania's 9, the God Wars Dungeon's 8, TzHaar City's 8, the Wilderness's 16): the plan only. The stage boss comes when you open the boss
   portal (Lumbridge: the Giant Mole; Ardougne & Seers' Village: Sir Lancelot, after the Knights of the
-  Round Table; Al Kharid: the Kalphite Queen; Morytania: the run's hidden Barrows brother); TzHaar City's when you open its final portal
+  Round Table; the God Wars Dungeon: its final portal, this run's general; Al Kharid: the Kalphite Queen; Morytania: the run's hidden Barrows brother); TzHaar City's when you open its final portal
   (TzTok-Jad, in the Fight Caves), and the Wilderness's when you open its boss door (the King Black Dragon).
 
 A swarm or miniboss row whose minute has no matching event in Megabonk's timeline spawns nothing; the log says how
@@ -229,7 +271,7 @@ in your cache, they use their NPC model and its stand-ins as below.
 Your OSRS client downloads a model the first time it shows it, so your cache may not have every monster. For each
 monster Bonkscape tries its own NPC first, then each **stand-in NPC id** in the order listed, and uses the first one
 whose models are all in your cache (the log says *"Goblin: NPC 3031 isn't in this cache, using stand-in NPC 3029"*).
-If none is there, the monster borrows the map's fallback monster (Lumbridge and Ardougne & Seers' Village: the Goblin; Al Kharid: the Scorpion; Morytania: the Ghoul;
+If none is there, the monster borrows the map's fallback monster (Lumbridge, Ardougne & Seers' Village and the God Wars Dungeon: the Goblin; Al Kharid: the Scorpion; Morytania: the Ghoul;
 TzHaar City and its Fight Caves: TzHaar-Hur; the Wilderness: the revenant goblin). If that's missing too, you see
 Megabonk's own model.
 
@@ -242,7 +284,7 @@ A monster's height is worked out when it spawns, and once more a moment later:
 1. **OSRS proportions on your adventurer's scale**: its model height in OSRS units, converted to metres exactly like
    your adventurer's. So an OSRS human (a guard) stands about as tall as your adventurer, and every other monster keeps
    its OSRS ratio to them.
-2. Times the row's **Size x** (Cow 1.1, Giant frog 1.6, Giant Mole 2.2, Vyrewatch 1.2, the Barrows brothers 1.6, Kalphite Guardian 1.2, Hero and Paladin 1.2, TzHaar-Ket champion 1.2, Chaos Elemental and Revenant
+2. Times the row's **Size x** (Cow 1.1, Giant frog 1.6, Giant Mole 2.2, Vyrewatch 1.2, the Barrows brothers 1.6, Kalphite Guardian 1.2, Hero and Paladin 1.2, spiritual warrior and mage 1.2, TzHaar-Ket champion 1.2, Chaos Elemental and Revenant
    maledictus 1.2) and
    `Models.MonsterSize`.
 3. Times part of Megabonk's own enlargement of elites, minibosses and bosses, capped by tier (below). Megabonk
@@ -305,6 +347,10 @@ instead, like OSRS monsters:
 | **Kalphite Queen** | Jaws (melee, 0 ms telegraph, random); Spines (ranged, 600 ms telegraph, random); Lightning (magic, 900 ms telegraph, random) | 50% HP | Kalphite Princess, 1/3000 | <span class="st st-built">built</span> |
 | **King Black Dragon** | Bite (melee, 0 ms telegraph, random); Dragonfire (magic, 600 ms telegraph, random); Toxic breath (magic, 600 ms telegraph, random); Icy breath (magic, 600 ms telegraph, random); Shocking breath (magic, 600 ms telegraph, random) | 50% HP | Prince Black Dragon, 1/3000 | <span class="st st-built">built</span> |
 | **Sir Lancelot** | Slash (melee, 0 ms telegraph, random); Lunge (melee, 0 ms telegraph, random) | 50% HP | Dwarf remains, 1/0 | <span class="st st-built">built</span> |
+| **General Graardor** | Smash (melee, 0 ms telegraph, random); Slam (ranged, 600 ms telegraph, random) | 50% HP | Pet General Graardor, 1/5000 | <span class="st st-built">built</span> |
+| **Kree'arra** | Wind (ranged, 600 ms telegraph, random); Tornado (magic, 600 ms telegraph, random); Claw (melee, 0 ms telegraph, random) | 50% HP | Pet Kree'arra, 1/5000 | <span class="st st-built">built</span> |
+| **K'ril Tsutsaroth** | Slash (melee, 0 ms telegraph, random); Prayer smash (melee, 0 ms telegraph, random); Fireball (magic, 600 ms telegraph, random) | 50% HP | Pet K'ril Tsutsaroth, 1/5000 | <span class="st st-built">built</span> |
+| **Commander Zilyana** | Sword (melee, 0 ms telegraph, random); Light (magic, 0 ms telegraph, random) | 50% HP | Pet Zilyana, 1/5000 | <span class="st st-built">built</span> |
 <!-- /gen:bosses -->
 
 The Giant Mole is Lumbridge's stage boss <span class="st st-built">built</span>. You call it by using the boss portal
@@ -352,6 +398,37 @@ Sir Lancelot's attacks are OSRS's: every **2.4 seconds**, start to start, a Slas
 beside him), each dealt as 13% to 20% of your maximum health (his max hit, 23, against Jad's 97). Megabonk's own
 attacks for `Ent2` are off and touching him doesn't hurt. Protect from Melee halves his hits, as for any boss. His
 HP is Megabonk's boss's.
+
+## The God Wars Dungeon
+
+The God Wars Dungeon's monsters are the four gods' armies: imps, goblins, hobgoblins, aviansies, bloodvelds, werewolves
+and orks from the start, Knights of Saradomin and Saradomin priests from 1.5 minutes, spiritual rangers from 3. Its
+minibosses are **spiritual warriors** and **spiritual mages** (size x 1.2), with Megabonk's miniboss stats and
+attacks. Its boss is one of the four generals.
+
+## The God Wars generals
+
+Each run one general is picked at random to be the God Wars Dungeon's final boss: opening the final portal loads
+Megabonk's final stage, and the fight moves into his room ([Maps](maps.md#the-generals-rooms)), where he comes at once
+with his three bodyguards: *"You enter General Graardor's arena; the waves come first."* Each general rides
+Megabonk's `Ent3`, with Megabonk's boss HP; his bodyguards fight with the attacks of the Megabonk enemies they ride.
+Megabonk's own attacks for `Ent3` are off and touching a general doesn't hurt: his attacks are OSRS's, picked by
+weight, start to start, and a melee one only when you're beside him (measured across the floor):
+
+| General | Bodyguards | Every | Attacks (weight; hit as a share of your maximum health) |
+|---|---|---|---|
+| **General Graardor** (Bandos) | Sergeants Strongstack, Steelwill and Grimspike | 3.6 s | Smash, melee (2; 34% to 53%); Slam, ranged, lands 1.8 s after (1; 20% to 31%) |
+| **Kree'arra** (Armadyl) | Flight Kilisa, Wingman Skree, Flockleader Geerin | 1.8 s | Wind, ranged, 1.8 s (2; 39% to 60%); Tornado, magic, 1.8 s (1; 12% to 18%); Claw, melee (0.5; 15% to 23%) |
+| **K'ril Tsutsaroth** (Zamorak) | Tstanon Karlak, Zakl'n Gritch, Balfrug Kreeyath | 3.6 s | Slash, melee (8; 26% to 40%; a quarter of the time it poisons you for 5 s); Prayer smash, melee (4; 28% to 43%); Fireball, magic, 1.8 s (6; 17% to 26%) |
+| **Commander Zilyana** (Saradomin) | Starlight, Growler, Bree | 1.2 s | Sword, melee (1; 15% to 24%); Light, magic, beside her only, 0.6 s (1; 11% to 18%) |
+
+The hits are scaled by each attack's OSRS max hit against Jad's 97. The right protection prayer halves them, as for
+any boss, and stops K'ril's poison, except his **Prayer smash**: it goes straight through your protection prayer and
+drains your prayer points, half your maximum times the share of your health it took.
+
+The general's death ends the run. The planned pets (1/5000) aren't built. Melty's test of 0.11.0 showed General
+Graardor in his room with his bodyguards, his melee reaching the adventurer; the other generals, the Prayer smash and
+a general's death are *(unconfirmed: needs a Melty run or footage)*
 
 ## Al Kharid
 

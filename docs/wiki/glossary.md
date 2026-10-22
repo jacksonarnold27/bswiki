@@ -50,7 +50,7 @@
 | Term | Meaning |
 |---|---|
 | **Adventurer** | Your OSRS character: Warrior, Ranger, Mage, Zerker, Void Knight, Durial321, Ironman or a Barrows brother. |
-| **Arena** | A real OSRS map built from your cache (Lumbridge and Ardougne & Seers' Village on the Forest; Al Kharid, Morytania and TzHaar City on the Desert; the Wilderness on the Graveyard; and
+| **Arena** | A real OSRS map built from your cache (Lumbridge, Ardougne & Seers' Village and the God Wars Dungeon on the Forest; Al Kharid, Morytania and TzHaar City on the Desert; the Wilderness on the Graveyard; and
 the bosses' lairs) that replaces the stage's ground. |
 | **Fallback stage** | Megabonk's own map (the Forest or the Desert) dressed in OSRS scenery, used when the arena can't be built. |
 | **Gear passive** | A piece of OSRS gear that replaces a Megabonk tome. One per gear slot. |

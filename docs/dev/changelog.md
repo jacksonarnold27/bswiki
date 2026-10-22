@@ -13,6 +13,35 @@ inside each release's DLL in `dist/`. No version has been published yet: every r
 
 ---
 
+## 0.11.0: God Wars
+
+*Build 2026-10-22 11:26, code in `5666b2c`. Test `4f4ef19f`: publish test, 3 runs x 2 min, passed. Run 1 the Ranger
+on Morytania (Ahrim the hidden brother), run 2 Ardougne & Seers' Village (the knights and Sir Lancelot at Camelot),
+run 3 the God Wars Dungeon (the cavern's armies, the final portal, the final stage loading into General Graardor's room
+with his bodyguards, his melee reaching the adventurer). All 12 self-checks each.*
+
+**Patch notes**
+- The God Wars Dungeon on the Forest's third stage: the icy cavern under Trollheim, built from your cache, where the
+  armies of all four gods fight you, with spiritual warriors and mages as minibosses.
+- Each run one of the four generals waits at the end: General Graardor, Kree'arra, K'ril Tsutsaroth or Commander
+  Zilyana, in his own room with his three bodyguards and his own OSRS attacks. K'ril's Prayer smash goes straight
+  through your protection prayer and drains it.
+- Bosses' melee attacks reach you when they're beside you, measured across the floor as in OSRS.
+
+**Changes**
+- Plane support: new `maps.osrs_plane` and `bosses.arena_plane` (the level built as the ground: God Wars on 2,
+  Zilyana's room on 0), through `WorldOptions.Plane`, `WorldBuilder` and `Minimap.Render`; the load-time build passes
+  each map's level. Preflight builds each map and lair on its level; `bonk` tools take `plane=N`.
+- `BossFight`: a boss's reach and a healer's distance measured across the floor (`Flat`) from the OSRS model's feet
+  (`Ent3` hovers); attack effect `pierce_prayer` (the hit lands typeless, then drains `drain_prayer` x max prayer x
+  the share of health it took; nothing when it took nothing). `Rows`: a boss pool member with a lair of its own uses
+  it; scenario key `pool_boss` (`Rows.ForceHidden`). `Barrows.BossDied` gives pieces only for a pool with sets.
+- Rows: `god_wars` moves to Forest stage 2 ((2816, 5248)-(2943, 5375), plane 2, underground, *Armageddon*, fallback
+  Goblin, `boss_pool` of the four generals), twelve God Wars monsters, the four generals on `Ent3` with three
+  bodyguards each, their waves, and `graardor_boss`, `kree_arra_boss`, `kril_boss`, `zilyana_boss` (rooms, bodyguards
+  at 0 s, weighted attacks every 3600, 1800, 3600 and 1200 ms).
+- Scenarios `god-wars`, `gwd-graardor`, `gwd-kree`, `gwd-kril`, `gwd-kril-melee`, `gwd-zilyana`.
+
 ## 0.10.1: the Mole's name
 
 *Build 2026-10-22 09:45, code in `5dc65c1`. Test `6396cd70`: publish test, 3 runs x 2 min, passed. Run 1 the Void

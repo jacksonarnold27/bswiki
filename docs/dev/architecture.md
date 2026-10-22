@@ -1,7 +1,7 @@
 # Architecture
 
 Bonkscape is a BepInEx 6 IL2CPP plugin for Megabonk (Unity 2023.2.22f1, IL2CPP, build 1.0.69) that reads the player's
-Old School RuneScape cache at run time. Nothing from either game is shipped. Written against **0.10.1** (`5dc65c1`).
+Old School RuneScape cache at run time. Nothing from either game is shipped. Written against **0.11.0** (`5666b2c`).
 
 ## Projects
 
@@ -223,6 +223,13 @@ adventurer walked under in 0.2.11's run). Lairs are also built with `WorldOption
 walkable beside a walkable one gets the same box, so nobody climbs the cave walls' flat tops (0.2.10's run fell twice),
 including tiles a diagonal wall marked solid (its own box covers only the diagonal); monster spawns that land off the
 floor are moved onto it (the `SpawnPositions` postfixes below). `bonk boxes ... cave` prints a tile grid with these flags.
+
+**Another level as the ground** (0.11): `WorldOptions.Plane` (from `maps.osrs_plane` and `bosses.arena_plane`) builds
+that level as the floor. Heights for all four levels are computed first, since upper levels stack on the ones below.
+Then the tile and height arrays shift down by the plane, so the rest of the builder sees it as level 0. Objects take
+`loc.Z - plane` and those below it are left out (a `[ThreadStatic]` shift, since arenas build on background threads).
+Raised-house bridges are off, and `Minimap.Render` takes the same plane. The God Wars Dungeon is built from level 2, and
+its generals' rooms are each `bosses` row's lair on its own level (`Rows.BossArenaFor` matches a pool member's own lair).
 
 **Raised houses**: level-1 locs are taken on bridge tiles (level 1 drawn as the walking level), and since 0.2.11 also
 walls and wall decorations (types 0-4 and 9) on a level-1 tile *next to* a bridge tile: a stilt house's walls (Canifis)

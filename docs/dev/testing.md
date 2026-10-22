@@ -29,8 +29,8 @@ writes its self-checks (log: `Melty test mode: hand-over`). For what autoplay ca
 `%LOCALAPPDATA%\Bonkscape\test-rotation.txt`. Quick checks are always run 1, so before the rotation autoplay only ever
 played the Warrior. The log says `autoplay adventurer: <name> (<style>)`. `Dev.AutoStartRun` still plays the first.
 
-**Map rotation** (0.2.1). The map is `rotation mod <phase-1 maps>` over `Rows.Maps` (Lumbridge and Ardougne &
-Seers' Village on the Forest's first two stages; Al Kharid, Morytania and TzHaar City on the Desert's three stages; the Wilderness on the Graveyard). The rotation goes up with every game launch and
+**Map rotation** (0.2.1). The map is `rotation mod <phase-1 maps>` over `Rows.Maps` (Lumbridge, Ardougne &
+Seers' Village and the God Wars Dungeon on the Forest's three stages; Al Kharid, Morytania and TzHaar City on the Desert's three stages; the Wilderness on the Graveyard). The rotation goes up with every game launch and
 each run is one, so a test of as many runs as maps plays each, as 0.5.0's three-run test did (with the run number added too, as for the adventurer, it moved by 2 a run and both of
 0.2.1's first test runs played Lumbridge). The
 log says `autoplay map: <name> (Megabonk's <map>)`. `Dev.AutoStartRun` plays Lumbridge.
@@ -203,6 +203,7 @@ Times are local (UTC-5). From Melty's release list and test results.
 | 0.9.1 | `5816c823` | 3 x 2 min | **passed (publish test)** | Run 1 the Ranger on the Wilderness: revenants and green dragons, an Ice Tank ambush (log), the door opened only once a chest window's pause ended, then the King Black Dragon in his lair (boss bar 9,450). Run 2 the Zerker on Al Kharid: the Kalphite Lair, the crawling Queen. Run 3 Durial321 on Morytania: Torag the hidden brother. All 12 each. The KBD's death and breath effects weren't reached (seen locally in `kbd-lair`). |
 | 0.10.0 | `2be74135` | 3 x 2 min | passed, didn't graduate | Run 1 the Void Knight on Ardougne & Seers' Village: East Ardougne's market, grizzly bears, guards and warriors, the boss portal at Camelot, the seven knights in three waves, then Sir Lancelot. Run 2 the Warrior on TzHaar City: the Fight Cave, Jad. Run 3 the Mage on Lumbridge failed the review: the Giant Mole fought in its lair under a boss bar reading *King Black Dragon* (both on `Ent1`). All 12 self-checks in each run. |
 | 0.10.1 | `6396cd70` | 3 x 2 min | **passed (publish test)** | Run 1 the Void Knight on Ardougne & Seers' Village: its monsters, the knights' waves and Sir Lancelot at Camelot, named on the boss bar. Run 2 the Warrior on TzHaar City: the Fight Cave, Jad. Run 3 the Mage on Lumbridge: the Giant Mole named on its boss bar again. All 12 each. |
+| 0.11.0 | `4f4ef19f` | 3 x 2 min | **passed (publish test)** | Run 1 the Ranger on Morytania: Ahrim the hidden brother on the boss bar. Run 2 Ardougne & Seers' Village: East Ardougne's market, the knights and Sir Lancelot at Camelot. Run 3 the God Wars Dungeon: the cavern from OSRS level 2, the gods' armies (bloodvelds, imps, goblins, an aviansie), the final portal, Megabonk's final stage loading (about 10 s) into General Graardor's room with his bodyguards, Graardor's melee reaching the adventurer. All 12 each. |
 
 Blank cells weren't looked up. `mcp__melty__test_result` with the test id gives the full record.
 
@@ -246,7 +247,7 @@ what a casket's Open button does). A spawned monster can't be hurt for about its
 so a spec step comes 1.5 s after its monsters' spawn,
 `levels` (preset, never saved), `seed_levels` (`{"warrior": 30}`: every skill of another adventurer at that level, in
 memory only, for unlocks that look at other adventurers: Ironman's total level 250), `seed_barrows` (`["dharok"]`: that
-brother's full Barrows set owned, in memory only, for his unlock), `reload_saves` (`true`: unlocks read again from
+brother's full Barrows set owned, in memory only, for his unlock), `pool_boss` (`"kril_tsutsaroth"`: that member of the map's `boss_pool` is the run's boss, not a random one), `reload_saves` (`true`: unlocks read again from
 unlocks.json, so a suite's later scenario proves a piece the earlier one saved survives a restart: `barrows-save` then
 `barrows-load`; the report counts the pieces owned and says whether the
 playing adventurer is unlocked), `save_skills` (`true` to test saving; the loop restores the files after), `shots` (seconds), `expect` (checks the report marks `pass` or `MISSING`), `deaths`
@@ -297,6 +298,9 @@ written as PNG by the plugin (Unity's own capture and PNG encoder are stripped f
 | `ardougne` | Ardougne & Seers' Village (the Forest's second stage since 0.10, reached by the jump) as the Warrior for 60 s: the map built, a kill, the monsters animated |
 | `knights` | The same as the Mage with Prayer, Hitpoints and Magic at 99 (not saved), the boss portal at 12 s at Camelot, the arena's times x0.25: the Knights of the Round Table two and three at a time on the map (`arena-waves`), then Sir Lancelot (`arena-boss-released`), killed at 60 s |
 | `mole-name` | Lumbridge as the first map of a launch, the boss portal at 12 s: the boss bar names the Giant Mole, not another map's boss on the same Megabonk enemy (0.10.0's bug) |
+| `god-wars` | The God Wars Dungeon (the Forest's third stage since 0.11, built from OSRS level 2) as the Warrior for 60 s: the map built, a kill, the monsters animated |
+| `gwd-graardor`, `gwd-kree`, `gwd-kril`, `gwd-zilyana` | The same as the Mage with Prayer, Hitpoints and Magic at 99 (not saved), that general picked from the pool (`pool_boss`), the boss called at 8 s: his own room (`boss-arena`; Zilyana's on level 0), his three bodyguards at once (`arena-waves`), his scripted attacks (K'ril's prayer-piercing smash in the log), killed at 50 s |
+| `gwd-kril-melee` | K'ril as the Warrior for 90 s, the boss called at 6 s: his melee reaches the adventurer, and his Prayer smash goes through prayer and drains it (`pierces prayer` in the log), killed at 85 s |
 
 **Deaths in test runs** (`Systems/TestGuard.cs`): no blanket invulnerability, which would hide broken hits. Every hit
 lands in full through Megabonk's damage path; only one that would kill (`PlayerHealth.WillDamageKill`) is cut to

@@ -16,19 +16,19 @@ through `Generated/Sheets.g.cs`. Each file has the same shape:
 | Sheet | Rows | Columns | Row statuses |
 |---|---|---|---|
 | `audio.json` | 17 | 6 | 14 built, 3 todo |
-| `bosses.json` | 5 | 19 | 4 built, 1 verified |
-| `cache_assets.json` | 561 | 9 | 7 todo, 554 verified |
+| `bosses.json` | 9 | 20 | 8 built, 1 verified |
+| `cache_assets.json` | 629 | 9 | 7 todo, 622 verified |
 | `characters.json` | 14 | 21 | 8 built, 1 todo, 5 verified |
 | `drops.json` | 36 | 10 | 31 built, 3 todo, 2 verified |
-| `enemies.json` | 88 | 22 | 68 built, 1 todo, 19 verified |
+| `enemies.json` | 116 | 22 | 96 built, 1 todo, 19 verified |
 | `evolutions.json` | 4 | 10 | 3 built, 1 todo |
 | `hooks.json` | 47 | 9 | 17 built, 30 verified |
-| `maps.json` | 7 | 23 | 4 built, 1 todo, 2 verified |
+| `maps.json` | 7 | 24 | 5 built, 2 verified |
 | `passives.json` | 11 | 11 | 11 built |
 | `prayers.json` | 3 | 12 | 3 verified |
 | `skills.json` | 10 | 8 | 5 built, 5 verified |
 | `ui.json` | 41 | 8 | 4 built, 1 todo, 36 verified |
-| `waves.json` | 55 | 8 | 47 built, 8 verified |
+| `waves.json` | 63 | 8 | 55 built, 8 verified |
 | `weapons.json` | 19 | 27 | 17 built, 1 todo, 1 verified |
 <!-- /gen:sheet-list -->
 
@@ -177,7 +177,7 @@ Boss behaviour layered on an enemies row. Read by `Systems/Bosses.cs` (phase 1: 
 |---|---|---|
 | `id` | Key, referenced by `maps.boss_id`. | |
 | `enemy_id` | The enemies row. | row of `enemies` |
-| `attacks` | JSON list: `name`, `style`, `telegraph_ms`, `damage`, `pattern`. `burrow_teleport_every_<N>s` gives the Mole's dig period and telegraph (`Bosses`). `random` attacks are a scripted boss's own (`BossFight`, with `attack_every_ms`): `seq` (the OSRS sequence it plays), `spotanim_launch` (on the boss), `projectile` (flying to the adventurer), `spotanim` (on the adventurer as it lands), `hit_delay_ms` (added to `telegraph_ms` before the hit lands), `range` (`melee`: only beside the adventurer; `any`), `weight` (its share when the boss picks, 1 by default: the KBD's bite and dragonfire 1.5, each breath 0.5), `effect` (`poison`, `freeze` or `shock`, through Megabonk's own player effects, when the right prayer wasn't up), `effect_chance` (1 by default) and `freeze_ms` (capped at 3 s). A per-form id (`seq`, `projectile`, `spotanim_launch`...) may be a list `[first form, second form]` (`bosses.second_form`). The hit's share of the adventurer's health is scaled by `damage`, the OSRS max hit, against Jad's 97. The hit is the adventurer's max health x 0.55 to 0.85 in the attack's style, which the matching protection prayer blocks (`prayer_blocks_fully`). | each `style` is melee/ranged/magic |
+| `attacks` | JSON list: `name`, `style`, `telegraph_ms`, `damage`, `pattern`. `burrow_teleport_every_<N>s` gives the Mole's dig period and telegraph (`Bosses`). `random` attacks are a scripted boss's own (`BossFight`, with `attack_every_ms`): `seq` (the OSRS sequence it plays), `spotanim_launch` (on the boss), `projectile` (flying to the adventurer), `spotanim` (on the adventurer as it lands), `hit_delay_ms` (added to `telegraph_ms` before the hit lands), `range` (`melee`: only beside the adventurer; `any`), `weight` (its share when the boss picks, 1 by default: the KBD's bite and dragonfire 1.5, each breath 0.5), `effect` (`poison`, `freeze` or `shock`, through Megabonk's own player effects, when the right prayer wasn't up; `pierce_prayer`, 0.11's K'ril smash: no protection prayer blocks the hit, and it drains prayer points by `drain_prayer` (0.5 by default) x the share of health it took), `effect_chance` (1 by default) and `freeze_ms` (capped at 3 s). A per-form id (`seq`, `projectile`, `spotanim_launch`...) may be a list `[first form, second form]` (`bosses.second_form`). The hit's share of the adventurer's health is scaled by `damage`, the OSRS max hit, against Jad's 97. The hit is the adventurer's max health x 0.55 to 0.85 in the attack's style, which the matching protection prayer blocks (`prayer_blocks_fully`). | each `style` is melee/ranged/magic |
 | `phase_thresholds` | HP fractions; the first one speeds up the dig (x0.66 period). | |
 | `music_override` | Not used yet. | |
 | `osrs_arena` | `[x0, y0, x1, y1]` in OSRS world tiles: the boss's own lair (the Mole's is the Falador Mole Lair), built at load like a map and keyed by the boss id; when the current map's boss (`maps.boss_id`) is summoned, `Arena` moves the fight there under the loading cover and the Mole digs to tiles you can walk to. `[]` for none (the fight stays on the map). | x0 < x1, y0 < y1; every region the area covers is in the dev and player caches (empty void around it is fine) |
@@ -191,6 +191,7 @@ Boss behaviour layered on an enemies row. Read by `Systems/Bosses.cs` (phase 1: 
 | `second_form` | An `enemies` id: the form the boss rises in when its first form (`enemy_id`) dies (0.8: the Kalphite Queen's airborne form). Megabonk's death is called off, the health comes back in full and the second form's model takes the first's place on the same enemy (`SecondForm`); only the second form's death clears the stage and counts for unlocks. `none`: one form. | `none` or an `enemies` id |
 | `second_form_spotanim` | A spotanim played where the first form fell as the second rises (the Kalphite Queen's crawling husk, 1055, frame for frame with her 6270 rise), in place of the first form's corpse. While the second form's `spawn` sequence plays it stands still and can't be hurt. -1: none. | -1 or a spotanim id |
 | `pet_item_id`, `pet_rate` | Pet item and 1-in-N rate. Not used yet. | item resolves |
+| `arena_plane` | The OSRS level `osrs_arena` is built from (0.11: Graardor's, Kree'arra's and K'ril's rooms on 2, Zilyana's on 0): that level's heights, floors, tile settings and objects become the ground (`WorldOptions.Plane`). 0 for every earlier lair. | the preflight checks the arena's tiles on this level |
 | `phase`, `status` | | |
 
 ## maps
@@ -217,7 +218,8 @@ One row per map. Read by `Bonk`, `Arena`, `Osrs.BuildArena`, `Skilling`, `MapPro
 | `underground` | `true` for a map under the ground (TzHaar City): built and lit as a cave, black beyond its walls, as the Mole's lair is. Not built yet (0.5). | |
 | `currency_item` | The OSRS item the map's gold is shown as: its stack models on coins and pickups, its own cache name on the HUD counter (995 Coins; 6529 TokKul in TzHaar City). | an item in the cache |
 | `shopkeeper_npc` | An OSRS NPC that stands in for Megabonk's Shady Guy on this map (`Loot`'s shopkeeper patch: TzHaar-Hur-Tel, 2183, in TzHaar City); 0 keeps the Shady Guy. | 0 or an NPC in the cache |
-| `boss_pool` | JSON list of enemies ids the map's boss is picked from each run (0.7: Morytania's six Barrows brothers). The rows share the boss slot (their first `bonk_base_enemy`, Pharaoh1) and the miniboss slots; `Rows.PickHidden` picks the hidden brother as the stage starts, the other five are the minibosses in turn (`Rows.NextMiniboss`), and beating him gives a Barrows piece (`Barrows`). `[]` for none. | each an `enemies` row |
+| `boss_pool` | JSON list of enemies ids the map's boss is picked from each run (0.7: Morytania's six Barrows brothers). The rows share the boss slot (their first `bonk_base_enemy`, Pharaoh1) and the miniboss slots; `Rows.PickHidden` picks the hidden brother as the stage starts, the other five are the minibosses in turn (`Rows.NextMiniboss`), and beating him gives a Barrows piece (`Barrows`). A pool member that is a `bosses` row's `enemy_id` fights in that row's own lair (0.11: each God Wars general in his room, `Rows.BossArenaFor`); only the Barrows brothers give pieces. `[]` for none. | each an `enemies` row |
+| `osrs_plane` | The OSRS level `osrs_area` is built from (0.11: the God Wars Dungeon, on level 2). Above level 0 the raised-house bridges are off, and objects below the level are left out. 0 for every earlier map. | the preflight checks `spawn_tile`, `boss_tile` and the area on this level |
 | `phase`, `status` | | |
 
 ## waves

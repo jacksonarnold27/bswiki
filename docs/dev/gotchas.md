@@ -61,6 +61,11 @@ step: MODLOG is the short log, this page explains). Unnumbered ones were found w
 
 ## Megabonk runtime
 
+- **Ent3 hovers.** Megabonk's Forest final boss (*Bark Vader*, the God Wars generals' ride) floats as it closes in:
+  its enemy object was 15-18 m above the floor while the OSRS model's feet stayed on it (`EnemySkins` plants them).
+  With a 3D distance from the adventurer, no general was ever beside them, so Zilyana never attacked and K'ril never
+  used his melee in 0.11's first runs. `BossFight` measures reach across the floor from the model's feet
+  (`Flat`, `Feet`), and projectiles leave from the model too.
 - **A game started from Claude's shell writes the user's real saves**: Claude's desktop app is an MSIX package, and
   programs its shell starts see AppData through it, but it redirects only **new** files (into
   `%LOCALAPPDATA%\Packages\Claude_*\LocalCache`, seen only from inside the package). Overwriting a file that already
@@ -202,6 +207,13 @@ step: MODLOG is the short log, this page explains). Unnumbered ones were found w
   run time; their armour items are grey. `enemies.model_ids` `worn:<item ids>` builds Dharok and
   Ahrim as a male body in their own armour instead (`Osrs.BuildWorn`); `bonk modelcolors <model...>` prints a
   model's commonest face colours.
+- **Some places are on another level.** The God Wars Dungeon's cavern and three of its rooms are on level 2, and Zilyana's
+  room is on level 0. Built as level 0, the God Wars box had 415 walkable tiles of 16,384. `maps.osrs_plane` and
+  `bosses.arena_plane` (0.11) name the level: `WorldBuilder` works out every level's heights as usual, then shifts
+  that level down to be the ground. It also leaves out objects below it and turns the raised-house bridge logic off. `bonk world`, `tiles` and `boxes`
+  take `plane=N`, and so do the preflight's tile checks. Every caller must pass the level: `Osrs`'s load-time build of
+  every map left it out at first, so God Wars came out as level 0's empty box (the adventurer kept falling through)
+  whenever that build reached it before a run on it did. The build's log line names the level (`on level 2`).
 - **Textures are one average colour.** Faces with a texture are drawn in its sprite's average colour, part of why
   Lumbridge looks paler than in OSRS.
 

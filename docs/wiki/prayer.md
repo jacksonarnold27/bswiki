@@ -35,7 +35,8 @@ halves a miniboss's hits too, like the Giant Mole's. Elites aren't bosses: praye
 
 The overhead prayer icon glints (a small sparkle) whenever the prayer stops or halves a hit. Hits from a style you're
 not praying against go through in full. A quarter of Verac the Defiled's melee hits ignore the prayer
-([Barrows brothers](monsters-and-bosses.md#the-barrows-brothers)). Protect from Magic also stops the King Black Dragon's breaths from poisoning, freezing or shocking you
+([Barrows brothers](monsters-and-bosses.md#the-barrows-brothers)). K'ril Tsutsaroth's Prayer smash goes through every protection prayer and drains your prayer points
+([Monsters](monsters-and-bosses.md#the-god-wars-generals)). Protect from Magic also stops the King Black Dragon's breaths from poisoning, freezing or shocking you
 ([Monsters](monsters-and-bosses.md#the-king-black-dragon)). Lava burns ([Maps](maps.md#tzhaar-city)) have no style, so no prayer stops
 them. Checked in test runs: Protect from Melee stops chickens, giant rats, goblins
 and cows, Protect from Missiles stops Lumbridge guards, Protect from Magic stops giant frogs, and the wrong prayer

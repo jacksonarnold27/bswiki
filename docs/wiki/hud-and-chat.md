@@ -47,7 +47,7 @@ What it says:
 | When | Message |
 |---|---|
 | A run starts | *Welcome to Lumbridge. Press 1, 2 or 3 to pray against melee, missiles or magic.* (on the Desert: *Welcome to Al Kharid. ...*; on the Graveyard: *Welcome to The Wilderness. ...*) |
-| A later stage is another map | *Welcome to Ardougne & Seers' Village.* / *Welcome to Morytania.* / *Welcome to TzHaar City.* |
+| A later stage is another map | *Welcome to Ardougne & Seers' Village.* / *Welcome to God Wars Dungeon.* / *Welcome to Morytania.* / *Welcome to TzHaar City.* |
 | A skill levels up | *Congratulations, you just advanced a Mining level. You are now level 12.* |
 | You eat | *You eat the lobster. It heals some health.* |
 | You drink a prayer potion | *You drink some of your prayer potion.* |
@@ -63,7 +63,7 @@ What it says:
 | The Kalphite Queen's first form falls | *Kalphite Queen rises again!* |
 | A PKer ambushes you in the Wilderness | *Ice Tank is attacking you!* (its name) |
 | You open the Wilderness's boss door | *You climb down towards King Black Dragon.* |
-| You enter the Fight Caves | *You enter TzTok-Jad's arena; the waves come first.* |
+| You enter the Fight Caves, or a God Wars general's room | *You enter TzTok-Jad's arena; the waves come first.* (or the general's name) |
 | You beat the hidden Barrows brother | *You find Dharok's helm in the Barrows chest!* (the piece you got) |
 | A brother's set is complete | *You have Dharok's full set: he can join you as an adventurer.* |
 | You press Megabonk's Buy on a locked adventurer | *Dharok can't be bought: his Barrows set (2/4).* |
@@ -101,7 +101,7 @@ monsters (at most every 0.12 s) and killing them (every 0.2 s), each weapon's at
 weapon), level-ups and evolutions, each prayer going on, prayer off, running out of prayer, picking up coins, eating
 and drinking, chopping, mining and fishing.
 
-OSRS **music**: an experimental player plays the map's track (Lumbridge: *Harmony*; Al Kharid: *Al Kharid*; Morytania: *Village*; TzHaar City: *Mor Ul Rek*; the Wilderness: *Wilderness*; Ardougne & Seers' Village: *Knightly*) from your cache in place of Megabonk's music
+OSRS **music**: an experimental player plays the map's track (Lumbridge: *Harmony*; Al Kharid: *Al Kharid*; Morytania: *Village*; TzHaar City: *Mor Ul Rek*; the Wilderness: *Wilderness*; Ardougne & Seers' Village: *Knightly*; the God Wars Dungeon: *Armageddon*) from your cache in place of Megabonk's music
 (`Audio.OsrsMusic`), but only with its engine, `OsrsKit.Music.dll`, which release builds don't include; without it
 Megabonk's music plays. OSRS's jingles (level-up, death) aren't built.
 

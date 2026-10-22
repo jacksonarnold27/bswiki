@@ -8,7 +8,7 @@ What isn't there yet, or behaves differently from what you'd expect. The [docket
   (`OsrsKit.Music.dll`), which isn't shipped yet. OSRS's jingles (level-up, death) aren't built.
 - **Prayer altars.** The chat tells you to recharge at an altar, but there's none; prayer potions are the only refill.
 - **More adventurers, weapons, gear, monsters and maps.** Pure, the Dwarf multicannon,
-  the Barrows crypts and God Wars Dungeon are designed (phase 2 and 3) but not in the game.
+  and the Barrows crypts are designed (phase 2 and 3) but not in the game.
 - **The Infernal cape.** The Fire cape's evolution is in the evolutions sheet, but it can't happen yet.
 - **The Fight Caves monsters' own abilities.** Tz-Kek don't split, Yt-MejKot don't heal, and Tok-Xil and Ket-Zek
   attack as the Megabonk enemies under them.
@@ -24,7 +24,8 @@ What isn't there yet, or behaves differently from what you'd expect. The [docket
 - **The Forest's third stage is Lumbridge again.** It's named *Lumbridge Swamp Caves* but builds the same Lumbridge;
   every other stage has its own map.
 - **Minibosses and bosses use Megabonk's stats** (times their map's difficulty) and, all but TzTok-Jad, the Kalphite
-  Queen, the King Black Dragon and Sir Lancelot, Megabonk's own attacks; only ordinary monsters take the sheet's HP, damage and speed.
+  Queen, the King Black Dragon, Sir Lancelot and the God Wars generals, Megabonk's own
+  attacks; only ordinary monsters take the sheet's HP, damage and speed.
 - **An adventurer's attack style decides its melee skill**: the Warrior, Zerker and Dharok train Strength, the Void
   Knight, Durial321, Guthan and Verac Attack, and only the Ironman and Torag Defence.
 - **The Barrows brothers fight as Megabonk's boss and minibosses**, with their attacks; only the set effects are
@@ -52,7 +53,7 @@ These only show up in Melty's automated test runs (autoplay):
 - Autoplay checks two tiles ahead on the map's grid and turns along walls; whether that stops it pressing into
   walls is *(unconfirmed: needs footage)*.
 - Autoplay plays the adventurers this PC has unlocked in turn, and the maps in turn (Lumbridge, Ardougne & Seers'
-  Village, Al Kharid, Morytania, TzHaar City, the Wilderness). A run on a later stage (Ardougne & Seers' Village, Morytania, TzHaar City) starts on its Megabonk map's first stage
+  Village, the God Wars Dungeon, Al Kharid, Morytania, TzHaar City, the Wilderness). A run on a later stage (Ardougne & Seers' Village, the God Wars Dungeon, Morytania, TzHaar City) starts on its Megabonk map's first stage
   and moves to its own a second in;
   since its adventurer arrives without the levels the earlier stages bring, monsters there get their HP and hits
   without Megabonk's stage scaling.
