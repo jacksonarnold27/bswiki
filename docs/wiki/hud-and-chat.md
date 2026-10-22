@@ -46,7 +46,7 @@ What it says:
 
 | When | Message |
 |---|---|
-| A run starts | *Welcome to Lumbridge. Press 1, 2 or 3 to pray against melee, missiles or magic.* (on the Desert: *Welcome to Al Kharid. ...*) |
+| A run starts | *Welcome to Lumbridge. Press 1, 2 or 3 to pray against melee, missiles or magic.* (on the Desert: *Welcome to Al Kharid. ...*; on the Graveyard: *Welcome to The Wilderness. ...*) |
 | A later stage is another map | *Welcome to Morytania.* / *Welcome to TzHaar City.* |
 | A skill levels up | *Congratulations, you just advanced a Mining level. You are now level 12.* |
 | You eat | *You eat the lobster. It heals some health.* |
@@ -61,6 +61,8 @@ What it says:
 | The Giant Mole digs | *The Giant Mole burrows into the ground!* |
 | A boss fight moves into its lair | *You follow the Giant Mole down into its lair.* (or *the Kalphite Queen*) |
 | The Kalphite Queen's first form falls | *Kalphite Queen rises again!* |
+| A PKer ambushes you in the Wilderness | *Ice Tank is attacking you!* (its name) |
+| You open the Wilderness's boss door | *You climb down towards King Black Dragon.* |
 | You enter the Fight Caves | *You enter TzTok-Jad's arena; the waves come first.* |
 | You beat the hidden Barrows brother | *You find Dharok's helm in the Barrows chest!* (the piece you got) |
 | A brother's set is complete | *You have Dharok's full set: he can join you as an adventurer.* |
@@ -99,7 +101,7 @@ monsters (at most every 0.12 s) and killing them (every 0.2 s), each weapon's at
 weapon), level-ups and evolutions, each prayer going on, prayer off, running out of prayer, picking up coins, eating
 and drinking, chopping, mining and fishing.
 
-OSRS **music**: an experimental player plays the map's track (Lumbridge: *Harmony*; Al Kharid: *Al Kharid*; Morytania: *Village*; TzHaar City: *Mor Ul Rek*) from your cache in place of Megabonk's music
+OSRS **music**: an experimental player plays the map's track (Lumbridge: *Harmony*; Al Kharid: *Al Kharid*; Morytania: *Village*; TzHaar City: *Mor Ul Rek*; the Wilderness: *Wilderness*) from your cache in place of Megabonk's music
 (`Audio.OsrsMusic`), but only with its engine, `OsrsKit.Music.dll`, which release builds don't include; without it
 Megabonk's music plays. OSRS's jingles (level-up, death) aren't built.
 
@@ -178,4 +180,4 @@ The OSRS sprites and fonts each element uses (`sheets/ui.json`):
 Two rows aren't drawn although the sheet marks them done: `run_timer` (Bonkscape's OSRS-font clock was removed in
 0.1.7) and `hitsplat_poison` (nothing poisons yet).
 
-<!-- sources: src/Bonkscape.Plugin/Systems/Projectiles.cs src/Bonkscape.Plugin/Systems/Skilling.cs src/Bonkscape.Plugin/Systems/Music.cs src/Bonkscape.Plugin/Systems/Hud.cs src/Bonkscape.Plugin/Systems/HudLayout.cs src/Bonkscape.Plugin/Systems/OsrsUi.cs src/Bonkscape.Plugin/Systems/MegabonkHud.cs src/Bonkscape.Plugin/Systems/LevelUpFx.cs src/Bonkscape.Cache/SpotAnimFrames.cs src/Bonkscape.Plugin/Systems/Chat.cs src/Bonkscape.Plugin/Systems/Evolutions.cs src/Bonkscape.Plugin/Systems/CharacterSelect.cs src/Bonkscape.Plugin/Systems/Combat.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Sfx.cs src/Bonkscape.Plugin/Core/OsrsAudio.cs src/Bonkscape.Plugin/Patches/CorePatches.cs sheets/ui.json sheets/audio.json src/Bonkscape.Plugin/Systems/BossFight.cs src/Bonkscape.Plugin/Systems/LavaBurn.cs src/Bonkscape.Plugin/Systems/Unlocks.cs src/Bonkscape.Plugin/Systems/Arena.cs src/Bonkscape.Plugin/Core/Runner.cs src/Bonkscape.Plugin/Core/Osrs.cs src/Bonkscape.Plugin/Systems/Barrows.cs src/Bonkscape.Plugin/Systems/SecondForm.cs -->
+<!-- sources: src/Bonkscape.Plugin/Systems/Projectiles.cs src/Bonkscape.Plugin/Systems/Skilling.cs src/Bonkscape.Plugin/Systems/Music.cs src/Bonkscape.Plugin/Systems/Hud.cs src/Bonkscape.Plugin/Systems/HudLayout.cs src/Bonkscape.Plugin/Systems/OsrsUi.cs src/Bonkscape.Plugin/Systems/MegabonkHud.cs src/Bonkscape.Plugin/Systems/LevelUpFx.cs src/Bonkscape.Cache/SpotAnimFrames.cs src/Bonkscape.Plugin/Systems/Chat.cs src/Bonkscape.Plugin/Systems/Evolutions.cs src/Bonkscape.Plugin/Systems/CharacterSelect.cs src/Bonkscape.Plugin/Systems/Combat.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Sfx.cs src/Bonkscape.Plugin/Core/OsrsAudio.cs src/Bonkscape.Plugin/Patches/CorePatches.cs sheets/ui.json sheets/audio.json src/Bonkscape.Plugin/Systems/BossFight.cs src/Bonkscape.Plugin/Systems/LavaBurn.cs src/Bonkscape.Plugin/Systems/Unlocks.cs src/Bonkscape.Plugin/Systems/Arena.cs src/Bonkscape.Plugin/Core/Runner.cs src/Bonkscape.Plugin/Core/Osrs.cs src/Bonkscape.Plugin/Systems/Barrows.cs src/Bonkscape.Plugin/Systems/SecondForm.cs src/Bonkscape.Plugin/Systems/Pkers.cs src/Bonkscape.Plugin/Systems/Graveyard.cs -->

@@ -12,7 +12,7 @@
 > If you've only logged in once, some monsters or items may be missing from your cache. Bonkscape then uses an OSRS
 > stand-in that *is* in your cache (another chicken for a chicken, for example; see
 > [Monsters](monsters-and-bosses.md#stand-ins)). If a map's regions are missing, you get Megabonk's own map (the
-> Forest or the Desert) with OSRS scenery instead ([Maps](maps.md#when-a-map-isnt-built)).
+> Forest, the Desert or the Graveyard) with OSRS scenery instead ([Maps](maps.md#when-a-map-isnt-built)).
 
 ## Installing
 
@@ -49,8 +49,9 @@ start Megabonk again."* and the mod stays out of the way.
 1. Start Megabonk the way Melty tells you to. The first start after installing takes longer, because BepInEx
    prepares itself.
 2. While the main menu loads, Bonkscape decodes what it needs from your cache in the background: monsters, the
-   adventurers, items and icons, sprites, fonts, sounds, then the Lumbridge, Al Kharid, Morytania and TzHaar
-   City arenas and the bosses' lairs (the Mole's, the Kalphite Lair and the Fight Caves). Menus work meanwhile; the log line
+   adventurers, items and icons, sprites, fonts, sounds, then the Lumbridge, Al Kharid, Morytania, TzHaar
+   City and Wilderness arenas and the bosses' lairs (the Mole's, the Kalphite Lair, the Fight Caves and the King
+   Black Dragon's). Menus work meanwhile; the log line
    `OSRS assets ready in ... ms` says how long it took.
 3. On character select, the selected adventurer's OSRS model stands where Megabonk's character would, and a
    **Bonkscape** panel above it shows your combat level, your skill levels and the weapon that adventurer will start
@@ -59,12 +60,13 @@ start Megabonk again."* and the mod stays out of the way.
    **Zerker** (`Calcium`), **Void Knight** (`Athena`) or **Durial321** (`Vlad`); the **Ironman** (`SirChadwell`) and the six
    Barrows brothers are earned ([Adventurers](adventurers.md#unlocking)). Then start a
    run on Megabonk's Forest map, which Bonkscape renames **Lumbridge & Swamp**, or its Desert map, which becomes
-   **Al Kharid**, then Morytania and TzHaar City on its later stages ([Maps](maps.md#al-kharid)). Bonkscape weapons and gear count as unlocked
+   **Al Kharid**, then Morytania and TzHaar City on its later stages ([Maps](maps.md#al-kharid)), or its Graveyard map, which
+   becomes **the Wilderness** ([Maps](maps.md#the-wilderness)). Bonkscape weapons and gear count as unlocked
    whatever your Megabonk progress is.
 5. Behind OSRS's *Loading - please wait.* screen you're moved into the castle courtyard (on the Desert, Al Kharid). A chat line greets
    you: *"Welcome to Lumbridge. Press 1, 2 or 3 to pray against melee, missiles or magic."*
 
-Only the Forest and the Desert become OSRS maps. Megabonk's other maps aren't fully plain Megabonk, though: Bonkscape edits
+Only the Forest, the Desert and the Graveyard become OSRS maps. Megabonk's other maps aren't fully plain Megabonk, though: Bonkscape edits
 Megabonk's data once when the game loads, so the weapons, tomes and characters it reskins keep their OSRS names,
 icons and stats on every map, and the Megabonk enemies it remaps keep the OSRS rows' HP, damage and speed. On those
 maps, monsters keep Megabonk's models and level-ups offer Megabonk's full pool

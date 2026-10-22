@@ -16,19 +16,19 @@ through `Generated/Sheets.g.cs`. Each file has the same shape:
 | Sheet | Rows | Columns | Row statuses |
 |---|---|---|---|
 | `audio.json` | 17 | 6 | 14 built, 3 todo |
-| `bosses.json` | 4 | 19 | 3 built, 1 verified |
-| `cache_assets.json` | 496 | 9 | 6 todo, 490 verified |
+| `bosses.json` | 5 | 19 | 4 built, 1 verified |
+| `cache_assets.json` | 561 | 9 | 7 todo, 554 verified |
 | `characters.json` | 14 | 21 | 8 built, 1 todo, 5 verified |
 | `drops.json` | 36 | 10 | 31 built, 3 todo, 2 verified |
-| `enemies.json` | 68 | 22 | 48 built, 1 todo, 19 verified |
+| `enemies.json` | 88 | 22 | 68 built, 1 todo, 19 verified |
 | `evolutions.json` | 4 | 10 | 3 built, 1 todo |
-| `hooks.json` | 45 | 9 | 15 built, 30 verified |
-| `maps.json` | 6 | 23 | 3 built, 1 todo, 2 verified |
+| `hooks.json` | 47 | 9 | 17 built, 30 verified |
+| `maps.json` | 7 | 23 | 4 built, 1 todo, 2 verified |
 | `passives.json` | 11 | 11 | 11 built |
 | `prayers.json` | 3 | 12 | 3 verified |
 | `skills.json` | 10 | 8 | 5 built, 5 verified |
 | `ui.json` | 41 | 8 | 4 built, 1 todo, 36 verified |
-| `waves.json` | 47 | 8 | 39 built, 8 verified |
+| `waves.json` | 55 | 8 | 47 built, 8 verified |
 | `weapons.json` | 19 | 27 | 17 built, 1 todo, 1 verified |
 <!-- /gen:sheet-list -->
 
@@ -183,7 +183,7 @@ Boss behaviour layered on an enemies row. Read by `Systems/Bosses.cs` (phase 1: 
 | `osrs_arena` | `[x0, y0, x1, y1]` in OSRS world tiles: the boss's own lair (the Mole's is the Falador Mole Lair), built at load like a map and keyed by the boss id; when the current map's boss (`maps.boss_id`) is summoned, `Arena` moves the fight there under the loading cover and the Mole digs to tiles you can walk to. `[]` for none (the fight stays on the map). | x0 < x1, y0 < y1; every region the area covers is in the dev and player caches (empty void around it is fine) |
 | `arena_spawn_tile` | `[x, y]` where the adventurer lands in the lair. | inside `osrs_arena`, a walkable tile within 3 |
 | `arena_boss_tile` | `[x, y]` where the boss is put in the lair. | inside `osrs_arena`, a walkable tile within 3 |
-| `arena_waves` | JSON list `[{"at": seconds, "enemies": [enemies ids], "count": n}, ...]`: the boss arena's own waves before the boss (0.5: the Fight Caves), spawned by the arena from the time the adventurer moves in (`BossFight.Tick`; `osrs_wave` notes which OSRS wave an entry stands for). `[]`: the boss comes at once, as the Mole does. | each id an `enemies` row |
+| `arena_waves` | JSON list `[{"at": seconds, "enemies": [enemies ids], "count": n}, ...]`: the boss arena's own waves before the boss (0.5: the Fight Caves), spawned by the arena from the time the adventurer moves in (`BossFight.Tick`; `osrs_wave` notes which OSRS wave an entry stands for). `[]`: the boss comes at once, as the Mole does. With no `osrs_arena` the waves run on the stage's own map where the boss rose (0.10: the Knights of the Round Table at Camelot); each wave monster takes its own row's health and speed, and the boss also comes once every wave has come and fallen. | each id an `enemies` row |
 | `boss_at` | Seconds after the move into the arena when the boss itself comes, after `arena_waves`. Until then the boss waits on its tile, hidden, frozen and unhurt. | 0 or more |
 | `attack_every_ms` | For a boss whose `attacks` have `pattern` `random`: how often it picks one (Jad: 4800, every 8 ticks). Megabonk's own special attacks are switched off for it, and its touches do no damage. 0: the boss keeps Megabonk's attacks. | 0 or more |
 | `healers` | JSON `{"enemy": enemies id, "count": n, "at_hp": fraction}`: healers called once when the boss drops below `at_hp` (Jad's four Yt-HurKot at half health); they walk to the boss and heal it until the adventurer hits them, then fight the adventurer. `{}` for none. | |

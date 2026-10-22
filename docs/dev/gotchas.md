@@ -174,6 +174,10 @@ step: MODLOG is the short log, this page explains). Unnumbered ones were found w
   window open) the final stage stays at time scale 0 with Megabonk's cinematic bars up and no boss, for good (0.9's
   `kbd-paused` experiment; 0.9.0's Melty run 1 went black when test mode opened the Graveyard's boss door then).
   Test mode's boss call and the boss door both wait for the pause to end.
+- **Two maps' first stages can share a Megabonk boss** (Lumbridge's Mole and the Wilderness's KBD both on Ent1): every
+  row applied at load names its Megabonk enemy, the last one wins, so 0.10.0's Melty run showed the Mole as "King Black
+  Dragon". `Content.ApplyStage` now runs for every stage a launch plays, its first included (`Content.StageApplied`),
+  and never applies a PKer's row (it would put the PKer's walker in the map's pool).
 
 ## OSRS cache and models
 

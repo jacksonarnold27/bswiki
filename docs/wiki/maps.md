@@ -1,17 +1,19 @@
 # Maps
 
-Bonkscape has four maps, each built from **your own OSRS cache** in place of a Megabonk map or stage:
+Bonkscape has five maps, each built from **your own OSRS cache** in place of a Megabonk map or stage:
 
 - **Lumbridge & Swamp** on Megabonk's Forest <span class="st st-verified">verified</span> (Melty publish test of
   0.1.11: courtyard start, castle, river and bridges, swamp, minibosses, death and restart).
 - **[Al Kharid](#al-kharid)** on Megabonk's Desert: the desert town, with [the Kalphite Lair](#the-kalphite-lair) as its
   boss arena.
 - **[Morytania](#morytania)** on the Desert's second stage: Canifis, Mort Myre and the Barrows.
+- **[The Wilderness](#the-wilderness)** on Megabonk's Graveyard: from the Edgeville ditch north, with
+  [the King Black Dragon's lair](#the-king-black-dragons-lair) below it.
 - **[TzHaar City](#tzhaar-city)** on the Desert's third stage: the TzHaar's underground city of obsidian and lava,
   with [the Fight Caves](#the-fight-caves) as its boss arena.
 
 Which one you play is the Megabonk map you pick: the Forest is Lumbridge; the Desert's three stages are Al Kharid,
-Morytania and TzHaar City. The rest of this page describes Lumbridge first; the other maps work the same
+Morytania and TzHaar City; the Graveyard is the Wilderness. The rest of this page describes Lumbridge first; the other maps work the same
 way except where their sections say otherwise.
 
 ## The Lumbridge arena
@@ -45,8 +47,8 @@ with it, so there's room to run. See [Adventurers](adventurers.md#size).
 ### When it's built
 
 1. While the main menu loads, every map's world data (tiles, scenery, colliders) and minimap are built in the
-   background from your cache, Lumbridge first, then Al Kharid, Morytania, TzHaar City and the bosses' lairs (the Giant
-   Mole's, the Kalphite Lair and the Fight Caves); their meshes are then made
+   background from your cache, Lumbridge first, then Al Kharid, Morytania, TzHaar City, the Wilderness and the bosses' lairs (the Giant
+   Mole's, the Kalphite Lair, the Fight Caves and the King Black Dragon's); their meshes are then made
    a few at a time, at most 8 ms of each frame.
 2. When a run starts, the screen goes black with OSRS's *Loading - please wait.* box, so Megabonk's own stage never
    shows. Bonkscape waits 0.3 s, then for Megabonk's spawn intro to finish (your character on the ground and done
@@ -133,7 +135,7 @@ What's different from Lumbridge:
 
 - **A dark sky.** The Desert stage's fog and sky turn a dark purple (`maps.sky`), and its sunlight and ambient light
   lose the desert's warm tint.
-- **A shorter timeline**: 9 minutes, and Megabonk's own scaling for a second stage.
+- **A second stage.** Megabonk's own scaling for a later stage makes its monsters tougher than on Al Kharid.
 - **Built at load.** If a stage starts before its map's build is done, it waits behind the loading screen: up to 45 s
   for the build and then up to 30 s for the meshes; past 45 s the stage stays Megabonk's own.
 - **A detail budget.** Maps bigger than 40,000 tiles leave out ground decorations (flowers, grass tufts, small
@@ -181,9 +183,36 @@ screen. You land at OSRS tile (2413, 5115) and the chat box says *"You enter TzT
 Six timed waves of Fight Caves monsters come first; TzTok-Jad joins after them, at OSRS tile (2399, 5087)
 ([Monsters](monsters-and-bosses.md#tztok-jad)). Its lava burns as the city's does.
 
+## The Wilderness
+
+The Wilderness takes over Megabonk's **Graveyard**. Its arena is OSRS world tiles **(2944, 3520) to (3391, 3967)**,
+448 x 448 tiles, from the Edgeville ditch north, so the detail budget applies ([Morytania](#morytania)).
+
+| What | Where |
+|---|---|
+| **You** | OSRS tile (3090, 3525). The chat box says *"Welcome to The Wilderness. Press 1, 2 or 3 to pray against melee, missiles or magic."* |
+| **Boss door** | OSRS tile (3014, 3849): Megabonk's surface crypt door, prompting *Climb down to King Black Dragon*. It leads into [the King Black Dragon's lair](#the-king-black-dragons-lair). |
+| **Monsters** | Revenants and green dragons, the Chaos Elemental and the Revenant maledictus as minibosses, and PKers who ambush you ([Monsters](monsters-and-bosses.md#the-wilderness)). |
+| **Chests, shrines, monster spawns, skilling spots** | As on Lumbridge, on the Wilderness's ground and its own trees, rocks and shores. |
+
+What's different:
+
+- **No crypt.** A Graveyard run begins in Megabonk's maze crypt; Bonkscape takes you out by its exit door at once,
+  behind the loading screen, so the stage clock starts, and the crypt's objectives (*Find the exit*) don't show.
+- **No coffins, keys or lamps.** Megabonk's own way to the Graveyard's boss gives way to the boss door.
+- **Music** (experimental): *Wilderness*.
+
+### The King Black Dragon's lair
+
+Opening the boss door says *"You climb down towards King Black Dragon."* and loads Megabonk's final stage of the
+Graveyard, as TzHaar City's final portal does on the Desert. That stage's final boss is the King Black Dragon, and the
+fight moves into his lair, OSRS tiles (2240, 4672) to (2303, 4735), from your cache: you land at OSRS tile (2258, 4687)
+and he stands at (2271, 4699) ([Monsters](monsters-and-bosses.md#the-king-black-dragon)). His death ends the run, as
+any final boss's does. *(unconfirmed: needs a Melty run or footage)*
+
 ## When a map isn't built
 
-You get Megabonk's own map instead (the Forest or the Desert), dressed in OSRS scenery, when:
+You get Megabonk's own map instead (the Forest, the Desert or the Graveyard), dressed in OSRS scenery, when:
 
 - the `Map.RealLumbridge` setting is off: it covers every map and lair ([Settings](settings.md)),
 - your cache is missing any of the map's regions (the log says *"Lumbridge isn't in this OSRS cache"*, or
@@ -210,11 +239,12 @@ Every map in `sheets/maps.json`, built or planned:
 | **God Wars Dungeon** | Graveyard stage 1 | - | Armadyl Alliance | 10 | none | <span class="st st-todo">planned (phase 3)</span> |
 | **TzHaar City** | Desert stage 2 | 2432, 5056, 2559, 5183 | Mor Ul Rek | 8 | none | <span class="st st-verified">verified</span> |
 | **Al Kharid** | Desert stage 0 | 3264, 3110, 3391, 3330 | Al Kharid | 10 | none | <span class="st st-built">built</span> |
+| **Ardougne & Seers' Village** | Forest stage 1 | 2496, 3264, 2783, 3535 | Knightly | 9 | none | <span class="st st-built">built</span> |
 <!-- /gen:maps -->
 
 Each map has an OSRS track (Lumbridge: *Harmony*; Al Kharid: *Al Kharid*; Morytania: *Village*; TzHaar City: *Mor Ul
-Rek*). An experimental player plays it from your
+Rek*; the Wilderness: *Wilderness*). An experimental player plays it from your
 cache (`Audio.OsrsMusic`), but only with its engine, which release builds don't include, so they play Megabonk's
 music ([HUD and chat](hud-and-chat.md#sounds)). More boss arenas are on the [docket](../dev/docket.md).
 
-<!-- sources: src/Bonkscape.Plugin/Systems/Arena.cs src/Bonkscape.Plugin/Systems/MapProps.cs src/Bonkscape.Plugin/Systems/Skilling.cs src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Core/Osrs.cs src/Bonkscape.Plugin/Core/Runner.cs src/Bonkscape.Cache/World/ sheets/maps.json src/Bonkscape.Plugin/Systems/LavaBurn.cs src/Bonkscape.Plugin/Systems/BossFight.cs src/Bonkscape.Plugin/Systems/Bonk.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Barrows.cs src/Bonkscape.Plugin/Systems/SecondForm.cs -->
+<!-- sources: src/Bonkscape.Plugin/Systems/Arena.cs src/Bonkscape.Plugin/Systems/MapProps.cs src/Bonkscape.Plugin/Systems/Skilling.cs src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Core/Osrs.cs src/Bonkscape.Plugin/Core/Runner.cs src/Bonkscape.Cache/World/ sheets/maps.json src/Bonkscape.Plugin/Systems/LavaBurn.cs src/Bonkscape.Plugin/Systems/BossFight.cs src/Bonkscape.Plugin/Systems/Bonk.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Barrows.cs src/Bonkscape.Plugin/Systems/SecondForm.cs src/Bonkscape.Plugin/Systems/Graveyard.cs -->

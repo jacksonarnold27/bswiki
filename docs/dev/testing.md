@@ -30,7 +30,7 @@ writes its self-checks (log: `Melty test mode: hand-over`). For what autoplay ca
 played the Warrior. The log says `autoplay adventurer: <name> (<style>)`. `Dev.AutoStartRun` still plays the first.
 
 **Map rotation** (0.2.1). The map is `rotation mod <phase-1 maps>` over `Rows.Maps` (Lumbridge on the Forest;
-Al Kharid, Morytania and TzHaar City on the Desert's three stages). The rotation goes up with every game launch and
+Al Kharid, Morytania and TzHaar City on the Desert's three stages; the Wilderness on the Graveyard). The rotation goes up with every game launch and
 each run is one, so a test of as many runs as maps plays each, as 0.5.0's three-run test did (with the run number added too, as for the adventurer, it moved by 2 a run and both of
 0.2.1's first test runs played Lumbridge). The
 log says `autoplay map: <name> (Megabonk's <map>)`. `Dev.AutoStartRun` plays Lumbridge.
@@ -199,6 +199,8 @@ Times are local (UTC-5). From Melty's release list and test results.
 | 0.6.0 | `b459ddbb` | 3 x 2 min | **passed (publish test)** | Run 1 the Zerker on Lumbridge: his OSRS model, the Void knight mace among the level-up offers, the Mole's lair fight. Run 2 Durial321 on Morytania: his model, his extra Ice Barrage firing round him, Dharok; the Deep Freeze ice block on its target drew as an opaque tan box. Run 3 TzHaar City: the city, the Fight Caves' waves and TzTok-Jad. All 12 each. |
 | 0.7.0 | `4b4dffee` | 3 x 2 min | **passed (publish test)** | Run 1 the Warrior on Lumbridge: the Void knight mace and whip among the offers, the Mole's lair. Run 2 the Mage on Morytania: the hidden brother was Torag the Corrupted, named on the boss bar, in his armour with his hammers (Megabonk's boss beams). Run 3 the Void Knight on TzHaar City: the final portal, *You enter TzTok-Jad's arena; the waves come first.*, the waves, Jad with his telegraphs. All 12 each. The review read Jad's prayed hits as half blocked: `Prayer` labels every boss hit `boss, half blocked`, also one blocked fully. |
 | 0.8.0 | `7b1d13bb` | 3 x 2 min | **passed (publish test)** | Run 1 Durial321 on Al Kharid: the desert town, scorpions, desert wolves, lizards, a bandit and an Al Kharid warrior, the boss portal into the Kalphite Lair, the crawling Queen fighting (boss bar 7,142). Run 2 the Ranger on Morytania, reached by the jump to the Desert's second stage: Verac the hidden brother at the Barrows. Run 3 TzHaar City: the Fight Cave, its waves, Jad's telegraphs. All 12 each. The Queen's second form wasn't reached in the run's 30 s with her (seen locally in `kalphite-lair`). |
+| 0.9.0 | `59fdc7c2` | 3 x 2 min | passed, didn't graduate | Run 1 the Mage on the Wilderness: revenants, green dragons, a Pipe Ranger ambush with Toxic Siphon, then the boss door (opened by test mode while a window had the game paused) loaded the final stage, and the screen stayed black to the end, no King Black Dragon; the review failed it, and the crypt's *Find the exit* stayed on screen. Run 2 the Void Knight on Al Kharid (the Kalphite Queen), run 3 the Zerker on Morytania (Guthan) passed. All 12 self-checks in each run. |
+| 0.9.1 | `5816c823` | 3 x 2 min | **passed (publish test)** | Run 1 the Ranger on the Wilderness: revenants and green dragons, an Ice Tank ambush (log), the door opened only once a chest window's pause ended, then the King Black Dragon in his lair (boss bar 9,450). Run 2 the Zerker on Al Kharid: the Kalphite Lair, the crawling Queen. Run 3 Durial321 on Morytania: Torag the hidden brother. All 12 each. The KBD's death and breath effects weren't reached (seen locally in `kbd-lair`). |
 
 Blank cells weren't looked up. `mcp__melty__test_result` with the test id gives the full record.
 
@@ -290,6 +292,9 @@ written as PNG by the plugin (Unity's own capture and PNG encoder are stripped f
 | `wilderness` | The Wilderness (Megabonk's Graveyard) as the Warrior for 90 s: the starting crypt left (`crypt-left`), the map built, a kill, a PKer's ambush at 40 s and its spec (`pker-ambush`, `pker-spec`) |
 | `kbd-lair` | The Wilderness as the Mage with Prayer, Hitpoints and Magic at 99 (not saved), the boss door opened at 12 s: Megabonk's final stage, its final boss skinned as the King Black Dragon in his lair (`boss-arena`), his weighted attacks, killed at 75 s: "Defeat the Final Boss" and Megabonk's end-of-run portal |
 | `kbd-late` | The same with the boss door opened at 85 s, after a PKer's ambush, as Melty's runs do: the final stage and the KBD in his lair |
+| `ardougne` | Ardougne & Seers' Village (the Forest's second stage since 0.10, reached by the jump) as the Warrior for 60 s: the map built, a kill, the monsters animated |
+| `knights` | The same as the Mage with Prayer, Hitpoints and Magic at 99 (not saved), the boss portal at 12 s at Camelot, the arena's times x0.25: the Knights of the Round Table two and three at a time on the map (`arena-waves`), then Sir Lancelot (`arena-boss-released`), killed at 60 s |
+| `mole-name` | Lumbridge as the first map of a launch, the boss portal at 12 s: the boss bar names the Giant Mole, not another map's boss on the same Megabonk enemy (0.10.0's bug) |
 
 **Deaths in test runs** (`Systems/TestGuard.cs`): no blanket invulnerability, which would hide broken hits. Every hit
 lands in full through Megabonk's damage path; only one that would kill (`PlayerHealth.WillDamageKill`) is cut to

@@ -13,6 +13,59 @@ inside each release's DLL in `dist/`. No version has been published yet: every r
 
 ---
 
+## 0.9.1: the Wilderness, fixed
+
+*Build 2026-10-22 08:50, code in `7e4b8ca`. Test `5816c823`: publish test, 3 runs x 2 min, passed. Run 1 the Ranger
+on the Wilderness (revenants and green dragons, an Ice Tank ambush, the boss door opened once a chest window's pause
+ended, the King Black Dragon fighting in his lair), run 2 the Zerker on Al Kharid (the Kalphite Queen), run 3
+Durial321 on Morytania (Torag the hidden brother). All 12 self-checks each.*
+
+**Patch notes**
+- No change for players: the Wilderness's boss door now never opens while a window has the game paused, which only
+  test runs could do (0.9.0's test went black there), and the crypt's objectives stay hidden all stage.
+
+**Changes**
+- `Graveyard`: `OpenDoor` refuses under a pause (`Time.timeScale` 0); the Graveyard's objectives are hidden for the
+  whole stage, and the final stage's *Defeat the Final Boss* kept; `WatchFinalStage` logs the scene every 5 s for a
+  minute while the final stage has no boss yet. `TestMode.CallBoss` waits out a pause too. Melty runs copy
+  Bonkscape's log to `%LOCALAPPDATA%/Bonkscape/melty-run-N.log`.
+
+## 0.9.0: the Wilderness
+
+*Build 2026-10-22 08:25, code in `b94a306`. Test `59fdc7c2`: 3 runs x 2 min, didn't graduate. Run 1 the Mage on the
+Wilderness played 85 s (revenants, green dragons, a Pipe Ranger ambush), then the boss door loaded the final stage and
+the screen stayed black; the review failed it. Runs 2 (Al Kharid, the Kalphite Queen) and 3 (Morytania, Guthan) passed.
+All 12 self-checks in each run.*
+
+**Patch notes**
+- The Wilderness on Megabonk's Graveyard: from the Edgeville ditch north, built from your cache, with revenants from
+  imps to dragons, green dragons, and the Chaos Elemental and the Revenant maledictus as minibosses.
+- PKers: six player killers in classic gear (a pure, an Ice Tank, AGS and claw mains, a whip hybrid, a pipe ranger)
+  ambush you every three to four minutes and fire their weapon's special attack.
+- The King Black Dragon: the surface crypt door climbs down to his lair, Megabonk's final stage. He bites, breathes
+  dragonfire, and his toxic, icy and shocking breaths poison, freeze or slow you unless you pray against magic. His
+  death ends the run.
+
+**Changes**
+- New `Systems/Graveyard.cs`: the starting crypt left by its exit door at once (`Arena.TryBuild` waits for it), its
+  objectives and escape-time message hidden; the surface crypt door (`InteractableCrypt.Interact`, `CanInteract`,
+  `GetInteractString`, hook `graveyard_door`) placed on the boss tile and loading Megabonk's final stage
+  (`MapController.LoadFinalStage`), whose final boss is the map's boss row.
+- New `Systems/Pkers.cs` (`maps.special_rule` `pkers_revenants`): new `enemies` column `pk_weapon`; a PKer is never
+  on a Megabonk slot or in the waves (`Rows`, `Content`) but sent in by `Pkers.Ambush` (first after 60-90 s, 40 s in
+  tests, then every 180-240 s, never in a lair), its row's HP against the enemy it rides, its weapon's spec every
+  10-14 s in reach for 20-33% of max hp.
+- `BossFight`: attack keys `weight` (the pick is weighted), `effect` (`poison`, `freeze`, `shock` through Megabonk's
+  `BossPoisonPlayer`, `FreezePlayer`, `SlowPlayer`), `effect_chance` and `freeze_ms` (capped at 3 s), none when the
+  prayer for the attack's style is up; `Forget` drops a pooled enemy's scripted attacks and healer link.
+- Rows: `wilderness` (Graveyard stage 0, (2944, 3520)-(3391, 3967), *Wilderness*), seven revenants, the
+  green dragon and revenant imp moved to phase 1, `chaos_elemental`, `revenant_maledictus`, `king_black_dragon`
+  (`Ent1`), six PKers, the Wilderness's waves, `kbd_boss` (his lair (2240, 4672)-(2303, 4735), every 2400 ms, five
+  weighted attacks).
+- Test mode: optional checks `crypt-left`, `pker-ambush`, `pker-spec`, `boss-breath-effect`; scenario steps `probe`,
+  `interact`, `teleport`, `pause`; a scenario on a map not built yet plays Megabonk's own under it; scenarios
+  `wilderness`, `kbd-lair`, `kbd-late`.
+
 ## 0.8.0: Al Kharid
 
 *Build 2026-10-22 07:00, code in `70b4f98`. Test `7b1d13bb`: publish test, 3 runs x 2 min, passed. Run 1 Durial321 on
@@ -25,7 +78,7 @@ self-checks each.*
   more, Kalphite Guardians as minibosses, and the boss portal into the Kalphite Lair.
 - The Kalphite Queen: three OSRS attacks (Jaws, Spines, Lightning) every 2.4 s, each a smaller share of your health
   than Jad's. Kill her crawling form and she rises again, airborne, at full health; only her second death counts.
-- Morytania is now the Desert's second stage, on a 9-minute timeline, at full difficulty (it was 0.8).
+- Morytania is now the Desert's second stage, at full difficulty (it was 0.8).
 
 **Changes**
 - New `bosses` columns `second_form` (an `enemies` id the boss rises as) and `second_form_spotanim`. New
@@ -39,7 +92,7 @@ self-checks each.*
 - Rows: `al_kharid` (Desert stage 0, (3264, 3110)-(3391, 3330), *Al Kharid*, fallback Scorpion), ten Al Kharid
   monsters, `kalphite_guardian`, `kalphite_queen` (963) and `kalphite_queen_airborne` (965, never on a slot of its own),
   Al Kharid's waves and `kalphite_queen_boss` (the Kalphite Lair (3456, 9472)-(3519, 9535), every 2400 ms, second
-  form with spotanim 1055). `morytania` moves to stage 1 (9 minutes, difficulty 1.0), its brothers to `Pharaoh2` and
+  form with spotanim 1055). `morytania` moves to stage 1 (difficulty 1.0), its brothers to `Pharaoh2` and
   its waves earlier (minibosses at 2 and 7, swarms at 3 and 6, the boss at 9).
 - `Prayer`'s hit log names the block applied (*boss, fully blocked* for Jad). Test mode: optional check
   `boss-second-form`; a scenario's `kill` step reports a risen second form; scenarios `al-kharid`, `kalphite-lair`.

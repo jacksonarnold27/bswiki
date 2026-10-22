@@ -10,11 +10,13 @@ turns to face you.
 
 For ordinary monsters, Bonkscape also replaces Megabonk's **HP, damage, speed and knockback resistance** with the
 row's values. **Minibosses and bosses keep Megabonk's own stats**, so the Giant Mole fights with the HP and damage of
-the Megabonk boss it replaces, not the sheet's 9000 HP (TzTok-Jad and the Kalphite Queen: not their 8000). A map's difficulty (`maps.difficulty`) scales HP and damage for all of them; every map's is 1. Each row joins the spawn pool of its own maps (the roster's **Maps** column): Lumbridge's
-monsters on Megabonk's Forest; Al Kharid's, Morytania's and TzHaar City's on the Desert. Those three share the
+the Megabonk boss it replaces, not the sheet's 9000 HP (TzTok-Jad, the Kalphite Queen and the King Black Dragon: not
+theirs). A map's difficulty (`maps.difficulty`) scales HP and damage for all of them; every map's is 1. Each row joins the spawn pool of its own maps (the roster's **Maps** column): Lumbridge's
+monsters on Megabonk's Forest; Al Kharid's, Morytania's and TzHaar City's on the Desert; the Wilderness's on the Graveyard. The Desert's three share
+the
 Desert's enemy types: when a Desert stage starts, its map's rows take the types over (names, models and stats). The Fight
 Caves' monsters (Maps `tztok_jad_boss`) join no pool; the arena spawns them itself. Megabonk enemies that no row takes
-over are removed from the Forest's and the Desert's pools, so only OSRS monsters spawn on Bonkscape's maps. On a later
+over are removed from those maps' pools, so only OSRS monsters spawn on Bonkscape's maps. On a later
 stage, Megabonk's own stage scaling multiplies every monster's HP and damage on top, as it does in any run.
 
 ## Roster
@@ -90,6 +92,26 @@ stage, Megabonk's own stage scaling multiplies every monster's HP and damage on 
 | **Claw Swap** | Rogue (6603) | - | 126 | melee | SkeletonDusty | 126 | 34 | 6.5 | 0 | 1 | wilderness | <span class="st st-built">built</span> |
 | **Whip Hybrid** | Rogue (6603) | - | 112 | melee | SkeletonDusty | 112 | 32 | 6.5 | 0 | 1 | wilderness | <span class="st st-built">built</span> |
 | **Pipe Ranger** | Rogue (6603) | - | 104 | ranged | SkeletonDusty | 104 | 30 | 6.5 | 0 | 1 | wilderness | <span class="st st-built">built</span> |
+| **Goblin** | Goblin (5207) | 5205, 3028, 3029, 3030 | 2 | melee | Goblin | 7 | 15 | 5 | 0 | 1 | ardougne_seers | <span class="st st-built">built</span> |
+| **Guard** | Guard (6056) | 4099, 4100 | 10 | ranged | GoblinStrong | 15 | 25 | 5.5 | 0 | 1 | ardougne_seers | <span class="st st-built">built</span> |
+| **Guard dog** | Guard dog (114) | 131, 7209 | 44 | melee | BoomerSpider | 18 | 30 | 6 | 0 | 1 | ardougne_seers | <span class="st st-built">built</span> |
+| **Grizzly bear** | Grizzly bear (2838) | 3423, 11989 | 21 | melee | Skeleton | 20 | 20 | 5.5 | 0 | 1 | ardougne_seers | <span class="st st-built">built</span> |
+| **Giant bat** | Giant bat (2834) | 6824, 4504 | 27 | melee | Bee | 10 | 15 | 6.5 | 0 | 1 | ardougne_seers | <span class="st st-built">built</span> |
+| **Warrior** | Warrior (3260) | 11925, 11926, 11927, 11928 | 24 | melee | Golem | 20 | 20 | 5 | 1 | 1 | ardougne_seers | <span class="st st-built">built</span> |
+| **Ogre** | Ogre (1153) | 2233, 136 | 63 | melee | GoblinTank | 40 | 30 | 5 | 1 | 1 | ardougne_seers | <span class="st st-built">built</span> |
+| **Monkey** | Monkey (2848) | 1038, 1469 | 3 | melee | Slime | 6 | 8 | 6.5 | 0 | 1 | ardougne_seers | <span class="st st-built">built</span> |
+| **Knight of Ardougne** | Knight of Ardougne (3297) | 8799, 8800, 8801, 8854 | 46 | melee | ArmoredSkeleton | 30 | 25 | 4 | 0 | 1 | ardougne_seers | <span class="st st-built">built</span> |
+| **Snake** | Snake (2845) | 3544, 12084, 13002, 14916 | 5 | melee | Ghoul | 9 | 12 | 9 | 0 | 1 | ardougne_seers | <span class="st st-built">built</span> |
+| **Hero** | Hero (3295) | 11934, 11935 | 69 | melee | MinibossGolem | 250 | 40 | 6 | 0.8 | 1.2 | ardougne_seers | <span class="st st-built">built</span> |
+| **Paladin** | Paladin (3293) | 3294, 8150, 8853, 11893 | 62 | melee | MinibossPig | 250 | 40 | 6 | 0.8 | 1.2 | ardougne_seers | <span class="st st-built">built</span> |
+| **Sir Lancelot** | Sir Lancelot (4354) | 4344 | 127 | melee | Ent2 | 8000 | 40 | 7 | 1 | 1 | ardougne_seers | <span class="st st-built">built</span> |
+| **Sir Bedivere** | Sir Bedivere (4361) | 4345 | 110 | melee | Mummy | 196 | 24 | 6 | 0 | 1 | knights_boss | <span class="st st-built">built</span> |
+| **Sir Pelleas** | Sir Pelleas (4360) | 4347 | 112 | melee | Zombie | 215 | 26 | 6 | 0 | 1 | knights_boss | <span class="st st-built">built</span> |
+| **Sir Tristram** | Sir Tristram (4359) | 4346 | 115 | melee | SkeletonDusty | 228 | 26 | 6 | 0 | 1 | knights_boss | <span class="st st-built">built</span> |
+| **Sir Palomedes** | Sir Palomedes (4358) | 4343 | 118 | melee | ArmoredSkeletonDusty | 217 | 31 | 6 | 0 | 1 | knights_boss | <span class="st st-built">built</span> |
+| **Sir Lucan** | Sir Lucan (4357) | 4342 | 120 | melee | MummyTank | 228 | 33 | 6 | 1 | 1 | knights_boss | <span class="st st-built">built</span> |
+| **Sir Gawain** | Sir Gawain (4356) | 4348 | 122 | melee | MummyAncient | 239 | 33 | 6 | 1 | 1 | knights_boss | <span class="st st-built">built</span> |
+| **Sir Kay** | Sir Kay (4355) | 4349 | 124 | melee | Tumblebone | 239 | 38 | 6 | 0 | 1 | knights_boss | <span class="st st-built">built</span> |
 <!-- /gen:enemies -->
 
 The **Combat** column is the monster's OSRS combat level. It isn't used in play yet, and neither are the sheet's
@@ -99,7 +121,8 @@ drops the same things ([Loot](#loot)).
 ## Combat styles
 
 Every monster fights in **melee**, **ranged** or **magic**. In Lumbridge only the guards are ranged and only the giant
-frogs are magic. In Al Kharid every monster is melee. In Morytania banshees and Ahrim the Blighted are magic, Karil the Tainted is ranged, and the rest are melee. In TzHaar City the
+frogs are magic. In Al Kharid every monster is melee. In the Wilderness the Chaos Elemental is magic, the Revenant maledictus ranged
+and the rest melee, PKers fight in their weapon's style, and the King Black Dragon's attacks each have their own. In Morytania banshees and Ahrim the Blighted are magic, Karil the Tainted is ranged, and the rest are melee. In TzHaar City the
 TzHaar-Mej are magic and the rest melee; in the Fight Caves the Tok-Xil are ranged, the Ket-Zek magic and the rest
 melee, and each of TzTok-Jad's attacks has its own style ([below](#tztok-jad)). The OSRS skill icon for its style (Attack, Ranged or Magic) floats over the 10
 nearest monsters, so you know which [protection prayer](prayer.md) to use. The style is the monster's, not its
@@ -157,28 +180,39 @@ attack's: a guard's hit counts as ranged even when Megabonk has it attack up clo
 | wilderness | 13 | Chaos Elemental, Revenant maledictus | miniboss | <span class="st st-built">built</span> |
 | wilderness | 14 | Revenant dragon | swarm | <span class="st st-built">built</span> |
 | wilderness | 16 | King Black Dragon | boss | <span class="st st-built">built</span> |
+| ardougne_seers | 0 | Monkey, Goblin, Snake, Giant bat, Guard, Grizzly bear, Guard dog | start | <span class="st st-built">built</span> |
+| ardougne_seers | 1.5 | Warrior, Knight of Ardougne | unlock | <span class="st st-built">built</span> |
+| ardougne_seers | 2 | Warrior, Paladin | miniboss | <span class="st st-built">built</span> |
+| ardougne_seers | 3 | Ogre | unlock | <span class="st st-built">built</span> |
+| ardougne_seers | 3 | Goblin | swarm | <span class="st st-built">built</span> |
+| ardougne_seers | 6 | Guard | swarm | <span class="st st-built">built</span> |
+| ardougne_seers | 7 | Paladin, Hero | miniboss | <span class="st st-built">built</span> |
+| ardougne_seers | 9 | Sir Lancelot | boss | <span class="st st-built">built</span> |
 <!-- /gen:waves -->
 
 How those rows apply, each on its own map's stage (Lumbridge on the Forest's first; Al Kharid, Morytania and TzHaar
-City on the Desert's first, second and third):
+City on the Desert's first, second and third; the Wilderness on the Graveyard's first):
 
 - **start** (minute 0): the run's first monsters. Lumbridge: chickens, goblins, giant rats and guards. Al Kharid: scorpions, Shantay Guards,
   desert lizards, desert wolves, hill giants and Al Kharid warriors. Morytania: Myre
-  blamish snails, bats, crawling hands, ghouls, Loar Shades and banshees. TzHaar City: TzHaar-Hur and TzHaar-Mej.
+  blamish snails, bats, crawling hands, ghouls, Loar Shades and banshees. TzHaar City: TzHaar-Hur and TzHaar-Mej. The Wilderness:
+  revenant imps, goblins, hobgoblins and hellhounds, and green dragons.
 - **unlock**: the rows join the spawn pool from that minute. Lumbridge: cows and giant frogs at 1.5. Al Kharid: Kalphite
   Workers at 1.5, ugthanki and bandits at 3, Kalphite Soldiers at 6. Morytania:
   vampyre juveniles at 1.5, vampyre juvinates and feral vampyres at 3, the Vyrewatch at 6. TzHaar City:
-  TzHaar-Xil at 1.5, TzHaar-Ket at 3.
+  TzHaar-Xil at 1.5, TzHaar-Ket at 3. The Wilderness: revenant demons at 1.5, cyclopes at 3, knights at 7, dragons
+  at 12.
 - **swarm**: Megabonk's swarm event at that minute spawns the row's monsters. Lumbridge: goblins at 4, giant rats at
   7. Al Kharid: scorpions at 4, desert lizards at 7. Morytania: Myre blamish snails at 3,
-  crawling hands at 6. TzHaar City: TzHaar-Hur at 2.5 and 4.
+  crawling hands at 6. TzHaar City: TzHaar-Hur at 2.5 and 4. The Wilderness: revenant goblins at 4, cyclopes at 8,
+  knights at 11, dragons at 14.
 - **miniboss**: Megabonk's miniboss event at that minute spawns each row's miniboss. Lumbridge: a Cow and a Giant frog
   at 3 and 8. Al Kharid: a Kalphite Guardian at 3 and 8. Morytania: Barrows brothers at 2
   and 7, the five not hidden this run in turn ([below](#the-barrows-brothers)). TzHaar City: a TzHaar-Ket champion at
-  1.5 and 5.
-- **boss** (minute 10; Morytania's 9, TzHaar City's 8): the plan only. The stage boss comes when you open the boss
+  1.5 and 5. The Wilderness: the Chaos Elemental and the Revenant maledictus at 3, 7, 10 and 13.
+- **boss** (minute 10; Morytania's 9, TzHaar City's 8, the Wilderness's 16): the plan only. The stage boss comes when you open the boss
   portal (Lumbridge: the Giant Mole; Al Kharid: the Kalphite Queen; Morytania: the run's hidden Barrows brother); TzHaar City's when you open its final portal
-  (TzTok-Jad, in the Fight Caves).
+  (TzTok-Jad, in the Fight Caves), and the Wilderness's when you open its boss door (the King Black Dragon).
 
 A swarm or miniboss row whose minute has no matching event in Megabonk's timeline spawns nothing; the log says how
 many events each map set (*"waves: Morytania on Megabonk's Desert stage 0: N timeline events set"*). Megabonk's own
@@ -193,7 +227,7 @@ Your OSRS client downloads a model the first time it shows it, so your cache may
 monster Bonkscape tries its own NPC first, then each **stand-in NPC id** in the order listed, and uses the first one
 whose models are all in your cache (the log says *"Goblin: NPC 3031 isn't in this cache, using stand-in NPC 3029"*).
 If none is there, the monster borrows the map's fallback monster (Lumbridge: the Goblin; Al Kharid: the Scorpion; Morytania: the Ghoul;
-TzHaar City and its Fight Caves: TzHaar-Hur). If that's missing too, you see
+TzHaar City and its Fight Caves: TzHaar-Hur; the Wilderness: the revenant goblin). If that's missing too, you see
 Megabonk's own model.
 
 Turn stand-ins off with `OSRS.UseStandIns = false` ([Settings](settings.md)).
@@ -205,7 +239,8 @@ A monster's height is worked out when it spawns, and once more a moment later:
 1. **OSRS proportions on your adventurer's scale**: its model height in OSRS units, converted to metres exactly like
    your adventurer's. So an OSRS human (a guard) stands about as tall as your adventurer, and every other monster keeps
    its OSRS ratio to them.
-2. Times the row's **Size x** (Cow 1.1, Giant frog 1.6, Giant Mole 2.2, Vyrewatch 1.2, the Barrows brothers 1.6, Kalphite Guardian 1.2, TzHaar-Ket champion 1.2) and
+2. Times the row's **Size x** (Cow 1.1, Giant frog 1.6, Giant Mole 2.2, Vyrewatch 1.2, the Barrows brothers 1.6, Kalphite Guardian 1.2, TzHaar-Ket champion 1.2, Chaos Elemental and Revenant
+   maledictus 1.2) and
    `Models.MonsterSize`.
 3. Times part of Megabonk's own enlargement of elites, minibosses and bosses, capped by tier (below). Megabonk
    enlarges them a moment after they spawn, so this is applied again once the monster's hitbox is live.
@@ -266,6 +301,7 @@ instead, like OSRS monsters:
 | **TzTok-Jad** | Magic (magic, 1800 ms telegraph, random); Ranged (ranged, 1800 ms telegraph, random); Bite (melee, 0 ms telegraph, random) | 50% HP | TzRek-Jad, 1/200 | <span class="st st-verified">verified</span> |
 | **Kalphite Queen** | Jaws (melee, 0 ms telegraph, random); Spines (ranged, 600 ms telegraph, random); Lightning (magic, 900 ms telegraph, random) | 50% HP | Kalphite Princess, 1/3000 | <span class="st st-built">built</span> |
 | **King Black Dragon** | Bite (melee, 0 ms telegraph, random); Dragonfire (magic, 600 ms telegraph, random); Toxic breath (magic, 600 ms telegraph, random); Icy breath (magic, 600 ms telegraph, random); Shocking breath (magic, 600 ms telegraph, random) | 50% HP | Prince Black Dragon, 1/3000 | <span class="st st-built">built</span> |
+| **Sir Lancelot** | Slash (melee, 0 ms telegraph, random); Lunge (melee, 0 ms telegraph, random) | 50% HP | Dwarf remains, 1/0 | <span class="st st-built">built</span> |
 <!-- /gen:bosses -->
 
 The Giant Mole is Lumbridge's stage boss <span class="st st-built">built</span>. You call it by using the boss portal
@@ -319,6 +355,51 @@ Queen rises again!"* Then she fights on with the same attacks in her airborne an
 counts: it ends the fight and the stage. *(unconfirmed: needs a Melty run or footage)*
 
 The planned pet (Kalphite Princess, 1/3000) isn't built.
+
+## The Wilderness
+
+The Wilderness's monsters are revenants, from imps to dragons, and green dragons, all melee. Its minibosses are the
+**Chaos Elemental** (magic) and the **Revenant maledictus** (ranged), size x 1.2, with Megabonk's miniboss stats and
+attacks. Its boss is the King Black Dragon.
+
+**PKers.** Six player killers in classic gear hunt you there, never part of the waves: one ambushes you 60 to
+90 seconds into the stage, then one every three to four minutes, from 8 to 14 tiles away, with *"Ice Tank is attacking
+you!"* (its name). None comes while you're in a boss's lair.
+
+| PKer | Combat | Weapon and special attack |
+|---|---|---|
+| Pure Spec | 70 | Magic shortbow (Snapshot) |
+| Ice Tank | 98 | Ice Barrage (Deep Freeze) |
+| Pipe Ranger | 104 | Toxic blowpipe (Toxic Siphon) |
+| Whip Hybrid | 112 | Abyssal whip (Energy Drain) |
+| Ags Main | 126 | Armadyl godsword (The Judgement) |
+| Claw Swap | 126 | Dragon claws (Slice and Dice) |
+
+Each is an OSRS player body in its gear, with HP and damage set by its combat level. Every 10 to 14 seconds, when
+you're in its reach (4.5 m for melee, 18 m otherwise), it fires its weapon's special attack, with its OSRS animation
+and graphic: a hit of 20% to 33% of your maximum health, which the protection prayer for its style cuts as for any
+monster.
+
+## The King Black Dragon
+
+The Graveyard's final boss, in [his lair](maps.md#the-king-black-dragons-lair) below the boss door: OSRS NPC 239, on
+Megabonk's `Ent1`. His HP is Megabonk's final boss's. Megabonk's own attacks are off and touching him doesn't hurt;
+every **2.4 seconds**, start to start, he picks one of five OSRS attacks by weight:
+
+| Attack | Style | Lands | Weight | Hit, as a share of your maximum health |
+|---|---|---|---|---|
+| Bite | melee | 0.3 s after he starts it; only beside him | 1.5 | 14% to 22% |
+| Dragonfire | magic | 1.8 s after | 1.5 | 37% to 57% |
+| Toxic breath | magic | 1.8 s after | 0.5 | 28% to 44%; half the time it poisons you for 5 s |
+| Icy breath | magic | 1.8 s after | 0.5 | 28% to 44%; half the time it freezes you in place for 3 s |
+| Shocking breath | magic | 1.8 s after | 0.5 | 28% to 44%; half the time it slows you for 3 s |
+
+So beside him a third of his attacks are bites, and away from him half are dragonfire. The hits are scaled by his OSRS
+max hits (25, 65 and 50) against Jad's 97. **Protect from Magic** halves his fire and breaths, as for any boss, and
+stops the breaths' poison, freeze and shock. In OSRS an anti-dragon shield blocks dragonfire; there's none here.
+
+His death ends the run. The planned pet (Prince black dragon, 1/3000) isn't built. The breaths' effects and his death
+are *(unconfirmed: needs a Melty run or footage)*
 
 ## The Barrows brothers
 
@@ -419,7 +500,6 @@ those is built.
 
 ## Planned monsters
 
-Green dragons and revenant imps (the Wilderness) are in the roster above as planned rows for a planned map. Neither
-spawns yet.
+The Vyrewatch Sentinel is in the roster above as a planned row (phase 2). It doesn't spawn.
 
-<!-- sources: src/Bonkscape.Plugin/Systems/EnemySkins.cs src/Bonkscape.Plugin/Systems/Animator.cs src/Bonkscape.Plugin/Systems/Bosses.cs src/Bonkscape.Plugin/Systems/Pathing.cs src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Combat.cs src/Bonkscape.Plugin/Core/Sizing.cs src/Bonkscape.Plugin/Core/Osrs.cs src/Bonkscape.Plugin/Core/Rows.cs sheets/enemies.json sheets/bosses.json sheets/waves.json sheets/drops.json src/Bonkscape.Plugin/Systems/BossFight.cs src/Bonkscape.Plugin/Systems/Bonk.cs src/Bonkscape.Plugin/Systems/Unlocks.cs sheets/maps.json src/Bonkscape.Plugin/Systems/Barrows.cs src/Bonkscape.Plugin/Systems/SetEffects.cs src/Bonkscape.Plugin/Systems/SecondForm.cs -->
+<!-- sources: src/Bonkscape.Plugin/Systems/EnemySkins.cs src/Bonkscape.Plugin/Systems/Animator.cs src/Bonkscape.Plugin/Systems/Bosses.cs src/Bonkscape.Plugin/Systems/Pathing.cs src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Combat.cs src/Bonkscape.Plugin/Core/Sizing.cs src/Bonkscape.Plugin/Core/Osrs.cs src/Bonkscape.Plugin/Core/Rows.cs sheets/enemies.json sheets/bosses.json sheets/waves.json sheets/drops.json src/Bonkscape.Plugin/Systems/BossFight.cs src/Bonkscape.Plugin/Systems/Bonk.cs src/Bonkscape.Plugin/Systems/Unlocks.cs sheets/maps.json src/Bonkscape.Plugin/Systems/Barrows.cs src/Bonkscape.Plugin/Systems/SetEffects.cs src/Bonkscape.Plugin/Systems/SecondForm.cs src/Bonkscape.Plugin/Systems/Pkers.cs src/Bonkscape.Plugin/Systems/Graveyard.cs -->
