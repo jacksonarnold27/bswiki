@@ -25,15 +25,16 @@ shows Megabonk's own `Ninja` and `SirChadwell` characters in their slots.
 ## Starting weapons
 
 Each adventurer starts with its row's weapon. Once that adventurer's own [skills](skills-and-xp.md) are high enough,
-it starts with a stronger weapon of the same style instead: the one with the highest skill requirement it meets.
+it starts with a stronger weapon of the same style instead: of the ones whose requirements it meets, the one whose
+requirements add up highest.
 
 | Adventurer | Default | Upgrades |
 |---|---|---|
-| Warrior (melee) | Dragon scimitar | 70 Attack: **Abyssal whip** |
+| Warrior (melee) | Dragon scimitar | 60 Attack: **Dragon claws**; 70 Attack: **Abyssal whip**; 75 Attack: **Armadyl godsword**; 80 Attack and 90 Strength: **Scythe of vitur** |
 | Ranger (ranged) | Magic shortbow | 55 Ranged: **Red chinchompa**; 75 Ranged: **Toxic blowpipe** |
 | Mage (magic) | Fire Strike | 75 Magic: **Trident of the seas**; 94 Magic: **Ice Barrage** |
 
-These requirements only decide the weapon you **start** with. Level-ups offer all eight weapons whatever your levels
+These requirements only decide the weapon you **start** with. Level-ups offer all eleven weapons whatever your levels
 ([Weapons](weapons-and-evolutions.md)).
 
 The character select panel shows which weapon the selected adventurer will start with. Bonkscape sets the starting
@@ -55,10 +56,11 @@ It plays OSRS's player animations:
 - **walking** (819) or **running** (824) by how fast you really move: running from 1.5 times OSRS's walking speed at
   the model's size, each cycle sped up or slowed to match;
 - each weapon's OSRS **attack** when it fires ([Weapons](weapons-and-evolutions.md)), on the upper body while the legs
-  keep walking or running, the way the OSRS client merges them;
+  keep walking or running, the way the OSRS client merges them, with **that weapon in hand**: the adventurer is built
+  once per weapon (the weapon slot swapped for its item, the shield taken off for a two-handed one), so the weapon you
+  see is the one attacking. A weapon whose item has no worn model leaves the current one in hand;
+- a weapon's **special attack** animation, played whole ([Special attacks](weapons-and-evolutions.md#special-attacks));
 - the **death** animation (836) when the run ends in death.
-
-How they look in a run is *(unconfirmed: needs a Melty run or footage)*.
 
 The model follows your character, feet on the ground, and turns to face the way you move. Megabonk's own character
 model is hidden. Character select portraits are rendered from the same OSRS model.

@@ -6,7 +6,7 @@ your own OSRS install while the game starts. Nothing from either game ships with
 
 This wiki says how each system works **in the code as it is now**. It doesn't describe plans as if they were built.
 
-> **Version:** BSWiki matches Bonkscape **0.3.0** (code at `2ae6424`). What changed in each version:
+> **Version:** BSWiki matches Bonkscape **0.4.0** (code at `ea2a255`). What changed in each version:
 > [patch notes](../dev/changelog.md). How each version tested: [test history](../dev/testing.md#test-history).
 
 ## Pages
@@ -47,7 +47,8 @@ the same way everywhere:
 - [Monsters](monsters-and-bosses.md) in Lumbridge are chickens, goblins, giant rats, guards, cows and giant frogs,
   with the Giant Mole as the boss; Morytania has its snails, ghouls, banshees, vampyres and the Vyrewatch, with
   Dharok the Wretched. Each one fights in melee, ranged or magic, shown by the icon over its head.
-- Press **1 / 2 / 3** to [pray](prayer.md) against melee, missiles or magic.
+- Press **1 / 2 / 3** to [pray](prayer.md) against melee, missiles or magic, and **F** for your weapon's
+  [special attack](weapons-and-evolutions.md#special-attacks) (**Q** picks which weapon's).
 - Damage trains your OSRS [skills](skills-and-xp.md), and they're kept between runs. High levels change your starting
   weapon.
 - Stand next to the maps' trees, rocks and fishing spots to [skill](skilling.md) for coins, buffs and food.

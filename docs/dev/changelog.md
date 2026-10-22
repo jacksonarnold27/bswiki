@@ -13,6 +13,52 @@ inside each release's DLL in `dist/`. No version has been published yet: every r
 
 ---
 
+## 0.4.0: special attacks
+
+*Build 2026-10-22 02:11, code in `ea2a255`. Test `4ff4bb99`: publish test, 2 runs x 2 min, passed. Run 1 Ranger on
+Morytania (the spec orb, a spec switch, the Godsword shard among the offers, Dharok); run 2 Warrior on Lumbridge,
+starting facing north, with Energy Drain and Sever fired in the Mole's lair. All 12 self-checks each, `spec-fired`
+among them.*
+
+**Patch notes**
+- Special attacks: **F** fires your armed weapon's spec and **Q** switches which; the special attack orb shows the
+  energy (full in 60 s, a little more per kill). Nine weapons have one, OSRS's Energy Drain, Sever, Snapshot, Toxic
+  Siphon, The Judgement and Slice and Dice, and Bonkscape's own Wildfire, Deep Freeze and Tidal Chain.
+- New weapons: the Armadyl godsword (the Godsword shard evolves it into the Armadyl godsword (i)), Dragon claws and
+  the Scythe of vitur.
+- Your adventurer holds the weapon whose attack is playing.
+- Every run, restart and move into the Mole's lair starts with the camera facing north, looking down 45 degrees (65
+  for the far camera).
+
+**Changes**
+- New `Systems/Specials.cs` (no Harmony patches): energy 100, refilled at 100/60 a second, plus 0.25 a kill from a
+  budget that builds at the refill rate (at most 5); `[Special] FireKey` (`F`) and `SwitchKey` (`Q`); reach 5 tiles
+  for melee and 12 otherwise, capped by a cone's or freeze's radius. `weapons.spec_effect` steps (`hit`, `hits`,
+  `aoe`, `slow`, `stun`, `freeze`, `heal`, `cone`, `chain`) go through `Enemy.DamageFromPlayerWeapon` with the
+  weapon's average of its last 20 hits times the step's multiplier (`Combat.RecordHit`, `Combat.SourceById`), only on
+  a monster whose `CanTakeDamage` is true. Megabonk's keyboard bindings are logged once, with a warning if they share
+  the spec keys. The special orb shows `Specials.Energy`, lit when the armed spec can fire, with the armed weapon's
+  icon; Megabonk's dash cooldown no longer shows there.
+- New `weapons` columns `spec_name`, `spec_effect`, `spec_cost`, `spec_anim`, `spec_spotanim`, `spec_spot_on` (the
+  preflight checks the effect grammar). New `Systems/SpotFx.cs`: spot animations rendered off the main thread (all
+  specs' at load) and drawn at the adventurer's or the target's feet.
+- Phase-1 rows: `scythe_of_vitur` (`Scythe`, 80 Attack and 90 Strength), `armadyl_godsword` (`HeroSword`, 75
+  Attack), `dragon_claws` (`Dexecutioner`, 60 Attack), the `godsword_shards` passive (Megabonk's Knockback tome) and
+  the `godsword` evolution (Armadyl godsword + Godsword shard: Armadyl godsword (i), damage x1.5).
+- The weapon in hand: `Osrs` builds each adventurer once per weapon (`PlayerWeaponBodies`: the weapon slot swapped
+  for its item, the shield off for a two-handed one) with that weapon's sequences and spec; `PlayerSkin` shows the
+  body of the weapon whose attack plays, made on first use, at the own body's scale and feet. Optional check
+  `weapon-in-hand`.
+- `CameraTweak.FaceNorth` once the adventurer lands on the spawn tile and in a boss's lair: `PlayerInput`'s
+  `cameraRotation` and `desiredCameraRotation` to (pitch, yaw 0). New `[Camera] NearPitch` (45) and `FarPitch` (65),
+  5 to 85; the toggle key sets the pitch too.
+- Test mode: `spec-fired` replaces `osrs-cache` among the 12 recipe checks; optional `spec-switched`,
+  `spec-<weapon>` and `weapon-in-hand`. Scenario suites go back to Megabonk's main menu between scenarios
+  (`TransitionUI.LoadMenu`), and scenario runs set Megabonk's selected-character preference.
+- `Runner`: the extra skills save every 60 s (30 s in tests) that 0.3.0 added is gone; `Skills.Tick` saves every 20 s
+  as before.
+- `bonk find <interopDir> <name>`: every game type with a method or property of that name.
+
 ## 0.3.0: the testing tools milestone
 
 *Build 2026-10-22 00:33, code in `2ae6424`. Test `00b2a313`: publish test, 2 runs x 2 min, passed. Run 1 Mage on

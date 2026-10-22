@@ -15,6 +15,10 @@ nearest end.
 | `Models` | `BossMaxHeight` | `2.2` | 1 to 6 | The tallest a boss may be drawn, as a multiple of your adventurer's height. New in 0.1.13. |
 | `Camera` | `Distance` | `0.8` | 0.4 to 1.5 | Megabonk's follow camera distance (1 = Megabonk's own; lower = closer). Scales both the camera's offset (about 11 m) and the extra zoom-out it adds as hordes grow (up to about 15 m). New in 0.1.13. |
 | `Camera` | `FarDistance` | `1.6` | 0.4 to 3 | The far camera distance that `ToggleKey` switches to, on the same scale as `Distance`. |
+| `Special` | `FireKey` | `F` | a Unity key name | Fires the armed weapon's special attack at the nearest monster in reach, if the special attack bar has enough energy (each spec's cost is its OSRS one; Bonkscape's invented magic specs cost 50%). Nothing in reach or too little energy spends nothing. New in 0.4. |
+| `Special` | `SwitchKey` | `Q` | a Unity key name | Arms the next weapon you hold that has a special attack; the chat names it. New in 0.4. |
+| `Camera` | `NearPitch` | `45` | 5 to 85 | Degrees the near camera looks down. Every run starts (and restarts, and enters or leaves a boss's lair) facing north at this pitch, as OSRS's camera does at the Lumbridge respawn; turn it freely after. Megabonk's own pitch is 20. New in 0.4. |
+| `Camera` | `FarPitch` | `65` | 5 to 85 | Degrees the far camera looks down when `ToggleKey` picks it: OSRS's highest camera is about 67, almost straight down. New in 0.4. |
 | `Camera` | `ToggleKey` | `V` | a Unity key name | Switches the camera between `Distance` (near) and `FarDistance` (far) during a run; the chat says *Camera: far.* or *Camera: near.* A name Unity doesn't know keeps `V`. |
 | `Minimap` | `Zoom` | `2.5` | 1 to 6 | Zooms Megabonk's minimap in on Lumbridge (1 = Megabonk's own scale; OSRS's minimap is about 3x closer). New in 0.1.15. |
 | `Map` | `RealLumbridge` | `true` | true / false | Build the real OSRS maps from your cache as the arenas: Lumbridge on the Forest and, since 0.2.1, Morytania on the Desert. Off: Megabonk's stages with OSRS scenery ([Maps](maps.md#when-a-map-isnt-built)). The key keeps its old name so existing settings files still work. |

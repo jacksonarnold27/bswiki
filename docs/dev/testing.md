@@ -64,7 +64,7 @@ Each is reported once per game session as a `pass <name>` line (or `fail <name>:
 
 | Check | Passes when | Code |
 |---|---|---|
-| `osrs-cache` | The cache decoded and the OSRS icons were applied to Megabonk's data. Fails at load when no cache is found. | `Runner.Update`, `Plugin.Load` |
+| `spec-fired` | A special attack was fired (0.4; autoplay fires the armed weapon's spec whenever it's affordable and a monster that can take damage is in reach). It took `osrs-cache`'s place in the twelve: `osrs-arena` can't pass without the cache. | `Specials.Fire` |
 | `run-started` | A run on a Bonkscape map has been active for 1 s. | `TestMode.Tick` |
 | `osrs-arena` | The run's OSRS map (Lumbridge or Morytania) was built and the adventurer moved in. (`lumbridge-arena` from 0.1.7; renamed in 0.2.1 when test runs began alternating maps, since every recipe check must pass in every run.) | `Arena.Build` |
 | `osrs-enemy-killed` | A monster wearing an OSRS model died. | `Combat` (`EnemyDied`) |
@@ -78,7 +78,8 @@ Each is reported once per game session as a `pass <name>` line (or `fail <name>:
 | `evolution` | A casket turned a weapon into its upgrade. In test runs the first casket prepares it: the first `evolutions` row's weapon (added if missing) is levelled to its level and the required passive given at max (`Evolutions.PrepareForTest`), then the evolution runs as for a player. A run where autoplay never walks into a casket runs the same steps 45 s in (`Evolutions.TestCasket`); a real casket logs `casket opened (its Open button)`. | `Evolutions.TryEvolve` |
 
 Not in the recipe (autoplay doesn't reach them every run), and only logged (`check passed: <name> (optional, log only)`),
-never written to Melty's checks file: Melty reads at most 12 check lines, so an optional pass written early pushed a
+never written to Melty's checks file (`osrs-cache` among them since 0.4: the cache decoded and the OSRS icons
+applied): Melty reads at most 12 check lines, so an optional pass written early pushed a
 required one out (0.2.0's run 2 lost `prayer-blocked` to `gear-slot-rules`, 0.2.5's run 1 lost `evolution` to
 `skill-rules`; both had passed in the log). The optional checks: `skill-rules` (2 s into a
 run, `Skills.SelfTest` checks the XP rules on scratch data: the XP table, the 200M cap, hitpoints at a third, combat 3
@@ -174,6 +175,7 @@ Times are local (UTC-5). From Melty's release list and test results.
 | 0.2.11 | `036cdc9a` | 2 x 2 min | **passed (publish test)** | Run 1 Ranger on Morytania: Canifis's stilt houses with their walls. Run 2 on Lumbridge: the lair fight without wall climbing, spawns moved onto the floor; one fall through a ground-less floor patch. All 12 each. |
 | 0.2.12 | `80711319` | 2 x 2 min | **passed (publish test)** | Run 1 on Morytania (walled stilt houses, Dharok). Run 2 Mage on Lumbridge: the lair fight with no falls (lair swap in 45 ms, a dig to a reachable tile, 2 spawns moved onto the floor); a death in the lair restarts on Lumbridge with its sky back. All 12 each, no mod warnings. |
 | 0.3.0 | `00b2a313` | 2 x 2 min | **passed (publish test)** | Run 1 Mage on Morytania: an evolution to the Abyssal tentacle, a chest, no death, `skills-saved` without one. Run 2 Ranger on Lumbridge: the boss call into the Mole's lair, the Mole surfacing beside the adventurer. All 12 each. Footage: Megabonk's Settings window showed on the menu for 2 s before run 2 began. |
+| 0.4.0 | `4ff4bb99` | 2 x 2 min | **passed (publish test)** | Run 1 Ranger on Morytania: the spec orb, a spec switch (*Special attack: Abyssal whip (Energy Drain).*), the Godsword shard among the offers, Dharok. Run 2 Warrior on Lumbridge, starting facing north; Energy Drain and Sever fired in the Mole's lair. All 12 each, `spec-fired` in place of `osrs-cache`. |
 
 Blank cells weren't looked up. `mcp__melty__test_result` with the test id gives the full record.
 
@@ -199,11 +201,22 @@ Blank cells weren't looked up. `mcp__melty__test_result` with the test id gives 
    scenario files run one after another with a combined table; `--one-launch` runs them as a suite in one game.
 
 **Scenarios** (`Systems/Scenario.cs`, files in `tools/scenarios/`): `map`, `stage`, `adventurer`, `autoplay`,
-`boss_at` (seconds), `seconds`, `steps` (`{"at": 3, "spawn": "giant_mole"}` spawns a monster, or the stage boss
-through `EnemyManager.SpawnBoss`; `"weapon": "<weapons id>"` gives one; `"drop": "prayer_potion"` or `"casket"`),
+`boss_at` (seconds), `seconds`, `steps` (`{"at": 3, "spawn": "giant_mole"}` spawns a monster 4 tiles ahead
+(`"goblin:1"`: one tile ahead), or the stage boss
+through `EnemyManager.SpawnBoss`; `"weapon": "<weapons id>"` gives one; `"drop": "prayer_potion"` or `"casket"`;
+`"spec": "<weapons id>"` arms that held weapon's special attack, fills the bar and fires it, `"spec": "switch"` presses
+the switch key; `"camera": "far"`, `"near"` or `"north"` sets the camera; `"evolve": "<evolutions id>"` readies an evolution (the weapon levelled, its passive given) and does
+what a casket's Open button does). A spawned monster can't be hurt for about its first second (`Enemy.CanTakeDamage`),
+so a spec step comes 1.5 s after its monsters' spawn,
 `levels` (preset, never saved), `save_skills` (`true` to test saving; the loop restores the files after), `shots` (seconds), `expect` (checks the report marks `pass` or `MISSING`), `deaths`
-(`"allow"` for real deaths), `ui` (the UI test), `suite` (several scenarios in one launch, each ended as a run's end
-and the next started with `MapController.StartNewMap`). The scenario's clock starts once the OSRS map is built, so
+(`"allow"` for real deaths), `ui` (the UI test), `suite` (several scenarios in one launch: each run is ended as at a
+run's end and Megabonk goes back to its main menu, `TransitionUI.LoadMenu`, where the next run starts as after a launch;
+about 5 s a scenario. Starting it straight from the run with `MapController.StartNewMap` kept the last run's player,
+its adventurer and weapons, so suites before 0.4 ran every scenario as the first one's adventurer). Each scenario
+reports `playing as <adventurer> holding <weapons>` and warns on a mismatch, and at its end `weapon attacks: <weapon>
+<count>, ...; weapon swaps N`; a suite's screenshots are collected under each scenario's own name. Something with no
+set time can ask for a screenshot (`Scenario.ShotSoon`): each weapon's first swap into the adventurer's hand gets one,
+0.3 s into the swing. The scenario's clock starts once the OSRS map is built, so
 a step at 3 s never lands before the arena (a suite's later runs build theirs in 3-4 s). Scenarios start 0.3 s after
 the main menu; Melty's runs keep 3 s. In-game screenshots (`Systems/Shot.cs`) are read back in an IMGUI repaint and
 written as PNG by the plugin (Unity's own capture and PNG encoder are stripped from Megabonk), halved on wide screens:
@@ -217,6 +230,12 @@ written as PNG by the plugin (Unity's own capture and PNG encoder are stripped f
 | `ui` | the main menu, character select, map select and settings, then the run's HUD, at 1280x720, 1920x1080, 2560x1440 and 3840x2160 (about a minute) |
 | `guard` | standing still beside the Mole: hits land, the lethal-hit guard saves the deaths |
 | `death` | the same with `"deaths": "allow"`: the death screen and `run-restarted` |
+| `specials-melee` | the Warrior with the whip, godsword and claws: each spec (`spec-<weapon>` checks), the switch key, the godsword's evolution and a spec after it |
+| `specials-ranged` | the Ranger: Snapshot, Toxic Siphon (its heal is reported), the Scythe held |
+| `specials-magic` | the Mage on Morytania: Wildfire, Deep Freeze, Tidal Chain |
+| `weapon-ranger` | the Ranger given the whip, guards spawned a tile ahead: the whip in hand for its swings (`weapon-in-hand`, a screenshot 0.3 s into each weapon's first swap), the bow back after |
+| `weapon-warrior` | the Warrior given the magic shortbow and Ice Barrage on Morytania: the bow in hand for its shots, the scimitar back |
+| `camera` | Lumbridge without autoplay: the run starts facing north at the near pitch, the far camera at 3 s, the near one again at 5.5 s (screenshots at 4 and 7 s) |
 | `saves` | `"save_skills": true`: `Skills.Tick`'s save (every 20 s once XP changed) reads back as written, `skills-saved`; the loop restores the save after |
 
 **Deaths in test runs** (`Systems/TestGuard.cs`): no blanket invulnerability, which would hide broken hits. Every hit

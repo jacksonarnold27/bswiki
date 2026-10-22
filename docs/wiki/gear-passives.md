@@ -17,7 +17,7 @@ its description, for example *"Amulet of fury (neck slot): +8% damage per level,
 | **Amulet of glory** | neck | Golden | coins gained (addition) | +12% | 8 | <span class="st st-built">built</span> |
 | **Kraken tentacle** | weapon upgrade | Size | attack size (addition) | +10% | 8 | <span class="st st-built">built</span> |
 | **Tome of fire** | shield | Duration | duration (addition) | +15% | 8 | <span class="st st-built">built</span> |
-| **Godsword shard** | weapon upgrade2 | Knockback | knockback (addition) | +20% | 3 | <span class="st st-todo">planned (phase 2)</span> |
+| **Godsword shard** | weapon upgrade2 | Knockback | knockback (addition) | +20% | 3 | <span class="st st-built">built</span> |
 | **Fire cape** | cape | Health | max HP (flat) | +25 | 8 | <span class="st st-todo">planned (phase 2)</span> |
 <!-- /gen:passives -->
 
@@ -34,13 +34,13 @@ A piece also stops being offered once it reaches its max level (8).
 
 ## What's left out
 
-On Bonkscape's maps (Lumbridge and Morytania), level-ups offer only the gear above. Megabonk tomes without a row (Health and Knockback, for example,
-until the Fire cape and Godsword shard are built) don't appear there.
+On Bonkscape's maps (Lumbridge and Morytania), level-ups offer only the gear above. Megabonk tomes without a row (Health, for example, until the Fire
+cape is built) don't appear there.
 
-Two pieces matter for [evolutions](weapons-and-evolutions.md#evolutions): the **Kraken tentacle** (Abyssal whip into
-Abyssal tentacle) and the **Tome of fire** (Fire Strike into Fire Surge).
+Three pieces matter for [evolutions](weapons-and-evolutions.md#evolutions): the **Kraken tentacle** (Abyssal whip
+into Abyssal tentacle), the **Tome of fire** (Fire Strike into Fire Surge) and the **Godsword shard** (Armadyl godsword
+into Armadyl godsword (i)).
 
-The Fire cape and Godsword shard are planned (phase 2), along with their evolutions, the Infernal cape and the
-Armadyl godsword (i).
+The Fire cape is planned (phase 2), with its evolution, the Infernal cape.
 
 <!-- sources: src/Bonkscape.Plugin/Systems/Content.cs sheets/passives.json -->

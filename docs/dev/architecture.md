@@ -1,7 +1,7 @@
 # Architecture
 
 Bonkscape is a BepInEx 6 IL2CPP plugin for Megabonk (Unity 2023.2.22f1, IL2CPP, build 1.0.69) that reads the player's
-Old School RuneScape cache at run time. Nothing from either game is shipped. Written against **0.3.0** (`2ae6424`).
+Old School RuneScape cache at run time. Nothing from either game is shipped. Written against **0.4.0** (`ea2a255`).
 
 ## Projects
 
@@ -61,7 +61,7 @@ stay responsive. Unity objects are only made later, on the main thread, by `Unit
 | Step (`Osrs.Status`) | What |
 |---|---|
 | `enemies` | Each phase-1 enemy row: a `model_ids` of `worn:<item ids>` first builds a male body (the Warrior's kits) in that gear in the row's stand pose (`Osrs.BuildWorn`: Dharok, Ahrim); otherwise, or if those items are missing, its NPC, then each `osrs_npc_alternates` id (if `UseStandIns`), first that builds; then `EnemyClips`: its `animation_ids` baked (stand, walk, attack, death, the Mole's `dig_down`/`dig_up`) and `attack+walk` when the attack has an interleave list. |
-| `players` | Each adventurer from kits + worn items in the stand pose; retried without worn items whose models are missing; then `PlayerClips`: stand, walk, run, death and each weapon's `osrs_attack_anim`, plus `attack:<weapon>+walk` and `+run` merged with the weapons' shared human interleave list. |
+| `players` | Each adventurer from kits + worn items in the stand pose; retried without worn items whose models are missing; then `PlayerClips`: stand, walk, run, death and each weapon's `osrs_attack_anim`, plus `attack:<weapon>+walk` and `+run` merged with the weapons' shared human interleave list. Then (0.4) `PlayerWeaponBodies`: the adventurer once per weapon with that weapon's `osrs_item_id` in the weapon slot (3; a two-hander also takes the shield, 5, off), with stand, walk, run, death, the weapon's attack and its merges and its spec baked on it; the weapon the own body holds is `PlayerBodyWeapon`. About 50-90 ms an adventurer (10 bodies, 78 sequences). |
 | `items` | Meshes and inventory icons for weapons, passives, drops and evolutions, every coin stack variant of item 995, and the weapons' projectiles (`item:` ids as items, `spotanim:` ids into `SpotAnimMeshes`). |
 | `sprites` | Weapon/evolution icon sprites, prayer icons and overheads, skill icons, UI sprites; fonts. |
 | `objects` | Map props, skilling node objects, fishing spot NPCs. |
@@ -120,7 +120,8 @@ skilling nodes, fallback enemy, music).
 3. Stage start: when active and `MyPlayer.Instance` exists and is a new object (first stage, or a new stage), `OnStage`.
 4. Run end: when active turns false, `OnRunEnd`.
 5. While active: the props/arena timer, `Arena.TryBuild` until it succeeds, `Arena.Tick`, `Pathing.Tick`,
-   `Prayer.Tick`, `CameraTweak.Tick` (the `[Camera] ToggleKey`, V, flips between `Distance` and `FarDistance`), `Skills.GameTick`, `Loot.Tick`, `Skilling.Tick`, death detection.
+   `Prayer.Tick`, `CameraTweak.Tick` (the `[Camera] ToggleKey`, V, flips between `Distance` and `FarDistance`, and
+   `NearPitch`/`FarPitch`), `Specials.Tick` (energy, the fire and switch keys), `Skills.GameTick`, `Loot.Tick`, `Skilling.Tick`, death detection.
 6. Always: `Skills.Tick` (autosave every 20 s), `Hud.Tick` (skipped when `Debug.OsrsHud` is off; hitsplats, XP drops, health bar timers, dialogues,
    `LevelUpFx.Tick`; outside a run `MegabonkHud.Restore` puts back the Megabonk HUD pieces it hid), `Chat.Tick`.
 
@@ -188,7 +189,9 @@ One arena per phase-1 `maps` row with an `osrs_area`: Lumbridge on the Forest, M
    into one atlas and drawn as one mesh of quads, which `UpdateIcons` turns every frame to face Megabonk's minimap
    camera, so icons stay upright. `Minimap.Zoom` divides that camera's `orthographicSize`.
 8. **Move in**: `TeleportPlayerImmediate` to the spawn tile (Lumbridge's courtyard, Canifis) facing west, then `rb.position` and the transform, repeated
-   for 2 s in `Arena.Tick` ([Gotchas](gotchas.md#megabonk-runtime)).
+   for 2 s in `Arena.Tick` ([Gotchas](gotchas.md#megabonk-runtime)). Once the adventurer is on the tile,
+   `CameraTweak.FaceNorth` sets `PlayerInput.cameraRotation` and `desiredCameraRotation` to (pitch, yaw 0), here and in
+   a boss's lair.
 9. **Interactables**: chests and shrines to random open tiles; the `InteractableBossSpawner` to `boss_tile`.
 10. **Enemies** already alive are teleported to the player; **skilling spots** are placed on tracked trees, rocks and
     shore tiles.
@@ -342,11 +345,13 @@ into data fields instead), `music` (`MusicController.PlayMusicTrack`: no music s
 | `Systems/EnemySkins.cs` | OSRS monster models, size tiers, monster animation (stand, walk at real speed, attack on a hit, death) |
 | `Systems/Animator.cs` | `ModelAnimator` (plays baked sequences by swapping frame meshes, shared per type) and `Corpses` (a dead monster's death sequence on a copy, at most 1.8 s) |
 | `Systems/Bosses.cs` | The Giant Mole's dig (in its lair: to a reachable tile) |
-| `Systems/PlayerSkin.cs` | The OSRS adventurer model and its animation (stand, walk, run, death, weapon attacks from `WeaponAttack.SuccessfullySpawnedProjectile`) |
+| `Systems/PlayerSkin.cs` | The OSRS adventurer model and its animation (stand, walk, run, death, weapon attacks from `WeaponAttack.SuccessfullySpawnedProjectile`). Since 0.4 the adventurer takes the attacking weapon in hand: its body (`Osrs.PlayerWeaponBodies`) is made on first use in a run, kept hidden between, drawn at the own body's scale and feet, and shown when that weapon attacks or specs; the same weapon's extra projectiles don't restart a swing, another weapon cuts in after 0.3 s (`MinShow`) |
 | `Systems/Projectiles.cs` | OSRS projectile models on Megabonk's projectiles, weapon attack sounds, monster hit and kill sounds |
-| `Systems/CameraTweak.cs` | `Camera.Distance`, and the toggle to `Camera.FarDistance` |
+| `Systems/CameraTweak.cs` | `Camera.Distance`, and the toggle to `Camera.FarDistance` Since 0.4 the camera faces north (yaw 0: the arena puts OSRS north on +z) at `NearPitch` when the adventurer lands on a spawn tile (a run's start, a restart, a boss's lair and back; `Arena.Tick`), through `PlayerInput.cameraRotation` and `desiredCameraRotation` ((pitch, yaw, roll); Megabonk starts at (20, 270, 0)); the toggle key sets `FarPitch` or `NearPitch` too |
 | `Systems/Combat.cs` | Damage dealt, kills, Megabonk damage numbers |
 | `Systems/Prayer.cs` | Protection prayers |
+| `Systems/Specials.cs` | Special attacks (0.4): the energy bar (60 s, plus 0.25% a kill, capped), the fire and switch keys, each spec's steps (`weapons.spec_effect`) through Megabonk's own damage and debuff calls, targets only monsters that can take damage, autoplay's specs in test runs, the scenario `spec` step |
+| `Systems/SpotFx.cs` | OSRS spot animations as flipbooks on the HUD (the specs' graphics), rendered from the cache off the main thread |
 | `Systems/Skills.cs` | Persistent skills, XP table, combat level |
 | `Systems/Skilling.cs` | Trees, rocks, fishing spots |
 | `Systems/Loot.cs` | Coins, food, caskets, prayer potions |
@@ -379,6 +384,7 @@ Run from `src/Bonkscape.Tools`. Most commands find a cache like the plugin does,
 | `bonk preflight <sheets> <interopDir> <devCache> <playerCache\|-> <genOut\|-> <report>` | Checks the sheets, writes the report, `cache_assets.json` and the generated rows |
 | `bonk npcs <name\|id...>` / `bonk items <name\|id...>` / `bonk objects <name...>` | Find definitions by name (or, for npcs and items, a number as the id), with model availability |
 | `bonk render npc\|item\|icon\|object\|spotanim\|player <id> [yaw pitch]` | PNG renders; textured faces take their texture's average colour, as `bonk world` does |
+| `bonk find <interopDir> <name>` | Every game type with a method or property of that name (any case), to find where a call lives |
 | `bonk sprites <id...>`, `bonk text <font> <text>`, `bonk sfx <id...>` | Sprites, font text, synthesised sounds as WAV |
 | `bonk modelcolors <model...>` | Each model's format, face count and most common face colours (hue, saturation, lightness) |
 | `bonk uisprites sheet\|pick\|dump\|info\|iface\|healthbar\|hitsplat\|spotanim\|mock` | Interface sprites for the HUD: contact sheets, dumps, interface layouts, health bars, hitsplats, spot animation frames; `mock [w h]` draws the HUD layout into `mock_WxH.png` |

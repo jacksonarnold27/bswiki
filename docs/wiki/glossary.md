@@ -12,6 +12,7 @@
 | **NPC** | A non-player character, including every monster. Each has a numbered definition in the cache. |
 | **Identity kit** | One of the body parts (head, torso, legs...) a player model is built from. |
 | **Combat style** | Melee, ranged or magic. |
+| **Special attack (spec)** | A weapon's special move, paid for with special attack energy. |
 | **Attack style** | How a melee attack trains: accurate (Attack), aggressive (Strength) or defensive (Defence). |
 | **Protection prayer** | A prayer that blocks one combat style: Protect from Melee, Missiles or Magic. |
 | **Hitsplat** | The small marker with a damage number over whoever was hit. Red for damage, blue for 0. |

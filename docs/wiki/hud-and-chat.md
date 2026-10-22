@@ -14,7 +14,7 @@ The `Debug.OsrsHud` setting turns it off, and with `Debug.HideMegabonkHud` off M
 
 | Element | Where | What it shows |
 |---|---|---|
-| **Minimap orbs** | Left of Megabonk's minimap, as in OSRS | From the top: the XP button, the **hitpoints** orb (your Megabonk HP), the **prayer** orb (your prayer points; lit while a prayer is on) and, when your character has an active ability, a **special attack** orb showing how far it has recharged, in %. Each orb drains from the top; its number is green when full, yellow at half and red when empty. |
+| **Minimap orbs** | Left of Megabonk's minimap, as in OSRS | From the top: the XP button, the **hitpoints** orb (your Megabonk HP), the **prayer** orb (your prayer points; lit while a prayer is on) and the **special attack** orb: your special attack energy in %, lit when the armed weapon's spec can fire, with that weapon's icon beside it ([Weapons](weapons-and-evolutions.md#special-attacks)). Megabonk's dash keeps its key, but its cooldown no longer shows. Each orb drains from the top; its number is green when full, yellow at half and red when empty. |
 | **XP counter** | Left of the orbs | Your total XP over all skills, and under it a green strip: Megabonk's progress to its next run level. |
 | **XP drops** | Rising from under the XP counter into it | The skill icon and the amount, for about 2 s, grouped per 0.6 s tick ([Skills](skills-and-xp.md#xp-drops-and-level-ups)). Drops from the same tick line up under each other. |
 | **Health bars** | Over a monster's head, and over yours | OSRS's green-over-red bar. A monster's shows for 6 s after you hit it: 30 px wide, 50 for minibosses, 80 for bosses. Yours shows whenever you're below full health, and for 6 s after any hit. |
@@ -29,6 +29,7 @@ The `Debug.OsrsHud` setting turns it off, and with `Debug.HideMegabonkHud` off M
 | **Chat box** | Bottom left corner | See [below](#chat-box) |
 | **Level-up** | Chat box, and at your feet | OSRS's level-up dialogue covers the chat box for 3 s: *"Congratulations, you just advanced a Strength level."*, *"Your Strength level is now 41."* and *"Click here to continue"*, with the skill's icon. OSRS's level-up fireworks play at your adventurer's feet, and keep playing while Megabonk's level-up window pauses the game. |
 | **Evolution** | Chat box | The new weapon's name, like *"Fire Surge!"*, as a dialogue for 3.5 s |
+| **Special attack graphics** | At your feet or the target's | The spec's OSRS graphic, rendered from your cache |
 | **Loading screen** | The whole screen | Black with OSRS's *Loading - please wait.* box: when a run starts, after a death restart and when a boss fight moves into its lair, until you stand on the OSRS map ([Maps](maps.md#when-its-built)) |
 | **Death message** | Centre | *"Oh dear, you are dead!"* in large red OSRS text. Megabonk's death screen title says it too. |
 | **Hint** | Above the prayer panel, first 45 s | *"Pray against the icon over a monster: 1 Melee 2 Missiles 3 Magic"* |
@@ -52,6 +53,8 @@ What it says:
 | Prayer runs out | *You have run out of Prayer points, you can recharge at an altar.* |
 | You pray with no points | *You need to recharge your Prayer at an altar.* |
 | A weapon evolves | *Your Fire Strike has become a Fire Surge!* |
+| You press `Q` (`Special.SwitchKey`) | *Special attack: Abyssal whip (Energy Drain).* (the newly armed weapon) |
+| You press `F` without enough energy, or with nothing in reach | *You don't have enough special attack energy left.* / *There's nothing in reach.* |
 | You press `V` (`Camera.ToggleKey`) | *Camera: far.* / *Camera: near.* |
 | The Giant Mole digs | *The Giant Mole burrows into the ground!* |
 | You gather | *You get some logs.* / *You manage to mine some tin.* (the rock's ore; *stone* for plain rocks) / *You catch some shrimps.* |

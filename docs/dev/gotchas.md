@@ -71,6 +71,23 @@ step: MODLOG is the short log, this page explains). Unnumbered ones were found w
   that was caught; since then the loop backs every save up before a launch and restores it byte for byte after
   ([Testing](testing.md#the-local-loop)). The scenario and report live in the game folder (`BepInEx/config/Bonkscape`),
   which every process sees.
+- **A monster can't be hurt for about its first second** (`Enemy.CanTakeDamage()` false): every hit then is ignored,
+  Bonkscape's and Megabonk's alike, and `hp` doesn't change. When it can, `DamageFromPlayerWeapon` takes the hp off at
+  once (armour first: `armorCurrent`). 0.4's first spec tests fired 0.5 s after a spawn and looked like specs did no
+  damage; specs now target only monsters that can take damage.
+- **`MapController.StartNewMap` in a run keeps the player**: like a stage change, the next run has the same adventurer
+  and inventory (`MapController.inventory`; `TryCleanupInventory` leaves it, and clearing it isn't enough either). A
+  real new run goes through the main menu (`TransitionUI.Instance.LoadMenu()`), as scenario suites do since 0.4.
+- **Megabonk puts its saved character back into the selection as the menu opens**
+  (`SaveManager.config.preferences.selectedCharacter`): a scenario starting 0.3 s after the menu sometimes had its
+  `CharacterMenu.selectedCharacter` overwritten and played the saved one (two of 0.4's suite runs: the Mage asked for,
+  the Warrior played). Scenario runs set the preference too; Melty's runs start 3 s in and never hit it.
+- **A setting's default is written into the config on first launch**: changing the default in `Config.Bind` later
+  doesn't change a config that already has the key (0.4's `NearPitch`: 35, then 45). Edit the `.cfg`, or delete the
+  key, to try a new default.
+- **Commit a merge at once in this shared checkout**: other sessions commit here, and a commit made while a merge is
+  staged becomes the merge commit (0.4: the planning session's docket commit `b429736` carries the `specials-0.4`
+  merge).
 - **Megabonk ignores Unity's `-screen-fullscreen/-screen-width/-screen-height` flags** and runs at its own settings;
   the UI test sets sizes in game with `Screen.SetResolution`, which clamps to the desktop (3840x2160 became
   3840x1934 on a 2560x1600 screen).

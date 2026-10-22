@@ -353,7 +353,10 @@ Chain) reuse the spell's cast and its projectile's spot animation. Then `bonk an
   which replace the Megabonk character's own modifiers (0 removes it).
 - `osrs_player_model` (JSON): `osrs_kits_male` (seven identity kits: head, jaw, torso, arms, hands, legs, feet; the
   Warrior's are `[0, 10, 18, 26, 33, 36, 42]`), `osrs_items` (worn item ids), `osrs_colors` (0, the only value used),
-  `osrs_stand_anim` (808), `osrs_walk_anim` (819), `osrs_run_anim` (824), `osrs_death_anim` (836).
+  `osrs_stand_anim` (808), `osrs_walk_anim` (819), `osrs_run_anim` (824), `osrs_death_anim` (836). Put the starting
+  weapon's item in `osrs_items`: the own body holds it, and every other weapon gets a body of its own with its item
+  swapped into the weapon slot (`Osrs.PlayerWeaponBodies`, 0.4), so a new weapon row needs an `osrs_item_id` with a
+  worn model to show in hand.
 - `unlock_condition` isn't read by the code yet.
 
 **Commands**
@@ -399,7 +402,8 @@ A check reports that a feature ran in a test run. `TestMode.Pass(name)` records 
 **Choose: required or optional.** Melty reads at most 12 check lines, and `TestMode.Checks` holds 12 (the recipe's
 `test.checks`, set when the release is submitted). A new required check replaces one of them in both places;
 otherwise it's optional: logged as *"check passed: <name> (optional, log only)"* and never written to Melty's file.
-Optional today: `skill-rules`, `boss-spawned`, `boss-arena`, `lair-dig`, `skilling-gathered`, `gear-slot-rules`.
+Optional today: `osrs-cache` (out of the twelve since 0.4, for `spec-fired`), `skill-rules`, `boss-spawned`, `boss-arena`, `lair-dig`,
+`skilling-gathered`, `gear-slot-rules`, `spec-switched`, `spec-<weapon>`, `weapon-in-hand`, `player-hit`, `run-restarted`.
 
 **Steps**
 

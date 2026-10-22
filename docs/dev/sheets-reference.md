@@ -17,19 +17,19 @@ through `Generated/Sheets.g.cs`. Each file has the same shape:
 |---|---|---|---|
 | `audio.json` | 17 | 6 | 14 built, 3 todo |
 | `bosses.json` | 2 | 12 | 1 built, 1 todo |
-| `cache_assets.json` | 242 | 9 | 6 todo, 236 verified |
+| `cache_assets.json` | 263 | 9 | 6 todo, 257 verified |
 | `characters.json` | 5 | 17 | 2 todo, 3 verified |
 | `drops.json` | 12 | 10 | 7 built, 3 todo, 2 verified |
 | `enemies.json` | 23 | 20 | 14 built, 3 todo, 6 verified |
-| `evolutions.json` | 4 | 10 | 2 built, 2 todo |
+| `evolutions.json` | 4 | 10 | 3 built, 1 todo |
 | `hooks.json` | 39 | 9 | 9 built, 30 verified |
 | `maps.json` | 6 | 19 | 4 todo, 2 verified |
-| `passives.json` | 11 | 10 | 9 built, 2 todo |
+| `passives.json` | 11 | 10 | 10 built, 1 todo |
 | `prayers.json` | 3 | 12 | 3 verified |
 | `skills.json` | 10 | 8 | 5 built, 5 verified |
 | `ui.json` | 41 | 8 | 4 built, 1 todo, 36 verified |
 | `waves.json` | 16 | 8 | 16 built |
-| `weapons.json` | 13 | 23 | 7 built, 5 todo, 1 verified |
+| `weapons.json` | 13 | 27 | 10 built, 2 todo, 1 verified |
 <!-- /gen:sheet-list -->
 
 ## Rules the preflight checks on every sheet
@@ -100,7 +100,11 @@ One row per OSRS weapon; each reuses a Megabonk weapon's behaviour. Read by `Con
 | `osrs_projectile_or_spotanim_id` | `item:<id>`, `spotanim:<id>` or `none`: the OSRS model each projectile the weapon spawns carries (`Systems/Projectiles.cs`, 0.1.36), its longest axis along the flight. | resolves |
 | `sfx_id` | Attack sound, played when the weapon fires (at most every 0.3 s per weapon; 0.1.36). | sound synthesises |
 | `osrs_attack_anim` | OSRS sequence the adventurer plays when this weapon attacks (from OpenRune's `attack_anim_stance1`, resolved with `osrs gamevals seq`; spells use their cast: Fire Strike 1162, Ice Barrage 1979, trident 1167). -1 = none yet. Baked on each adventurer's model (0.2.0). | |
-| `spec_name`, `spec_effect` | Special attack name and effect. **Not built.** | |
+| `spec_name`, `spec_effect` | The special attack's name (chat, log) and its steps, read by `Systems/Specials.cs`, comma-separated: `hit:M` (one hit for M times the weapon's average hit), `hits:M1/M2/...:GAP` (hits GAP seconds apart), `aoe:R:M` (M on every other monster within R tiles of the target), `slow:R:MULT:S`, `stun:S`, `freeze:R:S:M` (round the adventurer: a hit, then frozen S seconds), `heal:F` (heal F of the damage dealt), `cone:R:DEG:M` (ahead of the adventurer), `chain:N:R:M` (jumps to N monsters, each within R tiles of the last). A cone or freeze reaches only its own R. `none` for no spec. | steps known to `Specials.Apply` |
+| `spec_cost` | Energy the spec costs, in percent of the bar (OSRS's own; 50 for Bonkscape's invented magic specs); 0 for no spec. | 0 to 100 |
+| `spec_anim` | The adventurer's OSRS sequence for the spec (`PlayerSkin.PlaySpec`); -1 plays the weapon's attack. | a sequence id in the cache, or -1 |
+| `spec_spotanim` | The spec's OSRS spot animation, drawn as a flipbook (`Systems/SpotFx.cs`); -1 for none. | a spot animation in the cache, or -1 |
+| `spec_spot_on` | Where the spot animation plays: `player` or `target`. | `player` / `target` |
 | `phase`, `status` | | |
 
 ## evolutions

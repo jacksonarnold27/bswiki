@@ -47,7 +47,8 @@ with it, so there's room to run. See [Adventurers](adventurers.md#size).
    shows. Bonkscape waits 0.3 s, then for Megabonk's spawn intro to finish (your character on the ground and done
    teleporting, at most 8 s more), and places Lumbridge under you.
 3. You're moved into the courtyard, and any monster already alive is moved next to you. The loading box stays up one
-   more second while Megabonk's camera swings in. A restart after a death shows it again.
+   more second while Megabonk's camera swings in, and the camera turns to face north, looking down 45 degrees
+   (`Camera.NearPitch`). A restart after a death, and a move into or out of a boss's lair, do the same.
 
 ### Spawn, chests, shrines and the boss portal
 

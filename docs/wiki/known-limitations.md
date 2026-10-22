@@ -6,11 +6,9 @@ What isn't there yet, or behaves differently from what you'd expect. The [docket
 
 - **Music.** Release builds play Megabonk's music: the experimental OSRS music player needs its engine
   (`OsrsKit.Music.dll`), which isn't shipped yet. OSRS's jingles (level-up, death) aren't built.
-- **Special attacks.** Named in the weapons sheet, not built.
 - **Prayer altars.** The chat tells you to recharge at an altar, but there's none; prayer potions are the only refill.
 - **More adventurers, weapons, gear, monsters and maps.** Pure, Ironman, the Dwarf multicannon, Dharok's greataxe, the
-  Scythe of vitur, the Armadyl godsword, Dragon claws, the Fire cape, Godsword shards, Barrows, the Wilderness, God
-  Wars Dungeon and the Fight Caves are designed (phase 2 and 3) but not in the game.
+  Fire cape, Barrows, the Wilderness, God Wars Dungeon and the Fight Caves are designed (phase 2 and 3) but not in the game.
 - **Pets, clue scrolls, the Mole's own drops** (Mole claw, Baby mole). Planned.
 
 ## Works, with caveats
