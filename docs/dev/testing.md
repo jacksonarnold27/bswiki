@@ -29,8 +29,8 @@ writes its self-checks (log: `Melty test mode: hand-over`). For what autoplay ca
 `%LOCALAPPDATA%\Bonkscape\test-rotation.txt`. Quick checks are always run 1, so before the rotation autoplay only ever
 played the Warrior. The log says `autoplay adventurer: <name> (<style>)`. `Dev.AutoStartRun` still plays the first.
 
-**Map rotation** (0.2.1). The map is `rotation mod <phase-1 maps>` over `Rows.Maps` (Lumbridge on the Forest;
-Al Kharid, Morytania and TzHaar City on the Desert's three stages; the Wilderness on the Graveyard). The rotation goes up with every game launch and
+**Map rotation** (0.2.1). The map is `rotation mod <phase-1 maps>` over `Rows.Maps` (Lumbridge and Ardougne &
+Seers' Village on the Forest's first two stages; Al Kharid, Morytania and TzHaar City on the Desert's three stages; the Wilderness on the Graveyard). The rotation goes up with every game launch and
 each run is one, so a test of as many runs as maps plays each, as 0.5.0's three-run test did (with the run number added too, as for the adventurer, it moved by 2 a run and both of
 0.2.1's first test runs played Lumbridge). The
 log says `autoplay map: <name> (Megabonk's <map>)`. `Dev.AutoStartRun` plays Lumbridge.
@@ -201,6 +201,8 @@ Times are local (UTC-5). From Melty's release list and test results.
 | 0.8.0 | `7b1d13bb` | 3 x 2 min | **passed (publish test)** | Run 1 Durial321 on Al Kharid: the desert town, scorpions, desert wolves, lizards, a bandit and an Al Kharid warrior, the boss portal into the Kalphite Lair, the crawling Queen fighting (boss bar 7,142). Run 2 the Ranger on Morytania, reached by the jump to the Desert's second stage: Verac the hidden brother at the Barrows. Run 3 TzHaar City: the Fight Cave, its waves, Jad's telegraphs. All 12 each. The Queen's second form wasn't reached in the run's 30 s with her (seen locally in `kalphite-lair`). |
 | 0.9.0 | `59fdc7c2` | 3 x 2 min | passed, didn't graduate | Run 1 the Mage on the Wilderness: revenants, green dragons, a Pipe Ranger ambush with Toxic Siphon, then the boss door (opened by test mode while a window had the game paused) loaded the final stage, and the screen stayed black to the end, no King Black Dragon; the review failed it, and the crypt's *Find the exit* stayed on screen. Run 2 the Void Knight on Al Kharid (the Kalphite Queen), run 3 the Zerker on Morytania (Guthan) passed. All 12 self-checks in each run. |
 | 0.9.1 | `5816c823` | 3 x 2 min | **passed (publish test)** | Run 1 the Ranger on the Wilderness: revenants and green dragons, an Ice Tank ambush (log), the door opened only once a chest window's pause ended, then the King Black Dragon in his lair (boss bar 9,450). Run 2 the Zerker on Al Kharid: the Kalphite Lair, the crawling Queen. Run 3 Durial321 on Morytania: Torag the hidden brother. All 12 each. The KBD's death and breath effects weren't reached (seen locally in `kbd-lair`). |
+| 0.10.0 | `2be74135` | 3 x 2 min | passed, didn't graduate | Run 1 the Void Knight on Ardougne & Seers' Village: East Ardougne's market, grizzly bears, guards and warriors, the boss portal at Camelot, the seven knights in three waves, then Sir Lancelot. Run 2 the Warrior on TzHaar City: the Fight Cave, Jad. Run 3 the Mage on Lumbridge failed the review: the Giant Mole fought in its lair under a boss bar reading *King Black Dragon* (both on `Ent1`). All 12 self-checks in each run. |
+| 0.10.1 | `6396cd70` | 3 x 2 min | **passed (publish test)** | Run 1 the Void Knight on Ardougne & Seers' Village: its monsters, the knights' waves and Sir Lancelot at Camelot, named on the boss bar. Run 2 the Warrior on TzHaar City: the Fight Cave, Jad. Run 3 the Mage on Lumbridge: the Giant Mole named on its boss bar again. All 12 each. |
 
 Blank cells weren't looked up. `mcp__melty__test_result` with the test id gives the full record.
 

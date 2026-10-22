@@ -47,7 +47,7 @@ What it says:
 | When | Message |
 |---|---|
 | A run starts | *Welcome to Lumbridge. Press 1, 2 or 3 to pray against melee, missiles or magic.* (on the Desert: *Welcome to Al Kharid. ...*; on the Graveyard: *Welcome to The Wilderness. ...*) |
-| A later stage is another map | *Welcome to Morytania.* / *Welcome to TzHaar City.* |
+| A later stage is another map | *Welcome to Ardougne & Seers' Village.* / *Welcome to Morytania.* / *Welcome to TzHaar City.* |
 | A skill levels up | *Congratulations, you just advanced a Mining level. You are now level 12.* |
 | You eat | *You eat the lobster. It heals some health.* |
 | You drink a prayer potion | *You drink some of your prayer potion.* |
@@ -67,7 +67,7 @@ What it says:
 | You beat the hidden Barrows brother | *You find Dharok's helm in the Barrows chest!* (the piece you got) |
 | A brother's set is complete | *You have Dharok's full set: he can join you as an adventurer.* |
 | You press Megabonk's Buy on a locked adventurer | *Dharok can't be bought: his Barrows set (2/4).* |
-| TzTok-Jad joins after the waves | *TzTok-Jad appears!* |
+| A boss joins after its waves | *TzTok-Jad appears!* / *Sir Lancelot appears!* |
 | TzTok-Jad drops below half health | *TzTok-Jad calls for help!* |
 | A boss you kill unlocks gear | *You have been awarded a Fire cape!* |
 | Lava first burns you in a run | *The lava's heat burns you!* |
@@ -101,7 +101,7 @@ monsters (at most every 0.12 s) and killing them (every 0.2 s), each weapon's at
 weapon), level-ups and evolutions, each prayer going on, prayer off, running out of prayer, picking up coins, eating
 and drinking, chopping, mining and fishing.
 
-OSRS **music**: an experimental player plays the map's track (Lumbridge: *Harmony*; Al Kharid: *Al Kharid*; Morytania: *Village*; TzHaar City: *Mor Ul Rek*; the Wilderness: *Wilderness*) from your cache in place of Megabonk's music
+OSRS **music**: an experimental player plays the map's track (Lumbridge: *Harmony*; Al Kharid: *Al Kharid*; Morytania: *Village*; TzHaar City: *Mor Ul Rek*; the Wilderness: *Wilderness*; Ardougne & Seers' Village: *Knightly*) from your cache in place of Megabonk's music
 (`Audio.OsrsMusic`), but only with its engine, `OsrsKit.Music.dll`, which release builds don't include; without it
 Megabonk's music plays. OSRS's jingles (level-up, death) aren't built.
 

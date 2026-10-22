@@ -13,6 +13,46 @@ inside each release's DLL in `dist/`. No version has been published yet: every r
 
 ---
 
+## 0.10.1: the Mole's name
+
+*Build 2026-10-22 09:45, code in `5dc65c1`. Test `6396cd70`: publish test, 3 runs x 2 min, passed. Run 1 the Void
+Knight on Ardougne & Seers' Village (its monsters in East Ardougne's market, the knights' waves and Sir Lancelot at
+Camelot, named on the boss bar), run 2 the Warrior on TzHaar City (the Fight Cave, Jad), run 3 the Mage on Lumbridge
+(the Giant Mole named on its boss bar again). All 12 self-checks each.*
+
+**Patch notes**
+- The Giant Mole is named on its boss bar again (0.10.0 called it the King Black Dragon).
+
+**Changes**
+- `Bonk`: every stage a launch plays, its first included, runs `Content.ApplyStage` once (`Content.StageApplied`,
+  cleared for the next stage), so a first stage's monster rows win on a Megabonk boss two maps' first stages share
+  (the Mole and the King Black Dragon on `Ent1`; the KBD's name was applied last at load). `ApplyStage` skips PKer rows,
+  which would put their Megabonk walker in the map's pool.
+
+## 0.10.0: Ardougne & Seers' Village
+
+*Build 2026-10-22 09:25, code in `c60aaab`. Test `2be74135`: 3 runs x 2 min, didn't graduate. Run 1 the Void Knight on
+Ardougne & Seers' Village (the market, its monsters, the knights' three waves at Camelot, then Sir Lancelot) and run 2
+the Warrior on TzHaar City passed; run 3 the Mage on Lumbridge failed the review: in the Mole's lair the boss bar read
+*King Black Dragon*. All 12 self-checks in each run.*
+
+**Patch notes**
+- Ardougne & Seers' Village on the Forest's second stage: from East Ardougne's market to Seers' Village and Camelot,
+  built from your cache, with its guards, Knights of Ardougne, ogres, grizzly bears, guard dogs and more, and Heroes
+  and Paladins as minibosses.
+- At Camelot the Knights of the Round Table come in three waves (Bedivere and Pelleas, Tristram and Palomedes, Lucan,
+  Gawain and Kay), then Sir Lancelot, once his time comes or every knight is down.
+
+**Changes**
+- `BossFight.BossOnMap` (from `EnemySkins` when a boss is skinned): a boss with `arena_waves` and no `osrs_arena`
+  fights its waves on the stage's own map, held where it rose until `boss_at` or until every wave monster is down;
+  each on-map wave monster takes its own row's HP and speed (`RowStats`).
+- Rows: `ardougne_seers` (Forest stage 1, (2496, 3264)-(2783, 3535), *Knightly*, fallback Goblin), twelve monsters,
+  `hero` and `paladin` minibosses, `sir_lancelot` (`Ent2`), seven knights keyed by `knights_boss`, its waves, and
+  `knights_boss` (waves at 0, 15 and 30 s, Lancelot at 45 s, Slash and Lunge every 2400 ms). Hook `graveyard_door`
+  split into `graveyard_door_interact`, `graveyard_door_can` and `graveyard_door_text`.
+- Scenarios `ardougne`, `knights`, `mole-name`.
+
 ## 0.9.1: the Wilderness, fixed
 
 *Build 2026-10-22 08:50, code in `7e4b8ca`. Test `5816c823`: publish test, 3 runs x 2 min, passed. Run 1 the Ranger

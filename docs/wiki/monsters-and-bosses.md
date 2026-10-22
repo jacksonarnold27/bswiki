@@ -12,9 +12,8 @@ For ordinary monsters, Bonkscape also replaces Megabonk's **HP, damage, speed an
 row's values. **Minibosses and bosses keep Megabonk's own stats**, so the Giant Mole fights with the HP and damage of
 the Megabonk boss it replaces, not the sheet's 9000 HP (TzTok-Jad, the Kalphite Queen and the King Black Dragon: not
 theirs). A map's difficulty (`maps.difficulty`) scales HP and damage for all of them; every map's is 1. Each row joins the spawn pool of its own maps (the roster's **Maps** column): Lumbridge's
-monsters on Megabonk's Forest; Al Kharid's, Morytania's and TzHaar City's on the Desert; the Wilderness's on the Graveyard. The Desert's three share
-the
-Desert's enemy types: when a Desert stage starts, its map's rows take the types over (names, models and stats). The Fight
+and Ardougne & Seers' Village's monsters on Megabonk's Forest; Al Kharid's, Morytania's and TzHaar City's on the Desert; the Wilderness's on the Graveyard. The maps of one Megabonk
+map share its enemy types: when a stage starts, its map's rows take the types over (names, models and stats). The Fight
 Caves' monsters (Maps `tztok_jad_boss`) join no pool; the arena spawns them itself. Megabonk enemies that no row takes
 over are removed from those maps' pools, so only OSRS monsters spawn on Bonkscape's maps. On a later
 stage, Megabonk's own stage scaling multiplies every monster's HP and damage on top, as it does in any run.
@@ -121,7 +120,7 @@ drops the same things ([Loot](#loot)).
 ## Combat styles
 
 Every monster fights in **melee**, **ranged** or **magic**. In Lumbridge only the guards are ranged and only the giant
-frogs are magic. In Al Kharid every monster is melee. In the Wilderness the Chaos Elemental is magic, the Revenant maledictus ranged
+frogs are magic. In Ardougne & Seers' Village only the guards are ranged. In Al Kharid every monster is melee. In the Wilderness the Chaos Elemental is magic, the Revenant maledictus ranged
 and the rest melee, PKers fight in their weapon's style, and the King Black Dragon's attacks each have their own. In Morytania banshees and Ahrim the Blighted are magic, Karil the Tainted is ranged, and the rest are melee. In TzHaar City the
 TzHaar-Mej are magic and the rest melee; in the Fight Caves the Tok-Xil are ranged, the Ket-Zek magic and the rest
 melee, and each of TzTok-Jad's attacks has its own style ([below](#tztok-jad)). The OSRS skill icon for its style (Attack, Ranged or Magic) floats over the 10
@@ -190,28 +189,32 @@ attack's: a guard's hit counts as ranged even when Megabonk has it attack up clo
 | ardougne_seers | 9 | Sir Lancelot | boss | <span class="st st-built">built</span> |
 <!-- /gen:waves -->
 
-How those rows apply, each on its own map's stage (Lumbridge on the Forest's first; Al Kharid, Morytania and TzHaar
+How those rows apply, each on its own map's stage (Lumbridge on the Forest's first, Ardougne & Seers' Village on its second; Al Kharid, Morytania and TzHaar
 City on the Desert's first, second and third; the Wilderness on the Graveyard's first):
 
-- **start** (minute 0): the run's first monsters. Lumbridge: chickens, goblins, giant rats and guards. Al Kharid: scorpions, Shantay Guards,
+- **start** (minute 0): the run's first monsters. Lumbridge: chickens, goblins, giant rats and guards. Ardougne & Seers' Village: monkeys,
+  goblins, snakes, giant bats, guards, grizzly bears and guard dogs. Al Kharid: scorpions, Shantay Guards,
   desert lizards, desert wolves, hill giants and Al Kharid warriors. Morytania: Myre
   blamish snails, bats, crawling hands, ghouls, Loar Shades and banshees. TzHaar City: TzHaar-Hur and TzHaar-Mej. The Wilderness:
   revenant imps, goblins, hobgoblins and hellhounds, and green dragons.
-- **unlock**: the rows join the spawn pool from that minute. Lumbridge: cows and giant frogs at 1.5. Al Kharid: Kalphite
+- **unlock**: the rows join the spawn pool from that minute. Lumbridge: cows and giant frogs at 1.5. Ardougne & Seers' Village:
+  warriors and Knights of Ardougne at 1.5, ogres at 3. Al Kharid: Kalphite
   Workers at 1.5, ugthanki and bandits at 3, Kalphite Soldiers at 6. Morytania:
   vampyre juveniles at 1.5, vampyre juvinates and feral vampyres at 3, the Vyrewatch at 6. TzHaar City:
   TzHaar-Xil at 1.5, TzHaar-Ket at 3. The Wilderness: revenant demons at 1.5, cyclopes at 3, knights at 7, dragons
   at 12.
 - **swarm**: Megabonk's swarm event at that minute spawns the row's monsters. Lumbridge: goblins at 4, giant rats at
-  7. Al Kharid: scorpions at 4, desert lizards at 7. Morytania: Myre blamish snails at 3,
+  7. Ardougne & Seers' Village: goblins at 3, guards at 6. Al Kharid: scorpions at 4, desert lizards at 7. Morytania: Myre blamish snails at 3,
   crawling hands at 6. TzHaar City: TzHaar-Hur at 2.5 and 4. The Wilderness: revenant goblins at 4, cyclopes at 8,
   knights at 11, dragons at 14.
 - **miniboss**: Megabonk's miniboss event at that minute spawns each row's miniboss. Lumbridge: a Cow and a Giant frog
-  at 3 and 8. Al Kharid: a Kalphite Guardian at 3 and 8. Morytania: Barrows brothers at 2
+  at 3 and 8. Ardougne & Seers' Village: a Warrior and a Paladin at 2, a Paladin and a Hero at 7. Al Kharid:
+  a Kalphite Guardian at 3 and 8. Morytania: Barrows brothers at 2
   and 7, the five not hidden this run in turn ([below](#the-barrows-brothers)). TzHaar City: a TzHaar-Ket champion at
   1.5 and 5. The Wilderness: the Chaos Elemental and the Revenant maledictus at 3, 7, 10 and 13.
-- **boss** (minute 10; Morytania's 9, TzHaar City's 8, the Wilderness's 16): the plan only. The stage boss comes when you open the boss
-  portal (Lumbridge: the Giant Mole; Al Kharid: the Kalphite Queen; Morytania: the run's hidden Barrows brother); TzHaar City's when you open its final portal
+- **boss** (minute 10; Ardougne & Seers' Village's and Morytania's 9, TzHaar City's 8, the Wilderness's 16): the plan only. The stage boss comes when you open the boss
+  portal (Lumbridge: the Giant Mole; Ardougne & Seers' Village: Sir Lancelot, after the Knights of the
+  Round Table; Al Kharid: the Kalphite Queen; Morytania: the run's hidden Barrows brother); TzHaar City's when you open its final portal
   (TzTok-Jad, in the Fight Caves), and the Wilderness's when you open its boss door (the King Black Dragon).
 
 A swarm or miniboss row whose minute has no matching event in Megabonk's timeline spawns nothing; the log says how
@@ -226,7 +229,7 @@ in your cache, they use their NPC model and its stand-ins as below.
 Your OSRS client downloads a model the first time it shows it, so your cache may not have every monster. For each
 monster Bonkscape tries its own NPC first, then each **stand-in NPC id** in the order listed, and uses the first one
 whose models are all in your cache (the log says *"Goblin: NPC 3031 isn't in this cache, using stand-in NPC 3029"*).
-If none is there, the monster borrows the map's fallback monster (Lumbridge: the Goblin; Al Kharid: the Scorpion; Morytania: the Ghoul;
+If none is there, the monster borrows the map's fallback monster (Lumbridge and Ardougne & Seers' Village: the Goblin; Al Kharid: the Scorpion; Morytania: the Ghoul;
 TzHaar City and its Fight Caves: TzHaar-Hur; the Wilderness: the revenant goblin). If that's missing too, you see
 Megabonk's own model.
 
@@ -239,7 +242,7 @@ A monster's height is worked out when it spawns, and once more a moment later:
 1. **OSRS proportions on your adventurer's scale**: its model height in OSRS units, converted to metres exactly like
    your adventurer's. So an OSRS human (a guard) stands about as tall as your adventurer, and every other monster keeps
    its OSRS ratio to them.
-2. Times the row's **Size x** (Cow 1.1, Giant frog 1.6, Giant Mole 2.2, Vyrewatch 1.2, the Barrows brothers 1.6, Kalphite Guardian 1.2, TzHaar-Ket champion 1.2, Chaos Elemental and Revenant
+2. Times the row's **Size x** (Cow 1.1, Giant frog 1.6, Giant Mole 2.2, Vyrewatch 1.2, the Barrows brothers 1.6, Kalphite Guardian 1.2, Hero and Paladin 1.2, TzHaar-Ket champion 1.2, Chaos Elemental and Revenant
    maledictus 1.2) and
    `Models.MonsterSize`.
 3. Times part of Megabonk's own enlargement of elites, minibosses and bosses, capped by tier (below). Megabonk
@@ -324,6 +327,31 @@ to the next stage appears then is *(unconfirmed: needs a Melty run or footage)*:
 Dying in the lair restarts the run on Lumbridge with its own sky.
 
 Planned for the Mole: its own drops (Mole claw, the Baby mole pet at 1/3000) and OSRS stats. Neither is built.
+
+## Ardougne and Seers' Village
+
+Ardougne & Seers' Village's monsters are its townsfolk and wildlife, all melee but the guards (ranged): monkeys,
+goblins, snakes, giant bats, guards, grizzly bears and guard dogs from the start, warriors and Knights of Ardougne
+from 1.5 minutes, ogres from 3. Its minibosses are **Heroes** and **Paladins** (size x 1.2), with Megabonk's miniboss
+stats and attacks. Its boss is Sir Lancelot, after the other Knights of the Round Table.
+
+## The Knights of the Round Table
+
+Opening the boss portal at Camelot doesn't move the fight: the knights come to you on the map, in waves, while Sir
+Lancelot (OSRS NPC 4354, on Megabonk's `Ent2`) waits where he rose, unseen, frozen and unhurt:
+
+| Time | Knights |
+|---|---|
+| 0 s | Sir Bedivere and Sir Pelleas |
+| 15 s | Sir Tristram and Sir Palomedes |
+| 30 s | Sir Lucan, Sir Gawain and Sir Kay |
+| 45 s, or once every knight is down | Sir Lancelot: *"Sir Lancelot appears!"* |
+
+Each knight has his own row's HP (196 to 239, scaled like the map's monsters) and speed, and fights with the attacks of the Megabonk enemy he rides.
+Sir Lancelot's attacks are OSRS's: every **2.4 seconds**, start to start, a Slash or a Lunge (melee, only when you're
+beside him), each dealt as 13% to 20% of your maximum health (his max hit, 23, against Jad's 97). Megabonk's own
+attacks for `Ent2` are off and touching him doesn't hurt. Protect from Melee halves his hits, as for any boss. His
+HP is Megabonk's boss's.
 
 ## Al Kharid
 

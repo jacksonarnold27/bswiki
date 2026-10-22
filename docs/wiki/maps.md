@@ -1,9 +1,11 @@
 # Maps
 
-Bonkscape has five maps, each built from **your own OSRS cache** in place of a Megabonk map or stage:
+Bonkscape has six maps, each built from **your own OSRS cache** in place of a Megabonk map or stage:
 
 - **Lumbridge & Swamp** on Megabonk's Forest <span class="st st-verified">verified</span> (Melty publish test of
   0.1.11: courtyard start, castle, river and bridges, swamp, minibosses, death and restart).
+- **[Ardougne & Seers' Village](#ardougne-and-seers-village)** on the Forest's second stage: from East Ardougne's
+  market to Seers' Village and Camelot.
 - **[Al Kharid](#al-kharid)** on Megabonk's Desert: the desert town, with [the Kalphite Lair](#the-kalphite-lair) as its
   boss arena.
 - **[Morytania](#morytania)** on the Desert's second stage: Canifis, Mort Myre and the Barrows.
@@ -12,7 +14,7 @@ Bonkscape has five maps, each built from **your own OSRS cache** in place of a M
 - **[TzHaar City](#tzhaar-city)** on the Desert's third stage: the TzHaar's underground city of obsidian and lava,
   with [the Fight Caves](#the-fight-caves) as its boss arena.
 
-Which one you play is the Megabonk map you pick: the Forest is Lumbridge; the Desert's three stages are Al Kharid,
+Which one you play is the Megabonk map you pick: the Forest is Lumbridge, then Ardougne & Seers' Village on its second stage; the Desert's three stages are Al Kharid,
 Morytania and TzHaar City; the Graveyard is the Wilderness. The rest of this page describes Lumbridge first; the other maps work the same
 way except where their sections say otherwise.
 
@@ -47,7 +49,7 @@ with it, so there's room to run. See [Adventurers](adventurers.md#size).
 ### When it's built
 
 1. While the main menu loads, every map's world data (tiles, scenery, colliders) and minimap are built in the
-   background from your cache, Lumbridge first, then Al Kharid, Morytania, TzHaar City, the Wilderness and the bosses' lairs (the Giant
+   background from your cache, Lumbridge first, then the other maps and the bosses' lairs (the Giant
    Mole's, the Kalphite Lair, the Fight Caves and the King Black Dragon's); their meshes are then made
    a few at a time, at most 8 ms of each frame.
 2. When a run starts, the screen goes black with OSRS's *Loading - please wait.* box, so Megabonk's own stage never
@@ -95,8 +97,24 @@ It stays solid while hidden.
 
 ### Stages
 
-Megabonk's Forest map has several stages. Bonkscape names them **Lumbridge & Swamp**, **Lumbridge Swamp** and
-**Lumbridge Swamp Caves**, but for now every stage builds the same Lumbridge arena.
+Megabonk's Forest map has three stages: **Lumbridge & Swamp**, then
+[Ardougne & Seers' Village](#ardougne-and-seers-village), then **Lumbridge Swamp Caves**, which builds the same
+Lumbridge arena again.
+
+## Ardougne and Seers' Village
+
+**Ardougne & Seers' Village** takes over the **second stage** of Megabonk's Forest. Its arena is OSRS world tiles
+**(2496, 3264) to (2783, 3535)**, 288 x 272 tiles: from East Ardougne's market north past the farms and guilds to
+Seers' Village and Camelot, so the detail budget applies ([Morytania](#morytania)).
+
+| What | Where |
+|---|---|
+| **You** | East Ardougne, OSRS tile (2662, 3305). The chat box says *"Welcome to Ardougne & Seers' Village."* |
+| **Boss portal** | Camelot, OSRS tile (2758, 3507). The fight stays on the map: the Knights of the Round Table come in waves, then Sir Lancelot ([Monsters](monsters-and-bosses.md#the-knights-of-the-round-table)). |
+| **Monsters** | Its own roster, with Heroes and Paladins as minibosses ([Monsters](monsters-and-bosses.md#ardougne-and-seers-village)). |
+| **Chests, shrines, monster spawns, skilling spots** | As on Lumbridge, on its own ground, trees, rocks and shores. |
+
+Its music (experimental) is *Knightly*.
 
 ## Al Kharid
 
@@ -243,7 +261,7 @@ Every map in `sheets/maps.json`, built or planned:
 <!-- /gen:maps -->
 
 Each map has an OSRS track (Lumbridge: *Harmony*; Al Kharid: *Al Kharid*; Morytania: *Village*; TzHaar City: *Mor Ul
-Rek*; the Wilderness: *Wilderness*). An experimental player plays it from your
+Rek*; the Wilderness: *Wilderness*; Ardougne & Seers' Village: *Knightly*). An experimental player plays it from your
 cache (`Audio.OsrsMusic`), but only with its engine, which release builds don't include, so they play Megabonk's
 music ([HUD and chat](hud-and-chat.md#sounds)). More boss arenas are on the [docket](../dev/docket.md).
 

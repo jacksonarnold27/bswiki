@@ -1,7 +1,7 @@
 # Architecture
 
 Bonkscape is a BepInEx 6 IL2CPP plugin for Megabonk (Unity 2023.2.22f1, IL2CPP, build 1.0.69) that reads the player's
-Old School RuneScape cache at run time. Nothing from either game is shipped. Written against **0.9.1** (`7e4b8ca`).
+Old School RuneScape cache at run time. Nothing from either game is shipped. Written against **0.10.1** (`5dc65c1`).
 
 ## Projects
 
@@ -359,7 +359,7 @@ into data fields instead), `music` (`MusicController.PlayMusicTrack`: no music s
 
 | File | System |
 |---|---|
-| `Systems/Bonk.cs` | Is this a Bonkscape run, and on which map? (`Active`, `Rows.Current`, `MapOf`, `RowOf`) Since 0.5 a Megabonk map can carry one maps row per stage: the run's row is the one for its map and stage (`Bonk.StageIndex`: the loaded stage, not Megabonk's played-stage count), else the map's first; a change of row puts that stage's monsters on Megabonk's shared enemy types (`Content.ApplyStage`). |
+| `Systems/Bonk.cs` | Is this a Bonkscape run, and on which map? (`Active`, `Rows.Current`, `MapOf`, `RowOf`) Since 0.5 a Megabonk map can carry one maps row per stage: the run's row is the one for its map and stage (`Bonk.StageIndex`: the loaded stage, not Megabonk's played-stage count), else the map's first; every stage a launch plays, the first included, puts its row's monsters on Megabonk's shared enemy types once (`Content.ApplyStage`, `Content.StageApplied`), since two maps' first stages can share a Megabonk boss (the Giant Mole and the King Black Dragon on `Ent1`). |
 | `Systems/Content.cs` | Sheets into Megabonk's data; names, icons, level-up pools, unlocks, starting weapons; `maps.difficulty` on enemy hp and damage; `maps.sky` on the stage's fog, skybox (a copy), ambient and sun (`ApplySky`), and each stage's look kept for after a lair (`KeepLook`) |
 | `Systems/Arena.cs` | The OSRS arenas (maps and boss lairs), the loading cover |
 | `Systems/PlayerMoveFix.cs` | The adventurer on an arena: slope limit 62 degrees (`PlayerMovement.maxSlopeAngle`), and after 0.25 s of holding a direction without moving, a slide along the wall in front or a hop up a ledge; restored when the arena goes |

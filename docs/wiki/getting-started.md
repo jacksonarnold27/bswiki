@@ -49,8 +49,7 @@ start Megabonk again."* and the mod stays out of the way.
 1. Start Megabonk the way Melty tells you to. The first start after installing takes longer, because BepInEx
    prepares itself.
 2. While the main menu loads, Bonkscape decodes what it needs from your cache in the background: monsters, the
-   adventurers, items and icons, sprites, fonts, sounds, then the Lumbridge, Al Kharid, Morytania, TzHaar
-   City and Wilderness arenas and the bosses' lairs (the Mole's, the Kalphite Lair, the Fight Caves and the King
+   adventurers, items and icons, sprites, fonts, sounds, then the arenas of every map and the bosses' lairs (the Mole's, the Kalphite Lair, the Fight Caves and the King
    Black Dragon's). Menus work meanwhile; the log line
    `OSRS assets ready in ... ms` says how long it took.
 3. On character select, the selected adventurer's OSRS model stands where Megabonk's character would, and a
@@ -59,7 +58,7 @@ start Megabonk again."* and the mod stays out of the way.
 4. Pick an adventurer: **Warrior** (it takes Megabonk's `SirOofie` slot), **Ranger** (`Robinette`), **Mage** (`Fox`),
    **Zerker** (`Calcium`), **Void Knight** (`Athena`) or **Durial321** (`Vlad`); the **Ironman** (`SirChadwell`) and the six
    Barrows brothers are earned ([Adventurers](adventurers.md#unlocking)). Then start a
-   run on Megabonk's Forest map, which Bonkscape renames **Lumbridge & Swamp**, or its Desert map, which becomes
+   run on Megabonk's Forest map, which Bonkscape renames **Lumbridge & Swamp** (its second stage is Ardougne & Seers' Village), or its Desert map, which becomes
    **Al Kharid**, then Morytania and TzHaar City on its later stages ([Maps](maps.md#al-kharid)), or its Graveyard map, which
    becomes **the Wilderness** ([Maps](maps.md#the-wilderness)). Bonkscape weapons and gear count as unlocked
    whatever your Megabonk progress is.
