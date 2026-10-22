@@ -56,8 +56,8 @@ start Megabonk again."* and the mod stays out of the way.
    **Bonkscape** panel above it shows your combat level, your skill levels and the weapon that adventurer will start
    with ([HUD](hud-and-chat.md#character-select-panel)).
 4. Pick an adventurer: **Warrior** (it takes Megabonk's `SirOofie` slot), **Ranger** (`Robinette`), **Mage** (`Fox`),
-   **Zerker** (`Calcium`), **Void Knight** (`Athena`) or **Durial321** (`Vlad`); the **Ironman** (`SirChadwell`) unlocks
-   once one adventurer reaches total level 250 ([Adventurers](adventurers.md#unlocking)). Then start a
+   **Zerker** (`Calcium`), **Void Knight** (`Athena`) or **Durial321** (`Vlad`); the **Ironman** (`SirChadwell`) and the six
+   Barrows brothers are earned ([Adventurers](adventurers.md#unlocking)). Then start a
    run on Megabonk's Forest map, which Bonkscape renames **Lumbridge & Swamp**, or its Desert map, which becomes
    **Morytania**, and TzHaar City on its third stage ([Maps](maps.md#morytania)). Bonkscape weapons and gear count as unlocked
    whatever your Megabonk progress is.

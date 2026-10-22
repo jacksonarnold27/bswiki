@@ -21,6 +21,8 @@
 | **Combat level** | One number summing up your combat skills, worked out with OSRS's formula. |
 | **Total level** | All of a character's skill levels added up. |
 | **Ironman** | An OSRS account that plays alone, without trading. Bonkscape's Ironman can't buy from shops. |
+| **Barrows brothers** | Six undead brothers buried at the Barrows in Morytania: Dharok, Ahrim, Guthan, Karil, Torag and Verac. Each wears an armour set with its own effect. |
+| **Set effect** | What a full Barrows set does on its wearer's hits, such as Guthan's healing. |
 | **Casket** | An OSRS reward container. In Bonkscape, Megabonk's chests. |
 | **Tokkul** | The TzHaar's currency. In TzHaar City, Megabonk's gold. |
 | **Sequence** | An OSRS animation: frames that move a model's parts (stand, walk, run, attack, death). |
@@ -46,7 +48,7 @@
 
 | Term | Meaning |
 |---|---|
-| **Adventurer** | Your OSRS character: Warrior, Ranger, Mage, Zerker, Void Knight, Durial321 or Ironman. |
+| **Adventurer** | Your OSRS character: Warrior, Ranger, Mage, Zerker, Void Knight, Durial321, Ironman or a Barrows brother. |
 | **Arena** | A real OSRS map built from your cache (Lumbridge on the Forest, Morytania and TzHaar City on the Desert, and the bosses' lairs) that replaces the stage's ground. |
 | **Fallback stage** | Megabonk's own map (the Forest or the Desert) dressed in OSRS scenery, used when the arena can't be built. |
 | **Gear passive** | A piece of OSRS gear that replaces a Megabonk tome. One per gear slot. |

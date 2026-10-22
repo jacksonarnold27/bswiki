@@ -23,8 +23,9 @@ the same autoplay without Melty (checks are then only logged).
 **Hand-over tests.** With `Dev.ManualTest = true` a Melty test run doesn't autoplay: you play it, and Bonkscape still
 writes its self-checks (log: `Melty test mode: hand-over`). For what autoplay can't reach: skilling and the Giant Mole.
 
-**Adventurer rotation.** Each Melty test on this PC plays the next phase-1 adventurer (Warrior, Ranger, Mage, Zerker,
-Void Knight, Durial321, Ironman): the adventurer is `(run - 1 + rotation) mod <phase-1 adventurers>`, where the rotation counts tests in
+**Adventurer rotation.** Each Melty test on this PC plays the next phase-1 adventurer that this PC has unlocked
+(`Unlocks.CharacterUnlocked`; a locked one would also start a skills save): the adventurer is
+`(run - 1 + rotation) mod <those adventurers>`, where the rotation counts tests in
 `%LOCALAPPDATA%\Bonkscape\test-rotation.txt`. Quick checks are always run 1, so before the rotation autoplay only ever
 played the Warrior. The log says `autoplay adventurer: <name> (<style>)`. `Dev.AutoStartRun` still plays the first.
 
@@ -101,7 +102,10 @@ arena's first wave), `arena-boss-released` (the held boss joined after the waves
 (Jad's healers called, and one healed him), `boss-blocked-fully` (a boss hit blocked completely), `lava-burned` (a lava
 burn cost health) and `unlock-earned` (a boss's death unlocked a passive). Since 0.6: `extra-weapon` (an
 adventurer's `extra_weapons` given), `shop-refused` (a shopkeeper refused an adventurer who can't buy) and
-`character-unlocked` (an `unlock_condition` other than `always` met).
+`character-unlocked` (an `unlock_condition` other than `always` met). Since 0.7: `hidden-brother` (a boss pool's
+hidden brother picked), `barrows-piece` and `barrows-set` (a piece given; a set completed), `set-effect` (a set
+effect triggered) and `weapon-takeover` (a brother's weapon put on its shared Megabonk type). Since 0.8:
+`boss-second-form` (a two-form boss's first form fell and its second rose).
 
 Every 30 s of a test run the log also says `animations: monster attacks N, deaths N (corpses N), mole digs N (N in its lair),
 adventurer attacks N, moved …`, and the cache build logs each monster's and adventurer's baked sequences
@@ -191,6 +195,7 @@ Times are local (UTC-5). From Melty's release list and test results.
 | 0.4.0 | `4ff4bb99` | 2 x 2 min | **passed (publish test)** | Run 1 Ranger on Morytania: the spec orb, a spec switch (*Special attack: Abyssal whip (Energy Drain).*), the Godsword shard among the offers, Dharok. Run 2 Warrior on Lumbridge, starting facing north; Energy Drain and Sever fired in the Mole's lair. All 12 each, `spec-fired` in place of `osrs-cache`. |
 | 0.5.0 | `f40eeddc` | 3 x 2 min | **passed (publish test)** | Run 1 on Lumbridge: the boss portal into the Mole's lair, the Dragon scimitar's spec there. Run 2 on Morytania: Dharok at the Barrows, Ice Barrage's spec. Run 3 on TzHaar City (the Desert's third stage, reached by the jump): the city's lava cracks, Tokkul, TzHaar and TzHaar-Ket, the final portal into the Fight Caves, Yt-MejKot and Ket-Zek waves, TzTok-Jad released with his boss bar dropping. All 12 each. The first 0.5.0 test, `f9cc7928`, failed only its TzHaar run's `evolution`: the test casket landed in the final portal's stage reload (fixed in `f1c619d`). |
 | 0.6.0 | `b459ddbb` | 3 x 2 min | **passed (publish test)** | Run 1 the Zerker on Lumbridge: his OSRS model, the Void knight mace among the level-up offers, the Mole's lair fight. Run 2 Durial321 on Morytania: his model, his extra Ice Barrage firing round him, Dharok; the Deep Freeze ice block on its target drew as an opaque tan box. Run 3 TzHaar City: the city, the Fight Caves' waves and TzTok-Jad. All 12 each. |
+| 0.7.0 | `4b4dffee` | 3 x 2 min | **passed (publish test)** | Run 1 the Warrior on Lumbridge: the Void knight mace and whip among the offers, the Mole's lair. Run 2 the Mage on Morytania: the hidden brother was Torag the Corrupted, named on the boss bar, in his armour with his hammers (Megabonk's boss beams). Run 3 the Void Knight on TzHaar City: the final portal, *You enter TzTok-Jad's arena; the waves come first.*, the waves, Jad with his telegraphs. All 12 each. The review read Jad's prayed hits as half blocked: `Prayer` labels every boss hit `boss, half blocked`, also one blocked fully. |
 
 Blank cells weren't looked up. `mcp__melty__test_result` with the test id gives the full record.
 
@@ -233,7 +238,10 @@ the switch key; `"camera": "far"`, `"near"` or `"north"` sets the camera; `"evol
 what a casket's Open button does). A spawned monster can't be hurt for about its first second (`Enemy.CanTakeDamage`),
 so a spec step comes 1.5 s after its monsters' spawn,
 `levels` (preset, never saved), `seed_levels` (`{"warrior": 30}`: every skill of another adventurer at that level, in
-memory only, for unlocks that look at other adventurers: Ironman's total level 250; the report says whether the
+memory only, for unlocks that look at other adventurers: Ironman's total level 250), `seed_barrows` (`["dharok"]`: that
+brother's full Barrows set owned, in memory only, for his unlock), `reload_saves` (`true`: unlocks read again from
+unlocks.json, so a suite's later scenario proves a piece the earlier one saved survives a restart: `barrows-save` then
+`barrows-load`; the report counts the pieces owned and says whether the
 playing adventurer is unlocked), `save_skills` (`true` to test saving; the loop restores the files after), `shots` (seconds), `expect` (checks the report marks `pass` or `MISSING`), `deaths`
 (`"allow"` for real deaths), `ui` (the UI test), `suite` (several scenarios in one launch: each run is ended as at a
 run's end and Megabonk goes back to its main menu, `TransitionUI.LoadMenu`, where the next run starts as after a launch;
@@ -269,6 +277,11 @@ written as PNG by the plugin (Unity's own capture and PNG encoder are stripped f
 | `adventurer-zerker`, `adventurer-void-knight` | Lumbridge as that adventurer for 25 s: a kill and the OSRS model animated |
 | `adventurer-durial321` | the same on Morytania, and his Ice Barrage given beside the whip (`extra-weapon`) |
 | `adventurer-ironman` | Lumbridge as the Ironman, the Warrior seeded at level 30 in every skill (`seed_levels`, not saved) so he unlocks (`character-unlocked`), the Shady Guy pressed at 6 s (`shop-refused`) |
+| `morytania-barrows`, `barrows-save` | Morytania as the Warrior, the boss called at 10 s and killed at about 30 s: `hidden-brother`, `boss-spawned` (the first), `barrows-piece`; `barrows-save` saves it for real |
+| `barrows-load` | `reload_saves`: the piece `barrows-save` wrote comes back from `unlocks.json` |
+| `barrows-dharok`, `barrows-guthan` | `seed_barrows`: that brother's set owned in memory, played on Lumbridge (`character-unlocked`; Guthan's warspear on its shared type, `weapon-takeover`) |
+| `barrows-sets-enemies` | the Warrior at 99 Hitpoints and Defence among spawned brothers: `player-hit`, `set-effect`, the effect counts in the report |
+| `barrows-sets-guthan`, `barrows-sets-karil` | that brother played for 60 s: his set's effect on his hits (`set-effect`) |
 
 **Deaths in test runs** (`Systems/TestGuard.cs`): no blanket invulnerability, which would hide broken hits. Every hit
 lands in full through Megabonk's damage path; only one that would kill (`PlayerHealth.WillDamageKill`) is cut to

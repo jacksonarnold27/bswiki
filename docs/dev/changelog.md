@@ -13,6 +13,52 @@ inside each release's DLL in `dist/`. No version has been published yet: every r
 
 ---
 
+## 0.7.0: the Barrows
+
+*Build 2026-10-22 06:08, code in `508f097`. Test `4b4dffee`: publish test, 3 runs x 2 min, passed. Run 1 the Warrior
+on Lumbridge (the Mole's lair), run 2 the Mage on Morytania (the hidden brother was Torag the Corrupted, named on the
+boss bar, with his hammers), run 3 the Void Knight on TzHaar City (the Fight Caves line, the waves, Jad's telegraphed
+attacks). All 12 self-checks each.*
+
+**Patch notes**
+- The Barrows: Morytania's boss is a random hidden Barrows brother, and the other five come as its minibosses. Each
+  brother's set effect works on his hits (Dharok's rage, Ahrim's weakening, Guthan's healing, Karil's and Torag's
+  slows, Verac's prayer-piercing).
+- Beating the hidden brother gives a Barrows piece you don't own yet (24 in all, kept for good); a brother's full set
+  unlocks him as an adventurer, at level 70 with his own weapon and his set's effect on your hits.
+- Character select shows what a locked adventurer needs, and a brother's set count; Megabonk's silver purchase of a
+  locked adventurer is refused. The Ironman's total level counts only adventurers you've played.
+- TzTok-Jad attacks every 4.8 s, start to start, as in OSRS, and the Fight Caves greet you with *You enter TzTok-Jad's
+  arena; the waves come first.* Durial321 keeps his whip until 75 Attack.
+
+**Changes**
+- New `Systems/Barrows.cs`: the 24 pieces (`drops` rows of kind `barrows_piece`, effect `set:<brother>:<slot>`), one
+  not owned given when the run's hidden brother dies on his map (`Barrows.BossDied` from `Combat`), kept in
+  `unlocks.json` under `_barrows`; `HasSet`, `SetLine`. `Rows`: `maps.boss_pool` (`PoolOf`), the hidden brother
+  picked as a stage starts (`PickHidden`, applied last in `Content.ApplyStage` so the boss bar names him), the other
+  five skinned in turn on the miniboss slots (`MinibossNow`, `NextMiniboss`, `IsPoolMiniboss`).
+- New `Systems/SetEffects.cs`: `set_effect` on both sides (`characters` and `enemies` rows): `Combat`'s prefix and
+  postfix for the adventurer's hits, `Prayer`'s for a brother's (Verac's pierce skips the prayer block; a hit naming no
+  monster counts as the nearest brother's within 10 m); per-run counts in the scenario report and the test log.
+- `characters`: new `start_levels` (`Skills`: an adventurer without a save starts there, not marked for saving) and
+  `set_effect`; six brothers at phase 1 (`unlock_condition: barrows_set_<id>`, Megabonk's Dicehead, Amog, Spaceman,
+  Bush, Bandit, Roberto). `Unlocks`: `barrows_set_` conditions, `total_level_N` over played adventurers only
+  (`Skills.Played`), `LockText`, and a new `CharacterMenu.BuyCharacter` prefix refusing a locked adventurer (hook
+  `character_buy`). `CharacterSelect` reads the viewed button, shows *Starts with:*, the set count or the lock text.
+- `weapons`: the brothers' six weapons at phase 1 with `gear_reqs: "character:<id>"` (`Rows.CharacterOnly`); a
+  character-only row on a shared Megabonk type goes on it only while its owner is chosen or plays
+  (`Content.ApplyCharacterWeapons`, `Rows.DefaultWeaponByBonk`), and level-up offers show one row per type, a
+  character-only one to its owner alone. `Content.StartingWeapon`: a character-only default is kept, and an upgrade
+  must ask more than the default's own requirements.
+- `enemies`: the six brothers on `Pharaoh1`, `MinibossGolemSand` and `MinibossScorpion` with `set_effect`; Morytania's
+  waves: brothers at the miniboss events (3, 8) and the boss (10), the Vyrewatch an unlock at 6. `BossFight`: the attack
+  timer runs during the wind-up (start to start); `Arena`: a waves arena's line *You enter <boss>'s arena; the waves
+  come first.*
+- Test mode: Melty runs play only adventurers this PC has unlocked; optional checks `hidden-brother`, `barrows-piece`,
+  `barrows-set`, `set-effect`, `weapon-takeover`; scenario keys `seed_barrows`, `reload_saves`; a spawn step skins the
+  row it names; scenarios `morytania-barrows`, `barrows-save`, `barrows-load`, `barrows-dharok`, `barrows-guthan`,
+  `barrows-sets-enemies`, `barrows-sets-guthan`, `barrows-sets-karil`.
+
 ## 0.6.0: adventurers
 
 *Build 2026-10-22 04:39, code in `9a1c09d`. Test `b459ddbb`: publish test, 3 runs x 2 min, passed. Run 1 the Zerker

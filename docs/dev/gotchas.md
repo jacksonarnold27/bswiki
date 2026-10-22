@@ -97,6 +97,11 @@ step: MODLOG is the short log, this page explains). Unnumbered ones were found w
   them at 0: "healed to 0/105", 74 times over. The backstop now sets `hp` itself. Some of Megabonk's hits carry no
   monster (`dc.enemy` null: the champion's slam hit for 91), and its second damage call, `DamagePlayerExternal` (a
   bare amount, used by shooters' projectiles), goes on to `Damage`.
+- **Most of a boss's or miniboss's hits name no monster**: their projectiles and slams reach `PlayerHealth.Damage` with
+  `dc.enemy` null (the log's "something hit for 4"), so nothing ties them to the brother who threw them: a protection
+  prayer doesn't block them, and 0.7's set effects take the nearest brother within 10 m as the hitter
+  (`SetEffects.NearestBrother`). A scenario's spawn step skins as the row it names (`EnemySkins.NextRow`); before 0.7
+  six brothers spawned on Pharaoh1 all came out as the first row on it.
 - **A monster can't be hurt for about its first second** (`Enemy.CanTakeDamage()` false): every hit then is ignored,
   Bonkscape's and Megabonk's alike, and `hp` doesn't change. When it can, `DamageFromPlayerWeapon` takes the hp off at
   once (armour first: `armorCurrent`). 0.4's first spec tests fired 0.5 s after a spawn and looked like specs did no

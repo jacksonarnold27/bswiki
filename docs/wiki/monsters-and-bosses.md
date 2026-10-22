@@ -3,7 +3,7 @@
 ## How a monster is made
 
 Each OSRS monster takes over one or more Megabonk enemies: their spawn slots, movement and attacks. Bonkscape draws
-it with its **OSRS NPC model** from your cache (Dharok the Wretched and Ahrim the Blighted instead as an OSRS body in
+it with its **OSRS NPC model** from your cache (the six Barrows brothers instead as an OSRS body in
 their own Barrows armour, since their NPC models are pink in the cache), lit the way the OSRS client lights it, and plays its OSRS
 [animations](#animations). Megabonk's own model is hidden. The OSRS model follows the enemy, feet on the ground, and
 turns to face you.
@@ -11,7 +11,7 @@ turns to face you.
 For ordinary monsters, Bonkscape also replaces Megabonk's **HP, damage, speed and knockback resistance** with the
 row's values. **Minibosses and bosses keep Megabonk's own stats**, so the Giant Mole fights with the HP and damage of
 the Megabonk boss it replaces, not the sheet's 9000 HP (TzTok-Jad: not its 8000). A map's difficulty scales HP and damage for all of them:
-Morytania's is 0.8 (its monsters have 0.8 of their row's, its minibosses and Dharok 0.8 of Megabonk's); Lumbridge's
+Morytania's is 0.8 (its monsters have 0.8 of their row's, its minibosses and its boss 0.8 of Megabonk's); Lumbridge's
 and TzHaar City's are 1. Each row joins the spawn pool of its own maps (the roster's **Maps** column): Lumbridge's
 monsters on Megabonk's Forest, Morytania's and TzHaar City's on the Desert. Those two share the Desert's enemy types:
 when the Desert's third stage starts, TzHaar City's rows take the types over (names, models and stats). The Fight
@@ -40,10 +40,10 @@ stage, Megabonk's own stage scaling multiplies every monster's HP and damage on 
 | **Vampyre Juvenile** | Vampyre Juvenile (4436) | 9732, 4438 | 45 | melee | ArmoredSkeletonDusty | 25 | 16 | 4.5 | 0.1 | 1 | morytania | <span class="st st-built">built</span> |
 | **Feral Vampyre** | Feral Vampyre (3237) | - | 61 | melee | ScorpionMedium | 30 | 30 | 6.5 | 0.1 | 1 | morytania | <span class="st st-built">built</span> |
 | **Vampyre Juvinate** | Vampyre Juvinate (4430) | 4427, 4428 | 54 | melee | MummyTank | 45 | 30 | 5 | 0.3 | 1 | morytania | <span class="st st-built">built</span> |
-| **Vyrewatch** | Vyrewatch (3719) | 3717, 3730 | 105 | melee | MinibossGolemSand | 250 | 40 | 6 | 0.8 | 1.2 | morytania | <span class="st st-built">built</span> |
-| **Vyrewatch Sentinel** | Vyrewatch Sentinel (9761) | 9759, 9756 | 151 | melee | MinibossScorpion | 250 | 35 | 7 | 0.8 | 1.2 | morytania | <span class="st st-built">built</span> |
-| **Dharok the Wretched** | Dharok the Wretched (1673) | 12317, 12323 | 115 | melee | Pharaoh1, Pharaoh2 | 8000 | 40 | 7 | 1 | 1.6 | morytania | <span class="st st-built">built</span> |
-| **Ahrim the Blighted** | Ahrim the Blighted (1672) | - | 98 | magic | MummyAncient | 70 | 40 | 5 | 0.5 | 1 | morytania | <span class="st st-built">built</span> |
+| **Vyrewatch** | Vyrewatch (3719) | 3717, 3730 | 105 | melee | MummyAncient | 70 | 40 | 5 | 0.5 | 1 | morytania | <span class="st st-built">built</span> |
+| **Vyrewatch Sentinel** | Vyrewatch Sentinel (9761) | 9759, 9756 | 151 | melee | MinibossScorpion | 250 | 35 | 7 | 0.8 | 1.2 | morytania | <span class="st st-todo">planned (phase 2)</span> |
+| **Dharok the Wretched** | Dharok the Wretched (1673) | 12317, 12323 | 115 | melee | Pharaoh1, MinibossGolemSand, MinibossScorpion | 8000 | 40 | 7 | 1 | 1.6 | morytania | <span class="st st-built">built</span> |
+| **Ahrim the Blighted** | Ahrim the Blighted (1672) | - | 98 | magic | Pharaoh1, MinibossGolemSand, MinibossScorpion | 8000 | 40 | 7 | 1 | 1.6 | morytania | <span class="st st-built">built</span> |
 | **Green dragon** | Green dragon (260) | 261, 262, 263, 264 | 79 | magic | GhostPurple | 40 | 20 | 8 | 0.4 | 1 | wilderness | <span class="st st-todo">planned (phase 2)</span> |
 | **Revenant imp** | Revenant imp (7881) | - | 7 | magic | Ghost | 10 | 10 | 6 | 0 | 1 | wilderness | <span class="st st-todo">planned (phase 2)</span> |
 | **TzHaar-Ket** | TzHaar-Ket (2179) | 2173, 2174, 2175, 2176 | 149 | melee | ScorpionMedium, MummyTank, MummyAncient | 30 | 30 | 6.5 | 0 | 1 | tzhaar_city | <span class="st st-verified">verified</span> |
@@ -59,6 +59,10 @@ stage, Megabonk's own stage scaling multiplies every monster's HP and damage on 
 | **Yt-MejKot** | Yt-MejKot (3123) | 3124 | 180 | melee | MummyTank | 45 | 30 | 5 | 1 | 1 | tztok_jad_boss | <span class="st st-verified">verified</span> |
 | **Ket-Zek** | Ket-Zek (3125) | 3126, 15572 | 360 | magic | MummyAncient | 70 | 40 | 5 | 1 | 1 | tztok_jad_boss | <span class="st st-verified">verified</span> |
 | **Yt-HurKot** | Yt-HurKot (3128) | 7701, 7705 | 108 | melee | SkeletonDusty | 16 | 22 | 6.5 | 0 | 1 | tztok_jad_boss | <span class="st st-verified">verified</span> |
+| **Guthan the Infested** | Guthan the Infested (1674) | 12318, 12324 | 115 | melee | Pharaoh1, MinibossGolemSand, MinibossScorpion | 8000 | 40 | 7 | 1 | 1.6 | morytania | <span class="st st-todo">planned (phase 1)</span> |
+| **Karil the Tainted** | Karil the Tainted (1675) | 12319, 12325 | 98 | ranged | Pharaoh1, MinibossGolemSand, MinibossScorpion | 8000 | 40 | 7 | 1 | 1.6 | morytania | <span class="st st-todo">planned (phase 1)</span> |
+| **Torag the Corrupted** | Torag the Corrupted (1676) | 12320, 12326 | 115 | melee | Pharaoh1, MinibossGolemSand, MinibossScorpion | 8000 | 40 | 7 | 1 | 1.6 | morytania | <span class="st st-todo">planned (phase 1)</span> |
+| **Verac the Defiled** | Verac the Defiled (1677) | 12321, 12327 | 115 | melee | Pharaoh1, MinibossGolemSand, MinibossScorpion | 8000 | 40 | 7 | 1 | 1.6 | morytania | <span class="st st-todo">planned (phase 1)</span> |
 <!-- /gen:enemies -->
 
 The **Combat** column is the monster's OSRS combat level. It isn't used in play yet, and neither are the sheet's
@@ -68,7 +72,7 @@ drops the same things ([Loot](#loot)).
 ## Combat styles
 
 Every monster fights in **melee**, **ranged** or **magic**. In Lumbridge only the guards are ranged and only the giant
-frogs are magic. In Morytania nothing is ranged, banshees and Ahrim the Blighted are magic, and the rest are melee. In TzHaar City the
+frogs are magic. In Morytania banshees and Ahrim the Blighted are magic, Karil the Tainted is ranged, and the rest are melee. In TzHaar City the
 TzHaar-Mej are magic and the rest melee; in the Fight Caves the Tok-Xil are ranged, the Ket-Zek magic and the rest
 melee, and each of TzTok-Jad's attacks has its own style ([below](#tztok-jad)). The OSRS skill icon for its style (Attack, Ranged or Magic) floats over the 10
 nearest monsters, so you know which [protection prayer](prayer.md) to use. The style is the monster's, not its
@@ -86,15 +90,6 @@ attack's: a guard's hit counts as ranged even when Megabonk has it attack up clo
 | lumbridge | 7 | Giant rat | swarm | <span class="st st-built">built</span> |
 | lumbridge | 8 | Cow, Giant frog | miniboss | <span class="st st-built">built</span> |
 | lumbridge | 10 | Giant Mole | boss | <span class="st st-built">built</span> |
-| morytania | 0 | Myre blamish snail, Bat, Crawling Hand, Ghoul, Loar Shade, Banshee | start | <span class="st st-built">built</span> |
-| morytania | 1.5 | Vampyre Juvenile | unlock | <span class="st st-built">built</span> |
-| morytania | 3 | Vampyre Juvinate, Feral Vampyre | unlock | <span class="st st-built">built</span> |
-| morytania | 3 | Vyrewatch Sentinel, Vyrewatch | miniboss | <span class="st st-built">built</span> |
-| morytania | 4 | Myre blamish snail | swarm | <span class="st st-built">built</span> |
-| morytania | 6 | Ahrim the Blighted | unlock | <span class="st st-built">built</span> |
-| morytania | 7 | Crawling Hand | swarm | <span class="st st-built">built</span> |
-| morytania | 8 | Vyrewatch, Vyrewatch Sentinel | miniboss | <span class="st st-built">built</span> |
-| morytania | 10 | Dharok the Wretched | boss | <span class="st st-built">built</span> |
 | tzhaar_city | 0 | TzHaar-Hur, TzHaar-Mej | start | <span class="st st-verified">verified</span> |
 | tzhaar_city | 1.5 | TzHaar-Xil | unlock | <span class="st st-verified">verified</span> |
 | tzhaar_city | 1.5 | TzHaar-Ket | miniboss | <span class="st st-verified">verified</span> |
@@ -103,6 +98,15 @@ attack's: a guard's hit counts as ranged even when Megabonk has it attack up clo
 | tzhaar_city | 4 | TzHaar-Hur | swarm | <span class="st st-verified">verified</span> |
 | tzhaar_city | 5 | TzHaar-Ket | miniboss | <span class="st st-verified">verified</span> |
 | tzhaar_city | 8 | TzTok-Jad | boss | <span class="st st-verified">verified</span> |
+| morytania | 0 | Myre blamish snail, Bat, Crawling Hand, Ghoul, Loar Shade, Banshee | start | <span class="st st-todo">planned (phase 1)</span> |
+| morytania | 1.5 | Vampyre Juvenile | unlock | <span class="st st-todo">planned (phase 1)</span> |
+| morytania | 3 | Vampyre Juvinate, Feral Vampyre | unlock | <span class="st st-todo">planned (phase 1)</span> |
+| morytania | 3 | Dharok the Wretched, Ahrim the Blighted, Guthan the Infested, Karil the Tainted, Torag the Corrupted, Verac the Defiled | miniboss | <span class="st st-todo">planned (phase 1)</span> |
+| morytania | 4 | Myre blamish snail | swarm | <span class="st st-todo">planned (phase 1)</span> |
+| morytania | 6 | Vyrewatch | unlock | <span class="st st-todo">planned (phase 1)</span> |
+| morytania | 7 | Crawling Hand | swarm | <span class="st st-todo">planned (phase 1)</span> |
+| morytania | 8 | Dharok the Wretched, Ahrim the Blighted, Guthan the Infested, Karil the Tainted, Torag the Corrupted, Verac the Defiled | miniboss | <span class="st st-todo">planned (phase 1)</span> |
+| morytania | 10 | Dharok the Wretched, Ahrim the Blighted, Guthan the Infested, Karil the Tainted, Torag the Corrupted, Verac the Defiled | boss | <span class="st st-todo">planned (phase 1)</span> |
 <!-- /gen:waves -->
 
 How those rows apply, each on its own map's stage (Lumbridge on the Forest's first, Morytania on the Desert's first,
@@ -111,15 +115,15 @@ TzHaar City on the Desert's third):
 - **start** (minute 0): the run's first monsters. Lumbridge: chickens, goblins, giant rats and guards. Morytania: Myre
   blamish snails, bats, crawling hands, ghouls, Loar Shades and banshees. TzHaar City: TzHaar-Hur and TzHaar-Mej.
 - **unlock**: the rows join the spawn pool from that minute. Lumbridge: cows and giant frogs at 1.5. Morytania:
-  vampyre juveniles at 1.5, vampyre juvinates and feral vampyres at 3, Ahrim the Blighted at 6. TzHaar City:
+  vampyre juveniles at 1.5, vampyre juvinates and feral vampyres at 3, the Vyrewatch at 6. TzHaar City:
   TzHaar-Xil at 1.5, TzHaar-Ket at 3.
 - **swarm**: Megabonk's swarm event at that minute spawns the row's monsters. Lumbridge: goblins at 4, giant rats at
   7. Morytania: Myre blamish snails at 4, crawling hands at 7. TzHaar City: TzHaar-Hur at 2.5 and 4.
 - **miniboss**: Megabonk's miniboss event at that minute spawns each row's miniboss. Lumbridge: a Cow and a Giant frog
-  at 3 and 8. Morytania: a Vyrewatch Sentinel and a Vyrewatch at 3 and 8. TzHaar City: a TzHaar-Ket champion at
+  at 3 and 8. Morytania: Barrows brothers at 3 and 8, the five not hidden this run in turn ([below](#the-barrows-brothers)). TzHaar City: a TzHaar-Ket champion at
   1.5 and 5.
 - **boss** (minute 10; TzHaar City's 8): the plan only. The stage boss comes when you open the boss portal
-  (Lumbridge: the Giant Mole; Morytania: Dharok the Wretched); TzHaar City's when you open its final portal
+  (Lumbridge: the Giant Mole; Morytania: the run's hidden Barrows brother); TzHaar City's when you open its final portal
   (TzTok-Jad, in the Fight Caves).
 
 A swarm or miniboss row whose minute has no matching event in Megabonk's timeline spawns nothing; the log says how
@@ -128,9 +132,8 @@ pacing decides how many monsters spawn and how fast.
 
 ## Stand-ins
 
-Dharok and Ahrim are built from their armour (Dharok's helm, platebody, platelegs and greataxe; Ahrim's hood,
-robetop, robeskirt and staff); when those items aren't in your cache, they use their NPC model and its stand-ins as
-below.
+The six Barrows brothers are built from their armour (each one's helm, body, legs and weapon); when those items aren't
+in your cache, they use their NPC model and its stand-ins as below.
 
 Your OSRS client downloads a model the first time it shows it, so your cache may not have every monster. For each
 monster Bonkscape tries its own NPC first, then each **stand-in NPC id** in the order listed, and uses the first one
@@ -148,7 +151,7 @@ A monster's height is worked out when it spawns, and once more a moment later:
 1. **OSRS proportions on your adventurer's scale**: its model height in OSRS units, converted to metres exactly like
    your adventurer's. So an OSRS human (a guard) stands about as tall as your adventurer, and every other monster keeps
    its OSRS ratio to them.
-2. Times the row's **Size x** (Cow 1.1, Giant frog 1.6, Giant Mole 2.2, Vyrewatch 1.2, Dharok 1.6, TzHaar-Ket champion 1.2) and
+2. Times the row's **Size x** (Cow 1.1, Giant frog 1.6, Giant Mole 2.2, Vyrewatch 1.2, the Barrows brothers 1.6, TzHaar-Ket champion 1.2) and
    `Models.MonsterSize`.
 3. Times part of Megabonk's own enlargement of elites, minibosses and bosses, capped by tier (below). Megabonk
    enlarges them a moment after they spawn, so this is applied again once the monster's hitbox is live.
@@ -230,12 +233,35 @@ Dying in the lair restarts the run on Lumbridge with its own sky.
 
 Planned for the Mole: its own drops (Mole claw, the Baby mole pet at 1/3000) and OSRS stats. Neither is built.
 
-## Dharok the Wretched
+## The Barrows brothers
 
-Morytania's stage boss <span class="st st-built">built</span>: Dharok takes over Megabonk's `Pharaoh1` and
-`Pharaoh2` enemies (size x 1.6) and comes when you open the boss portal at the Barrows ([Maps](maps.md#morytania)),
-in his own dark armour, swinging his greataxe. As a boss he has Megabonk's own attacks and its boss stats times Morytania's 0.8; Bonkscape adds
-no mechanics of its own.
+Morytania's boss is one of the six Barrows brothers, **hidden**: each time a run (or a restart after a death) starts on
+Morytania, one is picked at random, and he rises when you open the boss portal at the Barrows
+([Maps](maps.md#morytania)), named on the boss bar. The other five are the map's **minibosses**, one after another at
+Megabonk's miniboss events. All six take over Megabonk's `Pharaoh1` (as the boss) and its `MinibossGolemSand` and
+`MinibossScorpion` (as minibosses), size x 1.6, each in his own armour with his own weapon and animations. As boss or
+miniboss they keep Megabonk's attacks and stats, times Morytania's 0.8.
+
+| Brother | Style | Set effect, on his hits (and yours, when you play him) |
+|---|---|---|
+| **Dharok the Wretched** | melee | Every hit grows as the hitter's health drops, up to +98% at 1 hitpoint |
+| **Ahrim the Blighted** | magic | 25% of magic hits: whoever was hit hits 10% weaker for 6 s |
+| **Guthan the Infested** | melee | 25% of melee hits: the hitter heals by the damage dealt |
+| **Karil the Tainted** | ranged | 25% of ranged hits: whoever was hit is slowed for 4 s (a monster to 80% speed) |
+| **Torag the Corrupted** | melee | 25% of melee hits: whoever was hit is slowed for 2 s (a monster to 80% speed); OSRS drains run energy, which Megabonk doesn't have |
+| **Verac the Defiled** | melee | 25% of melee hits: his hit on you ignores your protection prayer; your hit on a monster does 25% more |
+
+A brother's set works on his projectiles and slams too: a hit on you that names no monster counts as the nearest
+brother's within 10 m. Each effect but Dharok's plays its OSRS graphic.
+
+**The Barrows chest.** Beating the hidden brother gives, besides Megabonk's own reward, one **Barrows piece** you don't
+own yet, picked at random from all 24 (each brother's helm, body, legs and weapon): *"You find Dharok's helm in the
+Barrows chest!"* Pieces are yours for good, shared by all your adventurers. A brother's four pieces together unlock him
+as an [adventurer](adventurers.md#unlocking): *"You have Dharok's full set: he can join you as an adventurer."* With
+all 24 owned, the chest gives nothing more.
+
+Melty's test of 0.7.0 showed Torag the Corrupted as the hidden boss, named on the boss bar and swinging his hammers.
+The set effects, the chest's pieces and a brother's unlock are *(unconfirmed: needs a Melty run or footage)*
 
 ## TzHaar City
 
@@ -267,8 +293,8 @@ types and fight with those types' attacks; their OSRS abilities (Tz-Kek splittin
 spines, Ket-Zek's fire) aren't built.
 
 **His attacks are OSRS's, not Megabonk's.** Megabonk's own attacks for `Pharaoh3` are switched off, and touching him
-doesn't hurt. Two seconds after he appears, and 4.8 seconds after each of his hits lands, he starts one of three
-attacks at random, with its OSRS animation and graphics:
+doesn't hurt. Two seconds after he appears, and then every 4.8 seconds (start to start, as in OSRS), he starts one of
+three attacks at random, with its OSRS animation and graphics:
 
 | Attack | Style | Lands | |
 |---|---|---|---|
@@ -309,4 +335,4 @@ those is built.
 Green dragons and revenant imps (the Wilderness) are in the roster above as planned rows for a planned map. Neither
 spawns yet.
 
-<!-- sources: src/Bonkscape.Plugin/Systems/EnemySkins.cs src/Bonkscape.Plugin/Systems/Animator.cs src/Bonkscape.Plugin/Systems/Bosses.cs src/Bonkscape.Plugin/Systems/Pathing.cs src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Combat.cs src/Bonkscape.Plugin/Core/Sizing.cs src/Bonkscape.Plugin/Core/Osrs.cs src/Bonkscape.Plugin/Core/Rows.cs sheets/enemies.json sheets/bosses.json sheets/waves.json sheets/drops.json src/Bonkscape.Plugin/Systems/BossFight.cs src/Bonkscape.Plugin/Systems/Bonk.cs src/Bonkscape.Plugin/Systems/Unlocks.cs sheets/maps.json -->
+<!-- sources: src/Bonkscape.Plugin/Systems/EnemySkins.cs src/Bonkscape.Plugin/Systems/Animator.cs src/Bonkscape.Plugin/Systems/Bosses.cs src/Bonkscape.Plugin/Systems/Pathing.cs src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Combat.cs src/Bonkscape.Plugin/Core/Sizing.cs src/Bonkscape.Plugin/Core/Osrs.cs src/Bonkscape.Plugin/Core/Rows.cs sheets/enemies.json sheets/bosses.json sheets/waves.json sheets/drops.json src/Bonkscape.Plugin/Systems/BossFight.cs src/Bonkscape.Plugin/Systems/Bonk.cs src/Bonkscape.Plugin/Systems/Unlocks.cs sheets/maps.json src/Bonkscape.Plugin/Systems/Barrows.cs src/Bonkscape.Plugin/Systems/SetEffects.cs -->

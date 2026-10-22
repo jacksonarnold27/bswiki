@@ -59,7 +59,11 @@ What it says:
 | An Ironman tries to trade | *The shopkeeper won't trade with an Ironman.* |
 | You press `V` (`Camera.ToggleKey`) | *Camera: far.* / *Camera: near.* |
 | The Giant Mole digs | *The Giant Mole burrows into the ground!* |
-| A boss fight moves into its lair | *You follow the Giant Mole down into its lair.* (the Fight Caves: *You follow the TzTok-Jad down into its lair.*) |
+| A boss fight moves into its lair | *You follow the Giant Mole down into its lair.* |
+| You enter the Fight Caves | *You enter TzTok-Jad's arena; the waves come first.* |
+| You beat the hidden Barrows brother | *You find Dharok's helm in the Barrows chest!* (the piece you got) |
+| A brother's set is complete | *You have Dharok's full set: he can join you as an adventurer.* |
+| You press Megabonk's Buy on a locked adventurer | *Dharok can't be bought: his Barrows set (2/4).* |
 | TzTok-Jad joins after the waves | *TzTok-Jad appears!* |
 | TzTok-Jad drops below half health | *TzTok-Jad calls for help!* |
 | A boss you kill unlocks gear | *You have been awarded a Fire cape!* |
@@ -73,10 +77,13 @@ Every chat line is also written to the BepInEx log as `[chat] ...`.
 On character select, a **Bonkscape** panel at the top of the screen, in the gap between Megabonk's two windows and
 above your adventurer, on OSRS's stone background, shows (drawn a step smaller when it wouldn't fit):
 
-- the hovered adventurer's **combat level**, as *"Combat Lvl: 3"* ([Skills](skills-and-xp.md#combat-level)),
+- the **combat level** of the adventurer whose button you're on, locked ones included, as *"Combat Lvl: 3"*
+  ([Skills](skills-and-xp.md#combat-level)),
 - that adventurer's skills in two columns, each with its icon and level, the panel as wide as its longest skill name,
-- *"Warrior starts with: Dragon scimitar"*, the weapon the selected adventurer will start with
-  ([Adventurers](adventurers.md#starting-weapons)).
+- *"Starts with: Dragon scimitar"*, the weapon that adventurer will start with
+  ([Adventurers](adventurers.md#starting-weapons)), and for a Barrows brother how much of his set you own, as
+  *"(set 4/4)"*; for a locked adventurer, what unlocks him instead: *"Locked: total level 250 on one adventurer
+  (180)"* (the best you have) or *"Locked: his Barrows set (2/4)"*.
 
 ## When your cache can't be found
 
@@ -170,4 +177,4 @@ The OSRS sprites and fonts each element uses (`sheets/ui.json`):
 Two rows aren't drawn although the sheet marks them done: `run_timer` (Bonkscape's OSRS-font clock was removed in
 0.1.7) and `hitsplat_poison` (nothing poisons yet).
 
-<!-- sources: src/Bonkscape.Plugin/Systems/Projectiles.cs src/Bonkscape.Plugin/Systems/Skilling.cs src/Bonkscape.Plugin/Systems/Music.cs src/Bonkscape.Plugin/Systems/Hud.cs src/Bonkscape.Plugin/Systems/HudLayout.cs src/Bonkscape.Plugin/Systems/OsrsUi.cs src/Bonkscape.Plugin/Systems/MegabonkHud.cs src/Bonkscape.Plugin/Systems/LevelUpFx.cs src/Bonkscape.Cache/SpotAnimFrames.cs src/Bonkscape.Plugin/Systems/Chat.cs src/Bonkscape.Plugin/Systems/Evolutions.cs src/Bonkscape.Plugin/Systems/CharacterSelect.cs src/Bonkscape.Plugin/Systems/Combat.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Sfx.cs src/Bonkscape.Plugin/Core/OsrsAudio.cs src/Bonkscape.Plugin/Patches/CorePatches.cs sheets/ui.json sheets/audio.json src/Bonkscape.Plugin/Systems/BossFight.cs src/Bonkscape.Plugin/Systems/LavaBurn.cs src/Bonkscape.Plugin/Systems/Unlocks.cs src/Bonkscape.Plugin/Systems/Arena.cs src/Bonkscape.Plugin/Core/Runner.cs src/Bonkscape.Plugin/Core/Osrs.cs -->
+<!-- sources: src/Bonkscape.Plugin/Systems/Projectiles.cs src/Bonkscape.Plugin/Systems/Skilling.cs src/Bonkscape.Plugin/Systems/Music.cs src/Bonkscape.Plugin/Systems/Hud.cs src/Bonkscape.Plugin/Systems/HudLayout.cs src/Bonkscape.Plugin/Systems/OsrsUi.cs src/Bonkscape.Plugin/Systems/MegabonkHud.cs src/Bonkscape.Plugin/Systems/LevelUpFx.cs src/Bonkscape.Cache/SpotAnimFrames.cs src/Bonkscape.Plugin/Systems/Chat.cs src/Bonkscape.Plugin/Systems/Evolutions.cs src/Bonkscape.Plugin/Systems/CharacterSelect.cs src/Bonkscape.Plugin/Systems/Combat.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Sfx.cs src/Bonkscape.Plugin/Core/OsrsAudio.cs src/Bonkscape.Plugin/Patches/CorePatches.cs sheets/ui.json sheets/audio.json src/Bonkscape.Plugin/Systems/BossFight.cs src/Bonkscape.Plugin/Systems/LavaBurn.cs src/Bonkscape.Plugin/Systems/Unlocks.cs src/Bonkscape.Plugin/Systems/Arena.cs src/Bonkscape.Plugin/Core/Runner.cs src/Bonkscape.Plugin/Core/Osrs.cs src/Bonkscape.Plugin/Systems/Barrows.cs -->

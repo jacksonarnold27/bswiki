@@ -103,7 +103,7 @@ Morytania takes over Megabonk's **Desert** map. Its arena is OSRS world tiles **
 | What | Where |
 |---|---|
 | **You** | Canifis, OSRS tile (3494, 3488). |
-| **Boss portal** | The Barrows, OSRS tile (3565, 3290). Its boss is Dharok the Wretched ([Monsters](monsters-and-bosses.md#dharok-the-wretched)). |
+| **Boss portal** | The Barrows, OSRS tile (3565, 3290). Its boss is the run's hidden Barrows brother ([Monsters](monsters-and-bosses.md#the-barrows-brothers)). |
 | **Monsters** | Morytania's own roster and waves ([Monsters](monsters-and-bosses.md#when-monsters-come)). |
 | **Chests, shrines, monster spawns, skilling spots** | As on Lumbridge, on Morytania's ground and its own trees, rocks and shores. |
 
@@ -111,7 +111,7 @@ What's different from Lumbridge:
 
 - **A dark sky and easier monsters.** The Desert stage's fog and sky turn a dark purple (`maps.sky`), and its
   sunlight and ambient light lose the desert's warm tint. Morytania's monsters have 0.8 of their row's HP and damage,
-  its minibosses and Dharok 0.8 of Megabonk's own (`maps.difficulty`).
+  its minibosses and boss 0.8 of Megabonk's own (`maps.difficulty`).
 - **Built at load, after Lumbridge.** If a run starts on the Desert before Morytania's build is done, it waits behind
   the loading screen: up to 45 s for the build and then up to 30 s for the meshes; past 45 s the run stays on
   Megabonk's Desert.
@@ -157,7 +157,7 @@ What's different:
 
 Opening the final portal moves the fight into the Fight Caves, TzTok-Jad's arena, the way the Giant Mole's portal
 moves it into its lair: OSRS tiles (2368, 5056) to (2431, 5119), 64 x 64 tiles, from your cache, under the loading
-screen. You land at OSRS tile (2413, 5115) and the chat box says *"You follow the TzTok-Jad down into its lair."*
+screen. You land at OSRS tile (2413, 5115) and the chat box says *"You enter TzTok-Jad's arena; the waves come first."*
 Six timed waves of Fight Caves monsters come first; TzTok-Jad joins after them, at OSRS tile (2399, 5087)
 ([Monsters](monsters-and-bosses.md#tztok-jad)). Its lava burns as the city's does.
 
@@ -186,7 +186,6 @@ Every map in `sheets/maps.json`, built or planned:
 |---|---|---|---|---|---|---|
 | **Lumbridge & Swamp** | Forest stage 0 | 3140, 3140, 3266, 3300 | Harmony | 10 | none | <span class="st st-verified">verified</span> |
 | **Morytania** | Desert stage 0 | 3400, 3158, 3783, 3607 | Village | 10 | none | <span class="st st-verified">verified</span> |
-| **Barrows crypts** | Desert stage 1 | - | Dangerous Way | 10 | none | <span class="st st-todo">planned (phase 2)</span> |
 | **The Wilderness** | Graveyard stage 0 | - | Wilderness | 12 | skull | <span class="st st-todo">planned (phase 2)</span> |
 | **God Wars Dungeon** | Graveyard stage 1 | - | Armadyl Alliance | 10 | none | <span class="st st-todo">planned (phase 3)</span> |
 | **TzHaar City** | Desert stage 2 | 2432, 5056, 2559, 5183 | Mor Ul Rek | 8 | none | <span class="st st-verified">verified</span> |
@@ -196,4 +195,4 @@ Each map has an OSRS track (Lumbridge: *Harmony*; Morytania: *Village*; TzHaar C
 cache (`Audio.OsrsMusic`), but only with its engine, which release builds don't include, so they play Megabonk's
 music ([HUD and chat](hud-and-chat.md#sounds)). More boss arenas are on the [docket](../dev/docket.md).
 
-<!-- sources: src/Bonkscape.Plugin/Systems/Arena.cs src/Bonkscape.Plugin/Systems/MapProps.cs src/Bonkscape.Plugin/Systems/Skilling.cs src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Core/Osrs.cs src/Bonkscape.Plugin/Core/Runner.cs src/Bonkscape.Cache/World/ sheets/maps.json src/Bonkscape.Plugin/Systems/LavaBurn.cs src/Bonkscape.Plugin/Systems/BossFight.cs src/Bonkscape.Plugin/Systems/Bonk.cs src/Bonkscape.Plugin/Systems/Loot.cs -->
+<!-- sources: src/Bonkscape.Plugin/Systems/Arena.cs src/Bonkscape.Plugin/Systems/MapProps.cs src/Bonkscape.Plugin/Systems/Skilling.cs src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Core/Osrs.cs src/Bonkscape.Plugin/Core/Runner.cs src/Bonkscape.Cache/World/ sheets/maps.json src/Bonkscape.Plugin/Systems/LavaBurn.cs src/Bonkscape.Plugin/Systems/BossFight.cs src/Bonkscape.Plugin/Systems/Bonk.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Barrows.cs -->

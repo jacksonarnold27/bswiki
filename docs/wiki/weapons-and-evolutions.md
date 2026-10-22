@@ -11,14 +11,16 @@ attacks, its projectile and its visuals. Bonkscape replaces the rest:
 - **Name and icon**: the OSRS name, and an icon rendered from your cache. Fire Strike, Ice Barrage and Fire Surge use
   their OSRS spell icons; the rest use the item's inventory icon.
 
-On Bonkscape's maps, level-ups offer only these twelve weapons, and they all count as unlocked whatever your Megabonk progress
+On Bonkscape's maps, level-ups offer only the twelve weapons any adventurer can have, plus a Barrows brother's own
+weapon to him alone (Guthan's warspear, Torag's hammers and Verac's flail share the Void knight mace's Megabonk weapon,
+so they replace the mace while their brother plays), and they all count as unlocked whatever your Megabonk progress
 is. When a weapon fires:
 
 - its projectile carries the OSRS model from the sheet, about a quarter of a tile along its longest side, centred
   on the projectile and turned to point along its flight: the Magic shortbow's rune
-  arrow, the Toxic blowpipe's dragon dart, the Red chinchompa, and Fire Strike's, Ice Barrage's and the Trident's
-  spell graphics (the Abyssal whip, Dragon scimitar, Scythe of vitur, Armadyl godsword, Dragon claws and Void
-  knight mace have none). Megabonk's own projectile effects stay;
+  arrow, the Toxic blowpipe's dragon dart, the Red chinchompa, Karil's crossbow's bolt, and Fire Strike's, Ice Barrage's, the Trident's and Ahrim's
+  staff's spell graphics (the Abyssal whip, Dragon scimitar, Scythe of vitur, Armadyl godsword, Dragon claws, Void
+  knight mace and the other Barrows weapons have none). Megabonk's own projectile effects stay;
 - the weapon's OSRS attack sound plays, at most every 0.3 s;
 - your adventurer takes that weapon in hand and plays its OSRS attack animation ([Adventurers](adventurers.md#looks)).
 
@@ -38,11 +40,16 @@ How the projectiles look in a run is *(unconfirmed: needs a Melty run or footage
 | **Trident of the seas** | Trident of the Seas | magic | LightningStaff | 8 | 1 | 1 | 1 | 0.5 | 0 | 1 | 1 | 75 Magic | <span class="st st-built">built</span> |
 | **Red chinchompa** | Red chinchompa | ranged | Rockets | 11 | 0.35 | 1.2 | 1 | 1 | 0 | 5 | 2 | 55 Ranged | <span class="st st-built">built</span> |
 | **Dwarf multicannon** | Cannon base | ranged | new: deployable | 6 | 4 | 1 | 1 | 2 | 0 | 10 | 0.5 | 1 Ranged | <span class="st st-todo">planned (phase 3)</span> |
-| **Dharok's greataxe** | Dharok's greataxe | melee | Axe | 14 | 1.6 | 1.3 | 1 | 0.5 | 0 | 0.82 | 2 | 70 Attack, 70 Strength | <span class="st st-todo">planned (phase 2)</span> |
+| **Dharok's greataxe** | Dharok's greataxe | melee | Axe | 14 | 1.6 | 1.3 | 1 | 0.5 | 0 | 0.82 | 2 | character:dharok | <span class="st st-todo">planned (phase 1)</span> |
 | **Scythe of vitur** | Scythe of Vitur | melee | Scythe | 12 | 0.85 | 1.4 | 3 | 1 | 0 | 0.5 | 1 | 80 Attack, 90 Strength | <span class="st st-built">built</span> |
 | **Armadyl godsword** | Armadyl godsword | melee | HeroSword | 16 | 1.2 | 1.3 | 1 | 30 | 0 | 0.5 | 3 | 75 Attack | <span class="st st-built">built</span> |
 | **Dragon claws** | Dragon claws | melee | Dexecutioner | 9 | 0.6 | 1 | 1 | 1 | 0 | 0.5 | 1 | 60 Attack | <span class="st st-built">built</span> |
 | **Void knight mace** | Void knight mace | melee | CorruptSword | 10 | 0.85 | 1.1 | 1 | 1 | 0 | 0.5 | 2.5 | none (a starting weapon) | <span class="st st-built">built</span> |
+| **Ahrim's staff** | Ahrim's staff | magic | BloodMagic | 10 | 1.1 | 1 | 1 | 1 | 0 | 0.75 | 1 | character:ahrim | <span class="st st-todo">planned (phase 1)</span> |
+| **Guthan's warspear** | Guthan's warspear | melee | CorruptSword | 11 | 0.85 | 1.2 | 1 | 1 | 0 | 0.5 | 1.5 | character:guthan | <span class="st st-todo">planned (phase 1)</span> |
+| **Karil's crossbow** | Karil's crossbow | ranged | Sniper | 12 | 0.7 | 1 | 1 | 2 | 1 | 1 | 1 | character:karil | <span class="st st-todo">planned (phase 1)</span> |
+| **Torag's hammers** | Torag's hammers | melee | CorruptSword | 12 | 0.85 | 1.1 | 1 | 1 | 0 | 0.5 | 2.5 | character:torag | <span class="st st-todo">planned (phase 1)</span> |
+| **Verac's flail** | Verac's flail | melee | CorruptSword | 11 | 0.85 | 1.2 | 1 | 1 | 0 | 0.5 | 2 | character:verac | <span class="st st-todo">planned (phase 1)</span> |
 <!-- /gen:weapons -->
 
 "Skill levels to start a run with it" only matters for the **starting** weapon
@@ -68,11 +75,16 @@ When a weapon levels up, Megabonk offers upgrades from its pool. Bonkscape's poo
 | **Trident of the seas** | damage +2.0 (flat); projectiles +1 (flat); bounces +1 (flat); attack size +0.2 (addition) | Tidal Chain (chain:5:3:1.0, not built) | <span class="st st-built">built</span> |
 | **Red chinchompa** | damage +2.0 (flat); projectiles +1 (flat); projectile speed +0.2 (addition); attack size +0.15 (addition) | - | <span class="st st-built">built</span> |
 | **Dwarf multicannon** | damage +1.5 (flat); attack speed +0.1 (addition); duration +0.2 (flat) | - | <span class="st st-todo">planned (phase 3)</span> |
-| **Dharok's greataxe** | damage +3.0 (flat); attack size +0.15 (addition) | Wretched Strength (none, not built) | <span class="st st-todo">planned (phase 2)</span> |
+| **Dharok's greataxe** | damage +3.0 (flat); attack size +0.15 (addition) | - | <span class="st st-todo">planned (phase 1)</span> |
 | **Scythe of vitur** | damage +2.0 (flat); attack size +0.2 (addition) | - | <span class="st st-built">built</span> |
 | **Armadyl godsword** | damage +3.0 (flat); attack size +0.2 (addition) | The Judgement (hit:2.5,aoe:2:0.5, not built) | <span class="st st-built">built</span> |
 | **Dragon claws** | damage +2.0 (flat); crit chance +0.08 (flat) | Slice and Dice (hits:1.2/0.6/0.4/0.4:0.12, not built) | <span class="st st-built">built</span> |
 | **Void knight mace** | damage +2.0 (flat); attack size +0.2 (addition); knockback +0.25 (addition); attack speed +0.08 (addition) | - | <span class="st st-built">built</span> |
+| **Ahrim's staff** | damage +2.0 (flat); projectiles +1 (flat); attack size +0.15 (addition) | - | <span class="st st-todo">planned (phase 1)</span> |
+| **Guthan's warspear** | damage +2.0 (flat); attack size +0.2 (addition); attack speed +0.08 (addition) | - | <span class="st st-todo">planned (phase 1)</span> |
+| **Karil's crossbow** | damage +2.0 (flat); projectiles +1 (flat); projectile speed +0.2 (addition); crit chance +0.08 (flat) | - | <span class="st st-todo">planned (phase 1)</span> |
+| **Torag's hammers** | damage +2.0 (flat); attack size +0.15 (addition); knockback +0.25 (addition) | - | <span class="st st-todo">planned (phase 1)</span> |
+| **Verac's flail** | damage +2.0 (flat); attack size +0.2 (addition); crit chance +0.06 (flat) | - | <span class="st st-todo">planned (phase 1)</span> |
 <!-- /gen:weapon-levels -->
 
 ## Special attacks
@@ -139,4 +151,4 @@ Fire Surge's "projectiles x1" leaves the number of projectiles as it was.
 To aim for one: take the **Abyssal whip** with the **Kraken tentacle**, or **Fire Strike** with the **Tome of fire**
 ([Gear passives](gear-passives.md)), level the weapon to 8, then open a casket.
 
-<!-- sources: src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/Projectiles.cs src/Bonkscape.Plugin/Systems/PlayerSkin.cs src/Bonkscape.Plugin/Systems/Evolutions.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Combat.cs sheets/weapons.json sheets/evolutions.json -->
+<!-- sources: src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/Projectiles.cs src/Bonkscape.Plugin/Systems/PlayerSkin.cs src/Bonkscape.Plugin/Systems/Evolutions.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Combat.cs sheets/weapons.json sheets/evolutions.json src/Bonkscape.Plugin/Core/Rows.cs -->

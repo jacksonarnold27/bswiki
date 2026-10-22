@@ -16,20 +16,20 @@ through `Generated/Sheets.g.cs`. Each file has the same shape:
 | Sheet | Rows | Columns | Row statuses |
 |---|---|---|---|
 | `audio.json` | 17 | 6 | 14 built, 3 todo |
-| `bosses.json` | 2 | 17 | 1 built, 1 verified |
-| `cache_assets.json` | 332 | 9 | 6 todo, 326 verified |
-| `characters.json` | 8 | 19 | 2 built, 1 todo, 5 verified |
-| `drops.json` | 12 | 10 | 7 built, 3 todo, 2 verified |
-| `enemies.json` | 35 | 20 | 14 built, 2 todo, 19 verified |
+| `bosses.json` | 2 | 18 | 1 built, 1 verified |
+| `cache_assets.json` | 401 | 9 | 5 todo, 396 verified |
+| `characters.json` | 14 | 21 | 2 built, 7 todo, 5 verified |
+| `drops.json` | 36 | 10 | 7 built, 27 todo, 2 verified |
+| `enemies.json` | 39 | 21 | 13 built, 7 todo, 19 verified |
 | `evolutions.json` | 4 | 10 | 3 built, 1 todo |
-| `hooks.json` | 42 | 9 | 12 built, 30 verified |
-| `maps.json` | 6 | 22 | 3 todo, 3 verified |
+| `hooks.json` | 44 | 9 | 14 built, 30 verified |
+| `maps.json` | 5 | 23 | 2 todo, 3 verified |
 | `passives.json` | 11 | 11 | 11 built |
 | `prayers.json` | 3 | 12 | 3 verified |
 | `skills.json` | 10 | 8 | 5 built, 5 verified |
 | `ui.json` | 41 | 8 | 4 built, 1 todo, 36 verified |
-| `waves.json` | 24 | 8 | 16 built, 8 verified |
-| `weapons.json` | 14 | 27 | 11 built, 2 todo, 1 verified |
+| `waves.json` | 24 | 8 | 7 built, 9 todo, 8 verified |
+| `weapons.json` | 19 | 27 | 11 built, 7 todo, 1 verified |
 <!-- /gen:sheet-list -->
 
 ## Rules the preflight checks on every sheet
@@ -82,6 +82,8 @@ One row per playable adventurer; each takes over a Megabonk character. Read by `
 | `can_buy` | `false`: the Shady Guy, and every map's shopkeeper standing in for him (TzHaar-Hur-Tel), refuse this adventurer (the Ironman; `Loot`'s Interact patch, "Ironmen can't trade" on the prompt). | bool |
 | `extra_weapons` | JSON list of weapons ids given beside the starting weapon once a run's inventory exists, their `gear_reqs` not asked (`Content.GiveExtraWeapons`): Durial321's `["ice_barrage"]`. `[]` for none. | each a phase-1 `weapons` row |
 | `unlock_condition` | Replaces Megabonk's unlock for the base character the row takes over, either way (`Unlocks.CharacterUnlocked`, 0.6): `always`; `total_level_N`: any one adventurer has a total level of N (Ironman, 250). Conditions not built yet (Pure's `defence_1_attack_60`, 0.14) keep the character locked. | |
+| `start_levels` | JSON `{skill: level}`: an adventurer with no skills save of their own starts at these levels (0.7: a Barrows brother at 70 in Attack, Strength, Defence, Hitpoints and his style's skill; `Skills.Of`, not saved until he earns XP). `{}` for none. | skills ids, levels 1-99 |
+| `set_effect` | JSON: the adventurer's Barrows set effect (0.7), the same as his `enemies` row's: `name` (`dharok_rage`, `ahrim_weaken`, `guthan_heal`, `karil_slow`, `torag_drain`, `verac_pierce`), `chance` (0.25; Dharok's 1.0), the style it triggers on (`on`), its numbers and `spotanim`. `{}` for none. | |
 | `phase`, `status` | See above. | |
 
 ## weapons
@@ -93,10 +95,10 @@ One row per OSRS weapon; each reuses a Megabonk weapon's behaviour. Read by `Con
 |---|---|---|
 | `id`, `name` | Key and shown name. | |
 | `style` | `melee` / `ranged` / `magic`: which skill its damage trains, and which adventurers can start with it. | |
-| `bonk_base` | Megabonk `EWeapon` it takes over, or `new:...` for a weapon type that doesn't exist yet. | `EWeapon` value |
+| `bonk_base` | Megabonk `EWeapon` it takes over, or `new:...` for a weapon type that doesn't exist yet (the plugin can't make one: such a row isn't built). Several rows may share a type when all but one are character-only: the other row is the type's default, and a character-only one goes on it only while its owner is chosen or plays (0.7: Guthan's, Torag's and Verac's weapons on CorruptSword, the Void knight mace's; `Content.ApplyCharacterWeapons`). | `EWeapon` value |
 | `damage`, `cooldown`, `area`, `amount`, `speed`, `pierce`, `duration`, `knockback` | Replace `WeaponData.damage`, `endCooldown`, `projectiles`, `projectileSpeed`, `projectileBounces` (from `pierce`), `attackDuration`, `knockback`, and the `baseStats` entries `DamageMultiplier`, `SizeMultiplier` (area), `Projectiles`, `ProjectileSpeedMultiplier`, `ProjectileBounces`, `DurationMultiplier`, `KnockbackMultiplier`. | |
 | `level_curve` | List of `Stat:Type:Value` that replaces the weapon's upgrade pool. | each `EStat` and `EStatModifyType` |
-| `gear_reqs` | `"starting_weapon"`, or `{"skill": level}`: levels needed to **start** a run with it. | skills are rows of `skills` |
+| `gear_reqs` | `"starting_weapon"`, `"character:<id>"` (0.7: a Barrows brother's own weapon: only he starts with it, it's never upgraded away from him, and level-up offers give it to him alone), or `{"skill": level}`: levels needed to **start** a run with it (a skill upgrade must ask more than the adventurer's own weapon). | skills are rows of `skills` |
 | `osrs_item_id` | Item for the icon (and model). | item resolves |
 | `osrs_icon_sprite_id` | Sprite to use as the icon instead (spells), or `none`. | sprite resolves |
 | `osrs_projectile_or_spotanim_id` | `item:<id>`, `spotanim:<id>` or `none`: the OSRS model each projectile the weapon spawns carries (`Systems/Projectiles.cs`, 0.1.36), its longest axis along the flight. | resolves |
@@ -162,6 +164,7 @@ One row per OSRS monster; each takes over Megabonk enemies. Read by `Content.App
 | `scale` | Size multiplier on top of OSRS proportions. | |
 | `animation_ids` | JSON of OSRS sequence ids: `stand`, `walk`, `attack`, `death` (the Giant Mole also `dig_down`, `dig_up`), checked against the cache's gamevals (`<name>_ready/_walk/_attack/_death` siblings). Baked on the primary NPC's model only (a stand-in NPC may have another skeleton, so it uses its own definition's stand and walk). Rows without ids fall back to the NPC definition's stand and walk (0.2.0). | |
 | `maps` | Map rows it belongs to: its bases join those maps' Megabonk spawn pools (`Content.ApplyEnemies`, via `Bonk.MapOf`), and on a Megabonk map two map rows share (the Desert's stages) the stage's own rows go onto the shared `EnemyData` when it starts (`Rows.EnemyByMapBonk`, `Content.ApplyStage`); a row with no phase-1 map joins Lumbridge's. A bosses id instead keeps the row for that boss's arena alone (0.5: the Fight Caves' monsters are `["tztok_jad_boss"]`; `arena_waves` and `healers` spawn them, no map does). | rows of `maps` or `bosses` |
+| `set_effect` | JSON: a Barrows brother's set effect on his hits (0.7), as on his `characters` row. `{}` for none. | |
 | `phase`, `status` | | |
 
 ## bosses
@@ -184,6 +187,7 @@ Boss behaviour layered on an enemies row. Read by `Systems/Bosses.cs` (phase 1: 
 | `attack_every_ms` | For a boss whose `attacks` have `pattern` `random`: how often it picks one (Jad: 4800, every 8 ticks). Megabonk's own special attacks are switched off for it, and its touches do no damage. 0: the boss keeps Megabonk's attacks. | 0 or more |
 | `healers` | JSON `{"enemy": enemies id, "count": n, "at_hp": fraction}`: healers called once when the boss drops below `at_hp` (Jad's four Yt-HurKot at half health); they walk to the boss and heal it until the adventurer hits them, then fight the adventurer. `{}` for none. | |
 | `prayer_blocks_fully` | `true`: the right protection prayer blocks this boss's hits completely (Jad), not the half every other boss's hits are cut by. | |
+| `second_form` | An `enemies` id: the form the boss rises in when its first form (`enemy_id`) dies (0.8: the Kalphite Queen's airborne form). Megabonk's death is called off, the health comes back in full and the second form's model takes the first's place on the same enemy (`SecondForm`); only the second form's death clears the stage and counts for unlocks. `none`: one form. | `none` or an `enemies` id |
 | `pet_item_id`, `pet_rate` | Pet item and 1-in-N rate. Not used yet. | item resolves |
 | `phase`, `status` | | |
 
@@ -210,6 +214,7 @@ One row per map. Read by `Bonk`, `Arena`, `Osrs.BuildArena`, `Skilling`, `MapPro
 | `underground` | `true` for a map under the ground (TzHaar City): built and lit as a cave, black beyond its walls, as the Mole's lair is. Not built yet (0.5). | |
 | `currency_item` | The OSRS item the map's gold is shown as: its stack models on coins and pickups, its own cache name on the HUD counter (995 Coins; 6529 TokKul in TzHaar City). | an item in the cache |
 | `shopkeeper_npc` | An OSRS NPC that stands in for Megabonk's Shady Guy on this map (`Loot`'s shopkeeper patch: TzHaar-Hur-Tel, 2183, in TzHaar City); 0 keeps the Shady Guy. | 0 or an NPC in the cache |
+| `boss_pool` | JSON list of enemies ids the map's boss is picked from each run (0.7: Morytania's six Barrows brothers). The rows share the boss slot (their first `bonk_base_enemy`, Pharaoh1) and the miniboss slots; `Rows.PickHidden` picks the hidden brother as the stage starts, the other five are the minibosses in turn (`Rows.NextMiniboss`), and beating him gives a Barrows piece (`Barrows`). `[]` for none. | each an `enemies` row |
 | `phase`, `status` | | |
 
 ## waves
@@ -233,7 +238,7 @@ What things drop and what picking them up does. Read by `Rows` (food, potion, co
 |---|---|---|
 | `table_id` | `lumbridge_common`, `skilling`, `giant_mole`. Not used to pick drops yet (drops are global). | |
 | `item` | Item name, used in chat lines. | |
-| `kind` | `coins`, `food`, `potion`, `casket`, `rare`, `pet`. `Rows` picks food (with `bonk_base_pickup` Health), the potion, coins and the casket by kind. | |
+| `kind` | `coins`, `food`, `potion`, `casket`, `rare`, `pet`, `barrows_piece` (0.7: the 24 pieces a beaten hidden brother gives, one never owned before; its `effect` is `set:<brother>:<head|body|legs|weapon>`; kept for good in `unlocks.json`, `Barrows`). `Rows` picks food (with `bonk_base_pickup` Health), the potion, coins and the casket by kind. | |
 | `bonk_base_pickup` | Megabonk pickup it reskins (`Gold`, `Health`, `Chest`) or `new`. | |
 | `weight_or_rate` | Weight among food rows, or a per-kill chance (potion 0.025), or `megabonk`. | |
 | `amount` | Not read. | |

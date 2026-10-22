@@ -1,7 +1,7 @@
 # Architecture
 
 Bonkscape is a BepInEx 6 IL2CPP plugin for Megabonk (Unity 2023.2.22f1, IL2CPP, build 1.0.69) that reads the player's
-Old School RuneScape cache at run time. Nothing from either game is shipped. Written against **0.6.0** (`9a1c09d`).
+Old School RuneScape cache at run time. Nothing from either game is shipped. Written against **0.7.0** (`508f097`).
 
 ## Projects
 
@@ -121,7 +121,7 @@ skilling nodes, fallback enemy, music).
 4. Run end: when active turns false, `OnRunEnd`.
 5. While active: the props/arena timer, `Arena.TryBuild` until it succeeds, `Arena.Tick`, `BossFight.Tick` (a boss
    arena's waves and the held boss's release, healers), `LavaBurn.Tick` (lava edges, once per 0.6 s), `Content.GiveExtraWeapons` (an adventurer's `extra_weapons`, once
-   the inventory exists), `Pathing.Tick`,
+   the inventory exists), `SetEffects.Tick` (monsters' set-effect slows run out), `Pathing.Tick`,
    `Prayer.Tick`, `CameraTweak.Tick` (the `[Camera] ToggleKey`, V, flips between `Distance` and `FarDistance`, and
    `NearPitch`/`FarPitch`), `Specials.Tick` (energy, the fire and switch keys), `Skills.GameTick`, `Loot.Tick`, `Skilling.Tick`, death detection.
 6. Always: `Skills.Tick` (autosave every 20 s), `Hud.Tick` (skipped when `Debug.OsrsHud` is off; hitsplats, XP drops, health bar timers, dialogues,
@@ -141,8 +141,9 @@ with `HudLayout.Arrange` against Megabonk's minimap (`OsrsUi.Minimap`: measured 
 retried every 2 s and again when the screen size changes, else estimated) and draws them through `OsrsUi`.
 
 **`OnStage(player)`**: on the first stage of a run, or the first stage after the adventurer died (Megabonk's restart
-keeps the map and only makes a new player), resets the run clock, prayer, evolutions, loot, lava burns, extra weapons and
-chat, and posts the welcome line; a later stage on another maps row (TzHaar City after Morytania) gets the short *Welcome to
+keeps the map and only makes a new player), resets the run clock, prayer, evolutions, loot, lava burns, extra weapons, set
+effect counts and chat, puts a Barrows brother's own weapon on its shared Megabonk type
+(`Content.ApplyCharacterWeapons`), and posts the welcome line; a later stage on another maps row (TzHaar City after Morytania) gets the short *Welcome to
 <map>.* Every stage: `Sizing.Measure`, `CameraTweak.Apply`, `PlayerSkin.Apply` (if not skinned yet),
 `Skilling.SpawnForRun` (Forest-style nodes around the player, replaced if the arena builds), a 1.5 s timer, and
 `Hud.FindGoldCounter` (also clears health bars, XP drops and the minimap measurement for the new stage), and
@@ -255,6 +256,7 @@ target still exists ([docket](docket.md)).
 | `Enemy.ReleaseToPool` | postfix | Systems/EnemySkins | Hide the model of a pooled enemy | none |
 | `Enemy.DamageFromPlayerWeapon` | prefix + postfix | Systems/Combat | HP before/after: hitsplat and skill XP for damage dealt | `enemy_damaged` |
 | `Enemy.EnemyDied(DamageContainer)` | postfix | Systems/Combat | Kill count, prayer potion drops, `osrs-enemy-killed` | `enemy_died` |
+| `Enemy.EnemyDied(DamageContainer)` | prefix | Systems/SecondForm | A two-form boss's first death is called off: full health, Megabonk's death flags cleared, the second form's model in its place (`bosses.second_form`) | `boss_second_form` |
 | `DamageNumbers.SetDamage(float, Color, Vector3, int)` | postfix | Systems/Combat | Blank Megabonk's damage numbers in Lumbridge | `damage_numbers` |
 | `DamageNumbers.SetDamage(string, Color, Vector3, int)` | postfix | Systems/Combat | Blank Megabonk's "-N" player damage text | none (covered by `damage_numbers` in spirit) |
 | `PlayerHealth.Damage` | prefix + postfix | Systems/Prayer | Protection prayers reduce or cancel damage by monster style (prefix); the player hitsplat from what the hit actually took, hp + shield + overheal (postfix): hits Megabonk's hit cooldown stops or 0-damage touches show nothing. In test runs the lethal-hit guard (`TestGuard`) cuts a hit that would kill to leave 1 hitpoint, then heals to half (prefix and postfix) | `player_damage` |
@@ -269,6 +271,7 @@ target still exists ([docket](docket.md)).
 | `Pickup.ApplyPickup` | prefix + postfix | Systems/Loot | Food heals by its row; pickup sounds; `osrs-item-picked` | `pickup_apply` |
 | `InteractableChest.Start` | postfix | Systems/Loot | Chests wear the OSRS casket | `chest_spawn` |
 | `InteractableShadyGuy.Start` | postfix | Systems/Loot | The map's shopkeeper NPC (`maps.shopkeeper_npc`, TzHaar-Hur-Tel in TzHaar City) stands in for the Shady Guy | none |
+| `CharacterMenu.BuyCharacter` | prefix | Systems/Unlocks | Megabonk's silver purchase of an adventurer Bonkscape keeps locked (a Barrows brother without his set, the Ironman before total level 250) is refused, and the chat says what unlocks him | `character_buy` |
 | `InteractableShadyGuy.Interact` | prefix | Systems/Loot | An adventurer whose `characters.can_buy` is false (the Ironman) is refused by the Shady Guy and every shopkeeper standing in for him: the interaction is stopped and the chat says so | `shop_refuse` |
 | `InteractableShadyGuy.GetInteractString` | postfix | Systems/Loot | The same adventurer's prompt reads "Ironmen can't trade" | `shop_prompt` |
 | `MoneyFlying.Set` | postfix | Systems/Loot | Flying coins wear the OSRS coin stack | none |
@@ -329,7 +332,7 @@ into data fields instead), `music` (`MusicController.PlayMusicTrack`: no music s
 | `arena_spawn_bounds` | arena | `SpawnPositions.FindBounds` | postfix | enemy and pickup spawn bounds cover the Lumbridge arena | <span class="st st-verified">verified</span> |
 | `stage_name` | data | `StageData.GetName` | postfix | Lumbridge stage names | <span class="st st-verified">verified</span> |
 | `enemy_name` | data | `EnemyData.GetName` | postfix | OSRS monster names on Megabonk's enemies | <span class="st st-verified">verified</span> |
-| `unlock_override` | data | `MyAchievements.IsUnlocked` | postfix | Bonkscape's weapons, tomes and adventurers count as unlocked | <span class="st st-verified">verified</span> |
+| `unlock_override` | data | `MyAchievements.IsUnlocked` | postfix | Bonkscape's weapons and tomes count as unlocked; an adventurer follows its characters.unlock_condition either way (Unlocks.CharacterUnlocked: the Ironman stays locked until total level 250) | <span class="st st-verified">verified</span> |
 | `enemy_release` | models | `Enemy.ReleaseToPool` | postfix | hide an enemy's OSRS model when Megabonk pools it | <span class="st st-verified">verified</span> |
 | `coins_flying` | loot | `MoneyFlying.Set` | postfix | flying coins wear the OSRS coin stack | <span class="st st-verified">verified</span> |
 | `coins_pickup` | loot | `MoneyFlying.Pickup` | postfix | coin pickup sound and test check | <span class="st st-verified">verified</span> |
@@ -340,6 +343,8 @@ into data fields instead), `music` (`MusicController.PlayMusicTrack`: no music s
 | `weapon_used` | models | `WeaponAttack.SuccessfullySpawnedProjectile` | postfix | the adventurer plays the weapon's OSRS attack sequence | <span class="st st-built">built</span> |
 | `shop_refuse` | loot | `InteractableShadyGuy.Interact` | prefix | an adventurer who can't buy (characters.can_buy false: the Ironman) is refused by the Shady Guy and the shopkeepers standing in for him | <span class="st st-built">built</span> |
 | `shop_prompt` | loot | `InteractableShadyGuy.GetInteractString` | postfix | the same adventurer's prompt reads "Ironmen can't trade" | <span class="st st-built">built</span> |
+| `character_buy` | data | `CharacterMenu.BuyCharacter` | prefix | Megabonk's purchase of an adventurer Bonkscape keeps locked is refused (characters.unlock_condition) | <span class="st st-built">built</span> |
+| `boss_second_form` | enemies | `Enemy.EnemyDied` | prefix | a two-form boss's first death called off: full health, the second form's model on the same enemy (the Kalphite Queen) | <span class="st st-built">built</span> |
 <!-- /gen:hooks -->
 
 ## Systems at a glance
@@ -360,9 +365,12 @@ into data fields instead), `music` (`MusicController.PlayMusicTrack`: no music s
 | `Systems/CameraTweak.cs` | `Camera.Distance`, and the toggle to `Camera.FarDistance` Since 0.4 the camera faces north (yaw 0: the arena puts OSRS north on +z) at `NearPitch` when the adventurer lands on a spawn tile (a run's start, a restart, a boss's lair and back; `Arena.Tick`), through `PlayerInput.cameraRotation` and `desiredCameraRotation` ((pitch, yaw, roll); Megabonk starts at (20, 270, 0)); the toggle key sets `FarPitch` or `NearPitch` too |
 | `Systems/Combat.cs` | Damage dealt, kills, Megabonk damage numbers |
 | `Systems/Prayer.cs` | Protection prayers |
+| `Systems/Barrows.cs` | The Barrows (0.7): the 24 pieces (drops of kind `barrows_piece`), the one a beaten hidden brother gives (never owned before; saved in `unlocks.json` under `_barrows`), a brother's full set (his unlock), the set line on character select |
+| `Systems/SetEffects.cs` | The Barrows sets' effects (0.7), from `set_effect`: on a brother's hits on the adventurer (Prayer: before the block, so Verac's pierce skips it; a hit naming no monster, a boss's projectile, counts as the nearest brother's within 10 m) and on the adventurer's hits as a brother (Combat). Dharok's rage always, the others a 25% chance in their style: Ahrim weakens (10% weaker hits, 6 s), Guthan heals by the damage, Karil slows (Megabonk's SlowPlayer on the adventurer), Torag drains (a 2 s slow: Megabonk's dash has no energy), Verac pierces prayers or (on monsters) armour, +25%. Tries and triggers per effect in the run's summary |
 | `Systems/LavaBurn.cs` | Lava edges burn (0.5): standing within 0.35 tiles of a lava tile (the world build's `FlagLava`, overlay texture 31) costs 2.4% of max health each OSRS tick through Megabonk's damage call; lava stays blocked, and the middle of a one-tile bridge is safe |
 | `Systems/Unlocks.cs` | Permanent unlocks per adventurer (0.5): a boss's death unlocks the passives whose `unlocked_by` names it (the Fire cape for Jad); saved in `%LOCALAPPDATA%/Bonkscape/unlocks.json` (not while skill saving is off, as in scenarios); gear offers leave locked ones out; `CharacterUnlocked` reads `characters.unlock_condition` (`always`, `total_level_N` on any one adventurer, `TotalLevel`), worked out at most every 2 s |
 | `Systems/BossFight.cs` | Boss fights beyond the Mole's dig (0.5): a boss arena's own waves (`bosses.arena_waves`, the boss held on its tile, frozen, unhurt and unseen until `boss_at`), scripted attacks (`attack_every_ms` with `random` attacks: Megabonk's own special attacks off, the sheet's attack picked each interval, its sequence and spot animations, the hit landed at impact with its style so the prayer counts then; Megabonk's touches don't hurt), healers (`bosses.healers`: called below a share of health, walk to the boss and heal it until hit), `SpawnAs` (a monster skinned as a given row) |
+| `Systems/SecondForm.cs` | A boss's second form (0.8, `bosses.second_form`: the Kalphite Queen): its first form's death called off (the `EnemyDied` prefix), its health back in full, `EnemySkins.Reskin` puts the second form's model on the same enemy (the first falls on a corpse) and plays its `spawn` sequence when it has one; Combat's death postfix skips the called-off death |
 | `Systems/Specials.cs` | Special attacks (0.4): the energy bar (60 s, plus 0.25% a kill, capped), the fire and switch keys, each spec's steps (`weapons.spec_effect`) through Megabonk's own damage and debuff calls, targets only monsters that can take damage, autoplay's specs in test runs, the scenario `spec` step |
 | `Systems/SpotFx.cs` | OSRS spot animations as flipbooks on the HUD (the specs' graphics), rendered from the cache off the main thread |
 | `Systems/Skills.cs` | Persistent skills, XP table, combat level |

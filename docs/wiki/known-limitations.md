@@ -7,8 +7,8 @@ What isn't there yet, or behaves differently from what you'd expect. The [docket
 - **Music.** Release builds play Megabonk's music: the experimental OSRS music player needs its engine
   (`OsrsKit.Music.dll`), which isn't shipped yet. OSRS's jingles (level-up, death) aren't built.
 - **Prayer altars.** The chat tells you to recharge at an altar, but there's none; prayer potions are the only refill.
-- **More adventurers, weapons, gear, monsters and maps.** Pure, the Dwarf multicannon, Dharok's greataxe,
-  Barrows, the Wilderness and God Wars Dungeon are designed (phase 2 and 3) but not in the game.
+- **More adventurers, weapons, gear, monsters and maps.** Pure, the Dwarf multicannon,
+  the Barrows crypts, the Wilderness and God Wars Dungeon are designed (phase 2 and 3) but not in the game.
 - **The Infernal cape.** The Fire cape's evolution is in the evolutions sheet, but it can't happen yet.
 - **The Fight Caves monsters' own abilities.** Tz-Kek don't split, Yt-MejKot don't heal, and Tok-Xil and Ket-Zek
   attack as the Megabonk enemies under them.
@@ -25,8 +25,10 @@ What isn't there yet, or behaves differently from what you'd expect. The [docket
   Caves* but build the same Lumbridge; the Desert's first two stages are both *Morytania* (its third is TzHaar City).
 - **Minibosses and bosses use Megabonk's stats** (times their map's difficulty) and, all but TzTok-Jad, Megabonk's
   own attacks; only ordinary monsters take the sheet's HP, damage and speed.
-- **An adventurer's attack style decides its melee skill**: the Warrior and Zerker train Strength, the Void Knight
-  and Durial321 Attack, and only the Ironman Defence.
+- **An adventurer's attack style decides its melee skill**: the Warrior, Zerker and Dharok train Strength, the Void
+  Knight, Durial321, Guthan and Verac Attack, and only the Ironman and Torag Defence.
+- **The Barrows brothers fight as Megabonk's boss and minibosses**, with their attacks; only the set effects are
+  OSRS's. Torag's set slows instead of draining run energy, which Megabonk doesn't have.
 - **Deep Freeze's ice block draws solid.** The ice it leaves on its target shows as an opaque tan box, not OSRS's
   see-through ice (seen in Melty test footage).
 - **Starting weapon upgrades** are set when Megabonk loads; a level reached mid-session may only take effect after a
@@ -47,7 +49,7 @@ These only show up in Melty's automated test runs (autoplay):
 
 - Autoplay checks two tiles ahead on the map's grid and turns along walls; whether that stops it pressing into
   walls is *(unconfirmed: needs footage)*.
-- Autoplay plays the Warrior, Ranger and Mage in turn, and the maps in turn (Lumbridge, Morytania, TzHaar
+- Autoplay plays the adventurers this PC has unlocked in turn, and the maps in turn (Lumbridge, Morytania, TzHaar
   City), so a three-run test plays all three. A TzHaar City run starts on the Desert's first stage and moves to its
   third a second in; since its adventurer arrives without the levels two stages bring, monsters there get their HP and
   hits without Megabonk's stage scaling.

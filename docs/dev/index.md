@@ -1,7 +1,7 @@
 # BSWiki: developer pages
 
 How Bonkscape is built, why it is the way it is, and what's next. Player-facing pages are in [BSWiki's player pages](../wiki/index.md).
-Written against **0.6.0** (code at `9a1c09d`).
+Written against **0.7.0** (code at `508f097`).
 
 | Page | What it covers |
 |---|---|
@@ -10,7 +10,7 @@ Written against **0.6.0** (code at `9a1c09d`).
 | [Gotchas](gotchas.md) | Hard-won lessons from `MODLOG.md`, grouped by topic |
 | [Testing](testing.md) | Melty test mode, self-checks, footage review, the test history |
 | [Cookbook](cookbook.md) | Recipes: add a map, a boss arena, a weapon and its special attack, an adventurer, a test check |
-| [Changelog and patch notes](changelog.md) | Every version 0.0.1 to 0.6.0: date, commit, test, patch notes and changes |
+| [Changelog and patch notes](changelog.md) | Every version 0.0.1 to 0.7.0: date, commit, test, patch notes and changes |
 | [Docket](docket.md) | Ideas and tasks by milestone, with status |
 | [How to update these docs](updating-docs.md) | What to update with every version, the table generator and the checker |
 | [The hub](hub.md) | One page that starts and links the wiki, the map sketch tool and the docs (`Bonkscape Hub.cmd`); the public BSWiki at jacksonarnold27.github.io/bswiki |

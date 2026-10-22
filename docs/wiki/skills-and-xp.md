@@ -40,9 +40,9 @@ every other skill starts at 1.
 
 | You deal damage with | Trains | XP per point of damage |
 |---|---|---|
-| A melee weapon, as an *accurate* adventurer (Void Knight, Durial321, Ranger, Mage) | Attack | 0.25 |
-| A melee weapon, as an *aggressive* adventurer (Warrior, Zerker) | Strength | 0.25 |
-| A melee weapon, as a *defensive* adventurer (Ironman) | Defence | 0.25 |
+| A melee weapon, as an *accurate* adventurer (Void Knight, Durial321, Guthan, Verac; Ranger, Mage, Ahrim, Karil) | Attack | 0.25 |
+| A melee weapon, as an *aggressive* adventurer (Warrior, Zerker, Dharok) | Strength | 0.25 |
+| A melee weapon, as a *defensive* adventurer (Ironman, Torag) | Defence | 0.25 |
 | A ranged weapon (any adventurer) | Ranged | 0.25 |
 | A magic weapon (any adventurer) | Magic | 0.25 |
 | Any weapon | Hitpoints, as well | 0.0833 (a third) |
@@ -51,7 +51,7 @@ The weapon's style decides ranged and magic; for melee weapons your adventurer's
 
 - the Warrior trains **Strength** (and Hitpoints) with melee weapons;
 - **Attack** only goes up when the Ranger or Mage deals damage with a melee weapon taken on level-up;
-- **Defence** is trained only by the Ironman, the one adventurer who fights defensively.
+- **Defence** is trained only by the Ironman and Torag, the adventurers who fight defensively.
 
 **Prayer** gets 2 XP for every second a protection prayer is on. **Gathering skills** get a fixed amount per action:
 Woodcutting 25, Mining 17.5 and Fishing 10 ([Skilling](skilling.md)).
@@ -81,8 +81,9 @@ Skill levels unlock better **starting weapons** ([Adventurers](adventurers.md#st
 | Magic | 75 | Trident of the seas (Mage) |
 | Magic | 94 | Ice Barrage (Mage) |
 
-Your Prayer level also raises your prayer points (20 + level). The **Ironman** unlocks once any one adventurer reaches
-a **total level** (all its skill levels added up) of 250 ([Adventurers](adventurers.md#unlocking)). The planned
+Your Prayer level also raises your prayer points (20 + level). The **Ironman** unlocks once any one adventurer you've played
+(one with a skills save of its own) reaches a **total level** (all its skill levels added up) of 250
+([Adventurers](adventurers.md#unlocking)). The planned
 Pure's condition (*1 Defence, 60 Attack*) isn't built.
 
 ## Combat level
@@ -99,7 +100,8 @@ A fresh save (10 Hitpoints, everything else 1) is combat level 3. Combat level d
 
 Each adventurer keeps their own skills: **`%LOCALAPPDATA%\Bonkscape\skills_<adventurer>.json`** (`skills_warrior.json`,
 `skills_zerker.json` and so on), a plain list of each skill's XP. An adventurer without a save yet starts from
-the older shared `skills.json` if there is one (it is left as it was). The character select panel shows the hovered
+the older shared `skills.json` if there is one (it is left as it was). A Barrows brother instead starts at level 70 in his
+combat skills, and nothing is written for him until he earns XP. The character select panel shows the hovered
 adventurer's own levels and combat level. Bonkscape saves when anything changed, every 20 seconds, at the end of a run
 and when you quit Megabonk, writing a temporary file first so a crash never leaves half a save. If a file can't be
 read, that adventurer starts fresh (the log says *"skills save of … unreadable, starting fresh"*). To reset an
