@@ -48,16 +48,19 @@ start Megabonk again."* and the mod stays out of the way.
 
 1. Start Megabonk the way Melty tells you to. The first start after installing takes longer, because BepInEx
    prepares itself.
-2. While the main menu loads, Bonkscape decodes what it needs from your cache in the background: monsters, the three
+2. While the main menu loads, Bonkscape decodes what it needs from your cache in the background: monsters, the
    adventurers, items and icons, sprites, fonts, sounds, then the Lumbridge, Morytania and TzHaar City
    arenas and the bosses' lairs (the Mole's and the Fight Caves). Menus work meanwhile; the log line
    `OSRS assets ready in ... ms` says how long it took.
-3. On character select, a **Bonkscape** panel on the right shows your combat level, your skill levels and the weapon
-   the selected adventurer will start with ([HUD](hud-and-chat.md#character-select-panel)).
-4. Pick **Warrior** (it takes Megabonk's `SirOofie` slot), **Ranger** (`Robinette`) or **Mage** (`Fox`) and start a
+3. On character select, the selected adventurer's OSRS model stands where Megabonk's character would, and a
+   **Bonkscape** panel above it shows your combat level, your skill levels and the weapon that adventurer will start
+   with ([HUD](hud-and-chat.md#character-select-panel)).
+4. Pick an adventurer: **Warrior** (it takes Megabonk's `SirOofie` slot), **Ranger** (`Robinette`), **Mage** (`Fox`),
+   **Zerker** (`Calcium`), **Void Knight** (`Athena`) or **Durial321** (`Vlad`); the **Ironman** (`SirChadwell`) unlocks
+   once one adventurer reaches total level 250 ([Adventurers](adventurers.md#unlocking)). Then start a
    run on Megabonk's Forest map, which Bonkscape renames **Lumbridge & Swamp**, or its Desert map, which becomes
-   **Morytania**, and TzHaar City on its third stage ([Maps](maps.md#morytania)). Bonkscape weapons, gear and adventurers count
-   as unlocked whatever your Megabonk progress is.
+   **Morytania**, and TzHaar City on its third stage ([Maps](maps.md#morytania)). Bonkscape weapons and gear count as unlocked
+   whatever your Megabonk progress is.
 5. Behind OSRS's *Loading - please wait.* screen you're moved into the castle courtyard (in Morytania, Canifis). A chat line greets
    you: *"Welcome to Lumbridge. Press 1, 2 or 3 to pray against melee, missiles or magic."*
 
@@ -78,4 +81,4 @@ Runs with Bonkscape loaded never upload scores to Megabonk's Steam leaderboards.
 - Log: `BepInEx/LogOutput.log`. Bonkscape's lines start with `[Info   : Bonkscape]`, and every chat message is
   logged too, as `[chat] ...`.
 
-<!-- sources: src/Bonkscape.Cache/OsrsCache.cs src/Bonkscape.Plugin/Plugin.cs src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/Hud.cs src/Bonkscape.Plugin/Patches/CorePatches.cs tools/package.py -->
+<!-- sources: src/Bonkscape.Cache/OsrsCache.cs src/Bonkscape.Plugin/Plugin.cs src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/Hud.cs src/Bonkscape.Plugin/Patches/CorePatches.cs tools/package.py src/Bonkscape.Plugin/Systems/CharacterSelect.cs src/Bonkscape.Plugin/Systems/Unlocks.cs -->

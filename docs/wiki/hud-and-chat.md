@@ -56,6 +56,7 @@ What it says:
 | A weapon evolves | *Your Fire Strike has become a Fire Surge!* |
 | You press `Q` (`Special.SwitchKey`) | *Special attack: Abyssal whip (Energy Drain).* (the newly armed weapon) |
 | You press `F` without enough energy, or with nothing in reach | *You don't have enough special attack energy left.* / *There's nothing in reach.* |
+| An Ironman tries to trade | *The shopkeeper won't trade with an Ironman.* |
 | You press `V` (`Camera.ToggleKey`) | *Camera: far.* / *Camera: near.* |
 | The Giant Mole digs | *The Giant Mole burrows into the ground!* |
 | A boss fight moves into its lair | *You follow the Giant Mole down into its lair.* (the Fight Caves: *You follow the TzTok-Jad down into its lair.*) |
@@ -69,7 +70,8 @@ Every chat line is also written to the BepInEx log as `[chat] ...`.
 
 ## Character select panel
 
-On character select, a **Bonkscape** panel on the right, on OSRS's stone background, shows:
+On character select, a **Bonkscape** panel at the top of the screen, in the gap between Megabonk's two windows and
+above your adventurer, on OSRS's stone background, shows (drawn a step smaller when it wouldn't fit):
 
 - the hovered adventurer's **combat level**, as *"Combat Lvl: 3"* ([Skills](skills-and-xp.md#combat-level)),
 - that adventurer's skills in two columns, each with its icon and level, the panel as wide as its longest skill name,

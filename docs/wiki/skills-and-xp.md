@@ -40,9 +40,9 @@ every other skill starts at 1.
 
 | You deal damage with | Trains | XP per point of damage |
 |---|---|---|
-| A melee weapon, as an *accurate* adventurer (Ranger, Mage) | Attack | 0.25 |
-| A melee weapon, as an *aggressive* adventurer (Warrior) | Strength | 0.25 |
-| A melee weapon, as a *defensive* adventurer (none yet) | Defence | 0.25 |
+| A melee weapon, as an *accurate* adventurer (Void Knight, Durial321, Ranger, Mage) | Attack | 0.25 |
+| A melee weapon, as an *aggressive* adventurer (Warrior, Zerker) | Strength | 0.25 |
+| A melee weapon, as a *defensive* adventurer (Ironman) | Defence | 0.25 |
 | A ranged weapon (any adventurer) | Ranged | 0.25 |
 | A magic weapon (any adventurer) | Magic | 0.25 |
 | Any weapon | Hitpoints, as well | 0.0833 (a third) |
@@ -51,7 +51,7 @@ The weapon's style decides ranged and magic; for melee weapons your adventurer's
 
 - the Warrior trains **Strength** (and Hitpoints) with melee weapons;
 - **Attack** only goes up when the Ranger or Mage deals damage with a melee weapon taken on level-up;
-- **Defence** can't be trained yet: no phase-1 adventurer fights defensively (the planned Ironman does).
+- **Defence** is trained only by the Ironman, the one adventurer who fights defensively.
 
 **Prayer** gets 2 XP for every second a protection prayer is on. **Gathering skills** get a fixed amount per action:
 Woodcutting 25, Mining 17.5 and Fishing 10 ([Skilling](skilling.md)).
@@ -72,14 +72,18 @@ Skill levels unlock better **starting weapons** ([Adventurers](adventurers.md#st
 
 | Skill | Level | Starting weapon |
 |---|---|---|
-| Attack | 70 | Abyssal whip (Warrior) |
+| Attack | 60 | Dragon claws (melee adventurers) |
+| Attack | 70 | Abyssal whip (melee adventurers) |
+| Attack | 75 | Armadyl godsword (melee adventurers) |
+| Attack and Strength | 80 and 90 | Scythe of vitur (melee adventurers) |
 | Ranged | 55 | Red chinchompa (Ranger) |
 | Ranged | 75 | Toxic blowpipe (Ranger) |
 | Magic | 75 | Trident of the seas (Mage) |
 | Magic | 94 | Ice Barrage (Mage) |
 
-Your Prayer level also raises your prayer points (20 + level). The planned Pure and Ironman adventurers have level
-conditions too (*1 Defence, 60 Attack* and *total level 250*); they aren't built.
+Your Prayer level also raises your prayer points (20 + level). The **Ironman** unlocks once any one adventurer reaches
+a **total level** (all its skill levels added up) of 250 ([Adventurers](adventurers.md#unlocking)). The planned
+Pure's condition (*1 Defence, 60 Attack*) isn't built.
 
 ## Combat level
 
@@ -94,11 +98,11 @@ A fresh save (10 Hitpoints, everything else 1) is combat level 3. Combat level d
 ## Saving
 
 Each adventurer keeps their own skills: **`%LOCALAPPDATA%\Bonkscape\skills_<adventurer>.json`** (`skills_warrior.json`,
-`skills_ranger.json`, `skills_mage.json`), a plain list of each skill's XP. An adventurer without a save yet starts from
+`skills_zerker.json` and so on), a plain list of each skill's XP. An adventurer without a save yet starts from
 the older shared `skills.json` if there is one (it is left as it was). The character select panel shows the hovered
 adventurer's own levels and combat level. Bonkscape saves when anything changed, every 20 seconds, at the end of a run
 and when you quit Megabonk, writing a temporary file first so a crash never leaves half a save. If a file can't be
 read, that adventurer starts fresh (the log says *"skills save of … unreadable, starting fresh"*). To reset an
 adventurer's skills, delete their file while Megabonk is closed.
 
-<!-- sources: src/Bonkscape.Plugin/Systems/Skills.cs src/Bonkscape.Plugin/Systems/Combat.cs src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/Prayer.cs src/Bonkscape.Plugin/Systems/Skilling.cs src/Bonkscape.Plugin/Systems/CharacterSelect.cs src/Bonkscape.Plugin/Systems/Hud.cs src/Bonkscape.Plugin/Systems/HudLayout.cs src/Bonkscape.Plugin/Systems/LevelUpFx.cs sheets/skills.json -->
+<!-- sources: src/Bonkscape.Plugin/Systems/Skills.cs src/Bonkscape.Plugin/Systems/Combat.cs src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/Prayer.cs src/Bonkscape.Plugin/Systems/Skilling.cs src/Bonkscape.Plugin/Systems/CharacterSelect.cs src/Bonkscape.Plugin/Systems/Hud.cs src/Bonkscape.Plugin/Systems/HudLayout.cs src/Bonkscape.Plugin/Systems/LevelUpFx.cs sheets/skills.json src/Bonkscape.Plugin/Systems/Unlocks.cs -->

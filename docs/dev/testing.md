@@ -23,8 +23,8 @@ the same autoplay without Melty (checks are then only logged).
 **Hand-over tests.** With `Dev.ManualTest = true` a Melty test run doesn't autoplay: you play it, and Bonkscape still
 writes its self-checks (log: `Melty test mode: hand-over`). For what autoplay can't reach: skilling and the Giant Mole.
 
-**Adventurer rotation.** Each Melty test on this PC plays the next phase-1 adventurer (Warrior, Ranger, Mage): the
-adventurer is `(run - 1 + rotation) mod 3`, where the rotation counts tests in
+**Adventurer rotation.** Each Melty test on this PC plays the next phase-1 adventurer (Warrior, Ranger, Mage, Zerker,
+Void Knight, Durial321, Ironman): the adventurer is `(run - 1 + rotation) mod <phase-1 adventurers>`, where the rotation counts tests in
 `%LOCALAPPDATA%\Bonkscape\test-rotation.txt`. Quick checks are always run 1, so before the rotation autoplay only ever
 played the Warrior. The log says `autoplay adventurer: <name> (<style>)`. `Dev.AutoStartRun` still plays the first.
 
@@ -99,7 +99,9 @@ reachable lair tile, log `boss: the Giant Mole resurfaced in its lair at ...`), 
 was taken or it reached its max level; the log says `gear offers: left out …`). Since 0.5: `arena-waves` (a boss
 arena's first wave), `arena-boss-released` (the held boss joined after the waves), `boss-healers` and `boss-healed`
 (Jad's healers called, and one healed him), `boss-blocked-fully` (a boss hit blocked completely), `lava-burned` (a lava
-burn cost health) and `unlock-earned` (a boss's death unlocked a passive).
+burn cost health) and `unlock-earned` (a boss's death unlocked a passive). Since 0.6: `extra-weapon` (an
+adventurer's `extra_weapons` given), `shop-refused` (a shopkeeper refused an adventurer who can't buy) and
+`character-unlocked` (an `unlock_condition` other than `always` met).
 
 Every 30 s of a test run the log also says `animations: monster attacks N, deaths N (corpses N), mole digs N (N in its lair),
 adventurer attacks N, moved …`, and the cache build logs each monster's and adventurer's baked sequences
@@ -188,6 +190,7 @@ Times are local (UTC-5). From Melty's release list and test results.
 | 0.3.0 | `00b2a313` | 2 x 2 min | **passed (publish test)** | Run 1 Mage on Morytania: an evolution to the Abyssal tentacle, a chest, no death, `skills-saved` without one. Run 2 Ranger on Lumbridge: the boss call into the Mole's lair, the Mole surfacing beside the adventurer. All 12 each. Footage: Megabonk's Settings window showed on the menu for 2 s before run 2 began. |
 | 0.4.0 | `4ff4bb99` | 2 x 2 min | **passed (publish test)** | Run 1 Ranger on Morytania: the spec orb, a spec switch (*Special attack: Abyssal whip (Energy Drain).*), the Godsword shard among the offers, Dharok. Run 2 Warrior on Lumbridge, starting facing north; Energy Drain and Sever fired in the Mole's lair. All 12 each, `spec-fired` in place of `osrs-cache`. |
 | 0.5.0 | `f40eeddc` | 3 x 2 min | **passed (publish test)** | Run 1 on Lumbridge: the boss portal into the Mole's lair, the Dragon scimitar's spec there. Run 2 on Morytania: Dharok at the Barrows, Ice Barrage's spec. Run 3 on TzHaar City (the Desert's third stage, reached by the jump): the city's lava cracks, Tokkul, TzHaar and TzHaar-Ket, the final portal into the Fight Caves, Yt-MejKot and Ket-Zek waves, TzTok-Jad released with his boss bar dropping. All 12 each. The first 0.5.0 test, `f9cc7928`, failed only its TzHaar run's `evolution`: the test casket landed in the final portal's stage reload (fixed in `f1c619d`). |
+| 0.6.0 | `b459ddbb` | 3 x 2 min | **passed (publish test)** | Run 1 the Zerker on Lumbridge: his OSRS model, the Void knight mace among the level-up offers, the Mole's lair fight. Run 2 Durial321 on Morytania: his model, his extra Ice Barrage firing round him, Dharok; the Deep Freeze ice block on its target drew as an opaque tan box. Run 3 TzHaar City: the city, the Fight Caves' waves and TzTok-Jad. All 12 each. |
 
 Blank cells weren't looked up. `mcp__melty__test_result` with the test id gives the full record.
 
@@ -263,6 +266,9 @@ written as PNG by the plugin (Unity's own capture and PNG encoder are stripped f
 | `tzhaar-city` | TzHaar City (the Desert's third stage, reached by the jump) as the Warrior: a kill, and at 15 s the adventurer put against a lava edge (`lava-burned`) |
 | `fight-caves` | TzHaar City as the Mage with Prayer, Hitpoints and Magic at 99 (not saved), the final portal at 3 s: the Fight Caves (`boss-arena`), the waves at the sheet's times (`arena-waves`), Jad released at 120 s (`arena-boss-released`) and his hits (`player-hit`) |
 | `fight-caves-quick` | the same as the Ranger at Melty's speed (`arena_time_scale` 0.25), Jad killed at 72 s by the `kill` step: `boss-blocked-fully` and `unlock-earned` |
+| `adventurer-zerker`, `adventurer-void-knight` | Lumbridge as that adventurer for 25 s: a kill and the OSRS model animated |
+| `adventurer-durial321` | the same on Morytania, and his Ice Barrage given beside the whip (`extra-weapon`) |
+| `adventurer-ironman` | Lumbridge as the Ironman, the Warrior seeded at level 30 in every skill (`seed_levels`, not saved) so he unlocks (`character-unlocked`), the Shady Guy pressed at 6 s (`shop-refused`) |
 
 **Deaths in test runs** (`Systems/TestGuard.cs`): no blanket invulnerability, which would hide broken hits. Every hit
 lands in full through Megabonk's damage path; only one that would kill (`PlayerHealth.WillDamageKill`) is cut to

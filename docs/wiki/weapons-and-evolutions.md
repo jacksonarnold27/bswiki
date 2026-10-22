@@ -11,14 +11,14 @@ attacks, its projectile and its visuals. Bonkscape replaces the rest:
 - **Name and icon**: the OSRS name, and an icon rendered from your cache. Fire Strike, Ice Barrage and Fire Surge use
   their OSRS spell icons; the rest use the item's inventory icon.
 
-On Bonkscape's maps, level-ups offer only these eleven weapons, and they all count as unlocked whatever your Megabonk progress
+On Bonkscape's maps, level-ups offer only these twelve weapons, and they all count as unlocked whatever your Megabonk progress
 is. When a weapon fires:
 
 - its projectile carries the OSRS model from the sheet, about a quarter of a tile along its longest side, centred
   on the projectile and turned to point along its flight: the Magic shortbow's rune
   arrow, the Toxic blowpipe's dragon dart, the Red chinchompa, and Fire Strike's, Ice Barrage's and the Trident's
-  spell graphics (the Abyssal whip, Dragon scimitar, Scythe of vitur, Armadyl godsword and Dragon claws have
-  none). Megabonk's own projectile effects stay;
+  spell graphics (the Abyssal whip, Dragon scimitar, Scythe of vitur, Armadyl godsword, Dragon claws and Void
+  knight mace have none). Megabonk's own projectile effects stay;
 - the weapon's OSRS attack sound plays, at most every 0.3 s;
 - your adventurer takes that weapon in hand and plays its OSRS attack animation ([Adventurers](adventurers.md#looks)).
 
@@ -100,7 +100,7 @@ beside the minimap ([HUD](hud-and-chat.md#in-a-run)):
 | Magic shortbow | Snapshot | 55% | Two hits of 1.1x, 0.2 s apart |
 | Toxic blowpipe | Toxic Siphon | 50% | Hits for 1.5x and heals you half the damage it dealt |
 | Fire Strike | Wildfire (Bonkscape's own) | 50% | Hits every monster in a 70 degree cone 5 tiles long for 1.5x |
-| Ice Barrage | Deep Freeze (Bonkscape's own) | 50% | Hits every monster within 4 tiles of you for 0.5x and freezes it for 3 s |
+| Ice Barrage | Deep Freeze (Bonkscape's own) | 50% | Hits every monster within 4 tiles of you for 0.5x and freezes it for 3 s; its ice block shows on the target |
 | Trident of the seas | Tidal Chain (Bonkscape's own) | 50% | Hits 5 monsters in a chain, each the nearest within 3 tiles of the last, for 1x, 0.12 s apart |
 | Armadyl godsword | The Judgement | 50% | Hits for 2.5x, and every other monster within 2 tiles of the target for 0.5x |
 | Dragon claws | Slice and Dice | 50% | Four hits of 1.2x, 0.6x, 0.4x and 0.4x, 0.12 s apart |

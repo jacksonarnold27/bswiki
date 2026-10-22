@@ -1,7 +1,7 @@
 # Architecture
 
 Bonkscape is a BepInEx 6 IL2CPP plugin for Megabonk (Unity 2023.2.22f1, IL2CPP, build 1.0.69) that reads the player's
-Old School RuneScape cache at run time. Nothing from either game is shipped. Written against **0.5.0** (`f1c619d`).
+Old School RuneScape cache at run time. Nothing from either game is shipped. Written against **0.6.0** (`9a1c09d`).
 
 ## Projects
 
@@ -120,7 +120,8 @@ skilling nodes, fallback enemy, music).
 3. Stage start: when active and `MyPlayer.Instance` exists and is a new object (first stage, or a new stage), `OnStage`.
 4. Run end: when active turns false, `OnRunEnd`.
 5. While active: the props/arena timer, `Arena.TryBuild` until it succeeds, `Arena.Tick`, `BossFight.Tick` (a boss
-   arena's waves and the held boss's release, healers), `LavaBurn.Tick` (lava edges, once per 0.6 s), `Pathing.Tick`,
+   arena's waves and the held boss's release, healers), `LavaBurn.Tick` (lava edges, once per 0.6 s), `Content.GiveExtraWeapons` (an adventurer's `extra_weapons`, once
+   the inventory exists), `Pathing.Tick`,
    `Prayer.Tick`, `CameraTweak.Tick` (the `[Camera] ToggleKey`, V, flips between `Distance` and `FarDistance`, and
    `NearPitch`/`FarPitch`), `Specials.Tick` (energy, the fire and switch keys), `Skills.GameTick`, `Loot.Tick`, `Skilling.Tick`, death detection.
 6. Always: `Skills.Tick` (autosave every 20 s), `Hud.Tick` (skipped when `Debug.OsrsHud` is off; hitsplats, XP drops, health bar timers, dialogues,
@@ -140,8 +141,8 @@ with `HudLayout.Arrange` against Megabonk's minimap (`OsrsUi.Minimap`: measured 
 retried every 2 s and again when the screen size changes, else estimated) and draws them through `OsrsUi`.
 
 **`OnStage(player)`**: on the first stage of a run, or the first stage after the adventurer died (Megabonk's restart
-keeps the map and only makes a new player), resets the run clock, prayer, evolutions, loot, lava burns and chat, and
-posts the welcome line; a later stage on another maps row (TzHaar City after Morytania) gets the short *Welcome to
+keeps the map and only makes a new player), resets the run clock, prayer, evolutions, loot, lava burns, extra weapons and
+chat, and posts the welcome line; a later stage on another maps row (TzHaar City after Morytania) gets the short *Welcome to
 <map>.* Every stage: `Sizing.Measure`, `CameraTweak.Apply`, `PlayerSkin.Apply` (if not skinned yet),
 `Skilling.SpawnForRun` (Forest-style nodes around the player, replaced if the arena builds), a 1.5 s timer, and
 `Hud.FindGoldCounter` (also clears health bars, XP drops and the minimap measurement for the new stage), and
@@ -249,7 +250,7 @@ target still exists ([docket](docket.md)).
 | `StageData.GetName` | prefix | Systems/Content | Stage names: Lumbridge & Swamp, Lumbridge Swamp, Lumbridge Swamp Caves on the Forest; Morytania on every Desert stage | none |
 | `UnlockUtility.GetAvailableWeapons` | postfix | Systems/Content | Level-up weapon offers: only Bonkscape weapons (in Lumbridge) | `weapon_pool` |
 | `UnlockUtility.GetAvailableTomes` | postfix | Systems/Content | Tome offers: only gear passives, one per slot, below max level | `tome_pool` |
-| `MyAchievements.IsUnlocked(UnlockableBase, out string)` | postfix | Systems/Content | Bonkscape weapons, tomes and characters count as unlocked | none |
+| `MyAchievements.IsUnlocked(UnlockableBase, out string)` | postfix | Systems/Content | Bonkscape weapons and tomes count as unlocked; an adventurer's Megabonk character is unlocked by its row's `unlock_condition` (`Unlocks.CharacterUnlocked`), either way | `unlock_override` |
 | `Enemy.InitEnemy` | postfix | Systems/EnemySkins | OSRS model, size tier, hide Megabonk's renderer (re-sized in `LateTick` once the hitbox is live) | `enemy_spawn` |
 | `Enemy.ReleaseToPool` | postfix | Systems/EnemySkins | Hide the model of a pooled enemy | none |
 | `Enemy.DamageFromPlayerWeapon` | prefix + postfix | Systems/Combat | HP before/after: hitsplat and skill XP for damage dealt | `enemy_damaged` |
@@ -360,7 +361,7 @@ into data fields instead), `music` (`MusicController.PlayMusicTrack`: no music s
 | `Systems/Combat.cs` | Damage dealt, kills, Megabonk damage numbers |
 | `Systems/Prayer.cs` | Protection prayers |
 | `Systems/LavaBurn.cs` | Lava edges burn (0.5): standing within 0.35 tiles of a lava tile (the world build's `FlagLava`, overlay texture 31) costs 2.4% of max health each OSRS tick through Megabonk's damage call; lava stays blocked, and the middle of a one-tile bridge is safe |
-| `Systems/Unlocks.cs` | Permanent unlocks per adventurer (0.5): a boss's death unlocks the passives whose `unlocked_by` names it (the Fire cape for Jad); saved in `%LOCALAPPDATA%/Bonkscape/unlocks.json` (not while skill saving is off, as in scenarios); gear offers leave locked ones out |
+| `Systems/Unlocks.cs` | Permanent unlocks per adventurer (0.5): a boss's death unlocks the passives whose `unlocked_by` names it (the Fire cape for Jad); saved in `%LOCALAPPDATA%/Bonkscape/unlocks.json` (not while skill saving is off, as in scenarios); gear offers leave locked ones out; `CharacterUnlocked` reads `characters.unlock_condition` (`always`, `total_level_N` on any one adventurer, `TotalLevel`), worked out at most every 2 s |
 | `Systems/BossFight.cs` | Boss fights beyond the Mole's dig (0.5): a boss arena's own waves (`bosses.arena_waves`, the boss held on its tile, frozen, unhurt and unseen until `boss_at`), scripted attacks (`attack_every_ms` with `random` attacks: Megabonk's own special attacks off, the sheet's attack picked each interval, its sequence and spot animations, the hit landed at impact with its style so the prayer counts then; Megabonk's touches don't hurt), healers (`bosses.healers`: called below a share of health, walk to the boss and heal it until hit), `SpawnAs` (a monster skinned as a given row) |
 | `Systems/Specials.cs` | Special attacks (0.4): the energy bar (60 s, plus 0.25% a kill, capped), the fire and switch keys, each spec's steps (`weapons.spec_effect`) through Megabonk's own damage and debuff calls, targets only monsters that can take damage, autoplay's specs in test runs, the scenario `spec` step |
 | `Systems/SpotFx.cs` | OSRS spot animations as flipbooks on the HUD (the specs' graphics), rendered from the cache off the main thread |
@@ -368,7 +369,7 @@ into data fields instead), `music` (`MusicController.PlayMusicTrack`: no music s
 | `Systems/Skilling.cs` | Trees, rocks, fishing spots |
 | `Systems/Loot.cs` | Coins, food, caskets, prayer potions |
 | `Systems/Evolutions.cs` | Evolutions on casket open |
-| `Systems/Hud.cs`, `Chat.cs`, `CharacterSelect.cs` | The OSRS HUD: what to show, from the game's state |
+| `Systems/Hud.cs`, `Chat.cs`, `CharacterSelect.cs` | The OSRS HUD: what to show, from the game's state. `CharacterSelect` also hides the menu's `PlayerRenderer` and stands the adventurer's OSRS model in its place (its height and feet, facing the camera, the stand animation), and measures the free gap between Megabonk's windows (`FindGap`, over the top 3-45% of the screen) for `HudLayout.DrawCharacterPanel` |
 | `Systems/HudLayout.cs` | The HUD's layout and drawing from OSRS's interfaces (160 orbs, 122 XP counter, 162 chatbox, 233 level-up dialogue, 541 prayer book, 161 minimap frame), sprite ids in `UiSprite`. No Unity: also compiled into `bonk.exe` for `uisprites mock`. |
 | `Systems/OsrsUi.cs` | IMGUI canvas for `HudLayout`; loads its sprites and fonts; measures Megabonk's minimap |
 | `Systems/MegabonkHud.cs` | Hides Megabonk's health bars, XP bar and enemy health bars in a run and restores them after; reads run XP progress and the ability cooldown |

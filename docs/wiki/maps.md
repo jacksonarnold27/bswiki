@@ -149,7 +149,7 @@ What's different:
 - **Tokkul instead of coins.** Megabonk's gold is drawn as OSRS's Tokkul, on the ground and flying to you, and the
   [coin counter](hud-and-chat.md#in-a-run) says *Tokkul*.
 - **TzHaar-Hur-Tel.** Megabonk's Shady Guy, the merchant, is drawn as TzHaar-Hur-Tel (NPC 2183), as tall as your
-  adventurer. *(unconfirmed: needs a Melty run or footage)*
+  adventurer. Like the Shady Guy, he won't trade with an [Ironman](adventurers.md#special-rules). *(unconfirmed: needs a Melty run or footage)*
 - **Harder monsters.** Its difficulty is 1, but as on any later stage, Megabonk's own stage scaling multiplies every
   monster's HP and damage on top.
 

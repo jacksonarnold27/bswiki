@@ -7,7 +7,7 @@ What isn't there yet, or behaves differently from what you'd expect. The [docket
 - **Music.** Release builds play Megabonk's music: the experimental OSRS music player needs its engine
   (`OsrsKit.Music.dll`), which isn't shipped yet. OSRS's jingles (level-up, death) aren't built.
 - **Prayer altars.** The chat tells you to recharge at an altar, but there's none; prayer potions are the only refill.
-- **More adventurers, weapons, gear, monsters and maps.** Pure, Ironman, the Dwarf multicannon, Dharok's greataxe,
+- **More adventurers, weapons, gear, monsters and maps.** Pure, the Dwarf multicannon, Dharok's greataxe,
   Barrows, the Wilderness and God Wars Dungeon are designed (phase 2 and 3) but not in the game.
 - **The Infernal cape.** The Fire cape's evolution is in the evolutions sheet, but it can't happen yet.
 - **The Fight Caves monsters' own abilities.** Tz-Kek don't split, Yt-MejKot don't heal, and Tok-Xil and Ket-Zek
@@ -25,7 +25,10 @@ What isn't there yet, or behaves differently from what you'd expect. The [docket
   Caves* but build the same Lumbridge; the Desert's first two stages are both *Morytania* (its third is TzHaar City).
 - **Minibosses and bosses use Megabonk's stats** (times their map's difficulty) and, all but TzTok-Jad, Megabonk's
   own attacks; only ordinary monsters take the sheet's HP, damage and speed.
-- **Defence can't be trained**: no phase-1 adventurer fights defensively. The Warrior trains Strength, not Attack.
+- **An adventurer's attack style decides its melee skill**: the Warrior and Zerker train Strength, the Void Knight
+  and Durial321 Attack, and only the Ironman Defence.
+- **Deep Freeze's ice block draws solid.** The ice it leaves on its target shows as an opaque tan box, not OSRS's
+  see-through ice (seen in Melty test footage).
 - **Starting weapon upgrades** are set when Megabonk loads; a level reached mid-session may only take effect after a
   restart (not yet tested).
 - **Projectiles go through the maps' walls**, yours and the monsters', because walls are only solid to bodies.

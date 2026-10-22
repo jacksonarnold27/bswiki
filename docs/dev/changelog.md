@@ -13,6 +13,44 @@ inside each release's DLL in `dist/`. No version has been published yet: every r
 
 ---
 
+## 0.6.0: adventurers
+
+*Build 2026-10-22 04:39, code in `9a1c09d`. Test `b459ddbb`: publish test, 3 runs x 2 min, passed. Run 1 the Zerker
+on Lumbridge (the Void knight mace among the offers, the Mole's lair), run 2 Durial321 on Morytania (his extra Ice
+Barrage, Dharok, the Deep Freeze ice block on its target), run 3 TzHaar City (the Fight Caves and Jad). All 12
+self-checks each.*
+
+**Patch notes**
+- Four new adventurers: the Zerker, the Void Knight with the new Void knight mace, Durial321 with his whip and Ice
+  Barrage from the start, and the Ironman, who unlocks once one adventurer reaches total level 250 and can't trade
+  with shops.
+- Character select shows your adventurer's OSRS model, and the Bonkscape panel sits at the top between Megabonk's two
+  windows at any resolution.
+- Deep Freeze's ice block shows on its target, not at your feet.
+
+**Changes**
+- New `characters` columns `can_buy` (`false`: `Loot`'s new `InteractableShadyGuy.Interact` prefix refuses the trade,
+  chat *The shopkeeper won't trade with an Ironman.* on the first refusal and every 20th, and the `GetInteractString`
+  postfix reads *Ironmen can't trade*; hooks `shop_refuse`, `shop_prompt`) and `extra_weapons`
+  (`Content.GiveExtraWeapons` from the run loop once the inventory exists, `gear_reqs` not asked; again after a death's
+  restart). `unlock_condition` is read now: the `MyAchievements.IsUnlocked` postfix returns
+  `Unlocks.CharacterUnlocked` for the characters Bonkscape takes over (`always`; `total_level_N` on any one adventurer,
+  `Unlocks.TotalLevel`; other conditions locked), worked out at most every 2 s.
+- Rows: `zerker` (Calcium), `void_knight` (Athena), `durial321` (Vlad, `extra_weapons: ["ice_barrage"]`) and `ironman`
+  (SirChadwell, `can_buy: false`) at phase 1; the `void_knight_mace` weapon (CorruptSword, `gear_reqs:
+  "starting_weapon"`, attack 414, no spec); Ice Barrage's `spec_spot_on` from `player` to `target`.
+- `CharacterSelect`: the preview (the menu's `PlayerRenderer` hidden, the adventurer's OSRS model at its height and
+  feet, facing the camera, its stand animation; `PreviewShows`) and `FindGap` (the free gap between Megabonk's windows
+  over the top 3-45% of the screen, measured twice a second and on a resolution change). `HudLayout.DrawCharacterPanel`
+  centres the panel in that gap at 3% from the top, a scale step smaller while it takes over 42% of the height or more
+  than the gap's width.
+- `Sizing.Measure(player, character)`: `PlayerSkin` passes the character, so the first measure knows whose it is and a
+  switch of adventurer measures again.
+- Test mode: optional checks `extra-weapon`, `shop-refused`, `character-unlocked`; scenario keys `seed_levels`
+  (`Skills.SetLevelFor`, memory only) and `ui.adventurers` (each adventurer pressed and shot on character select); step
+  `shop`; a suite's scenario waits for its own run (`TestMode.RunRequested`); scenarios `adventurer-zerker`,
+  `adventurer-void-knight`, `adventurer-durial321`, `adventurer-ironman`.
+
 ## 0.5.0: TzHaar
 
 *Build 2026-10-22 03:54, code in `f1c619d`. Test `f40eeddc`: publish test, 3 runs x 2 min, passed. Run 1 Lumbridge

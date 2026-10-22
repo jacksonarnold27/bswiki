@@ -22,8 +22,21 @@ speed, luck), Bonkscape removes the Megabonk character's own modifier for that s
 isn't zero. Move speed is added to Megabonk's move speed multiplier; the others are flat. Everything else about the
 Megabonk character is left as Megabonk made it.
 
-Pure and Ironman are planned: they're in the sheet with unlock conditions, but **not built**, so character select
-shows Megabonk's own `Ninja` and `SirChadwell` characters in their slots.
+Pure is planned: it's in the sheet, but **not built**, so character select shows Megabonk's own `Ninja` in its slot.
+
+## Unlocking
+
+Every adventurer is open from the start except the **Ironman**, who unlocks once any one of your adventurers reaches a
+**total level** of 250 (all its skill levels added up). These conditions replace Megabonk's own unlocks for the
+characters Bonkscape takes over, whatever your Megabonk progress.
+
+## Special rules
+
+- **Durial321** carries a second weapon from the start: **Ice Barrage**, beside his Abyssal whip, without its 94
+  Magic requirement. He gets it again when a run restarts after a death.
+- **The Ironman can't trade.** Megabonk's Shady Guy, and TzHaar-Hur-Tel standing in for him in TzHaar City, won't deal
+  with him: the prompt reads *Ironmen can't trade*, and pressing it says *"The shopkeeper won't trade with an
+  Ironman."*
 
 ## Starting weapons
 
@@ -33,11 +46,16 @@ requirements add up highest.
 
 | Adventurer | Default | Upgrades |
 |---|---|---|
-| Warrior (melee) | Dragon scimitar | 60 Attack: **Dragon claws**; 70 Attack: **Abyssal whip**; 75 Attack: **Armadyl godsword**; 80 Attack and 90 Strength: **Scythe of vitur** |
+| Warrior, Zerker, Ironman (melee) | Dragon scimitar | 60 Attack: **Dragon claws**; 70 Attack: **Abyssal whip**; 75 Attack: **Armadyl godsword**; 80 Attack and 90 Strength: **Scythe of vitur** |
+| Void Knight (melee) | Void knight mace | the same as the Warrior's |
+| Durial321 (melee) | Abyssal whip | the same as the Warrior's |
 | Ranger (ranged) | Magic shortbow | 55 Ranged: **Red chinchompa**; 75 Ranged: **Toxic blowpipe** |
 | Mage (magic) | Fire Strike | 75 Magic: **Trident of the seas**; 94 Magic: **Ice Barrage** |
 
-These requirements only decide the weapon you **start** with. Level-ups offer all eleven weapons whatever your levels
+An upgrade replaces the default whatever it is, so Durial321 at 60 to 69 Attack starts with Dragon claws rather than
+his whip, and the Void knight mace, which has no requirements, is never an upgrade.
+
+These requirements only decide the weapon you **start** with. Level-ups offer all twelve weapons whatever your levels
 ([Weapons](weapons-and-evolutions.md)).
 
 The character select panel shows which weapon the selected adventurer will start with. Bonkscape sets the starting
@@ -46,8 +64,9 @@ session shows on the panel right away but may only reach the run after you resta
 yet ([docket](../dev/docket.md)).
 
 > **Warrior and Attack.** The Warrior fights in the *aggressive* style, so its melee damage trains **Strength**, not
-> Attack ([Skills](skills-and-xp.md#what-trains-what)). Attack is trained by melee damage from an *accurate*
-> adventurer, which means the Ranger or Mage using a melee weapon picked up on level-up.
+> Attack ([Skills](skills-and-xp.md#what-trains-what)), as does the Zerker. Attack is trained by melee damage from an
+> *accurate* adventurer: the Void Knight and Durial321, or the Ranger or Mage with a melee weapon picked up on
+> level-up. The Ironman fights *defensively* and trains Defence.
 
 ## Looks
 
@@ -66,7 +85,9 @@ It plays OSRS's player animations:
 - the **death** animation (836) when the run ends in death.
 
 The model follows your character, feet on the ground, and turns to face the way you move. Megabonk's own character
-model is hidden. Character select portraits are rendered from the same OSRS model.
+model is hidden. Character select portraits are rendered from the same OSRS model, and on character select the
+selected adventurer's OSRS model stands in place of Megabonk's character, at its height, facing you, playing its
+standing animation.
 
 If a worn item isn't in your cache, the adventurer is built without it. If the body can't be built at all, you see
 Megabonk's character.
