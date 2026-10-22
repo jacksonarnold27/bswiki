@@ -13,6 +13,38 @@ inside each release's DLL in `dist/`. No version has been published yet: every r
 
 ---
 
+## 0.12.0: the UI pass
+
+*Build 2026-10-22 14:17, code in `6037c77`. Test `9663b475`: publish test, 3 runs x 2 min, passed. Each run opened on
+the title screen. Run 1 the Void Knight on TzHaar City (the side panel, the Fight Caves and Jad), run 2 the Warrior on
+Lumbridge (a chest window with the HUD stepped aside and Megabonk's panels in OSRS browns, the Giant Mole), run 3 the
+Mage on the Wilderness (the upgrade offers in OSRS browns, the King Black Dragon). All 12 self-checks each.*
+
+**Patch notes**
+- OSRS's login screen greets you, read from your own cache: its background, its login box and a combined logo, BONK
+  SCAPE, OLD SCHOOL, with Megabonk's menu functions as its buttons.
+- Your coins and weapons sit in an OSRS inventory in the lower right; F5 (or a click on its tab) opens the prayer book.
+- Megabonk's windows take on OSRS's stone and browns, and the HUD steps aside while one is open.
+- The map select names each map for its first stage again (0.11.0 named the Forest *God Wars Dungeon*).
+
+**Changes**
+- New `Systems/TitleScreen.cs` and `Bonkscape.Cache/TitleArt.cs`: OSRS's title.jpg (decoded with StbImageSharp,
+  vendored in `Bonkscape.Cache/Vendor/StbImageSharp`) and its mirror, the combined logo (BONK cut from Megabonk's logo,
+  read back through a RenderTexture), the login box with Megabonk's main menu functions (`MainMenu.GoTo...`, its
+  language button and Discord link), its splash line, alerts and silver; drawn from `Hud.OnGUI` outside a run while
+  Megabonk's main tab is open, its clicks stopped meanwhile. *Scape Main* with a mute button where the music engine is.
+  New setting `[Interface] TitleScreen` (`true`).
+- New `Systems/Inventory.cs` and `HudLayout.DrawSidePanel`: OSRS's side panel (interface 161:97) with the inventory
+  (coins in slot 1, weapons in the order taken with their Megabonk level, `Content.WeaponItem` for an evolved one) and
+  the prayer book (interface 541 places, keys, points); `MegabonkHud` hides Megabonk's weapon slots; the old prayer
+  panel and coin counter go. New setting `[Interface] PrayerTabKey` (`F5`); optional check `osrs-inventory`.
+- New `Systems/OsrsWindows.cs`: Megabonk's window sprites (DropShadow, BorderOnly, BorderWindow, MyButtonOverlay,
+  MyButtonNew) covered by OSRS's stone (sprite 297) and a two-line border (0x383023, 0x5A5245) four times a second,
+  outside a run or while a window is up. New setting `[Interface] OsrsWindows` (`true`). `Hud.MegabonkWindowUp`: the
+  run HUD draws only the chat box while one is up.
+- `Content`: a map's name is its first stage's row's. `Music.Available` asks for the engine file. The character panel
+  names the adventurer. Scenarios: UI test parts, a window watcher, makeup and music off; `bonk` HUD mock updated.
+
 ## 0.11.0: God Wars
 
 *Build 2026-10-22 11:26, code in `5666b2c`. Test `4f4ef19f`: publish test, 3 runs x 2 min, passed. Run 1 the Ranger

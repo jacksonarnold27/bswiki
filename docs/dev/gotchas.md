@@ -61,6 +61,19 @@ step: MODLOG is the short log, this page explains). Unnumbered ones were found w
 
 ## Megabonk runtime
 
+- **Megabonk's pause menu doesn't stop `Time.timeScale`.** The level-up offers and the encounters do. To know a
+  Megabonk window is up, look for an active `Window` component (pause, chest, encounters), `LevelupScreen.isLevelingUp`
+  and the death screen's `deadUiWindow` (`Hud.MegabonkWindowUp`).
+- **Megabonk's `MainMenu.SetWindow` toggles.** Going to the main tab while it's open switches it off, and the menu then
+  shows no window at all. 0.12's UI test did that with a trailing return to the menu, and the title screen seemed to
+  vanish after a resolution change. A return to the menu now checks the main tab first.
+- **More of uGUI and Unity is stripped than the HUD needed so far** (checked with probes, 0.12): `CanvasGroup`'s
+  `interactable` and `blocksRaycasts` setters (its `alpha` is fine), `Sprite.Create`, `Texture2D.Apply(bool)`,
+  `ImageConversion.LoadImage`, `GUI.BeginGroup`/`BeginClip`, `Graphics.CopyTexture` with a region, `Graphics.Blit`
+  with a scale and offset, `RenderTexture.GetTemporary`. Bound and safe: `RawImage`, the `Image` setters,
+  `Behaviour.enabled`, `SetPixels32`, `LoadRawTextureData`, `new RenderTexture`, the plain `Graphics.Blit`,
+  `ReadPixels`, `GetPixels32`. The title screen stops clicks on Megabonk's menu by switching its canvas's
+  `GraphicRaycaster` off; setting the menu tab's own `CanvasGroup` alpha was dropped as unneeded.
 - **Ent3 hovers.** Megabonk's Forest final boss (*Bark Vader*, the God Wars generals' ride) floats as it closes in:
   its enemy object was 15-18 m above the floor while the OSRS model's feet stayed on it (`EnemySkins` plants them).
   With a 3D distance from the adventurer, no general was ever beside them, so Zilyana never attacked and K'ril never

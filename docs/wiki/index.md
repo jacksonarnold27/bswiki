@@ -7,7 +7,7 @@ your own OSRS install while the game starts. Nothing from either game ships with
 
 This wiki says how each system works **in the code as it is now**. It doesn't describe plans as if they were built.
 
-> **Version:** BSWiki matches Bonkscape **0.11.0** (code at `5666b2c`). What changed in each version:
+> **Version:** BSWiki matches Bonkscape **0.12.0** (code at `6037c77`). What changed in each version:
 > [patch notes](../dev/changelog.md). How each version tested: [test history](../dev/testing.md#test-history).
 
 ## Pages
@@ -22,7 +22,7 @@ This wiki says how each system works **in the code as it is now**. It doesn't de
 | [Monsters and bosses](monsters-and-bosses.md) | Who spawns when, combat styles, sizes, the Giant Mole's dig, the Knights of the Round Table, the God Wars generals, the Kalphite Queen, the Barrows brothers, the Fight Caves and TzTok-Jad, PKers and the King Black Dragon |
 | [Prayer](prayer.md) | Protection prayers: keys, drain, how much they block, potions, the prayer bar |
 | [Skills and XP](skills-and-xp.md) | OSRS's XP table, what trains what, saving, unlocks by level, combat level |
-| [HUD and chat](hud-and-chat.md) | Hitsplats, XP drops, chat box, coins, banners, the character select panel |
+| [HUD and chat](hud-and-chat.md) | Hitsplats, XP drops, chat box, the inventory and prayer book, the title screen, Megabonk's windows, the character select panel |
 | [Skilling](skilling.md) | Trees, rocks and fishing spots, and what they give |
 | [Settings](settings.md) | Every config key, its default and what it does |
 | [Known limitations](known-limitations.md) | What isn't there yet, or behaves oddly |

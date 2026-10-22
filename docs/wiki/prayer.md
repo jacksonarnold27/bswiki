@@ -58,16 +58,17 @@ Each kill has a **2.5%** chance to drop a **Prayer potion(4)**. It spins on the 
 within about 9 m, and you drink it when you get close: **7 points + 25% of your maximum**, *"You drink some of your
 prayer potion."*
 
-## The prayer panel
+## The prayer book
 
-At the bottom right of the screen, on a small OSRS stone panel: the three protection prayer icons as in OSRS's prayer
-book, each with its key under it. The active one sits on OSRS's yellow glow and its key turns yellow. When you're out
-of points, the prayers that aren't on are dimmed.
+The side panel's prayer tab, in the lower right (**F5**, `Interface.PrayerTabKey`, or a click on the tab), shows the
+three protection prayers at their places in OSRS's prayer book, each with its key in the corner. The active one sits
+on OSRS's glow and its key turns yellow. When you're out of points, the prayers that aren't on are dimmed. Your points
+show under the book, as *"43 / 52"* ([HUD](hud-and-chat.md#the-side-panel)).
 
 Your prayer points are on the **prayer orb** beside the minimap ([HUD](hud-and-chat.md#in-a-run)): the number is green
 when full, yellow at half and red when empty, and the orb lights up while a prayer is on.
 
-For the first 45 seconds of a run, a hint above the panel reads *"Pray against the icon over a monster: 1 Melee 2
-Missiles 3 Magic"*.
+For the first 45 seconds of a run, a hint above the side panel reads *"Pray against the icon over a monster: 1 Melee 2
+Missiles 3 Magic (F5: prayers)"*.
 
-<!-- sources: src/Bonkscape.Plugin/Systems/Prayer.cs src/Bonkscape.Plugin/Systems/Hud.cs src/Bonkscape.Plugin/Systems/HudLayout.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Combat.cs sheets/prayers.json sheets/drops.json src/Bonkscape.Plugin/Systems/BossFight.cs src/Bonkscape.Plugin/Systems/LavaBurn.cs src/Bonkscape.Plugin/Systems/SetEffects.cs -->
+<!-- sources: src/Bonkscape.Plugin/Systems/Prayer.cs src/Bonkscape.Plugin/Systems/Hud.cs src/Bonkscape.Plugin/Systems/HudLayout.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Combat.cs sheets/prayers.json sheets/drops.json src/Bonkscape.Plugin/Systems/BossFight.cs src/Bonkscape.Plugin/Systems/LavaBurn.cs src/Bonkscape.Plugin/Systems/SetEffects.cs src/Bonkscape.Plugin/Systems/Inventory.cs -->

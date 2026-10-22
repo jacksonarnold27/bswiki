@@ -49,20 +49,21 @@ start Megabonk again."* and the mod stays out of the way.
 1. Start Megabonk the way Melty tells you to. The first start after installing takes longer, because BepInEx
    prepares itself.
 2. While the main menu loads, Bonkscape decodes what it needs from your cache in the background: monsters, the
-   adventurers, items and icons, sprites, fonts, sounds, then the arenas of every map and the bosses' lairs (the Mole's, the Kalphite Lair, the Fight Caves and the King
-   Black Dragon's). Menus work meanwhile; the log line
+   adventurers, items and icons, sprites, fonts, sounds, then the arenas of every map and the bosses' lairs. Menus work meanwhile; the log line
    `OSRS assets ready in ... ms` says how long it took.
-3. On character select, the selected adventurer's OSRS model stands where Megabonk's character would, and a
-   **Bonkscape** panel above it shows your combat level, your skill levels and the weapon that adventurer will start
-   with ([HUD](hud-and-chat.md#character-select-panel)).
-4. Pick an adventurer: **Warrior** (it takes Megabonk's `SirOofie` slot), **Ranger** (`Robinette`), **Mage** (`Fox`),
+3. Megabonk's main menu shows as OSRS's login screen, its buttons running Megabonk's menu
+   ([HUD](hud-and-chat.md#title-screen)); press **Play**.
+4. On character select, the selected adventurer's OSRS model stands where Megabonk's character would, and a
+   panel above it shows that adventurer's name, combat level, skill levels and the weapon he'll start with
+   ([HUD](hud-and-chat.md#character-select-panel)).
+5. Pick an adventurer: **Warrior** (it takes Megabonk's `SirOofie` slot), **Ranger** (`Robinette`), **Mage** (`Fox`),
    **Zerker** (`Calcium`), **Void Knight** (`Athena`) or **Durial321** (`Vlad`); the **Ironman** (`SirChadwell`) and the six
    Barrows brothers are earned ([Adventurers](adventurers.md#unlocking)). Then start a
    run on Megabonk's Forest map, which Bonkscape renames **Lumbridge & Swamp** (its later stages are Ardougne & Seers' Village and the God Wars Dungeon), or its Desert map, which becomes
    **Al Kharid**, then Morytania and TzHaar City on its later stages ([Maps](maps.md#al-kharid)), or its Graveyard map, which
    becomes **the Wilderness** ([Maps](maps.md#the-wilderness)). Bonkscape weapons and gear count as unlocked
    whatever your Megabonk progress is.
-5. Behind OSRS's *Loading - please wait.* screen you're moved into the castle courtyard (on the Desert, Al Kharid). A chat line greets
+6. Behind OSRS's *Loading - please wait.* screen you're moved into the castle courtyard (on the Desert, Al Kharid). A chat line greets
    you: *"Welcome to Lumbridge. Press 1, 2 or 3 to pray against melee, missiles or magic."*
 
 Only the Forest, the Desert and the Graveyard become OSRS maps. Megabonk's other maps aren't fully plain Megabonk, though: Bonkscape edits
@@ -82,4 +83,4 @@ Runs with Bonkscape loaded never upload scores to Megabonk's Steam leaderboards.
 - Log: `BepInEx/LogOutput.log`. Bonkscape's lines start with `[Info   : Bonkscape]`, and every chat message is
   logged too, as `[chat] ...`.
 
-<!-- sources: src/Bonkscape.Cache/OsrsCache.cs src/Bonkscape.Plugin/Plugin.cs src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/Hud.cs src/Bonkscape.Plugin/Patches/CorePatches.cs tools/package.py src/Bonkscape.Plugin/Systems/CharacterSelect.cs src/Bonkscape.Plugin/Systems/Unlocks.cs -->
+<!-- sources: src/Bonkscape.Cache/OsrsCache.cs src/Bonkscape.Plugin/Plugin.cs src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/Hud.cs src/Bonkscape.Plugin/Patches/CorePatches.cs tools/package.py src/Bonkscape.Plugin/Systems/CharacterSelect.cs src/Bonkscape.Plugin/Systems/Unlocks.cs src/Bonkscape.Plugin/Systems/TitleScreen.cs -->

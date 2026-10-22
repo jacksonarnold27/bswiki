@@ -2,7 +2,8 @@
 
 Bonkscape draws an OSRS HUD over Megabonk's, laid out like OSRS's own interfaces and drawn with OSRS's sprites and
 fonts, read from your cache. In a run on one of Bonkscape's maps it hides the Megabonk pieces it replaces: the health bar (on the HUD
-and under your adventurer), the XP bar (its *LVL n* text stays) and the monsters' health bars. They come back when the
+and under your adventurer), the XP bar (its *LVL n* text stays), the monsters' health bars and its weapon slots (the
+tome slots stay). They come back when the
 run ends, so Megabonk's other maps keep their own HUD. Megabonk's timer, kill counter and minimap stay (the minimap
 shows the map's own OSRS minimap). Everything scales with the screen height in whole steps of 540 px: 1x at 720p, 2x at
 1080p, 3x at 1440p, 4x at 4K. Above 720p the chat box is one step smaller.
@@ -20,7 +21,7 @@ The `Debug.OsrsHud` setting turns it off, and with `Debug.HideMegabonkHud` off M
 | **Health bars** | Over a monster's head, and over yours | OSRS's green-over-red bar. A monster's shows for 6 s after you hit it: 30 px wide, 50 for minibosses, 80 for bosses. Yours shows whenever you're below full health, and for 6 s after any hit. |
 | **Style icons** | Over the 10 nearest monsters, above their health bar | The Attack, Ranged or Magic skill icon for the monster's combat style ([Prayer](prayer.md)) |
 | **Hitsplats** | On the body, at half its height as in OSRS: on a monster you hit, and on you when you're hit | OSRS's red hitsplat with the damage (any damage shows as at least 1), the green poison hitsplat for Megabonk's poison damage, or the blue 0 for a hit that missed: a prayer block, or a Megabonk evade or Aegis block. Hits Megabonk's short hit cooldown stops show nothing, and so do hits on a monster already dead. Each lasts 1.2 s, in OSRS's four slots (middle, above, above left, above right); a fifth hit adds its damage into the newest. Megabonk's own floating damage numbers (yours and the monsters') are hidden in Lumbridge. |
-| **Prayer panel** | Bottom right | The three protection prayers on a stone panel with their keys ([Prayer](prayer.md#the-prayer-panel)) |
+| **Side panel** | Lower right | OSRS's side panel with two tabs: the inventory and the prayer book ([below](#the-side-panel)) |
 | **Overhead prayer** | Above your adventurer's health bar | The OSRS overhead icon of the active protection prayer |
 | **Prayer glint** | On the overhead prayer icon | A small sparkle for 0.45 s when your prayer stops or halves a hit |
 | **Minimap frame and compass** | Round Megabonk's minimap | OSRS's minimap frame, with the compass in its socket turning as the camera turns. Drawn only when Bonkscape could measure where Megabonk's minimap is on screen. |
@@ -32,9 +33,50 @@ The `Debug.OsrsHud` setting turns it off, and with `Debug.HideMegabonkHud` off M
 | **Special attack graphics** | At your feet or the target's | The spec's OSRS graphic, rendered from your cache |
 | **Loading screen** | The whole screen | Black with OSRS's *Loading - please wait.* box: when a run starts, after a death restart and when a boss fight moves into its lair, until you stand on the OSRS map ([Maps](maps.md#when-its-built)) |
 | **Death message** | Centre | *"Oh dear, you are dead!"* in large red OSRS text. Megabonk's death screen title says it too. |
-| **Hint** | Above the prayer panel, first 45 s | *"Pray against the icon over a monster: 1 Melee 2 Missiles 3 Magic"* |
+| **Hint** | Above the side panel, first 45 s | *"Pray against the icon over a monster: 1 Melee 2 Missiles 3 Magic (F5: prayers)"* |
 
 Bonkscape doesn't draw a run clock: Megabonk's own timer stays.
+
+While one of Megabonk's windows is up over the run (the level-up offers, the pause menu, a chest, the Shady Guy, a
+shrine, the death screen, or anything that pauses the game), the OSRS HUD steps aside but for the chat box, so
+nothing lies over the window or Megabonk's Stats and Inventory panels beside it.
+
+## The side panel
+
+OSRS's side panel sits in the lower right, with two working tabs in its bottom row at OSRS's places (the other tab
+stones are empty, as on Tutorial Island):
+
+- **Inventory**: your money in the first slot, as OSRS's coin stack for the amount, with the amount in OSRS's colours
+  (yellow, then white with K from 100,000, green with M from 10 million); in TzHaar City the Tokkul stack. Then each
+  weapon you hold, in the order you took it, as its OSRS item (an evolved weapon as its evolution's), with its
+  Megabonk level in the corner where OSRS draws a stack's number. Megabonk's own gold counter and weapon slots are
+  hidden.
+- **Prayer book**: the three protection prayers at their places in OSRS's prayer book, each with its key in the
+  corner; the active one on OSRS's glow and its key in yellow. Out of points, the prayers that aren't on are dimmed.
+  Your prayer points show under the book, as *"43 / 52"*.
+
+**F5** (`Interface.PrayerTabKey`, OSRS's own key for the prayer book) switches between them, or click a tab when
+Megabonk shows the cursor. Each run starts on the inventory.
+
+## Title screen
+
+With `Interface.TitleScreen` on, Megabonk's main menu shows as OSRS's login screen, read from your cache: its
+background, and a combined logo with BONK over OSRS's *SCAPE* and *OLD SCHOOL*, with Megabonk's splash line under it.
+The login box says *"Welcome to Bonkscape"* and holds Megabonk's main menu functions as its buttons: **Play**,
+**Shop**, **Unlocks**, **Quests**, **Settings** and **Exit**, with **Leaderboards**, **Credits**, the language and
+**Discord** under it. Each runs Megabonk's own; a yellow *!* marks a Megabonk alert. Megabonk's silver shows at the top
+right, and the lower right corner names both versions, as *"Bonkscape 0.12.0 - Megabonk ..."*. **Enter** or **Space**
+plays. When one of Megabonk's other screens or windows opens, it shows as Megabonk's own.
+
+The title's music is *Scape Main*, OSRS's login track, on builds with the music engine (not release builds), with
+OSRS's mute button in the box's lower right.
+
+## Megabonk's windows
+
+With `Interface.OsrsWindows` on, Megabonk's windows (its menus, the pause menu, the level-up offers, the shop, a
+chest) take OSRS's look: its stone for their backgrounds and buttons (the buttons darker), its two-line brown border
+for their frames, no drop shadows. Colours that mean something, such as Megabonk's blue for something you can buy and
+its rarity colours, stay. They work as before: only their look changes.
 
 ## Chat box
 
@@ -77,10 +119,11 @@ Every chat line is also written to the BepInEx log as `[chat] ...`.
 
 ## Character select panel
 
-On character select, a **Bonkscape** panel at the top of the screen, in the gap between Megabonk's two windows and
+On character select, a panel at the top of the screen, in the gap between Megabonk's two windows and
 above your adventurer, on OSRS's stone background, shows (drawn a step smaller when it wouldn't fit):
 
-- the **combat level** of the adventurer whose button you're on, locked ones included, as *"Combat Lvl: 3"*
+- the **name** of the adventurer whose button you're on, as OSRS's skills tab shows the player's, and his
+  **combat level**, locked ones included, as *"Combat Lvl: 3"*
   ([Skills](skills-and-xp.md#combat-level)),
 - that adventurer's skills in two columns, each with its icon and level, the panel as wide as its longest skill name,
 - *"Starts with: Dragon scimitar"*, the weapon that adventurer will start with
@@ -103,7 +146,8 @@ and drinking, chopping, mining and fishing.
 
 OSRS **music**: an experimental player plays the map's track (Lumbridge: *Harmony*; Al Kharid: *Al Kharid*; Morytania: *Village*; TzHaar City: *Mor Ul Rek*; the Wilderness: *Wilderness*; Ardougne & Seers' Village: *Knightly*; the God Wars Dungeon: *Armageddon*) from your cache in place of Megabonk's music
 (`Audio.OsrsMusic`), but only with its engine, `OsrsKit.Music.dll`, which release builds don't include; without it
-Megabonk's music plays. OSRS's jingles (level-up, death) aren't built.
+Megabonk's music plays. The [title screen](#title-screen) plays *Scape Main* the same way. OSRS's jingles (level-up,
+death) aren't built.
 
 <!-- gen:audio -->
 | Row | Event | OSRS sound or track | Fallback | Status |
@@ -180,4 +224,4 @@ The OSRS sprites and fonts each element uses (`sheets/ui.json`):
 Two rows aren't drawn although the sheet marks them done: `run_timer` (Bonkscape's OSRS-font clock was removed in
 0.1.7) and `hitsplat_poison` (nothing poisons yet).
 
-<!-- sources: src/Bonkscape.Plugin/Systems/Projectiles.cs src/Bonkscape.Plugin/Systems/Skilling.cs src/Bonkscape.Plugin/Systems/Music.cs src/Bonkscape.Plugin/Systems/Hud.cs src/Bonkscape.Plugin/Systems/HudLayout.cs src/Bonkscape.Plugin/Systems/OsrsUi.cs src/Bonkscape.Plugin/Systems/MegabonkHud.cs src/Bonkscape.Plugin/Systems/LevelUpFx.cs src/Bonkscape.Cache/SpotAnimFrames.cs src/Bonkscape.Plugin/Systems/Chat.cs src/Bonkscape.Plugin/Systems/Evolutions.cs src/Bonkscape.Plugin/Systems/CharacterSelect.cs src/Bonkscape.Plugin/Systems/Combat.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Sfx.cs src/Bonkscape.Plugin/Core/OsrsAudio.cs src/Bonkscape.Plugin/Patches/CorePatches.cs sheets/ui.json sheets/audio.json src/Bonkscape.Plugin/Systems/BossFight.cs src/Bonkscape.Plugin/Systems/LavaBurn.cs src/Bonkscape.Plugin/Systems/Unlocks.cs src/Bonkscape.Plugin/Systems/Arena.cs src/Bonkscape.Plugin/Core/Runner.cs src/Bonkscape.Plugin/Core/Osrs.cs src/Bonkscape.Plugin/Systems/Barrows.cs src/Bonkscape.Plugin/Systems/SecondForm.cs src/Bonkscape.Plugin/Systems/Pkers.cs src/Bonkscape.Plugin/Systems/Graveyard.cs -->
+<!-- sources: src/Bonkscape.Plugin/Systems/Projectiles.cs src/Bonkscape.Plugin/Systems/Skilling.cs src/Bonkscape.Plugin/Systems/Music.cs src/Bonkscape.Plugin/Systems/Hud.cs src/Bonkscape.Plugin/Systems/HudLayout.cs src/Bonkscape.Plugin/Systems/OsrsUi.cs src/Bonkscape.Plugin/Systems/MegabonkHud.cs src/Bonkscape.Plugin/Systems/LevelUpFx.cs src/Bonkscape.Cache/SpotAnimFrames.cs src/Bonkscape.Plugin/Systems/Chat.cs src/Bonkscape.Plugin/Systems/Evolutions.cs src/Bonkscape.Plugin/Systems/CharacterSelect.cs src/Bonkscape.Plugin/Systems/Combat.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Sfx.cs src/Bonkscape.Plugin/Core/OsrsAudio.cs src/Bonkscape.Plugin/Patches/CorePatches.cs sheets/ui.json sheets/audio.json src/Bonkscape.Plugin/Systems/BossFight.cs src/Bonkscape.Plugin/Systems/LavaBurn.cs src/Bonkscape.Plugin/Systems/Unlocks.cs src/Bonkscape.Plugin/Systems/Arena.cs src/Bonkscape.Plugin/Core/Runner.cs src/Bonkscape.Plugin/Core/Osrs.cs src/Bonkscape.Plugin/Systems/Barrows.cs src/Bonkscape.Plugin/Systems/SecondForm.cs src/Bonkscape.Plugin/Systems/Pkers.cs src/Bonkscape.Plugin/Systems/Graveyard.cs src/Bonkscape.Plugin/Systems/Inventory.cs src/Bonkscape.Plugin/Systems/TitleScreen.cs src/Bonkscape.Plugin/Systems/OsrsWindows.cs src/Bonkscape.Cache/TitleArt.cs -->

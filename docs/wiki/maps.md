@@ -208,8 +208,8 @@ What's different:
   so it shows as a hitsplat, and no prayer stops it. The first burn of a run says *"The lava's heat burns you!"* The
   middle of a one-tile bridge is half a tile from the lava on each side, so walking across is safe. *(unconfirmed:
   needs a Melty run or footage)*
-- **Tokkul instead of coins.** Megabonk's gold is drawn as OSRS's Tokkul, on the ground and flying to you, and the
-  [coin counter](hud-and-chat.md#in-a-run) says *Tokkul*.
+- **Tokkul instead of coins.** Megabonk's gold is drawn as OSRS's Tokkul, on the ground, flying to you and in your
+  [inventory](hud-and-chat.md#the-side-panel)'s first slot.
 - **TzHaar-Hur-Tel.** Megabonk's Shady Guy, the merchant, is drawn as TzHaar-Hur-Tel (NPC 2183), as tall as your
   adventurer. Like the Shady Guy, he won't trade with an [Ironman](adventurers.md#special-rules). *(unconfirmed: needs a Melty run or footage)*
 - **Harder monsters.** Its difficulty is 1, but as on any later stage, Megabonk's own stage scaling multiplies every

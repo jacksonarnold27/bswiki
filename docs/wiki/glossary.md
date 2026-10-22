@@ -16,6 +16,7 @@
 | **Attack style** | How a melee attack trains: accurate (Attack), aggressive (Strength) or defensive (Defence). |
 | **Protection prayer** | A prayer that blocks one combat style: Protect from Melee, Missiles or Magic. |
 | **Hitsplat** | The small marker with a damage number over whoever was hit. Red for damage, blue for 0. |
+| **Side panel** | OSRS's panel of tabs in the lower right: in Bonkscape, the inventory and the prayer book. |
 | **XP drop** | The `+XP` that floats up the screen when you gain experience. |
 | **Game tick** | OSRS's 0.6-second heartbeat. Bonkscape groups XP drops per tick. |
 | **Combat level** | One number summing up your combat skills, worked out with OSRS's formula. |

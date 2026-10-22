@@ -38,6 +38,7 @@ What isn't there yet, or behaves differently from what you'd expect. The [docket
 - **Textured surfaces use one colour**, the average of their OSRS texture.
 - **Spell casts don't stop you.** In OSRS you stand still to cast; here the cast plays on the upper body while your
   legs keep moving.
+- **Megabonk's chest window** keeps its own teal background; the other windows take OSRS's stone and borders.
 - **Hitboxes are Megabonk's.** Megabonk's enemy hitboxes are tall capsules, often taller than the OSRS model drawn
   for them, so a hit can land a little outside a monster's shape.
 - **The King Black Dragon's breaths** freeze for 3 s (6 s in OSRS), and his shocking breath slows you instead of

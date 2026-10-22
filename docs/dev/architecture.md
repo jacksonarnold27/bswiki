@@ -1,7 +1,7 @@
 # Architecture
 
 Bonkscape is a BepInEx 6 IL2CPP plugin for Megabonk (Unity 2023.2.22f1, IL2CPP, build 1.0.69) that reads the player's
-Old School RuneScape cache at run time. Nothing from either game is shipped. Written against **0.11.0** (`5666b2c`).
+Old School RuneScape cache at run time. Nothing from either game is shipped. Written against **0.12.0** (`6037c77`).
 
 ## Projects
 
@@ -395,7 +395,10 @@ into data fields instead), `music` (`MusicController.PlayMusicTrack`: no music s
 | `Systems/Loot.cs` | Coins, food, caskets, prayer potions |
 | `Systems/Evolutions.cs` | Evolutions on casket open |
 | `Systems/Hud.cs`, `Chat.cs`, `CharacterSelect.cs` | The OSRS HUD: what to show, from the game's state. `CharacterSelect` also hides the menu's `PlayerRenderer` and stands the adventurer's OSRS model in its place (its height and feet, facing the camera, the stand animation), and measures the free gap between Megabonk's windows (`FindGap`, over the top 3-45% of the screen) for `HudLayout.DrawCharacterPanel` |
-| `Systems/HudLayout.cs` | The HUD's layout and drawing from OSRS's interfaces (160 orbs, 122 XP counter, 162 chatbox, 233 level-up dialogue, 541 prayer book, 161 minimap frame), sprite ids in `UiSprite`. No Unity: also compiled into `bonk.exe` for `uisprites mock`. |
+| `Systems/HudLayout.cs` | The HUD's layout and drawing from OSRS's interfaces (160 orbs, 122 XP counter, 162 chatbox, 233 level-up dialogue, 541 prayer book, 161 minimap frame and side panel, 149 inventory), sprite ids in `UiSprite`. No Unity: also compiled into `bonk.exe` for `uisprites mock`. |
+| `Systems/OsrsWindows.cs` | Megabonk's windows in OSRS's browns and stone (0.12): one pass over the active Images and texture-less RawImages by sprite name, covers laid over backgrounds and frames, Megabonk's own button colours retinted; nothing moved, so clicks and layout stay (`docs/design/ui-style.md`, *Megabonk's windows*) |
+| `Systems/TitleScreen.cs` | The title screen (0.12): OSRS's login screen (`title.jpg` and its mirror, logo, login box) over Megabonk's main menu while its main tab is open; the buttons run Megabonk's own `MainMenu.GoTo...`, `ExitGame`, language button and Discord link; Megabonk's menu stays underneath with its canvas's raycaster off. `HudLayout.DrawTitle` lays it out; `Bonkscape.Cache/TitleArt.cs` decodes the JPEG with the vendored StbImageSharp |
+| `Systems/Inventory.cs` | The OSRS side panel (0.12): the inventory tab (coins in the first slot, the weapons in the order taken with their Megabonk levels; `MegabonkHud` hides Megabonk's weapon slots) and the prayer book tab, switched by F5 or a click on its tab |
 | `Systems/OsrsUi.cs` | IMGUI canvas for `HudLayout`; loads its sprites and fonts; measures Megabonk's minimap |
 | `Systems/MegabonkHud.cs` | Hides Megabonk's health bars, XP bar and enemy health bars in a run and restores them after; reads run XP progress and the ability cooldown |
 | `Systems/LevelUpFx.cs` | OSRS level-up fireworks (spot animation 199) as a flipbook at the adventurer's feet |
