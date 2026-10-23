@@ -2,8 +2,7 @@
 
 Bonkscape's settings are in **`BepInEx/config/gg.melty.bonkscape.cfg`** in Megabonk's folder. BepInEx writes the file,
 with every key at its default, the first time Megabonk starts with Bonkscape. Edit it with Megabonk closed: settings
-are read once, when the game starts. For the `Models`, `Camera`, `Minimap` and `Map` number keys, a value outside the range is clamped to the
-nearest end.
+are read once, when the game starts. For every number key but `Audio.OsrsVolume`, a value outside the range is clamped to the nearest end.
 
 | Section | Key | Default | Range | What it does |
 |---|---|---|---|---|
@@ -27,7 +26,7 @@ nearest end.
 | `Audio` | `OsrsVolume` | `0.55` | 0 to 1 | Volume of OSRS sound effects (0 = silent). Not clamped, so keep it in range. |
 | `Audio` | `OsrsMusic` | `true` | true or false | EXPERIMENTAL: play each map's OSRS track from your cache (Lumbridge: Harmony) instead of Megabonk's music. Needs `OsrsKit.Music.dll`, which release builds don't include, so in a release it does nothing. |
 | `Audio` | `OsrsMusicVolume` | `1` | 0 to 2 | OSRS music volume relative to Megabonk's own music volume setting. |
-| `Interface` | `OsrsWindows` | `true` | true or false | Give Megabonk's windows OSRS's look: its menus, character and map select, settings, the pause menu, level-up offers, shop and chest get OSRS's stone backgrounds, its two-line borders and stone buttons in place of their own; every button works as before. Off: Megabonk's look. |
+| `Interface` | `OsrsWindows` | `true` | true or false | Give Megabonk's windows OSRS's look: its menus, character and map select, settings, the pause menu, level-up offers and shop get OSRS's stone backgrounds, its two-line borders and stone buttons in place of their own (a chest window keeps its teal background: [Known limitations](known-limitations.md)); every button works as before. Off: Megabonk's look. |
 | `Interface` | `TitleScreen` | `true` | true or false | Show OSRS's login screen (its background, logo and login box, from your OSRS cache) in place of Megabonk's main menu. Its buttons run Megabonk's own menu functions: Play, Shop, Unlocks, Quests, Settings, Exit, Leaderboards, Credits, Language, Discord; Enter or Space plays. Off: Megabonk's main menu. |
 | `Interface` | `PrayerTabKey` | `F5` | a Unity key name | Key that switches the side panel (bottom right) between the inventory and the prayer book, as OSRS's F5 does; a click on a tab works too. |
 | `Interface` | `AttackStyleKey` | `F1` | a Unity key name | Key that switches to your next attack style, which decides the skill your hits train (melee: Accurate trains Attack, Aggressive Strength, Defensive Defence, Controlled all three; ranged: Accurate, Rapid, Longrange; magic: casting, defensive casting). It shows the combat tab for a few seconds; a click on the combat tab (the crossed swords) opens it, and a click on a style picks it. Your style is kept per adventurer. F1 is OSRS's own key for the combat tab. |

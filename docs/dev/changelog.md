@@ -13,6 +13,37 @@ inside each release's DLL in `dist/`. No version has been published yet: every r
 
 ---
 
+## 0.15.1: each map's own minimap
+
+*Build 2026-10-22 23:42, code in `ea7f26f`. Test `f88f7062`: publish test, 3 runs x 2 min, passed. Run 1 the Ranger on
+Lumbridge (a clue, the willow shortbow's combat tab, the Abyssal tentacle, the Giant Mole's lair), run 2 on the
+Wilderness (a clue, the dragon scimitar's tab, the tentacle, the boss door into the King Black Dragon's lair), run 3 on
+Al Kharid in Ahrim's robes (Ice Barrage, a clue, the whip's tab, a Charge Shrine window, the Kalphite Queen's lair).
+Each lair showed its own minimap. All 12 self-checks each.*
+
+**Patch notes**
+- Every map and boss lair shows its own minimap. Before, every arena after the first one you played since starting
+  the game showed that first one's minimap: a run's later stages and the bosses' lairs included.
+- The settings file's description of `[Map] RealLumbridge` names all seven maps.
+
+**Changes**
+- `Arena`: the minimap's texture and its icon atlas are cached by the arena's own minimap
+  (`UnityConv.ToTexture(("arena minimap", m), ...)`); one constant key gave every later arena the first one's.
+  `Arena.Clear` destroys the minimap's meshes and materials (a GameObject's `Destroy` leaves them).
+- Suites: `TestMode.BetweenScenarios` (a suite's next scenario has asked for the menu, and its run isn't requested
+  yet). `Runner` starts no run on the ending stage, and `TestMode.Pass`, `Fail` and the run clock ignore it (it passed
+  the next scenario's `run-started`, `xp-drop` and `monster-animated`, and a pet following or a hit). `NextScenario`
+  clears `runRequested` first, then reads every adventurer's levels from its save again (`Skills.Load`) and puts the
+  next scenario's `seed_levels` back (`Scenario.ApplySeeds`): one scenario's preset levels no longer reach the next.
+- `[Map] RealLumbridge`'s description names all seven maps; the special attacks' code comments say 0.4.
+- `hooks.json`: the purposes of `run_started`, `gold_hud`, `arena_spawn_bounds`, `stage_name` and `enemy_pathing`
+  describe every map, not Lumbridge alone; `arena_spawn_bounds` and `enemy_pathing` serve `maps.*`.
+- Tools: `loop.py` asks whether a silent game's window still responds at most every 10 s, stops a hang report after
+  180 s, counts only each suite row's own warnings and errors, and lists every scenario of a suite that never got going
+  (hung or unfinished, then not run); `hang_report.ps1` opens threads with `THREAD_QUERY_LIMITED_INFORMATION` alone;
+  `package.py` refuses before writing anything when a file it ships is missing (exit 7). `check_docs.py` has the Paths
+  check: no path from this PC in the pages BSWiki publishes.
+
 ## 0.15.0: review and cleanup
 
 *Build 2026-10-22 22:45, code in `08c0e87`. Test `932a78bf`: publish test, 3 runs x 2 min, passed. Run 1 on Ardougne &

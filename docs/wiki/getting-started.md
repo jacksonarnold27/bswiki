@@ -81,7 +81,8 @@ Runs with Bonkscape loaded never upload scores to Megabonk's Steam leaderboards.
 ## Where your progress lives
 
 - Skills: `%LOCALAPPDATA%\Bonkscape\skills_<adventurer>.json`, one per adventurer ([Skills and XP](skills-and-xp.md#saving)).
-- Unlocks (the Fire cape, Barrows pieces, pets and the pet out): `%LOCALAPPDATA%\Bonkscape\unlocks.json`.
+- Unlocks (the Fire cape, Barrows pieces, pets and the pet out) and each adventurer's attack style:
+  `%LOCALAPPDATA%\Bonkscape\unlocks.json`.
 - Settings: `BepInEx/config/gg.melty.bonkscape.cfg` in Megabonk's folder ([Settings](settings.md)).
 - Log: `BepInEx/LogOutput.log`. Bonkscape's lines start with `[Info   : Bonkscape]`, and every chat message is
   logged too, as `[chat] ...`.

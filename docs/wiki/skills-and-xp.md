@@ -77,7 +77,8 @@ Woodcutting 25, Mining 17.5 and Fishing 10 ([Skilling](skilling.md)).
 - On a level-up, the chat box says *"Congratulations, you just advanced a Strength level. You are now level 41."* and
   OSRS's level-up sound plays. OSRS's level-up dialogue then covers the chat box for 3 s (*"Congratulations, you just
   advanced a Strength level."*, *"Your Strength level is now 41."*) and OSRS's level-up fireworks play at your feet.
-  (OSRS's level-up jingle is planned: the experimental music engine plays only the maps' tracks.)
+  (OSRS's level-up jingle is planned: the experimental music engine plays only the maps' tracks and the title
+  screen's Scape Main.)
 
 ## Unlocks by level
 

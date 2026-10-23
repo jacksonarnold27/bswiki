@@ -7,7 +7,7 @@ your own OSRS install while the game starts. Nothing from either game ships with
 
 This wiki says how each system works **in the code as it is now**. It doesn't describe plans as if they were built.
 
-> **Version:** BSWiki matches Bonkscape **0.15.0** (code at `08c0e87`). What changed in each version:
+> **Version:** BSWiki matches Bonkscape **0.15.1** (code at `ea7f26f`). What changed in each version:
 > [patch notes](../dev/changelog.md). How each version tested: [test history](../dev/testing.md#test-history).
 
 ## Pages
@@ -17,7 +17,7 @@ This wiki says how each system works **in the code as it is now**. It doesn't de
 | [Getting started](getting-started.md) | What you need, installing through Melty, the first launch |
 | [Maps](maps.md) | Lumbridge, Ardougne & Seers' Village, the God Wars Dungeon, Al Kharid, Morytania, TzHaar City and the Wilderness: what's built from your cache, spawn, portals, lava, minimap, see-through walls |
 | [Adventurers](adventurers.md) | The fourteen adventurers: unlocks, special rules, starting weapons, stats, looks and size |
-| [Weapons and evolutions](weapons-and-evolutions.md) | Every weapon, its Megabonk behaviour and level-ups; caskets and the two evolutions |
+| [Weapons and evolutions](weapons-and-evolutions.md) | Every weapon, its Megabonk behaviour and level-ups; caskets and the three evolutions |
 | [Gear passives](gear-passives.md) | The OSRS gear that replaces Megabonk's tomes, one item per slot, and the Fire cape |
 | [Monsters and bosses](monsters-and-bosses.md) | Who spawns when, combat styles, sizes, the Giant Mole's dig, the Knights of the Round Table, the God Wars generals, the Kalphite Queen, the Barrows brothers, the Fight Caves and TzTok-Jad, PKers and the King Black Dragon, boss pets, clue scrolls |
 | [Prayer](prayer.md) | Protection prayers: keys, drain, how much they block, potions, the prayer bar |

@@ -20,13 +20,13 @@ The `Debug.OsrsHud` setting turns it off, and with `Debug.HideMegabonkHud` off M
 | **XP drops** | Rising from under the XP counter into it | The skill icon and the amount, for about 2 s, grouped per 0.6 s tick ([Skills](skills-and-xp.md#xp-drops-and-level-ups)). Drops from the same tick line up under each other. |
 | **Health bars** | Over a monster's head, and over yours | OSRS's green-over-red bar. A monster's shows for 6 s after you hit it: 30 px wide, 50 for minibosses, 80 for bosses. Yours shows whenever you're below full health, and for 6 s after any hit. |
 | **Style icons** | Over the 10 nearest monsters, above their health bar | The Attack, Ranged or Magic skill icon for the monster's combat style ([Prayer](prayer.md)) |
-| **Hitsplats** | On the body, at half its height as in OSRS: on a monster you hit, and on you when you're hit | OSRS's red hitsplat with the damage (any damage shows as at least 1), the green poison hitsplat for Megabonk's poison damage, or the blue 0 for a hit that missed: a prayer block, or a Megabonk evade or Aegis block. Hits Megabonk's short hit cooldown stops show nothing, and so do hits on a monster already dead. Each lasts 1.2 s, in OSRS's four slots (middle, above, above left, above right); a fifth hit adds its damage into the newest. Megabonk's own floating damage numbers (yours and the monsters') are hidden in Lumbridge. |
+| **Hitsplats** | On the body, at half its height as in OSRS: on a monster you hit, and on you when you're hit | OSRS's red hitsplat with the damage (any damage shows as at least 1), the green poison hitsplat for Megabonk's poison damage, or the blue 0 for a hit that missed: a prayer block, or a Megabonk evade or Aegis block. Hits Megabonk's short hit cooldown stops show nothing, and so do hits on a monster already dead. Each lasts 1.2 s, in OSRS's four slots (middle, above, above left, above right); a fifth hit adds its damage into the newest. Megabonk's own floating damage numbers (yours and the monsters') are hidden on Bonkscape's maps. |
 | **Side panel** | Lower right | OSRS's side panel with two tabs: the inventory and the prayer book ([below](#the-side-panel)) |
 | **Overhead prayer** | Above your adventurer's health bar | The OSRS overhead icon of the active protection prayer |
 | **Prayer glint** | On the overhead prayer icon | A small sparkle for 0.45 s when your prayer stops or halves a hit |
 | **Minimap frame and compass** | Round Megabonk's minimap | OSRS's minimap frame, with the compass in its socket turning as the camera turns. Drawn only when Bonkscape could measure where Megabonk's minimap is on screen. |
 | **Skilling markers** | Over usable trees, rocks and fishing spots within 10 tiles | The skill's icon (Woodcutting, Mining or Fishing), with a progress bar under it while you gather; gone while the spot comes back ([Skilling](skilling.md)) |
-| **Coins** | Left side, about a third down | The OSRS coin stack for your amount, the amount in OSRS's colours (yellow, then white with K from 100,000, green with M from 10 million) and "Coins"; in TzHaar City the Tokkul stack and "Tokkul" ([Maps](maps.md#tzhaar-city)). Megabonk's own gold number and icon are hidden. |
+| **Coins** | The side panel's inventory, first slot | The OSRS coin stack for your amount, the amount in OSRS's colours ([The side panel](#the-side-panel)); in TzHaar City the Tokkul stack ([Maps](maps.md#tzhaar-city)). Megabonk's own gold number and icon are hidden. |
 | **Chat box** | Bottom left corner | See [below](#chat-box) |
 | **Level-up** | Chat box, and at your feet | OSRS's level-up dialogue covers the chat box for 3 s: *"Congratulations, you just advanced a Strength level."*, *"Your Strength level is now 41."* and *"Click here to continue"*, with the skill's icon. OSRS's level-up fireworks play at your adventurer's feet, and keep playing while Megabonk's level-up window pauses the game. |
 | **Evolution** | Chat box | The new weapon's name, like *"Fire Surge!"*, as a dialogue for 3.5 s |
@@ -34,7 +34,7 @@ The `Debug.OsrsHud` setting turns it off, and with `Debug.HideMegabonkHud` off M
 | **Loading screen** | The whole screen | Black with OSRS's *Loading - please wait.* box: when a run starts, after a death restart and when a boss fight moves into its lair, until you stand on the OSRS map ([Maps](maps.md#when-its-built)) |
 | **Death message** | Centre | *"Oh dear, you are dead!"* in large red OSRS text. Megabonk's death screen title says it too. |
 | **Clue hint** | Under the minimap, while a clue trail is going | The current step's hint; OSRS's yellow hint arrow over the spot and an arrow on the minimap ([Clue scrolls](monsters-and-bosses.md#clue-scrolls)) |
-| **Hint** | Above the side panel, first 45 s | *"Pray against the icon over a monster: 1 Melee 2 Missiles 3 Magic (F5: prayers, F1: attack style)"* |
+| **Hint** | Above the side panel, first 45 s | *"Pray against the icon over a monster: 1 Melee  2 Missiles  3 Magic  (F5: prayers, F1: attack style)"* |
 
 Bonkscape doesn't draw a run clock: Megabonk's own timer stays.
 
@@ -79,10 +79,11 @@ OSRS's mute button in the box's lower right.
 
 ## Megabonk's windows
 
-With `Interface.OsrsWindows` on, Megabonk's windows (its menus, the pause menu, the level-up offers, the shop, a
-chest) take OSRS's look: its stone for their backgrounds and buttons (the buttons darker), its two-line brown border
+With `Interface.OsrsWindows` on, Megabonk's windows (its menus, the pause menu, the level-up offers, the shop) take
+OSRS's look: its stone for their backgrounds and buttons (the buttons darker), its two-line brown border
 for their frames, no drop shadows. Colours that mean something, such as Megabonk's blue for something you can buy and
-its rarity colours, stay. They work as before: only their look changes.
+its rarity colours, stay. They work as before: only their look changes. A chest window keeps its own teal background
+([Known limitations](known-limitations.md)).
 
 ## Chat box
 
@@ -233,7 +234,8 @@ The OSRS sprites and fonts each element uses (`sheets/ui.json`):
 | `dialogue_font` | font | `font:q8_full` | level-up dialogue (interface 233) | chatbox | <span class="st st-verified">verified</span> |
 <!-- /gen:ui -->
 
-`hitsplat_poison` is built but never drawn: no hit on a monster counts as poison yet. `run_timer` is planned
+`hitsplat_poison` is drawn for a weapon hit Megabonk marks as poison; no test run has shown one yet *(unconfirmed:
+needs a Melty run or footage)*. `run_timer` is planned
 (phase 3); Megabonk's own timer shows meanwhile.
 
 <!-- sources: src/Bonkscape.Plugin/Systems/Projectiles.cs src/Bonkscape.Plugin/Systems/Skilling.cs src/Bonkscape.Plugin/Systems/Music.cs src/Bonkscape.Plugin/Systems/Hud.cs src/Bonkscape.Plugin/Systems/HudLayout.cs src/Bonkscape.Plugin/Systems/OsrsUi.cs src/Bonkscape.Plugin/Systems/MegabonkHud.cs src/Bonkscape.Plugin/Systems/LevelUpFx.cs src/Bonkscape.Plugin/Systems/Chat.cs src/Bonkscape.Plugin/Systems/Evolutions.cs src/Bonkscape.Plugin/Systems/CharacterSelect.cs src/Bonkscape.Plugin/Systems/Combat.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Sfx.cs src/Bonkscape.Plugin/Core/OsrsAudio.cs src/Bonkscape.Plugin/Patches/CorePatches.cs sheets/ui.json sheets/audio.json src/Bonkscape.Plugin/Systems/BossFight.cs src/Bonkscape.Plugin/Systems/LavaBurn.cs src/Bonkscape.Plugin/Systems/Unlocks.cs src/Bonkscape.Plugin/Systems/Arena.cs src/Bonkscape.Plugin/Core/Runner.cs src/Bonkscape.Plugin/Core/Osrs.cs src/Bonkscape.Plugin/Systems/Barrows.cs src/Bonkscape.Plugin/Systems/SecondForm.cs src/Bonkscape.Plugin/Systems/Pkers.cs src/Bonkscape.Plugin/Systems/Graveyard.cs src/Bonkscape.Plugin/Systems/Inventory.cs src/Bonkscape.Plugin/Systems/TitleScreen.cs src/Bonkscape.Plugin/Systems/OsrsWindows.cs src/Bonkscape.Plugin/Systems/TitleArt.cs src/Bonkscape.Plugin/Systems/Pets.cs src/Bonkscape.Plugin/Systems/Clues.cs src/Bonkscape.Plugin/Systems/AttackStyles.cs -->

@@ -278,8 +278,8 @@ step: MODLOG is the short log, this page explains). Unnumbered ones are on this 
 - **The preflight writes generated code even when it has phase-1 findings.** Check its exit code (4 = open items).
 - **Give every new patch its `sheets/hooks.json` row.** The preflight checks that each row's target still exists in
   Megabonk's code, so a patch without a row goes unchecked; and nothing compares the sheet with the code (`check_docs`
-  compares the code with [Architecture's patch table](architecture.md#harmony-patches) only). Until 0.15 ten patches
-  had no row.
+  compares the code with [Architecture's patch table](architecture.md#harmony-patches) only). Until 0.15 (`9a86133`)
+  six patches had no row, seven rows gave the wrong method or patch kind, and one (`timer`) matched no patch.
 - **Starting weapons are set in the `DataManager.Load` postfix**, once per game start; the character select panel
   computes them live, so it can show a weapon the run doesn't give until Megabonk restarts (untested).
 

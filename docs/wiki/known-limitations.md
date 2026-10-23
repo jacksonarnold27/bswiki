@@ -52,8 +52,8 @@ These only show up in Melty's automated test runs (autoplay):
 
 - Autoplay checks two tiles ahead on the map's grid and turns along walls; whether that stops it pressing into
   walls is *(unconfirmed: needs footage)*.
-- Autoplay plays the adventurers this PC has unlocked in turn, and the maps in turn (Lumbridge, Ardougne & Seers'
-  Village, the God Wars Dungeon, Al Kharid, Morytania, TzHaar City, the Wilderness). A run on a later stage (Ardougne & Seers' Village, the God Wars Dungeon, Morytania, TzHaar City) starts on its Megabonk map's first stage
+- Autoplay plays the adventurers this PC has unlocked in turn, and the maps in turn (Lumbridge, the Wilderness,
+  Al Kharid, Morytania, Ardougne & Seers' Village, the God Wars Dungeon, TzHaar City). A run on a later stage (Ardougne & Seers' Village, the God Wars Dungeon, Morytania, TzHaar City) starts on its Megabonk map's first stage
   and moves to its own a second in;
   since its adventurer arrives without the levels the earlier stages bring, monsters there get their HP and hits
   without Megabonk's stage scaling.

@@ -93,15 +93,18 @@ public repo [jacksonarnold27/bswiki](https://github.com/jacksonarnold27/bswiki) 
 holds only the exported wiki; Bonkscape's own repo stays private. Its local clone sits beside this repo, as `bswiki`
 (`hub.json`'s `site`, `{root}/../bswiki`), and its commits use the GitHub no-reply address, not your e-mail.
 
-**To update it** after editing the docs (also on the hub's Commands card):
+**Who updates it, and how:** the main Bonkscape session, after each release's wiki-update is committed. It exports
+from a clean worktree of HEAD, so other sessions' unfinished edits in the shared checkout never go public:
 
-```
-python tools/hub/export_wiki.py --with-dev --out ../bswiki --push
-```
+1. `git worktree add --detach <scratch folder>/bsw-head HEAD`
+2. In that worktree: `python -I tools/hub/export_wiki.py --with-dev --out <the bswiki clone> --push`, naming the
+   clone by its full path (`../bswiki` would point beside the worktree, not beside this repo).
+3. `git worktree remove <scratch folder>/bsw-head`
 
-Run it from the repo root (from a worktree elsewhere, give the clone's full path). It exports, commits in that clone
-and pushes; the site changes a minute or two later. Nothing is pushed
-when the export hasn't changed.
+The export commits in the clone and pushes; the site changes a minute or two later, and nothing is pushed when the
+export hasn't changed. The hub's Commands card has the short form (`export_wiki.py --with-dev --out {site}
+--push`, `{site}` being the clone beside this repo): it exports this checkout's working tree as it is, other sessions'
+edits included, so use it only when nobody else is editing the docs.
 
 **What the export holds:** the wiki site's `index.html`, `app.js` (its paths made relative, so it works in a
 subfolder) and `style.css`, the Markdown pages, `api/nav` and `api/pages` (what the local server's API returns), plus
@@ -112,7 +115,8 @@ local site page for page. Without `--with-dev` it's the player pages only; `--se
 
 **Never online:** map tiles, sprites, models, renders or anything else read from the OSRS cache or Megabonk. The
 export is text only and refuses a page that embeds an image or any other file. Anything written in `docs/wiki` or
-`docs/dev` goes public with the next update, so keep personal paths and private notes out of those pages.
+`docs/dev` goes public with the next update, so keep personal paths and private notes out of those pages (the docs
+check's [Paths](updating-docs.md#the-docs-checker) rule fails on a path from this PC).
 
 For a private copy instead, Cloudflare Pages can serve the same export
 (`npx wrangler pages deploy build/bswiki-site --project-name bswiki`) behind a Cloudflare Access application (Zero

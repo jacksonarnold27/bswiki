@@ -91,7 +91,7 @@ Each adventurer is built from OSRS player parts in your cache: the male identity
 torso, arms, hands, legs, feet) plus the worn items above, which hide the parts they cover, in the kits' own colours.
 It plays OSRS's player animations:
 
-- **standing** (808) when you're still (the Barrows brothers have their own standing and walking animations);
+- **standing** (808) when you're still (the Barrows brothers but Torag have their own standing and walking animations);
 - **walking** (819) or **running** (824) by how fast you really move: running from 1.5 times OSRS's walking speed at
   the model's size, each cycle sped up or slowed to match;
 - each weapon's OSRS **attack** when it fires ([Weapons](weapons-and-evolutions.md)), on the upper body while the legs

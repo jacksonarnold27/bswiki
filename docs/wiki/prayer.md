@@ -69,7 +69,7 @@ show under the book, as *"43 / 52"* ([HUD](hud-and-chat.md#the-side-panel)).
 Your prayer points are on the **prayer orb** beside the minimap ([HUD](hud-and-chat.md#in-a-run)): the number is green
 when full, yellow at half and red when empty, and the orb lights up while a prayer is on.
 
-For the first 45 seconds of a run, a hint above the side panel reads *"Pray against the icon over a monster: 1 Melee 2
-Missiles 3 Magic (F5: prayers)"*.
+For the first 45 seconds of a run, a hint above the side panel reads *"Pray against the icon over a monster: 1 Melee  2
+Missiles  3 Magic  (F5: prayers, F1: attack style)"*.
 
 <!-- sources: src/Bonkscape.Plugin/Systems/Prayer.cs src/Bonkscape.Plugin/Systems/Hud.cs src/Bonkscape.Plugin/Systems/HudLayout.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Combat.cs sheets/prayers.json sheets/drops.json src/Bonkscape.Plugin/Systems/BossFight.cs src/Bonkscape.Plugin/Systems/LavaBurn.cs src/Bonkscape.Plugin/Systems/SetEffects.cs src/Bonkscape.Plugin/Systems/Inventory.cs -->

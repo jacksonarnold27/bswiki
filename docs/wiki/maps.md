@@ -34,7 +34,7 @@ What's built:
 - **Collision**: see [What blocks you](#what-blocks-you).
 - **Minimap**: Lumbridge's own OSRS minimap, rendered from the cache, replaces Megabonk's minimap, zoomed in 2.5x
   towards OSRS's scale (`Minimap.Zoom`). Its map icons (trees, rocks, and map functions such as banks or altars) stay
-  upright as the minimap turns, as in OSRS.
+  upright as the minimap turns, as in OSRS. Every other map and boss lair shows its own minimap the same way.
 - **See-through walls**: see [below](#see-through-walls).
 - **Draw distance**: scenery and walls more than 200 m from your adventurer aren't drawn (`Map.DrawDistance`; 0
   draws everything); the ground always is. They're still solid.
@@ -52,7 +52,7 @@ with it, so there's room to run. See [Adventurers](adventurers.md#size).
 
 1. While the main menu loads, every map's world data (tiles, scenery, colliders) and minimap are built in the
    background from your cache, Lumbridge first, then the other maps and the bosses' lairs (the Giant
-   Mole's, the Kalphite Lair, the Fight Caves and the King Black Dragon's); their meshes are then made
+   Mole's, the Kalphite Lair, the Fight Caves, the King Black Dragon's and the four God Wars generals' rooms); their meshes are then made
    a few at a time, at most 8 ms of each frame.
 2. When a run starts, the screen goes black with OSRS's *Loading - please wait.* box, so Megabonk's own stage never
    shows. Bonkscape waits 0.3 s, then for Megabonk's spawn intro to finish (your character on the ground and done
@@ -177,7 +177,7 @@ What's different from Lumbridge:
   lose the desert's warm tint.
 - **A second stage.** Megabonk's own scaling for a later stage makes its monsters tougher than on Al Kharid.
 - **Built at load.** If a stage starts before its map's build is done, it waits behind the loading screen: up to 45 s
-  for the build and then up to 30 s for the meshes; past 45 s the stage stays Megabonk's own.
+  for the build, and for its meshes until it has waited 30 s in all; past 45 s the stage stays Megabonk's own.
 - **A detail budget.** Maps bigger than 40,000 tiles leave out ground decorations (flowers, grass tufts, small
   stones) and 1 x 1 scenery that blocks nothing and has fewer than 300 faces (`Map.LargeMapMinFaces`; 0 keeps
   everything). Trees and ore rocks are always kept, for skilling. Lumbridge is under the limit, so it keeps everything.

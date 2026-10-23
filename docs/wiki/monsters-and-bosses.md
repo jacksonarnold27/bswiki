@@ -284,7 +284,7 @@ A monster's height is worked out when it spawns, and once more a moment later:
 1. **OSRS proportions on your adventurer's scale**: its model height in OSRS units, converted to metres exactly like
    your adventurer's. So an OSRS human (a guard) stands about as tall as your adventurer, and every other monster keeps
    its OSRS ratio to them.
-2. Times the row's **Size x** (Cow 1.1, Giant frog 1.6, Giant Mole 2.2, Vyrewatch 1.2, the Barrows brothers 1.6, Kalphite Guardian 1.2, Hero and Paladin 1.2, spiritual warrior and mage 1.2, TzHaar-Ket champion 1.2, Chaos Elemental and Revenant
+2. Times the row's **Size x** (Cow 1.1, Giant frog 1.6, Giant Mole 2.2, the Barrows brothers 1.6, Kalphite Guardian 1.2, Hero and Paladin 1.2, spiritual warrior and mage 1.2, TzHaar-Ket champion 1.2, Chaos Elemental and Revenant
    maledictus 1.2) and
    `Models.MonsterSize`.
 3. Times part of Megabonk's own enlargement of elites, minibosses and bosses, capped by tier (below). Megabonk
@@ -482,7 +482,8 @@ you!"* (its name). None comes while you're in a boss's lair.
 | Ags Main | 126 | Armadyl godsword (The Judgement) |
 | Claw Swap | 126 | Dragon claws (Slice and Dice) |
 
-Each is an OSRS player body in its gear, with HP and damage set by its combat level. Every 10 to 14 seconds, when
+Each is an OSRS player body in its gear, with HP set by its combat level; its ordinary hits are those of the
+Megabonk monster it stands in for. Every 10 to 14 seconds, when
 you're in its reach (4.5 m for melee, 18 m otherwise), it fires its weapon's special attack, with its OSRS animation
 and graphic: a hit of 20% to 33% of your maximum health, which the protection prayer for its style cuts as for any
 monster.
@@ -577,7 +578,7 @@ three attacks at random, with its OSRS animation and graphics:
 | Ranged | ranged | 3.1 s after he starts it | A boulder falls on you |
 | Bite | melee | 0.3 s after he starts it | Only when you're beside him; it misses if you've stepped away |
 
-A hit is dealt as 55% to 85% of your maximum health, through Megabonk's own damage (armour still counts). The protection prayer for its style, on when the hit **lands**, blocks
+A hit is dealt as 55% to 85% of your maximum health (his Magic attack, whose max hit is 95 to the others' 97, 54% to 83%), through Megabonk's own damage (armour still counts). The protection prayer for its style, on when the hit **lands**, blocks
 it completely ([Prayer](prayer.md#what-it-blocks)): watch his wind-up and switch, as in OSRS.
 
 **Healers.** The first time he drops below half health, the chat box says *"TzTok-Jad calls for help!"* and four

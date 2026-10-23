@@ -42,7 +42,7 @@ python tools/package.py 0.15.0
 Release build fails, `Plugin.Version` isn't the version asked for (exit 5), `README.md`'s Settings table misses a
 `Config.Bind` key (exit 4), or `bonk unstripped` finds a call into a member Il2CppInterop rebuilt (exit 3); and it
 deletes a zip that holds anything but the mod's DLLs, `README.md`, `LICENSE` and `LICENSES/`, or the publish-gated
-music engine under any name (exit 6). The unstripped check alone, on a built DLL:
+music engine under any name (exit 6). A file it ships that's missing stops it before anything is written (exit 7). The unstripped check alone, on a built DLL:
 
 ```bash
 bonk unstripped src/Bonkscape.Plugin/bin/Release/net6.0/Bonkscape.dll $MEGABONK/BepInEx/interop

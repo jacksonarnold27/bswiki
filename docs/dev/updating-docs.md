@@ -27,7 +27,13 @@ and tells the session that made it:
 - **New version:** when the commit bumps `Plugin.Version`, to run the `wiki-update` skill once that version is built
   and tested, or to ask the session that keeps BSWiki to.
 
-It reports each commit once, says nothing for other commands or other repositories, and never blocks a commit.
+It knows a commit by Claude Code's own record of it or by git's `[branch hash]` line. With neither (`git commit -q`,
+or a commit inside a chain that failed later) it takes Bonkscape's new HEAD when that commit's subject is in the
+command or first in the `-F` message file the command names (or, the weakest sign, the command names a file the commit
+changed). It reports each commit once, says nothing for other commands, other sessions' commits or other
+repositories, and never blocks a commit. A commit inside a failed chain is reported only once the user's settings
+register the hook for `PostToolUseFailure` as well as `PostToolUse`; they don't yet. A crash in the hook shows as a
+failed hook with its one-line error (exit 1), not as silence.
 
 ## With every version
 
@@ -47,9 +53,12 @@ It reports each commit once, says nothing for other commands or other repositori
 4. **Statuses**: rows that were seen working in a Melty test become `verified` in their sheet; rows newly built become
    `built`. Then regenerate the tables.
 5. **Docket** ([docket.md](docket.md)): move finished tasks to done, add what the test or review turned up.
-6. **Tables**: `python tools/wiki-site/gen_tables.py`.
-7. **Check**: `python tools/wiki-site/check_docs.py` must pass. `tools/package.py` won't build a release until
+6. **Tables**: `python -I tools/wiki-site/gen_tables.py`.
+7. **Check**: `python -I tools/wiki-site/check_docs.py` must pass. `tools/package.py` won't build a release until
    `--head --release` passes ([below](#the-docs-checker)).
+8. **Publish**: once the version's wiki-update is committed, the main Bonkscape session pushes master and BSWiki, the
+   wiki from a clean worktree of HEAD ([Hosting BSWiki](hub.md#hosting-bswiki)). The session that keeps the docs
+   commits and reports its hash; it pushes neither.
 
 ## Generated tables
 
@@ -62,20 +71,20 @@ are generated from `sheets/*.json`. In a page they sit between markers:
 <!-- /gen:weapons -->
 ```
 
-`python tools/wiki-site/gen_tables.py` rewrites every marked table; `--check` only reports stale ones. To add a table,
+`python -I tools/wiki-site/gen_tables.py` rewrites every marked table; `--check` only reports stale ones. To add a table,
 write a `t_<name>()` function in `gen_tables.py`, add it to `TABLES`, and put the markers in a page. Names come from
 `sheets/cache_assets.json`, so run the preflight first when OSRS ids changed.
 
 ## The docs checker
 
-`python tools/wiki-site/check_docs.py` checks what can be checked mechanically, against the working tree. With
+`python -I tools/wiki-site/check_docs.py` checks what can be checked mechanically, against the working tree. With
 `--at REV` it reads the code (`src/Bonkscape.Plugin`) from commit REV instead, which ignores other sessions'
 unfinished edits in the same folder and any code committed after REV; docs pages and sheets still come from the
 working tree (when a check fails, it names the docs and sheets files with uncommitted changes). Use `--at <code commit>` when you document a released version (the commit that set its
 `Plugin.Version`), `--head` (the same as `--at HEAD`) for the latest commit, and the plain run to check uncommitted
 work.
 
-**It gates every release:** `python tools/package.py <version>` runs `check_docs.py --head --release` first and
+**It gates every release:** `python -I tools/package.py <version>` runs `check_docs.py --head --release` first and
 refuses to build the zip (non-zero exit, nothing written to `dist/`) when any check fails. `--release` leaves out the
 Version check, because a version's changelog entry and wiki-home line are written after its build and Melty test (the
 `wiki-update` skill); every other check applies, so the session that adds a setting, patch, sheet column or self-check
@@ -115,9 +124,9 @@ unconfirmed until a Melty run, its footage or a log line shows them.
 
 ## The site
 
-`python tools/wiki-site/server.py 8791`, then open <http://localhost:8791>. It renders `docs/wiki` and `docs/dev`
+`python -I tools/wiki-site/server.py 8791`, then open <http://localhost:8791>. It renders `docs/wiki` and `docs/dev`
 straight from disk, so a refresh shows your edits. The `bonkscape-wiki` entry in `.claude/launch.json` starts it from
 Claude Code's preview. Simplest: double-click `Bonkscape Hub.cmd` (or the Desktop shortcut), which starts the site and
 links its pages ([The hub](hub.md)).
 
-<!-- sources: tools/wiki-site/ -->
+<!-- sources: tools/wiki-site/ .claude/hooks/bonkscape_after_commit.py -->

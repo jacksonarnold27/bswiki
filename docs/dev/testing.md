@@ -209,6 +209,7 @@ Times are local (UTC-5). From Melty's release list and test results.
 | 0.14.1 | `a53efa6b` | 3 x 2 min | **failed** | Run 1 Durial321 on TzHaar City passed: a clue trail, the combat tab after the style key (Aggressive, XP to Strength), Jad. Run 2 never reported `prayer-blocked`: the Giant Mole's ground attacks name no monster, so no prayer blocked them. |
 | 0.14.2 | `0681a9e7` | 3 x 2 min | **passed (publish test)** | Run 1 the Ranger on the Wilderness on the willow shortbow tier: a clue trail, the style key to Longrange on the combat tab, a Defence level from it, the King Black Dragon. Run 2 the Zerker on Al Kharid with his own dragon scimitar: Controlled, the Kalphite Queen. Run 3 Durial321 on Morytania on his own whip: Controlled, Karil. All 12 each. |
 | 0.15.0 | `932a78bf` | 3 x 2 min | **passed (publish test)** | The first build on osrs-kit's cache library. Run 1 on Ardougne & Seers' Village: a clue, the combat tab with the Void knight mace's styles, the Abyssal tentacle, Sir Lancelot's arena, a Defence level. Run 2 on the God Wars Dungeon: the bronze scimitar's styles, the tentacle, the boss portal into General Graardor's lair. Run 3 the Mage on TzHaar City: a clue, Fire Strike's casting styles, the tentacle, the Fight Caves with Jad and his waves. All 12 each; the footage review found it playing as 0.14.2 did. |
+| 0.15.1 | `f88f7062` | 3 x 2 min | **passed (publish test)** | Each boss lair showed its own minimap (the fix). Run 1 the Ranger on Lumbridge: a clue, the willow shortbow's combat tab, the Abyssal tentacle, the Giant Mole's lair. Run 2 on the Wilderness: green dragons and wolves, a clue, the dragon scimitar's tab, the tentacle, the boss door into the King Black Dragon's lair after a final-stage load of about 10 s. Run 3 on Al Kharid in Ahrim's robes: Ice Barrage, a clue, the whip's tab, a Charge Shrine window, the Kalphite Queen's lair; Megabonk's own main menu showed for one frame before the title screen. All 12 each. |
 
 Blank cells weren't looked up. `mcp__melty__test_result` with the test id gives the full record.
 
@@ -233,15 +234,16 @@ scenario made from flags instead of a file: `--map`, `--stage`, `--adventurer`, 
    screenshots to `derived/loop/<time>-<name>/` (gitignored), closes the PID it started, and puts the plugin folder,
    the loader switch and every save back, byte for byte with their times (files the run made are removed). A loop
    killed before that restores the saves on its next start (`derived/loop/PENDING-RESTORE.txt`). A hang ends the wait
-   early: after `--hang-after` seconds (90) without log output, with the game's window not responding, the loop writes
+   early: after `--hang-after` seconds (90) without log output, with the game's window not responding (asked at most every 10 s), the loop writes
    `hang-threads.txt` (each thread's state, CPU time and name) and `hang.dmp` (a minidump with every thread's stack,
-   for WinDbg; `tools/hang_report.ps1`) into that folder before it closes the game ([Docket](docket.md): local suites
+   for WinDbg; `tools/hang_report.ps1`, stopped after 180 s) into that folder before it closes the game ([Docket](docket.md): local suites
    hang at a scene load).
 5. Prints a summary: timings, the in-game timing marks (`timing: <mark> at N s` lines from `Dev/Timing.cs`), the
    checks that passed, every Bonkscape warning or error, the dead-hook report, the game's memory at each scenario's
    end, the hang if there was one, and the scenario report. Several scenario files run one after another with a
-   combined table; `--one-launch` runs them as a suite in one game, and the scenarios a hang or a timeout left unrun
-   are failures in its table.
+   combined table; `--one-launch` runs them as a suite in one game: each row counts only its own scenario's warnings and
+   errors, and the scenarios a hang or a timeout left unfinished or unrun (all of them when the suite never got
+   going) are failures in its table.
 
 **Scenarios** (`Systems/Scenario.cs`, files in `tools/scenarios/`): `map`, `stage` (a later stage is reached from the
 first, `TestMode.JumpToStage`; the clock waits for it, and its monsters lose Megabonk's per-stage hp and damage share, as
@@ -269,7 +271,10 @@ playing adventurer is unlocked), `save_skills` (`true` to test saving; the loop 
 (`"allow"` for real deaths), `ui` (the UI test; its `menus` may include `"title"` (0.12): at the last resolution each title screen button a test may press is pressed, what it opened screenshotted and the menu brought back, and Exit, Language and Discord are only checked as wired, so a test never quits, changes the language or opens a browser; a return to the main menu while it's open is skipped, since Megabonk's `SetWindow` toggles and would switch the menu off), `title_screen` (`false`: Megabonk's own main menu for that scenario), `music` (`true` for the OSRS music; it's off in scenarios otherwise, since 0.12: Melty's builds never carry the engine, and local suites hung at scene loads with it, though they have since without it too: the docket's row), `dump_logo` (`true`: Megabonk's logo as the title screen reads it back, written raw into the shots folder for `bonk uisprites mock`; Megabonk's art, kept local), `suite` (several scenarios in one launch: each run is ended as at a
 run's end and Megabonk goes back to its main menu, `TransitionUI.LoadMenu`, where the next run starts as after a launch;
 about 5 s a scenario. Starting it straight from the run with `MapController.StartNewMap` kept the last run's player,
-its adventurer and weapons, so suites before 0.4 ran every scenario as the first one's adventurer). Each scenario
+its adventurer and weapons, so suites before 0.4 ran every scenario as the first one's adventurer). At a boundary
+every adventurer's levels are read from its save again and the next scenario's `seed_levels` put back, so one
+scenario's presets and seeds never reach the next; until the next scenario's run is requested, the ending stage
+starts no run and passes or fails no check (`TestMode.BetweenScenarios`). Each scenario
 reports `playing as <adventurer> holding <weapons>` and warns on a mismatch, and at its end `weapon attacks: <weapon>
 <count>, ...; weapon swaps N`; a suite's screenshots are collected under each scenario's own name. Something with no
 set time can ask for a screenshot (`Scenario.ShotSoon`): each weapon's first swap into the adventurer's hand gets one,
@@ -281,7 +286,7 @@ written as PNG by the plugin (Unity's own capture and PNG encoder are stripped f
 
 | Scenario | What it checks |
 |---|---|
-| `smoke` | Morytania (the Desert's second stage since 0.8, reached by the jump) as the Mage, a whip given at 2 s, a potion dropped at 4 s, `player-hit` |
+| `smoke` | Morytania (the Desert's second stage since 0.8, reached by the jump) as the Mage, a whip given at 2 s, a prayer potion dropped at 4 s: `run-started`, `osrs-arena`, `osrs-enemy-killed`, `adventurer-animated` |
 | `mole-lair` | Lumbridge, the boss portal opened at 12 s: the lair swap (`boss-arena`) and a dig (`lair-dig`) |
 | `spawn-mole` | the Mole spawned straight in as the stage boss, a goblin, a blowpipe, preset levels (not saved) |
 | `ui` | the main menu, character select, map select and settings, then the run's HUD, at 1280x720, 1920x1080, 2560x1440 and 3840x2160 (about a minute) |

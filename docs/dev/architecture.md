@@ -1,7 +1,7 @@
 # Architecture
 
 Bonkscape is a BepInEx 6 IL2CPP plugin for Megabonk (Unity 2023.2.22f1, IL2CPP, build 1.0.69) that reads the player's
-Old School RuneScape cache at run time. Nothing from either game is shipped. Written against **0.15.0** (`08c0e87`).
+Old School RuneScape cache at run time. Nothing from either game is shipped. Written against **0.15.1** (`ea7f26f`).
 
 ## Projects
 
@@ -15,7 +15,7 @@ Old School RuneScape cache at run time. Nothing from either game is shipped. Wri
 | `tools/wiki-site` | This wiki's local site (port 8791) and `gen_tables.py`. | Python 3 |
 | `tools/hub` | [The hub](hub.md) (port 8789): one page that starts, stops and links the wiki and the sketch tool and renders the other docs; `Bonkscape Hub.cmd` in the repo root launches it. Configured by `hub.json`; the engine is a copy from the project-hub kit (its own repo, beside this one). `export_wiki.py` writes BSWiki as a static site for hosting. | Python 3 |
 | `sheets/*.json` | The design data: the source of truth. | |
-| `docs/` | `MODLOG.md` (versions, workflow, numbered gotchas), `preflight.md` (generated report), `wiki/`, `dev/`. | |
+| `docs/` | `MODLOG.md` (versions, workflow, numbered gotchas), `preflight.md` (generated report), `wiki/`, `dev/`, `design/` (the milestone plan and design notes). | |
 
 Not in git: `lib/` (BepInEx assemblies), `derived/` (renders and map tiles made from the cache), `dist/` (release zips),
 `bin/`, `obj/`.
@@ -42,7 +42,7 @@ The library lives in osrs-kit (its README's *Bonkscape uses this library*); this
 | `GameVals.cs` | Index 24's gamevals: Jagex's internal names for ids (items, NPCs, animations...). |
 | `SoundEffect.cs` | OSRS sound effect synthesiser (index 4 instruments) to 22,050 Hz PCM. |
 | `World/Region.cs` | Map regions: current caches' unnamed groups (`x << 8 \| y`, file 0 terrain, file 1 objects) and older named `m{x}_{y}`/`l{x}_{y}` files; procedural heights. |
-| `World/WorldBuilder.cs` | Builds an area: terrain meshes, object meshes, wall meshes in 8x8-tile cells, collision boxes, tile flags (blocked, water, roofed, solid, bridge), wall edges, and named objects to track (trees, rocks). |
+| `World/WorldBuilder.cs` | Builds an area: terrain meshes, object meshes, wall meshes in 8x8-tile cells, collision boxes, tile flags (blocked, water, roofed, solid, bridge, no ground, lava), wall edges, and named objects to track (trees, rocks). |
 | `World/Minimap.cs` | Renders an area like the client's minimap. |
 
 ## Load sequence (`Plugin.Load`)
@@ -152,8 +152,8 @@ with `HudLayout.Arrange` against Megabonk's minimap (`OsrsUi.Minimap`: measured 
 retried every 2 s and again when the screen size changes, else estimated) and draws them through `OsrsUi`.
 
 **`OnStage(player)`**: on the first stage of a run, or the first stage after the adventurer died (Megabonk's restart
-keeps the map and only makes a new player), resets the run clock, prayer, evolutions, loot, lava burns, extra weapons, set
-effect counts, second forms, PKers, the pet, the clue and chat, puts a Barrows brother's own weapon on its shared Megabonk type
+keeps the map and only makes a new player), resets the run clock, prayer, special attacks, evolutions, loot, lava burns, extra weapons, set
+effect counts, second forms, PKers and chat, puts a Barrows brother's own weapon on its shared Megabonk type
 (`Content.ApplyCharacterWeapons`), and posts the welcome line; a later stage on another maps row (TzHaar City after Morytania) gets the short *Welcome to
 <map>.* Every stage: `Sizing.Measure`, `CameraTweak.Apply`, `PlayerSkin.Apply` (if not skinned yet),
 `Skilling.SpawnForRun` (Forest-style nodes around the player, replaced if the arena builds), a 1.5 s timer, and
@@ -166,10 +166,10 @@ background thread. When the map has an arena, `Arena.BeginCover` puts up a loadi
 *Loading - please wait.* on black) until the adventurer stands on the map (or the build fails or times out), so Megabonk's
 own stage never shows; meanwhile meshes are made 40 ms a frame instead of 8. When the timer runs out (0.3 s with an arena, 1.5 s without): if
 the arena is available (built or building), `Arena.TryBuild` is called every frame until the build is done (up to
-45 s), its Unity meshes are made (`Arena.Prewarm`, up to 30 s) and Megabonk's spawn intro has settled (or 8 s pass); otherwise `MapProps.Reskin` dresses Megabonk's stage.
+45 s), its Unity meshes are made (`Arena.Prewarm`, until 30 s of waiting in all: one `buildWait` counts both waits, and after it the rest are made at once) and Megabonk's spawn intro has settled (or 8 s pass); otherwise `MapProps.Reskin` dresses Megabonk's stage.
 
-**`OnRunEnd`**: saves skills, clears skilling, props, arena, pathing, loot, prayer, projectiles, the player model and
-enemy models, and fades the OSRS music out (`Music.Stop`, 1.2 s).
+**`OnRunEnd`**: clears the pet and the clue, saves skills, clears skilling, props, the boss lair and arena, pathing, loot,
+prayer, the player model, enemy models, projectiles, spot animations and special attacks, and fades the OSRS music out (`Music.Stop`, 1.2 s).
 **`OnApplicationQuit`**: saves skills. Exceptions in each callback are caught; the first 20 are logged.
 
 ## The arena pipeline (`Systems/Arena.cs`)
@@ -199,7 +199,8 @@ the Wilderness's 448x448). `Osrs.BuildArena` makes the `WorldData` and minimap o
    (the highest unnamed layer from 31 down to 16), set to collide with the player's and the enemy layer. Megabonk's
    camera (1\|8\|12), spawn raycasts (ground\|object) and projectiles don't test that layer.
 6. **Spawn bounds**: `SpawnPositions.FindBounds` is re-run; its postfix sets `minX..maxZ` to the arena minus 2 tiles.
-7. **Minimap**: Megabonk's `MinimapMesh` renderers off; a textured quad with the map's OSRS minimap on the minimap layer.
+7. **Minimap**: Megabonk's `MinimapMesh` renderers off; a textured quad with this arena's own OSRS minimap on the minimap layer
+   (its texture and icon atlas cached by that minimap; `Arena.Clear` destroys the minimap's meshes and materials).
    `Minimap.Render(..., separateIcons: true)` returns the map scene and map function icons separately; they're packed
    into one atlas and drawn as one mesh of quads, which `UpdateIcons` turns every frame to face Megabonk's minimap
    camera, so icons stay upright. `Minimap.Zoom` divides that camera's `orthographicSize`.
@@ -344,21 +345,21 @@ it stands:
 | `level_up` | presentation | `UpgradeButton.SelectUpgrade` | call (test mode) | test autoplay presses the first level-up offer; Megabonk's level-ups otherwise stay as they are | <span class="st st-verified">verified</span> |
 | `death_screen` | presentation | `DeathScreen.StartDeathScreen` | postfix | Oh dear, you are dead! | <span class="st st-built">built</span> |
 | `music` | audio | `MusicController.OnPause` | postfix | Megabonk's pause also pauses the map's OSRS track (experimental: Music.PlayForStage plays maps.osrs_music_track and pauses Megabonk's music source meanwhile) | <span class="st st-built">built</span> |
-| `run_started` | systems | `MyPlayer.get_Instance` | poll | a Lumbridge stage begins when Megabonk's player exists on the Lumbridge map: reset prayer, place skilling nodes, start test mode | <span class="st st-verified">verified</span> |
+| `run_started` | systems | `MyPlayer.get_Instance` | poll | a stage on a Bonkscape map begins when Megabonk's player exists (Runner.OnStage): the run's resets, skilling nodes, the arena | <span class="st st-verified">verified</span> |
 | `map_props` | map | `RandomObjectPlacer.Generate` | poll | after the stage generates, Megabonk's trees, rocks and bushes are drawn with OSRS scenery models (their colliders stay) | <span class="st st-verified">verified</span> |
-| `gold_hud` | presentation | `KillsAndGoldCounter.t_gold` | data row | Megabonk's gold number and icon are hidden; the OSRS coin stack for the amount is drawn instead | <span class="st st-verified">verified</span> |
+| `gold_hud` | presentation | `KillsAndGoldCounter.t_gold` | data row | Megabonk's gold number and icon are hidden; the OSRS coin stack for the amount shows in the inventory's first slot instead | <span class="st st-verified">verified</span> |
 | `arena_edges` | arena | `MapEdges.Set` | prefix | remember Megabonk's map centre so an OSRS map replaces the stage in place (Megabonk's Desert never calls it: those maps are centred on the origin, as every measured map is) | <span class="st st-verified">verified</span> |
-| `arena_spawn_bounds` | arena | `SpawnPositions.FindBounds` | postfix | enemy and pickup spawn bounds cover the Lumbridge arena | <span class="st st-verified">verified</span> |
+| `arena_spawn_bounds` | arena | `SpawnPositions.FindBounds` | postfix | enemy and pickup spawn bounds cover the current OSRS arena or boss lair, 2 tiles in from its edges | <span class="st st-verified">verified</span> |
 | `arena_spawn_floor` | arena | `SpawnPositions.GetEnemySpawnPosition` | postfix | in a boss's lair, a monster spawn off the cave floor goes to a reachable floor tile (Pathing.RandomReachable) | <span class="st st-built">built</span> |
 | `arena_spawn_floor_biased` | arena | `SpawnPositions.GetEnemySpawnPositionBiased` | postfix | the same, for Megabonk's biased spawns | <span class="st st-built">built</span> |
 | `arena_spawn_floor_around` | arena | `SpawnPositions.GetEnemySpawnPositionAroundPoint` | postfix | the same, for spawns around a point | <span class="st st-built">built</span> |
-| `stage_name` | data | `StageData.GetName` | prefix | stage names for every stage of the maps Bonkscape takes over (Lumbridge & Swamp, Lumbridge Swamp, Lumbridge Swamp Caves on the Forest...) | <span class="st st-verified">verified</span> |
+| `stage_name` | data | `StageData.GetName` | prefix | stage names for every stage of the maps Bonkscape takes over: each stage's maps row (the Forest's: Lumbridge & Swamp, Ardougne & Seers' Village, God Wars Dungeon) | <span class="st st-verified">verified</span> |
 | `enemy_name` | data | `EnemyData.GetName` | prefix | OSRS monster names on Megabonk's enemies | <span class="st st-verified">verified</span> |
 | `unlock_override` | data | `MyAchievements.IsUnlocked` | postfix | Bonkscape's weapons and tomes count as unlocked; an adventurer follows its characters.unlock_condition either way (Unlocks.CharacterUnlocked: the Ironman stays locked until total level 250) | <span class="st st-verified">verified</span> |
 | `enemy_release` | models | `Enemy.ReleaseToPool` | postfix | hide an enemy's OSRS model when Megabonk pools it | <span class="st st-verified">verified</span> |
 | `coins_flying` | loot | `MoneyFlying.Set` | postfix | flying coins wear the OSRS coin stack | <span class="st st-verified">verified</span> |
 | `coins_pickup` | loot | `MoneyFlying.Pickup` | postfix | coin pickup sound and test check | <span class="st st-verified">verified</span> |
-| `enemy_pathing` | arena | `EnemyMovementRb.GetTargetPosition` | postfix | monsters walk Lumbridge's tile grid round walls toward the adventurer | <span class="st st-verified">verified</span> |
+| `enemy_pathing` | arena | `EnemyMovementRb.GetTargetPosition` | postfix | monsters walk the arena's tile grid round walls toward the adventurer | <span class="st st-verified">verified</span> |
 | `autoplay_input` | test | `PlayerInput.moveHorizontal` | data row | test-mode autoplay movement: TestMode.LateTick writes the move input (moveHorizontal, moveVertical) each frame | <span class="st st-verified">verified</span> |
 | `test_death_guard` | test | `PlayerHealth.PlayerDied` | prefix | test runs: a death any other way than a guarded hit is stopped and logged, and the adventurer healed to half (TestGuard; off with a scenario's deaths: allow) | <span class="st st-built">built</span> |
 | `test_kill_guard` | test | `PlayerHealth.KillPlayer` | prefix | test runs: the same for Megabonk's direct kill | <span class="st st-built">built</span> |
@@ -400,7 +401,7 @@ it stands:
 | `Systems/BossFight.cs` | Boss fights beyond the Mole's dig (0.5): a boss arena's own waves (in its lair, or since 0.10 on the stage's own map when the boss has no lair: the Knights before Sir Lancelot) (`bosses.arena_waves`, the boss held on its tile, frozen, unhurt and unseen until `boss_at`), scripted attacks (`attack_every_ms` with `random` attacks: Megabonk's own special attacks off, the sheet's attack picked each interval, its sequence and spot animations, the hit landed at impact with its style so the prayer counts then; Megabonk's touches don't hurt), healers (`bosses.healers`: called below a share of health, walk to the boss and heal it until hit), `SpawnAs` (a monster skinned as a given row) |
 | `Systems/SecondForm.cs` | A boss's second form (0.8, `bosses.second_form`: the Kalphite Queen): its first form's death called off (the `EnemyDied` prefix), its health back in full, `EnemySkins.Reskin` puts the second form's model on the same enemy (the first falls on a corpse, or `bosses.second_form_spotanim` plays in its place: the Queen's husk) and plays its `spawn` sequence when it has one, still and unhurt meanwhile; Combat's death postfix skips the called-off death. A second form never takes a Megabonk slot of its own (`Rows.Build` leaves it out of the slot lookups) |
 | `Systems/Graveyard.cs` | Megabonk's Graveyard under an OSRS map (0.9, the Wilderness): the starting crypt left by its exit door before the arena moves the adventurer (the stage clock starts only then), the surface crypt door put on the boss tile as the way down to the map's boss, opening it loads Megabonk's final stage (as TzHaar City's final portal does), whose final boss (Ent1) is the map's boss row in its lair |
-| `Systems/Pkers.cs` | PKers (0.9, `maps.special_rule` `pkers_revenants`): an ambush every three to four minutes from the map's `pk_weapon` rows (none in a boss's lair), each PKer's health and damage from its row, and its weapon's special attack every 10-14 s in reach |
+| `Systems/Pkers.cs` | PKers (0.9, `maps.special_rule` `pkers_revenants`): an ambush every three to four minutes from the map's `pk_weapon` rows (none in a boss's lair), each PKer's health from its row (its ordinary hits are its Megabonk walker's), and its weapon's special attack every 10-14 s in reach |
 | `Systems/Specials.cs` | Special attacks (0.4): the energy bar (60 s, plus 0.25% a kill, capped), the fire and switch keys, each spec's steps (`weapons.spec_effect`) through Megabonk's own damage and debuff calls, targets only monsters that can take damage, autoplay's specs in test runs, the scenario `spec` step |
 | `Systems/SpotFx.cs` | OSRS spot animations as flipbooks on the HUD (the specs' graphics), rendered from the cache off the main thread |
 | `Systems/Skills.cs` | Persistent skills, XP table, combat level; the attack styles' XP shares and names, the styles an adventurer can pick, locked skills (0.14) |

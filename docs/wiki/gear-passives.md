@@ -30,7 +30,7 @@ slot stop appearing in level-up offers:
 - **Ring**: Berserker ring *or* Ring of wealth.
 - Every other slot has a single item.
 
-A piece also stops being offered once it reaches its max level (8).
+A piece also stops being offered once it reaches its max level (8; the Godsword shard's 3).
 
 ## What's left out
 
