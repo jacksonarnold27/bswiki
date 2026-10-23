@@ -1,7 +1,7 @@
 # Architecture
 
 Bonkscape is a BepInEx 6 IL2CPP plugin for Megabonk (Unity 2023.2.22f1, IL2CPP, build 1.0.69) that reads the player's
-Old School RuneScape cache at run time. Nothing from either game is shipped. Written against **0.15.1** (`ea7f26f`).
+Old School RuneScape cache at run time. Nothing from either game is shipped. Written against **0.15.2** (`15ae47d`).
 
 ## Projects
 
@@ -138,7 +138,7 @@ boss tiles, props, skilling nodes, fallback enemy, music).
 6. Always: `Skills.Tick` (autosave every 20 s), `Hud.Tick` (skipped when `Debug.OsrsHud` is off; hitsplats, XP drops, health bar timers, dialogues,
    `LevelUpFx.Tick`; outside a run `MegabonkHud.Restore` puts back the Megabonk HUD pieces it hid), `Chat.Tick`.
 
-**`LateUpdate`** (while active): `EnemySkins.LateTick` (models follow enemies, Megabonk renderers stay hidden, hitbox
+**`LateUpdate`** (while active, and not on a suite's ending stage: `TestMode.BetweenScenarios`): `EnemySkins.LateTick` (models follow enemies, Megabonk renderers stay hidden, hitbox
 floor, animation, `Bosses.Tick`, `BossFight.TickBoss` (a scripted boss's attacks), `Corpses.Tick`), `Arena.LateTick` (see-through walls, and `PlayerMoveFix.LateTick`), `PlayerSkin.LateTick`
 (follow and animate), `Pets.LateTick` (the pet out follows), then `TestMode.LateTick` (autoplay's movement written into `PlayerInput` after Megabonk's own
 update).
@@ -168,8 +168,8 @@ own stage never shows; meanwhile meshes are made 40 ms a frame instead of 8. Whe
 the arena is available (built or building), `Arena.TryBuild` is called every frame until the build is done (up to
 45 s), its Unity meshes are made (`Arena.Prewarm`, until 30 s of waiting in all: one `buildWait` counts both waits, and after it the rest are made at once) and Megabonk's spawn intro has settled (or 8 s pass); otherwise `MapProps.Reskin` dresses Megabonk's stage.
 
-**`OnRunEnd`**: clears the pet and the clue, saves skills, clears skilling, props, the boss lair and arena, pathing, loot,
-prayer, the player model, enemy models, projectiles, spot animations and special attacks, and fades the OSRS music out (`Music.Stop`, 1.2 s).
+**`OnRunEnd`**: clears the pet and the clue, saves skills and drops the XP drops still queued (`Skills.EndRun`), clears skilling, props, the boss lair and arena, pathing, loot,
+prayer, the player model and enemy models (with their attack, death and movement counts), projectiles, spot animations and special attacks, and fades the OSRS music out (`Music.Stop`, 1.2 s).
 **`OnApplicationQuit`**: saves skills. Exceptions in each callback are caught; the first 20 are logged.
 
 ## The arena pipeline (`Systems/Arena.cs`)

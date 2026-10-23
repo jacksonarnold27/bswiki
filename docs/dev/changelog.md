@@ -13,6 +13,31 @@ inside each release's DLL in `dist/`. No version has been published yet: every r
 
 ---
 
+## 0.15.2: no stale XP drops
+
+*Build 2026-10-23 00:38, code in `15ae47d`. Test `a348ef8e`: publish test, 3 runs x 2 min, passed. Run 1 on Morytania
+with the Void knight mace (a clue, the combat tab, the Abyssal tentacle, Torag as the hidden brother), run 2 on
+Ardougne & Seers' Village with an iron scimitar (a clue, the combat tab, the tentacle, Sir Lancelot's arena), run 3 on
+the God Wars Dungeon with Fire Strike (a clue, the combat tab, the level-up offers in OSRS's stone, the tentacle,
+Kree'arra's lair after the final-stage load). All 12 self-checks each.*
+
+**Patch notes**
+- XP drops still waiting when a run ends no longer pop up at the start of your next run (the XP was already yours).
+- Nothing else for players: the rest is Bonkscape's own test tools.
+
+**Changes**
+- `Skills.EndRun` (from `Runner.OnRunEnd`): the XP drops still queued for the next game tick are dropped; the XP was
+  added when earned. `Skills.Load` also forgets the seeded adventurers, the locked-skill log lines and that queue.
+- Per-run counts reset at a run's end: `EnemySkins.Attacks` and `Deaths` in `EnemySkins.Clear`, `PlayerSkin.Attacks`
+  and `Moved` in `PlayerSkin.Clear`. A suite's next scenario no longer passes `monster-animated`,
+  `adventurer-animated` or `xp-drop` on the last one's counts.
+- `Runner.LateUpdate` skips a suite's ending stage too (`TestMode.BetweenScenarios`): its monsters and pet are the
+  last scenario's, and the pet no longer follows there.
+- Tools: the after-commit hook reads a `-F` message file in another encoding loosely instead of crashing, fills in
+  PowerShell's `$name = "value"` and `$env:NAME`, counts a changed file's name after a slash, and takes only git's
+  `commit` subcommand (not `git log --grep commit` or `git commit-tree`). The docs check's Paths rule leaves URLs out,
+  and a drive letter or home folder right after a word character doesn't count.
+
 ## 0.15.1: each map's own minimap
 
 *Build 2026-10-22 23:42, code in `ea7f26f`. Test `f88f7062`: publish test, 3 runs x 2 min, passed. Run 1 the Ranger on
@@ -31,8 +56,10 @@ Each lair showed its own minimap. All 12 self-checks each.*
   (`UnityConv.ToTexture(("arena minimap", m), ...)`); one constant key gave every later arena the first one's.
   `Arena.Clear` destroys the minimap's meshes and materials (a GameObject's `Destroy` leaves them).
 - Suites: `TestMode.BetweenScenarios` (a suite's next scenario has asked for the menu, and its run isn't requested
-  yet). `Runner` starts no run on the ending stage, and `TestMode.Pass`, `Fail` and the run clock ignore it (it passed
-  the next scenario's `run-started`, `xp-drop` and `monster-animated`, and a pet following or a hit). `NextScenario`
+  yet). `Runner` starts no run on the ending stage, and `TestMode.Pass`, `Fail` and the run clock ignore it: nothing
+  on that stage passes for the next scenario any more (its `run-started`, a pet following, a hit). The next scenario's
+  run could still pass `xp-drop`, `monster-animated` and `adventurer-animated` on the last one's counts (fixed in
+  0.15.2). `NextScenario`
   clears `runRequested` first, then reads every adventurer's levels from its save again (`Skills.Load`) and puts the
   next scenario's `seed_levels` back (`Scenario.ApplySeeds`): one scenario's preset levels no longer reach the next.
 - `[Map] RealLumbridge`'s description names all seven maps; the special attacks' code comments say 0.4.

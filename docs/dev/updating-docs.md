@@ -29,7 +29,8 @@ and tells the session that made it:
 
 It knows a commit by Claude Code's own record of it or by git's `[branch hash]` line. With neither (`git commit -q`,
 or a commit inside a chain that failed later) it takes Bonkscape's new HEAD when that commit's subject is in the
-command or first in the `-F` message file the command names (or, the weakest sign, the command names a file the commit
+command or first in the `-F` message file the command names, its Bash or PowerShell variables filled in (or, the
+weakest sign, the command names a file the commit
 changed). It reports each commit once, says nothing for other commands, other sessions' commits or other
 repositories, and never blocks a commit. A commit inside a failed chain is reported only once the user's settings
 register the hook for `PostToolUseFailure` as well as `PostToolUse`; they don't yet. A crash in the hook shows as a
@@ -103,7 +104,7 @@ emergencies only; it prints a warning, and the docs still need fixing.
 | Milestones | The milestone plan's "at a glance" table (`docs/design/milestones.md`) and the docket's "Milestone X.Y" sections name different releases, or disagree on whether one is `todo`, `doing` or `done`. |
 | Provenance | A source file under `src/` or `tools/` whose header says it was ported, adapted or is publish-gated isn't named in `docs/design/code-provenance.md`. |
 | Links | A relative link points to a missing page or heading (in `docs/wiki`, `docs/dev`, the milestone plan and the provenance page). |
-| Paths | A page BSWiki publishes (`docs/wiki`, `docs/dev`) holds a path from a PC the project is built on: a drive letter (a player's `Program Files` aside) or someone's home folder (a named folder under Windows' Users or Linux's home). Name a sibling repo relative to this one (`../osrs-kit`) and a player's folders by their variables (`%LOCALAPPDATA%`, `$MEGABONK`). |
+| Paths | A page BSWiki publishes (`docs/wiki`, `docs/dev`) holds a path from a PC the project is built on: a drive letter (a player's `Program Files` aside) or someone's home folder (a named folder under Windows' Users or Linux's home); URLs don't count, nor does a drive letter or home folder right after a word character. Name a sibling repo relative to this one (`../osrs-kit`) and a player's folders by their variables (`%LOCALAPPDATA%`, `$MEGABONK`). |
 
 It also lists **pages to re-read**: every page ends with a `<!-- sources: ... -->` comment naming the code and sheets
 it describes. The checker compares those against the files changed since `documented_commit` (in

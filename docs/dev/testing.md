@@ -210,6 +210,7 @@ Times are local (UTC-5). From Melty's release list and test results.
 | 0.14.2 | `0681a9e7` | 3 x 2 min | **passed (publish test)** | Run 1 the Ranger on the Wilderness on the willow shortbow tier: a clue trail, the style key to Longrange on the combat tab, a Defence level from it, the King Black Dragon. Run 2 the Zerker on Al Kharid with his own dragon scimitar: Controlled, the Kalphite Queen. Run 3 Durial321 on Morytania on his own whip: Controlled, Karil. All 12 each. |
 | 0.15.0 | `932a78bf` | 3 x 2 min | **passed (publish test)** | The first build on osrs-kit's cache library. Run 1 on Ardougne & Seers' Village: a clue, the combat tab with the Void knight mace's styles, the Abyssal tentacle, Sir Lancelot's arena, a Defence level. Run 2 on the God Wars Dungeon: the bronze scimitar's styles, the tentacle, the boss portal into General Graardor's lair. Run 3 the Mage on TzHaar City: a clue, Fire Strike's casting styles, the tentacle, the Fight Caves with Jad and his waves. All 12 each; the footage review found it playing as 0.14.2 did. |
 | 0.15.1 | `f88f7062` | 3 x 2 min | **passed (publish test)** | Each boss lair showed its own minimap (the fix). Run 1 the Ranger on Lumbridge: a clue, the willow shortbow's combat tab, the Abyssal tentacle, the Giant Mole's lair. Run 2 on the Wilderness: green dragons and wolves, a clue, the dragon scimitar's tab, the tentacle, the boss door into the King Black Dragon's lair after a final-stage load of about 10 s. Run 3 on Al Kharid in Ahrim's robes: Ice Barrage, a clue, the whip's tab, a Charge Shrine window, the Kalphite Queen's lair; Megabonk's own main menu showed for one frame before the title screen. All 12 each. |
+| 0.15.2 | `a348ef8e` | 3 x 2 min | **passed (publish test)** | Run 1 on Morytania with the Void knight mace: a clue, the combat tab, the Abyssal tentacle, Torag as the hidden brother. Run 2 on Ardougne & Seers' Village with an iron scimitar: a clue, the combat tab, the tentacle, Sir Lancelot's arena. Run 3 on the God Wars Dungeon with Fire Strike: a clue, the combat tab, the level-up offers in OSRS's stone, the tentacle, Kree'arra's lair after the final-stage load. All 12 each. |
 
 Blank cells weren't looked up. `mcp__melty__test_result` with the test id gives the full record.
 
@@ -274,7 +275,9 @@ about 5 s a scenario. Starting it straight from the run with `MapController.Star
 its adventurer and weapons, so suites before 0.4 ran every scenario as the first one's adventurer). At a boundary
 every adventurer's levels are read from its save again and the next scenario's `seed_levels` put back, so one
 scenario's presets and seeds never reach the next; until the next scenario's run is requested, the ending stage
-starts no run and passes or fails no check (`TestMode.BetweenScenarios`). Each scenario
+starts no run, passes or fails no check and ticks no models or pet (`TestMode.BetweenScenarios`), and a run's end
+resets the animation counts and queued XP drops, so each scenario's `monster-animated`, `adventurer-animated` and
+`xp-drop` are its own. Each scenario
 reports `playing as <adventurer> holding <weapons>` and warns on a mismatch, and at its end `weapon attacks: <weapon>
 <count>, ...; weapon swaps N`; a suite's screenshots are collected under each scenario's own name. Something with no
 set time can ask for a screenshot (`Scenario.ShotSoon`): each weapon's first swap into the adventurer's hand gets one,

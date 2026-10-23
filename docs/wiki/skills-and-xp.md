@@ -73,7 +73,7 @@ Woodcutting 25, Mining 17.5 and Fishing 10 ([Skilling](skilling.md)).
 
 - XP is grouped per OSRS game tick (0.6 s) and per skill. Each group is an OSRS **XP drop**, the skill icon and the
   amount, rising into the **XP counter** beside the minimap, which shows your total XP over all skills
-  ([HUD](hud-and-chat.md#in-a-run)).
+  ([HUD](hud-and-chat.md#in-a-run)). Drops still waiting when a run ends are dropped; the XP is already yours.
 - On a level-up, the chat box says *"Congratulations, you just advanced a Strength level. You are now level 41."* and
   OSRS's level-up sound plays. OSRS's level-up dialogue then covers the chat box for 3 s (*"Congratulations, you just
   advanced a Strength level."*, *"Your Strength level is now 41."*) and OSRS's level-up fireworks play at your feet.
