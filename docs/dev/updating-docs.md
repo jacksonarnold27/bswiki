@@ -94,6 +94,7 @@ emergencies only; it prints a warning, and the docs still need fixing.
 | Milestones | The milestone plan's "at a glance" table (`docs/design/milestones.md`) and the docket's "Milestone X.Y" sections name different releases, or disagree on whether one is `todo`, `doing` or `done`. |
 | Provenance | A source file under `src/` or `tools/` whose header says it was ported, adapted or is publish-gated isn't named in `docs/design/code-provenance.md`. |
 | Links | A relative link points to a missing page or heading (in `docs/wiki`, `docs/dev`, the milestone plan and the provenance page). |
+| Paths | A page BSWiki publishes (`docs/wiki`, `docs/dev`) holds a path from a PC the project is built on: a drive letter (a player's `Program Files` aside) or someone's home folder (a named folder under Windows' Users or Linux's home). Name a sibling repo relative to this one (`../osrs-kit`) and a player's folders by their variables (`%LOCALAPPDATA%`, `$MEGABONK`). |
 
 It also lists **pages to re-read**: every page ends with a `<!-- sources: ... -->` comment naming the code and sheets
 it describes. The checker compares those against the files changed since `documented_commit` (in
