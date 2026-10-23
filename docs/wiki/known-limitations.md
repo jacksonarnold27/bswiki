@@ -16,6 +16,11 @@ What isn't there yet, or behaves differently from what you'd expect. The [docket
 
 ## Works, with caveats
 
+- **Controllers.** Bonkscape's controller buttons are read through Rewired's standard gamepad layout, so a controller
+  Rewired doesn't see as a gamepad gets none (its keys still work). Test runs press them through the test tools,
+  never on a real pad: whether a real controller's presses reach Bonkscape is *(unconfirmed: needs a run with a
+  controller)*. The buttons are changed in the settings file only ([Playing on a
+  controller](getting-started.md#playing-on-a-controller)).
 - **Your cache decides what you see.** The OSRS client downloads models on demand. Monsters missing from your cache use
   stand-ins; if a map's regions are missing, you get Megabonk's own map (the Forest, the Desert or the Graveyard) instead.
 - **Megabonk's other maps change a little too.** Bonkscape edits Megabonk's data when the game loads, so its reskinned
@@ -50,6 +55,7 @@ What isn't there yet, or behaves differently from what you'd expect. The [docket
 
 These only show up in Melty's automated test runs (autoplay):
 
+- Autoplay presses no controller buttons: it drives Bonkscape's actions directly.
 - Autoplay checks two tiles ahead on the map's grid and turns along walls; whether that stops it pressing into
   walls is *(unconfirmed: needs footage)*.
 - Autoplay plays the adventurers this PC has unlocked in turn, and the maps in turn (Lumbridge, the Wilderness,

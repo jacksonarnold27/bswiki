@@ -14,7 +14,7 @@ Every monster fights in one combat style (melee, ranged or magic), shown by the 
 ## Using prayers
 
 - Press **1**, **2** or **3** to turn on Protect from Melee, Missiles or Magic. Change the keys with `Prayer.Keys`
-  ([Settings](settings.md)).
+  ([Settings](settings.md)). On a controller: d-pad left, up or right (`Controller.Prayers`).
 - **One at a time**: turning one on replaces the one that was on. Press its key again to turn it off.
 - Each prayer plays its OSRS sound when it goes on, and the prayer-off sound when you turn it off.
 - The keys do nothing while you're typing in Megabonk's chat.
@@ -72,4 +72,4 @@ when full, yellow at half and red when empty, and the orb lights up while a pray
 For the first 45 seconds of a run, a hint above the side panel reads *"Pray against the icon over a monster: 1 Melee  2
 Missiles  3 Magic  (F5: prayers, F1: attack style)"*.
 
-<!-- sources: src/Bonkscape.Plugin/Systems/Prayer.cs src/Bonkscape.Plugin/Systems/Hud.cs src/Bonkscape.Plugin/Systems/HudLayout.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Combat.cs sheets/prayers.json sheets/drops.json src/Bonkscape.Plugin/Systems/BossFight.cs src/Bonkscape.Plugin/Systems/LavaBurn.cs src/Bonkscape.Plugin/Systems/SetEffects.cs src/Bonkscape.Plugin/Systems/Inventory.cs -->
+<!-- sources: src/Bonkscape.Plugin/Systems/Prayer.cs src/Bonkscape.Plugin/Systems/Hud.cs src/Bonkscape.Plugin/Systems/HudLayout.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Combat.cs sheets/prayers.json sheets/drops.json src/Bonkscape.Plugin/Systems/BossFight.cs src/Bonkscape.Plugin/Systems/LavaBurn.cs src/Bonkscape.Plugin/Systems/SetEffects.cs src/Bonkscape.Plugin/Systems/Inventory.cs src/Bonkscape.Plugin/Systems/Controls.cs -->

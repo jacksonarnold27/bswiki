@@ -74,6 +74,25 @@ icons and stats on every map, and the Megabonk enemies it remaps keep the OSRS r
 maps, monsters keep Megabonk's models and level-ups offer Megabonk's full pool
 ([Known limitations](known-limitations.md)).
 
+## Playing on a controller
+
+Megabonk's own controls work on a gamepad as before. Bonkscape's actions also answer to a controller button, beside
+their keys, on buttons Megabonk leaves free in a run:
+
+| Action | Key | Controller | Setting |
+|---|---|---|---|
+| Protect from Melee, Missiles, Magic | 1, 2, 3 | d-pad left, up, right | `Controller.Prayers` |
+| Prayer book or inventory | F5 | d-pad down | `Controller.PrayerTab` |
+| Special attack | F | Y | `Controller.SpecFire` |
+| Arm the next weapon's special attack | Q | left stick click | `Controller.SpecSwitch` |
+| Camera near or far | V | right stick click | `Controller.CameraToggle` |
+| Next attack style | F1 | Back | `Controller.AttackStyle` |
+
+They're buttons of Rewired's standard gamepad layout (Megabonk reads its input through Rewired), so they mean the same
+on any controller Rewired sees as a gamepad. They do nothing while a Megabonk window has the game paused. Change them
+in [Settings](settings.md); `None` turns one off. Test runs press them through Bonkscape's test tools, not on a real
+controller: whether a real pad's presses reach Bonkscape is *(unconfirmed: needs a run with a controller)*.
+
 ## Leaderboards
 
 Runs with Bonkscape loaded never upload scores to Megabonk's Steam leaderboards.
@@ -87,4 +106,4 @@ Runs with Bonkscape loaded never upload scores to Megabonk's Steam leaderboards.
 - Log: `BepInEx/LogOutput.log`. Bonkscape's lines start with `[Info   : Bonkscape]`, and every chat message is
   logged too, as `[chat] ...`.
 
-<!-- sources: src/Bonkscape.Plugin/Plugin.cs src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/Hud.cs src/Bonkscape.Plugin/Patches/CorePatches.cs tools/package.py src/Bonkscape.Plugin/Systems/CharacterSelect.cs src/Bonkscape.Plugin/Systems/Unlocks.cs src/Bonkscape.Plugin/Systems/TitleScreen.cs -->
+<!-- sources: src/Bonkscape.Plugin/Plugin.cs src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/Hud.cs src/Bonkscape.Plugin/Patches/CorePatches.cs tools/package.py src/Bonkscape.Plugin/Systems/CharacterSelect.cs src/Bonkscape.Plugin/Systems/Unlocks.cs src/Bonkscape.Plugin/Systems/TitleScreen.cs src/Bonkscape.Plugin/Systems/Controls.cs -->

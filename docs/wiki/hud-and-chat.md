@@ -62,7 +62,8 @@ empty, as on Tutorial Island):
 
 **F5** (`Interface.PrayerTabKey`, OSRS's own key for the prayer book) switches between the prayer book and the
 inventory; **F1** (`Interface.AttackStyleKey`) moves to the next attack style and shows the combat tab for 4 s; or click
-a tab when Megabonk shows the cursor. Each run starts on the inventory.
+a tab when Megabonk shows the cursor. On a controller, d-pad down switches the tab and Back moves the style. Each run
+starts on the inventory.
 
 ## Title screen
 
@@ -105,10 +106,10 @@ What it says:
 | Prayer runs out | *You have run out of Prayer points, you can recharge at an altar.* |
 | You pray with no points | *You need to recharge your Prayer at an altar.* |
 | A weapon evolves | *Your Fire Strike has become a Fire Surge!* |
-| You press `Q` (`Special.SwitchKey`) | *Special attack: Abyssal whip (Energy Drain).* (the newly armed weapon) |
+| You press `Q` (`Special.SwitchKey`) or its controller button | *Special attack: Abyssal whip (Energy Drain).* (the newly armed weapon) |
 | You press `F` without enough energy, or with nothing in reach | *You don't have enough special attack energy left.* / *There's nothing in reach.* |
 | An Ironman tries to trade | *The shopkeeper won't trade with an Ironman.* |
-| You press `V` (`Camera.ToggleKey`) | *Camera: far.* / *Camera: near.* |
+| You press `V` (`Camera.ToggleKey`) or its controller button | *Camera: far.* / *Camera: near.* |
 | The Giant Mole digs | *The Giant Mole burrows into the ground!* |
 | A boss fight moves into its lair | *You follow the Giant Mole down into its lair.* (or *the Kalphite Queen*) |
 | The Kalphite Queen's first form falls | *Kalphite Queen rises again!* |
@@ -238,4 +239,4 @@ The OSRS sprites and fonts each element uses (`sheets/ui.json`):
 needs a Melty run or footage)*. `run_timer` is planned
 (phase 3); Megabonk's own timer shows meanwhile.
 
-<!-- sources: src/Bonkscape.Plugin/Systems/Projectiles.cs src/Bonkscape.Plugin/Systems/Skilling.cs src/Bonkscape.Plugin/Systems/Music.cs src/Bonkscape.Plugin/Systems/Hud.cs src/Bonkscape.Plugin/Systems/HudLayout.cs src/Bonkscape.Plugin/Systems/OsrsUi.cs src/Bonkscape.Plugin/Systems/MegabonkHud.cs src/Bonkscape.Plugin/Systems/LevelUpFx.cs src/Bonkscape.Plugin/Systems/Chat.cs src/Bonkscape.Plugin/Systems/Evolutions.cs src/Bonkscape.Plugin/Systems/CharacterSelect.cs src/Bonkscape.Plugin/Systems/Combat.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Sfx.cs src/Bonkscape.Plugin/Core/OsrsAudio.cs src/Bonkscape.Plugin/Patches/CorePatches.cs sheets/ui.json sheets/audio.json src/Bonkscape.Plugin/Systems/BossFight.cs src/Bonkscape.Plugin/Systems/LavaBurn.cs src/Bonkscape.Plugin/Systems/Unlocks.cs src/Bonkscape.Plugin/Systems/Arena.cs src/Bonkscape.Plugin/Core/Runner.cs src/Bonkscape.Plugin/Core/Osrs.cs src/Bonkscape.Plugin/Systems/Barrows.cs src/Bonkscape.Plugin/Systems/SecondForm.cs src/Bonkscape.Plugin/Systems/Pkers.cs src/Bonkscape.Plugin/Systems/Graveyard.cs src/Bonkscape.Plugin/Systems/Inventory.cs src/Bonkscape.Plugin/Systems/TitleScreen.cs src/Bonkscape.Plugin/Systems/OsrsWindows.cs src/Bonkscape.Plugin/Systems/TitleArt.cs src/Bonkscape.Plugin/Systems/Pets.cs src/Bonkscape.Plugin/Systems/Clues.cs src/Bonkscape.Plugin/Systems/AttackStyles.cs -->
+<!-- sources: src/Bonkscape.Plugin/Systems/Projectiles.cs src/Bonkscape.Plugin/Systems/Skilling.cs src/Bonkscape.Plugin/Systems/Music.cs src/Bonkscape.Plugin/Systems/Hud.cs src/Bonkscape.Plugin/Systems/HudLayout.cs src/Bonkscape.Plugin/Systems/OsrsUi.cs src/Bonkscape.Plugin/Systems/MegabonkHud.cs src/Bonkscape.Plugin/Systems/LevelUpFx.cs src/Bonkscape.Plugin/Systems/Chat.cs src/Bonkscape.Plugin/Systems/Evolutions.cs src/Bonkscape.Plugin/Systems/CharacterSelect.cs src/Bonkscape.Plugin/Systems/Combat.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Sfx.cs src/Bonkscape.Plugin/Core/OsrsAudio.cs src/Bonkscape.Plugin/Patches/CorePatches.cs sheets/ui.json sheets/audio.json src/Bonkscape.Plugin/Systems/BossFight.cs src/Bonkscape.Plugin/Systems/LavaBurn.cs src/Bonkscape.Plugin/Systems/Unlocks.cs src/Bonkscape.Plugin/Systems/Arena.cs src/Bonkscape.Plugin/Core/Runner.cs src/Bonkscape.Plugin/Core/Osrs.cs src/Bonkscape.Plugin/Systems/Barrows.cs src/Bonkscape.Plugin/Systems/SecondForm.cs src/Bonkscape.Plugin/Systems/Pkers.cs src/Bonkscape.Plugin/Systems/Graveyard.cs src/Bonkscape.Plugin/Systems/Inventory.cs src/Bonkscape.Plugin/Systems/TitleScreen.cs src/Bonkscape.Plugin/Systems/OsrsWindows.cs src/Bonkscape.Plugin/Systems/TitleArt.cs src/Bonkscape.Plugin/Systems/Pets.cs src/Bonkscape.Plugin/Systems/Clues.cs src/Bonkscape.Plugin/Systems/AttackStyles.cs src/Bonkscape.Plugin/Systems/Controls.cs -->

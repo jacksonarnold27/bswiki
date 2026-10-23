@@ -58,7 +58,7 @@ The Pure never trains Defence: XP for it is dropped.
 
 Every adventurer has one attack style, which decides only where its XP goes. It starts on its row's style (the
 Warrior, Zerker, Pure and Dharok aggressive, the Ironman and Torag defensive, the rest accurate) and is kept per
-adventurer. **F1** (`Interface.AttackStyleKey`, OSRS's own key for the combat tab) moves to the next style and shows the
+adventurer. **F1** (`Interface.AttackStyleKey`, OSRS's own key for the combat tab; Back on a controller) moves to the next style and shows the
 combat tab for 4 s; a click on a style on the combat tab picks it ([HUD](hud-and-chat.md#the-side-panel)). The chat box
 says *"Attack style: Longrange (Ranged, Defence XP)."*
 
@@ -119,4 +119,4 @@ and when you quit Megabonk, writing a temporary file first so a crash never leav
 read, that adventurer starts fresh (the log says *"skills save of … unreadable, starting fresh"*). To reset an
 adventurer's skills, delete their file while Megabonk is closed.
 
-<!-- sources: src/Bonkscape.Plugin/Systems/Skills.cs src/Bonkscape.Plugin/Systems/Combat.cs src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/Prayer.cs src/Bonkscape.Plugin/Systems/Skilling.cs src/Bonkscape.Plugin/Systems/CharacterSelect.cs src/Bonkscape.Plugin/Systems/Hud.cs src/Bonkscape.Plugin/Systems/HudLayout.cs src/Bonkscape.Plugin/Systems/LevelUpFx.cs sheets/skills.json src/Bonkscape.Plugin/Systems/Unlocks.cs src/Bonkscape.Plugin/Systems/AttackStyles.cs src/Bonkscape.Plugin/Core/Rows.cs -->
+<!-- sources: src/Bonkscape.Plugin/Systems/Skills.cs src/Bonkscape.Plugin/Systems/Combat.cs src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/Prayer.cs src/Bonkscape.Plugin/Systems/Skilling.cs src/Bonkscape.Plugin/Systems/CharacterSelect.cs src/Bonkscape.Plugin/Systems/Hud.cs src/Bonkscape.Plugin/Systems/HudLayout.cs src/Bonkscape.Plugin/Systems/LevelUpFx.cs sheets/skills.json src/Bonkscape.Plugin/Systems/Unlocks.cs src/Bonkscape.Plugin/Systems/AttackStyles.cs src/Bonkscape.Plugin/Core/Rows.cs src/Bonkscape.Plugin/Systems/Controls.cs -->

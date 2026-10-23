@@ -13,6 +13,53 @@ inside each release's DLL in `dist/`. No version has been published yet: every r
 
 ---
 
+## 0.16.1: lava safe across a stage change
+
+*Build 2026-10-23 01:33, code in `f716b88`. Test `ee096614`: publish test, 3 runs x 2 min, passed. Run 1 on Lumbridge
+with Fire Strike (a clue, its casting styles, the Abyssal tentacle, the Giant Mole's lair), run 2 on the Wilderness
+with the Void knight mace (a clue, its styles, the tentacle, the King Black Dragon's lair), run 3 on Al Kharid with an
+iron scimitar (a clue, its styles, the tentacle, the Kalphite Queen's lair). All 12 self-checks each. Melty's runs press
+no controller buttons: autoplay drives the actions directly.*
+
+**Patch notes**
+- Fixed: an error when TzHaar City's final portal took you to the Fight Caves.
+
+**Changes**
+- `LavaBurn`: no lava check until the arena is in place (`Arena.Ready`), and `MyPlayer.Instance` tested with Unity's
+  `== null` first. During a stage change Megabonk destroys the adventurer while its C# wrapper stays non-null, so the
+  `?.` chain let its `transform` throw (0.16.0's run 1: *lava: NullReferenceException*). The bug was older than 0.15.
+
+## 0.16.0: Bonkscape on a controller
+
+*Build 2026-10-23 01:24, code in `8648b71`. Test `b4021c47`: publish test, failed. Run 1 on TzHaar City passed all 12
+self-checks, but `loader-errors` failed on one logged warning, *lava: NullReferenceException*, as the final portal
+loaded the Fight Caves (fixed in 0.16.1). The test stopped after run 1.*
+
+**Patch notes**
+- Play on a controller: the protection prayers on d-pad left, up and right, the prayer tab on d-pad down, the special
+  attack on Y, switching specs on a left-stick click, the camera on a right-stick click and the attack style on Back,
+  on buttons Megabonk leaves free in a run. Change them in the settings file's `[Controller]` section. The keyboard
+  keys are unchanged.
+
+**Changes**
+- New `Systems/Controls.cs`: Bonkscape's eight actions (three prayers, the prayer tab, spec fire, spec switch, the
+  camera toggle, the attack style) each also answer to one button of Rewired's standard gamepad template, on every
+  pad Rewired sees as a gamepad, read once a frame through non-generic calls (`GetTemplate(GamepadTemplate.typeGuid)`,
+  `GetElement(id)`, `justPressed`); `bonk unstripped` finds every Rewired call native. Rewired can't take new actions
+  at runtime, so this layer sits beside Megabonk's. Nothing while the time scale is 0 (a Megabonk window's pause); a
+  read that fails turns the pad buttons off with one warning. `Prayer`, `Specials`, `AttackStyles`, `Inventory` and
+  `CameraTweak` check `Controls.Pad` beside their keys.
+- Six settings: `[Controller] Prayers` (`DPadLeft,DPadUp,DPadRight`), `PrayerTab` (`DPadDown`), `SpecFire` (`Y`),
+  `SpecSwitch` (`LeftStickButton`), `CameraToggle` (`RightStickButton`), `AttackStyle` (`Back`). A name Bonkscape
+  doesn't know keeps the default, with a warning; `None` turns a button off.
+- New `Dev/InputDump.cs`: Megabonk's Rewired actions, map categories, joystick layouts and the gamepad template's
+  default map per category, written once the OSRS assets are ready, by `[Dev] DumpData`
+  (`BepInEx/config/Bonkscape/input-dump.txt`) or a scenario's `"dump_input": true` (`<scenario>-input-dump.txt` in its
+  shots).
+- Scenarios: step `"pad": "<button>"` (`Controls.Inject`: that button counts as pressed on the next frame); optional
+  check `controller-action`; scenario `controller-pad`. A `"spec"` step that finds nothing in reach keeps the weapon
+  armed and fires at the first monster in reach within 4 s, autoplay leaving the specs alone meanwhile.
+
 ## 0.15.2: no stale XP drops
 
 *Build 2026-10-23 00:38, code in `15ae47d`. Test `a348ef8e`: publish test, 3 runs x 2 min, passed. Run 1 on Morytania

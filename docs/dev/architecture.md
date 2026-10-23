@@ -1,7 +1,7 @@
 # Architecture
 
 Bonkscape is a BepInEx 6 IL2CPP plugin for Megabonk (Unity 2023.2.22f1, IL2CPP, build 1.0.69) that reads the player's
-Old School RuneScape cache at run time. Nothing from either game is shipped. Written against **0.15.2** (`15ae47d`).
+Old School RuneScape cache at run time. Nothing from either game is shipped. Written against **0.16.1** (`f716b88`).
 
 ## Projects
 
@@ -416,6 +416,7 @@ it stands:
 | `Systems/Pets.cs` | Boss pets (0.13): the 1-in-N drop on a boss's last death, owned for good in `unlocks.json` (`_pets`, the one out in `_pet_out`), the follower (its NPC model and stand/walk, built at load in `Osrs.BuildPet`), its luck added to every adventurer's stats, the choice on character select's pet line |
 | `Systems/Inventory.cs` | The OSRS side panel (0.12): the inventory tab (coins in the first slot, the weapons in the order taken with their Megabonk levels; `MegabonkHud` hides Megabonk's weapon slots), the prayer book tab, switched by F5 or a click on its tab, and the combat tab (0.14: the weapon in hand, the combat level, the adventurer's attack styles as OSRS's style buttons; a click picks one; the style key shows it for a few seconds) |
 | `Systems/AttackStyles.cs` | OSRS attack styles (0.14): the adventurer's style (saved per adventurer in `unlocks.json`, `_style_<id>`; `characters.attack_style` to start), the style key (`[Interface] AttackStyleKey`, F1) and the checks that the XP went where the style says (`style-xp`) and never into a locked skill (`locked-skill-kept`); `Skills.Shares` holds each style's split |
+| `Systems/Controls.cs` | Bonkscape's actions on a controller (0.16): each action's button of Rewired's standard gamepad template (`[Controller]` settings), read once a frame on every pad Rewired sees as a gamepad through non-generic calls (`GetTemplate(GamepadTemplate.typeGuid)`, `GetElement`, `justPressed`); `Pad(act)` answers for `Prayer`, `Specials`, `AttackStyles`, `Inventory` and `CameraTweak` beside their keys, never while the time scale is 0; `Inject` for the scenario step `pad` |
 | `Systems/OsrsUi.cs` | IMGUI canvas for `HudLayout`; loads its sprites and fonts; measures Megabonk's minimap |
 | `Systems/MegabonkHud.cs` | Hides Megabonk's health bars, XP bar, weapon slots and enemy health bars in a run and restores them after; reads run XP progress |
 | `Systems/LevelUpFx.cs` | OSRS level-up fireworks (spot animation 199) as a flipbook at the adventurer's feet |
@@ -429,6 +430,7 @@ it stands:
 | `Core/Sizing.cs` | One yardstick: adventurer height, OSRS units to metres, monster tiers |
 | `Core/UnityConv.cs` | `MeshData`/pixels into Unity meshes, textures, objects (main thread); OSRS colours gamma-to-linear in Linear colour space; `SpritePart` (part of a sprite frame as its own texture) |
 | `Dev/DataDump.cs` | `Dev.DumpData`: Megabonk's data as JSON |
+| `Dev/InputDump.cs` | Megabonk's Rewired setup as text (actions, map categories, joystick layouts, the gamepad template's default map per category), once the OSRS assets are ready: `[Dev] DumpData` writes `BepInEx/config/Bonkscape/input-dump.txt`, a scenario's `dump_input` its `<scenario>-input-dump.txt` in the shots |
 | `Dev/Timing.cs` | `timing: <mark> at N s` lines from the plugin's load (OSRS assets ready, main menu, run requested, run started, arena built) for the local loop |
 | `Dev/Breadcrumbs.cs` | Test mode: `%LOCALAPPDATA%\Bonkscape\breadcrumbs.txt`, one flushed line per step, so a native crash's last line names the step |
 

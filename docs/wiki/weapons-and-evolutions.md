@@ -151,11 +151,11 @@ Nine of the weapons have a special attack, counting each ladder once (every tier
 
 - It starts each run full (100%) and refills completely in 60 seconds. Each kill adds 0.25% more, but kills can at
   most double the refill rate.
-- **F** (`Special.FireKey`) fires the **armed** weapon's spec at the nearest monster in reach: 5 tiles for melee
+- **F** (`Special.FireKey`; **Y** on a controller) fires the **armed** weapon's spec at the nearest monster in reach: 5 tiles for melee
   weapons, 12 for ranged and magic, and no farther than its own radius for a spec centred on you (Wildfire, Deep
   Freeze). With nothing in reach or too little energy nothing is spent, and the chat says *There's nothing in reach.*
   or *You don't have enough special attack energy left.*
-- **Q** (`Special.SwitchKey`) arms the next weapon you hold that has a spec; the chat names it, as in *Special attack:
+- **Q** (`Special.SwitchKey`; a left-stick click on a controller) arms the next weapon you hold that has a spec; the chat names it, as in *Special attack:
   Abyssal whip (Energy Drain).* The armed weapon's icon sits beside the orb, which lights up when that spec can fire.
 - A spec plays your adventurer's OSRS special attack animation and its OSRS graphic, then hits through Megabonk's own
   weapon damage, so hitsplats, XP and kills work as for any hit. A spec hit is a multiple of the weapon's average hit
@@ -210,4 +210,4 @@ To aim for one: take the **Abyssal whip** with the **Kraken tentacle**, **Fire S
 the **Armadyl godsword** with the **Godsword shard** ([Gear passives](gear-passives.md)), level the weapon to 8, then
 open a casket.
 
-<!-- sources: src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/Projectiles.cs src/Bonkscape.Plugin/Systems/PlayerSkin.cs src/Bonkscape.Plugin/Systems/Evolutions.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Combat.cs sheets/weapons.json sheets/evolutions.json src/Bonkscape.Plugin/Core/Rows.cs src/Bonkscape.Plugin/Systems/Skills.cs -->
+<!-- sources: src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/Projectiles.cs src/Bonkscape.Plugin/Systems/PlayerSkin.cs src/Bonkscape.Plugin/Systems/Evolutions.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Combat.cs sheets/weapons.json sheets/evolutions.json src/Bonkscape.Plugin/Core/Rows.cs src/Bonkscape.Plugin/Systems/Skills.cs src/Bonkscape.Plugin/Systems/Controls.cs -->
