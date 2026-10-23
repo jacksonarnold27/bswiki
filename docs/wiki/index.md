@@ -7,7 +7,7 @@ your own OSRS install while the game starts. Nothing from either game ships with
 
 This wiki says how each system works **in the code as it is now**. It doesn't describe plans as if they were built.
 
-> **Version:** BSWiki matches Bonkscape **0.16.2** (code at `339992c`). What changed in each version:
+> **Version:** BSWiki matches Bonkscape **0.16.4** (code at `fbb32f2`). What changed in each version:
 > [patch notes](../dev/changelog.md). How each version tested: [test history](../dev/testing.md#test-history).
 
 ## Pages

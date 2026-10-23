@@ -94,6 +94,18 @@ on Bonkscape's controls page (the title screen's **Controls** button: [HUD](hud-
 in [Settings](settings.md), where `None` turns one off. Test runs press them through Bonkscape's test tools, not on a real
 controller: whether a real pad's presses reach Bonkscape is *(unconfirmed: needs a run with a controller)*.
 
+Bonkscape's own screens work on a controller too, through Megabonk's menu controls (the d-pad or left stick, A, B
+and Start), while Megabonk is in controller mode:
+
+- **Title screen**: the d-pad moves between the buttons (the one you're on turns yellow; the first press only shows
+  it) and A presses it.
+- **Controls page**: the d-pad picks a cell, A starts changing it, and the next button you press becomes its new one
+  (Start cancels instead). A keyboard cell still takes a key; B or Start cancels its wait. With nothing waiting, B
+  or Start closes the page.
+- **Character select**: Y changes the pet out (*"Press Y to change"*).
+
+Moving the mouse hands the screens back to it. Megabonk's own menus keep their own controller navigation.
+
 ## Leaderboards
 
 Runs with Bonkscape loaded never upload scores to Megabonk's Steam leaderboards.
@@ -107,4 +119,4 @@ Runs with Bonkscape loaded never upload scores to Megabonk's Steam leaderboards.
 - Log: `BepInEx/LogOutput.log`. Bonkscape's lines start with `[Info   : Bonkscape]`, and every chat message is
   logged too, as `[chat] ...`.
 
-<!-- sources: src/Bonkscape.Plugin/Plugin.cs src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/Hud.cs src/Bonkscape.Plugin/Patches/CorePatches.cs tools/package.py src/Bonkscape.Plugin/Systems/CharacterSelect.cs src/Bonkscape.Plugin/Systems/Unlocks.cs src/Bonkscape.Plugin/Systems/TitleScreen.cs src/Bonkscape.Plugin/Systems/Controls.cs src/Bonkscape.Plugin/Systems/ControlsPage.cs -->
+<!-- sources: src/Bonkscape.Plugin/Plugin.cs src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/Hud.cs src/Bonkscape.Plugin/Patches/CorePatches.cs tools/package.py src/Bonkscape.Plugin/Systems/CharacterSelect.cs src/Bonkscape.Plugin/Systems/Unlocks.cs src/Bonkscape.Plugin/Systems/TitleScreen.cs src/Bonkscape.Plugin/Systems/Controls.cs src/Bonkscape.Plugin/Systems/ControlsPage.cs src/Bonkscape.Plugin/Systems/MenuPad.cs -->

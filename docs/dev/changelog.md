@@ -13,6 +13,55 @@ inside each release's DLL in `dist/`. No version has been published yet: every r
 
 ---
 
+## 0.16.4: the test potion within reach
+
+*Build 2026-10-23 02:39, code in `fbb32f2`. Test `c5b95a38`: publish test, 3 runs x 2 min, passed. Run 1 the Zerker on
+Lumbridge into the Giant Mole's lair, run 2 on the Wilderness into the King Black Dragon's lair, run 3 the Ranger on
+Al Kharid into the Kalphite Queen's. All 12 self-checks each, `osrs-item-picked` from the test potion included.*
+
+**Patch notes**
+- No change for players over 0.16.3: a fix to Bonkscape's test runs.
+
+**Changes**
+- `Combat`: the test runs' early prayer potion (after 3 kills, with none drunk and none on the ground) drops 3 m in
+  front of the adventurer, not where the monster died: a kill at range (the Mage's Fire Strike) left it outside the
+  potion's 9 m pull, and 0.16.3's run never picked one up. Scenario `potion-mage`.
+- New `Dev/InputCalls.cs`, development only: a scenario's `"count_input": true` puts a counting prefix on every public
+  read of Rewired's `Player` (`GetButton*`, `GetNegativeButton*`, `GetAxis*`, `GetAnyButton*`) and on
+  `MyInputManager`'s static wrappers, and the report lists the counts by method and action (scenario `input-calls`):
+  which reads a simulated pad would have to answer.
+
+## 0.16.3: Bonkscape's screens on a controller
+
+*Build 2026-10-23 02:29, code in `9c84ae9`. Test `c3d6dd7e`: publish test, failed. Run 1 (TzHaar City as the Mage, into
+the Fight Caves) passed 11 of the 12 self-checks, but `osrs-item-picked` never reported: the early test potion dropped
+where Fire Strike's kills fell, out of its pull (fixed in 0.16.4). The test stopped after run 1.*
+
+**Patch notes**
+- Bonkscape's own screens work on a controller. On the OSRS title screen the d-pad moves between the buttons (the one
+  you're on turns yellow) and A presses it. On the controls page the d-pad picks a key or button, A starts changing
+  it and the next button you press becomes the new one (Start cancels; B closes the page). On character select, Y
+  changes the pet out.
+- Megabonk's own menus keep their controller navigation, and moving the mouse hands everything back to it.
+
+**Changes**
+- New `Systems/MenuPad.cs`: menu moves from Megabonk's own UI actions through its Rewired player (`UIHorizontal` and
+  `UIVertical`, repeating while held; `UISubmit`, `UICancel`, `UIAbort`: the d-pad or left stick, A, B and Start by
+  default, so a remap of them carries over), only while `MyInputManager.IsUsingController()` and not on a frame with
+  Enter, Space or Esc. The pad leads the menus until the mouse moves. `MenuPad.Tick` (each frame, from `Runner`)
+  hands a move to the controls page, else the title; on character select the pad's Y cycles the pet out
+  (`CharacterSelect.PadCyclePet`). A read that fails turns menu moves off with one warning.
+- `HudLayout.Neighbour`: the box a d-pad press reaches (the nearest whose centre lies that way, its distance across
+  weighted double). `TitleScreen` and `ControlsPage` keep a `Focus` (Play, the first key cell), shown as hovered
+  while the pad leads, and the first move only shows it. The title keeps Megabonk's own selection cleared under it,
+  so a press never also hits Megabonk's button. On the controls page A picks a cell; a controller cell takes the
+  next button but not the A that picked it, and Start cancels it instead of binding; B or Start cancels a key cell's
+  wait, and otherwise closes the page. The pet line says *Press Y to change* while the pad leads.
+- `Controls`: every gamepad-template button Bonkscape knows is read each frame (`Pressed`; `AnyPadPressed` takes from
+  the same set), not only the bound ones. A test's injected press during a run's pause waits for the game to go on.
+- Tests: the UI test's `"pad"` steps (`nav:`, `button:`, `focus:`, `selected`, `open:`, `pet:`, `petout`), optional
+  checks `menu-pad`, `menu-focus` and `pad-pet`, scenario `controller-menus`.
+
 ## 0.16.2: the controls page
 
 *Build 2026-10-23 02:05, code in `339992c`. Test `b2f28801`: publish test, 3 runs x 2 min, passed. Run 1 on Morytania

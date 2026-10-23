@@ -623,7 +623,7 @@ Sir Lancelot and the Barrows brothers have none. A drop says *"You have a funny 
 or *"You have a funny feeling like you would have been followed..."* for a pet you already own.
 
 A pet is yours for good, for every adventurer (kept in `unlocks.json`). One is out at a time: your first pet comes out
-at once, and the pet line on character select (*"Pet: ..."*, *"Click to change"*) goes through the ones you own, then
+at once, and the pet line on character select (*"Pet: ..."*, *"Click to change"*, or Y on a controller) goes through the ones you own, then
 none. The pet out follows you through each run as its OSRS NPC, walking and standing with its own animations, and
 gives every adventurer +1% luck (Megabonk's Luck). *(unconfirmed: needs a Melty run or footage)*
 
@@ -650,4 +650,4 @@ One clue at a time. It waits while you're in a boss's lair, and moving on to ano
 The Vyrewatch Sentinel is in the roster above as a planned row (phase 2). It doesn't spawn. Nor does the small Tz-Kek
 a Tz-Kek splits into in OSRS: its row is there, but the split isn't built.
 
-<!-- sources: src/Bonkscape.Plugin/Systems/EnemySkins.cs src/Bonkscape.Plugin/Systems/Animator.cs src/Bonkscape.Plugin/Systems/Bosses.cs src/Bonkscape.Plugin/Systems/Pathing.cs src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Combat.cs src/Bonkscape.Plugin/Core/Sizing.cs src/Bonkscape.Plugin/Core/Osrs.cs src/Bonkscape.Plugin/Core/Rows.cs sheets/enemies.json sheets/bosses.json sheets/waves.json sheets/drops.json src/Bonkscape.Plugin/Systems/BossFight.cs src/Bonkscape.Plugin/Systems/Bonk.cs src/Bonkscape.Plugin/Systems/Unlocks.cs sheets/maps.json src/Bonkscape.Plugin/Systems/Barrows.cs src/Bonkscape.Plugin/Systems/SetEffects.cs src/Bonkscape.Plugin/Systems/SecondForm.cs src/Bonkscape.Plugin/Systems/Pkers.cs src/Bonkscape.Plugin/Systems/Graveyard.cs src/Bonkscape.Plugin/Systems/Pets.cs src/Bonkscape.Plugin/Systems/Clues.cs sheets/clue_steps.json -->
+<!-- sources: src/Bonkscape.Plugin/Systems/EnemySkins.cs src/Bonkscape.Plugin/Systems/Animator.cs src/Bonkscape.Plugin/Systems/Bosses.cs src/Bonkscape.Plugin/Systems/Pathing.cs src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Combat.cs src/Bonkscape.Plugin/Core/Sizing.cs src/Bonkscape.Plugin/Core/Osrs.cs src/Bonkscape.Plugin/Core/Rows.cs sheets/enemies.json sheets/bosses.json sheets/waves.json sheets/drops.json src/Bonkscape.Plugin/Systems/BossFight.cs src/Bonkscape.Plugin/Systems/Bonk.cs src/Bonkscape.Plugin/Systems/Unlocks.cs sheets/maps.json src/Bonkscape.Plugin/Systems/Barrows.cs src/Bonkscape.Plugin/Systems/SetEffects.cs src/Bonkscape.Plugin/Systems/SecondForm.cs src/Bonkscape.Plugin/Systems/Pkers.cs src/Bonkscape.Plugin/Systems/Graveyard.cs src/Bonkscape.Plugin/Systems/Pets.cs src/Bonkscape.Plugin/Systems/Clues.cs sheets/clue_steps.json src/Bonkscape.Plugin/Systems/MenuPad.cs -->

@@ -73,7 +73,9 @@ The login box says *"Welcome to Bonkscape"* and holds Megabonk's main menu funct
 **Shop**, **Unlocks**, **Quests**, **Settings** and **Exit**, with **Leaderboards**, **Credits**, the language,
 **Discord** and **Controls** under it. Each but Controls runs Megabonk's own; a yellow *!* marks a Megabonk alert. Megabonk's silver shows at the top
 right, and the lower right corner names both versions, as *"Bonkscape 0.14.2 - Megabonk ..."* (the running ones). **Enter** or **Space**
-plays. When one of Megabonk's other screens or windows opens, it shows as Megabonk's own.
+plays. On a controller, the d-pad moves between the buttons (the one you're on turns yellow) and A presses it
+([Playing on a controller](getting-started.md#playing-on-a-controller)). When one of Megabonk's other screens or
+windows opens, it shows as Megabonk's own.
 
 The title's music is *Scape Main*, OSRS's login track, on builds with the music engine (not release builds), with
 OSRS's mute button in the box's lower right.
@@ -87,7 +89,8 @@ toggle, the attack style) and two cells each, under *Keyboard* and *Controller*.
 cancels. The change works at once and is saved to the settings file, so it's kept next time. **Defaults** puts
 every key and button back; **Done**, or **Esc** with nothing waiting, closes the page. Megabonk's own controls stay
 in its Settings. The page needs the title screen (`Interface.TitleScreen`); without it, change the keys in the
-settings file ([Settings](settings.md)).
+settings file ([Settings](settings.md)). On a controller, the d-pad picks a cell, A starts changing it and the next
+button pressed is its new one (Start cancels); B closes the page.
 
 ## Megabonk's windows
 
@@ -157,7 +160,8 @@ above your adventurer, on OSRS's stone background, shows (drawn a step smaller w
   (180)"* (the best you have) or *"Locked: his Barrows set (2/4)"*.
 
 Once you own a [boss pet](monsters-and-bosses.md#boss-pets), a pet line under the panel shows the pet out, *"Pet:
-..."* with its icon; clicking it (*"Click to change"*) brings out the next one you own, then none.
+..."* with its icon; clicking it (*"Click to change"*) brings out the next one you own, then none. On a controller Y does
+(*"Press Y to change"*).
 
 ## When your cache can't be found
 
@@ -250,4 +254,4 @@ The OSRS sprites and fonts each element uses (`sheets/ui.json`):
 needs a Melty run or footage)*. `run_timer` is planned
 (phase 3); Megabonk's own timer shows meanwhile.
 
-<!-- sources: src/Bonkscape.Plugin/Systems/Projectiles.cs src/Bonkscape.Plugin/Systems/Skilling.cs src/Bonkscape.Plugin/Systems/Music.cs src/Bonkscape.Plugin/Systems/Hud.cs src/Bonkscape.Plugin/Systems/HudLayout.cs src/Bonkscape.Plugin/Systems/OsrsUi.cs src/Bonkscape.Plugin/Systems/MegabonkHud.cs src/Bonkscape.Plugin/Systems/LevelUpFx.cs src/Bonkscape.Plugin/Systems/Chat.cs src/Bonkscape.Plugin/Systems/Evolutions.cs src/Bonkscape.Plugin/Systems/CharacterSelect.cs src/Bonkscape.Plugin/Systems/Combat.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Sfx.cs src/Bonkscape.Plugin/Core/OsrsAudio.cs src/Bonkscape.Plugin/Patches/CorePatches.cs sheets/ui.json sheets/audio.json src/Bonkscape.Plugin/Systems/BossFight.cs src/Bonkscape.Plugin/Systems/LavaBurn.cs src/Bonkscape.Plugin/Systems/Unlocks.cs src/Bonkscape.Plugin/Systems/Arena.cs src/Bonkscape.Plugin/Core/Runner.cs src/Bonkscape.Plugin/Core/Osrs.cs src/Bonkscape.Plugin/Systems/Barrows.cs src/Bonkscape.Plugin/Systems/SecondForm.cs src/Bonkscape.Plugin/Systems/Pkers.cs src/Bonkscape.Plugin/Systems/Graveyard.cs src/Bonkscape.Plugin/Systems/Inventory.cs src/Bonkscape.Plugin/Systems/TitleScreen.cs src/Bonkscape.Plugin/Systems/OsrsWindows.cs src/Bonkscape.Plugin/Systems/TitleArt.cs src/Bonkscape.Plugin/Systems/Pets.cs src/Bonkscape.Plugin/Systems/Clues.cs src/Bonkscape.Plugin/Systems/AttackStyles.cs src/Bonkscape.Plugin/Systems/Controls.cs src/Bonkscape.Plugin/Systems/ControlsPage.cs -->
+<!-- sources: src/Bonkscape.Plugin/Systems/Projectiles.cs src/Bonkscape.Plugin/Systems/Skilling.cs src/Bonkscape.Plugin/Systems/Music.cs src/Bonkscape.Plugin/Systems/Hud.cs src/Bonkscape.Plugin/Systems/HudLayout.cs src/Bonkscape.Plugin/Systems/OsrsUi.cs src/Bonkscape.Plugin/Systems/MegabonkHud.cs src/Bonkscape.Plugin/Systems/LevelUpFx.cs src/Bonkscape.Plugin/Systems/Chat.cs src/Bonkscape.Plugin/Systems/Evolutions.cs src/Bonkscape.Plugin/Systems/CharacterSelect.cs src/Bonkscape.Plugin/Systems/Combat.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Sfx.cs src/Bonkscape.Plugin/Core/OsrsAudio.cs src/Bonkscape.Plugin/Patches/CorePatches.cs sheets/ui.json sheets/audio.json src/Bonkscape.Plugin/Systems/BossFight.cs src/Bonkscape.Plugin/Systems/LavaBurn.cs src/Bonkscape.Plugin/Systems/Unlocks.cs src/Bonkscape.Plugin/Systems/Arena.cs src/Bonkscape.Plugin/Core/Runner.cs src/Bonkscape.Plugin/Core/Osrs.cs src/Bonkscape.Plugin/Systems/Barrows.cs src/Bonkscape.Plugin/Systems/SecondForm.cs src/Bonkscape.Plugin/Systems/Pkers.cs src/Bonkscape.Plugin/Systems/Graveyard.cs src/Bonkscape.Plugin/Systems/Inventory.cs src/Bonkscape.Plugin/Systems/TitleScreen.cs src/Bonkscape.Plugin/Systems/OsrsWindows.cs src/Bonkscape.Plugin/Systems/TitleArt.cs src/Bonkscape.Plugin/Systems/Pets.cs src/Bonkscape.Plugin/Systems/Clues.cs src/Bonkscape.Plugin/Systems/AttackStyles.cs src/Bonkscape.Plugin/Systems/Controls.cs src/Bonkscape.Plugin/Systems/ControlsPage.cs src/Bonkscape.Plugin/Systems/MenuPad.cs -->
