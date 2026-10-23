@@ -8,8 +8,8 @@ attacks, its projectile and its visuals. Bonkscape replaces the rest:
 - **Base stats**: damage, cooldown, area, amount (projectiles), speed (projectile speed), bounces, duration and
   knockback come from the row below.
 - **Level-up upgrades**: the weapon's Megabonk upgrade pool is replaced with the row's list.
-- **Name and icon**: the OSRS name, and an icon rendered from your cache. Fire Strike, Ice Barrage and Fire Surge use
-  their OSRS spell icons; the rest use the item's inventory icon.
+- **Name and icon**: the OSRS name, and an icon rendered from your cache. The four Strikes, Ice Barrage and the Fire
+  Surge evolution use their OSRS spell icons; the rest use the item's inventory icon.
 
 On Bonkscape's maps, level-ups offer only Bonkscape's weapons: one for each of twelve Megabonk weapons (a ladder's
 at your tier), plus a Barrows brother's own weapon to him alone (Guthan's warspear, Torag's hammers and Verac's flail
@@ -18,7 +18,7 @@ share the Void knight mace's Megabonk weapon, so they replace the mace while the
 
 - its projectile carries the OSRS model from the sheet, about a quarter of a tile along its longest side, centred
   on the projectile and turned to point along its flight: each shortbow's arrow (iron for the
-  Shortbow up to rune for the yew and magic shortbows), the Toxic blowpipe's dragon dart, the Red chinchompa, Karil's crossbow's bolt, and Fire Strike's, Ice Barrage's, the Trident's and Ahrim's
+  Shortbow up to rune for the yew and magic shortbows), the Toxic blowpipe's dragon dart, the Red chinchompa, Karil's crossbow's bolt, and the Strikes', Ice Barrage's, the Trident's and Ahrim's
   staff's spell graphics (the Abyssal whip, Dragon scimitar, Scythe of vitur, Armadyl godsword, Dragon claws, Void
   knight mace and the other Barrows weapons have none). Megabonk's own projectile effects stay;
 - the weapon's OSRS attack sound plays, at most every 0.3 s;
@@ -108,34 +108,34 @@ When a weapon levels up, Megabonk offers upgrades from its pool. Bonkscape's poo
 <!-- gen:weapon-levels -->
 | Weapon | Level-up upgrade pool | Special attack | Status |
 |---|---|---|---|
-| **Abyssal whip** | damage +2.0 (flat); attack speed +0.08 (addition); attack size +0.15 (addition); crit chance +0.06 (flat) | Energy Drain (hit:1.25,slow:2:0.5:4, not built) | <span class="st st-built">built</span> |
-| **Dragon scimitar** | damage +2.0 (flat); attack size +0.2 (addition); projectiles +1 (flat); knockback +0.25 (addition) | Sever (hit:1.5,stun:1.5, not built) | <span class="st st-verified">verified</span> |
-| **Bronze scimitar** | damage +2.0 (flat); attack size +0.2 (addition); projectiles +1 (flat); knockback +0.25 (addition) | Sever (hit:1.5,stun:1.5, not built) | <span class="st st-built">built</span> |
-| **Iron scimitar** | damage +2.0 (flat); attack size +0.2 (addition); projectiles +1 (flat); knockback +0.25 (addition) | Sever (hit:1.5,stun:1.5, not built) | <span class="st st-built">built</span> |
-| **Steel scimitar** | damage +2.0 (flat); attack size +0.2 (addition); projectiles +1 (flat); knockback +0.25 (addition) | Sever (hit:1.5,stun:1.5, not built) | <span class="st st-built">built</span> |
-| **Black scimitar** | damage +2.0 (flat); attack size +0.2 (addition); projectiles +1 (flat); knockback +0.25 (addition) | Sever (hit:1.5,stun:1.5, not built) | <span class="st st-built">built</span> |
-| **Mithril scimitar** | damage +2.0 (flat); attack size +0.2 (addition); projectiles +1 (flat); knockback +0.25 (addition) | Sever (hit:1.5,stun:1.5, not built) | <span class="st st-built">built</span> |
-| **Adamant scimitar** | damage +2.0 (flat); attack size +0.2 (addition); projectiles +1 (flat); knockback +0.25 (addition) | Sever (hit:1.5,stun:1.5, not built) | <span class="st st-built">built</span> |
-| **Rune scimitar** | damage +2.0 (flat); attack size +0.2 (addition); projectiles +1 (flat); knockback +0.25 (addition) | Sever (hit:1.5,stun:1.5, not built) | <span class="st st-built">built</span> |
-| **Magic shortbow** | damage +1.6 (flat); projectiles +1 (flat); projectile speed +0.2 (addition); crit chance +0.08 (flat) | Snapshot (hits:1.1/1.1:0.2, not built) | <span class="st st-built">built</span> |
-| **Shortbow** | damage +1.6 (flat); projectiles +1 (flat); projectile speed +0.2 (addition); crit chance +0.08 (flat) | Snapshot (hits:1.1/1.1:0.2, not built) | <span class="st st-built">built</span> |
-| **Oak shortbow** | damage +1.6 (flat); projectiles +1 (flat); projectile speed +0.2 (addition); crit chance +0.08 (flat) | Snapshot (hits:1.1/1.1:0.2, not built) | <span class="st st-built">built</span> |
-| **Willow shortbow** | damage +1.6 (flat); projectiles +1 (flat); projectile speed +0.2 (addition); crit chance +0.08 (flat) | Snapshot (hits:1.1/1.1:0.2, not built) | <span class="st st-built">built</span> |
-| **Maple shortbow** | damage +1.6 (flat); projectiles +1 (flat); projectile speed +0.2 (addition); crit chance +0.08 (flat) | Snapshot (hits:1.1/1.1:0.2, not built) | <span class="st st-built">built</span> |
-| **Yew shortbow** | damage +1.6 (flat); projectiles +1 (flat); projectile speed +0.2 (addition); crit chance +0.08 (flat) | Snapshot (hits:1.1/1.1:0.2, not built) | <span class="st st-built">built</span> |
-| **Toxic blowpipe** | damage +2.0 (flat); projectiles +1 (flat); crit chance +0.08 (flat); projectile speed +0.2 (addition) | Toxic Siphon (hit:1.5,heal:0.5, not built) | <span class="st st-built">built</span> |
-| **Fire Strike** | damage +2.5 (flat); projectiles +1 (flat); projectile speed +0.2 (addition); attack size +0.16 (addition) | Wildfire (cone:5:70:1.5, not built) | <span class="st st-built">built</span> |
-| **Wind Strike** | damage +2.5 (flat); projectiles +1 (flat); projectile speed +0.2 (addition); attack size +0.16 (addition) | Gale (cone:5:70:1.5, not built) | <span class="st st-built">built</span> |
-| **Water Strike** | damage +2.5 (flat); projectiles +1 (flat); projectile speed +0.2 (addition); attack size +0.16 (addition) | Torrent (cone:5:70:1.5, not built) | <span class="st st-built">built</span> |
-| **Earth Strike** | damage +2.5 (flat); projectiles +1 (flat); projectile speed +0.2 (addition); attack size +0.16 (addition) | Quake (cone:5:70:1.5, not built) | <span class="st st-built">built</span> |
-| **Ice Barrage** | attack size +0.12 (addition); damage +2.0 (flat); duration +0.12 (flat) | Deep Freeze (freeze:4:3:0.5, not built) | <span class="st st-built">built</span> |
-| **Trident of the seas** | damage +2.0 (flat); projectiles +1 (flat); bounces +1 (flat); attack size +0.2 (addition) | Tidal Chain (chain:5:3:1.0, not built) | <span class="st st-built">built</span> |
+| **Abyssal whip** | damage +2.0 (flat); attack speed +0.08 (addition); attack size +0.15 (addition); crit chance +0.06 (flat) | Energy Drain (hit:1.25,slow:2:0.5:4) | <span class="st st-built">built</span> |
+| **Dragon scimitar** | damage +2.0 (flat); attack size +0.2 (addition); projectiles +1 (flat); knockback +0.25 (addition) | Sever (hit:1.5,stun:1.5) | <span class="st st-verified">verified</span> |
+| **Bronze scimitar** | damage +2.0 (flat); attack size +0.2 (addition); projectiles +1 (flat); knockback +0.25 (addition) | Sever (hit:1.5,stun:1.5) | <span class="st st-built">built</span> |
+| **Iron scimitar** | damage +2.0 (flat); attack size +0.2 (addition); projectiles +1 (flat); knockback +0.25 (addition) | Sever (hit:1.5,stun:1.5) | <span class="st st-built">built</span> |
+| **Steel scimitar** | damage +2.0 (flat); attack size +0.2 (addition); projectiles +1 (flat); knockback +0.25 (addition) | Sever (hit:1.5,stun:1.5) | <span class="st st-built">built</span> |
+| **Black scimitar** | damage +2.0 (flat); attack size +0.2 (addition); projectiles +1 (flat); knockback +0.25 (addition) | Sever (hit:1.5,stun:1.5) | <span class="st st-built">built</span> |
+| **Mithril scimitar** | damage +2.0 (flat); attack size +0.2 (addition); projectiles +1 (flat); knockback +0.25 (addition) | Sever (hit:1.5,stun:1.5) | <span class="st st-built">built</span> |
+| **Adamant scimitar** | damage +2.0 (flat); attack size +0.2 (addition); projectiles +1 (flat); knockback +0.25 (addition) | Sever (hit:1.5,stun:1.5) | <span class="st st-built">built</span> |
+| **Rune scimitar** | damage +2.0 (flat); attack size +0.2 (addition); projectiles +1 (flat); knockback +0.25 (addition) | Sever (hit:1.5,stun:1.5) | <span class="st st-built">built</span> |
+| **Magic shortbow** | damage +1.6 (flat); projectiles +1 (flat); projectile speed +0.2 (addition); crit chance +0.08 (flat) | Snapshot (hits:1.1/1.1:0.2) | <span class="st st-built">built</span> |
+| **Shortbow** | damage +1.6 (flat); projectiles +1 (flat); projectile speed +0.2 (addition); crit chance +0.08 (flat) | Snapshot (hits:1.1/1.1:0.2) | <span class="st st-built">built</span> |
+| **Oak shortbow** | damage +1.6 (flat); projectiles +1 (flat); projectile speed +0.2 (addition); crit chance +0.08 (flat) | Snapshot (hits:1.1/1.1:0.2) | <span class="st st-built">built</span> |
+| **Willow shortbow** | damage +1.6 (flat); projectiles +1 (flat); projectile speed +0.2 (addition); crit chance +0.08 (flat) | Snapshot (hits:1.1/1.1:0.2) | <span class="st st-built">built</span> |
+| **Maple shortbow** | damage +1.6 (flat); projectiles +1 (flat); projectile speed +0.2 (addition); crit chance +0.08 (flat) | Snapshot (hits:1.1/1.1:0.2) | <span class="st st-built">built</span> |
+| **Yew shortbow** | damage +1.6 (flat); projectiles +1 (flat); projectile speed +0.2 (addition); crit chance +0.08 (flat) | Snapshot (hits:1.1/1.1:0.2) | <span class="st st-built">built</span> |
+| **Toxic blowpipe** | damage +2.0 (flat); projectiles +1 (flat); crit chance +0.08 (flat); projectile speed +0.2 (addition) | Toxic Siphon (hit:1.5,heal:0.5) | <span class="st st-built">built</span> |
+| **Fire Strike** | damage +2.5 (flat); projectiles +1 (flat); projectile speed +0.2 (addition); attack size +0.16 (addition) | Wildfire (cone:5:70:1.5) | <span class="st st-built">built</span> |
+| **Wind Strike** | damage +2.5 (flat); projectiles +1 (flat); projectile speed +0.2 (addition); attack size +0.16 (addition) | Gale (cone:5:70:1.5) | <span class="st st-built">built</span> |
+| **Water Strike** | damage +2.5 (flat); projectiles +1 (flat); projectile speed +0.2 (addition); attack size +0.16 (addition) | Torrent (cone:5:70:1.5) | <span class="st st-built">built</span> |
+| **Earth Strike** | damage +2.5 (flat); projectiles +1 (flat); projectile speed +0.2 (addition); attack size +0.16 (addition) | Quake (cone:5:70:1.5) | <span class="st st-built">built</span> |
+| **Ice Barrage** | attack size +0.12 (addition); damage +2.0 (flat); duration +0.12 (flat) | Deep Freeze (freeze:4:3:0.5) | <span class="st st-built">built</span> |
+| **Trident of the seas** | damage +2.0 (flat); projectiles +1 (flat); bounces +1 (flat); attack size +0.2 (addition) | Tidal Chain (chain:5:3:1.0) | <span class="st st-built">built</span> |
 | **Red chinchompa** | damage +2.0 (flat); projectiles +1 (flat); projectile speed +0.2 (addition); attack size +0.15 (addition) | - | <span class="st st-built">built</span> |
 | **Dwarf multicannon** | damage +1.5 (flat); attack speed +0.1 (addition); duration +0.2 (flat) | - | <span class="st st-todo">planned (phase 3)</span> |
 | **Dharok's greataxe** | damage +3.0 (flat); attack size +0.15 (addition) | - | <span class="st st-built">built</span> |
 | **Scythe of vitur** | damage +2.0 (flat); attack size +0.2 (addition) | - | <span class="st st-built">built</span> |
-| **Armadyl godsword** | damage +3.0 (flat); attack size +0.2 (addition) | The Judgement (hit:2.5,aoe:2:0.5, not built) | <span class="st st-built">built</span> |
-| **Dragon claws** | damage +2.0 (flat); crit chance +0.08 (flat) | Slice and Dice (hits:1.2/0.6/0.4/0.4:0.12, not built) | <span class="st st-built">built</span> |
+| **Armadyl godsword** | damage +3.0 (flat); attack size +0.2 (addition) | The Judgement (hit:2.5,aoe:2:0.5) | <span class="st st-built">built</span> |
+| **Dragon claws** | damage +2.0 (flat); crit chance +0.08 (flat) | Slice and Dice (hits:1.2/0.6/0.4/0.4:0.12) | <span class="st st-built">built</span> |
 | **Void knight mace** | damage +2.0 (flat); attack size +0.2 (addition); knockback +0.25 (addition); attack speed +0.08 (addition) | - | <span class="st st-built">built</span> |
 | **Ahrim's staff** | damage +2.0 (flat); projectiles +1 (flat); attack size +0.15 (addition) | - | <span class="st st-built">built</span> |
 | **Guthan's warspear** | damage +2.0 (flat); attack size +0.2 (addition); attack speed +0.08 (addition) | - | <span class="st st-built">built</span> |
@@ -146,8 +146,8 @@ When a weapon levels up, Megabonk offers upgrades from its pool. Bonkscape's poo
 
 ## Special attacks
 
-Nine of the weapons have a special attack. They share one **special attack energy** bar, the special attack orb
-beside the minimap ([HUD](hud-and-chat.md#in-a-run)):
+Nine of the weapons have a special attack, counting each ladder once (every tier of a ladder has it). They share one
+**special attack energy** bar, the special attack orb beside the minimap ([HUD](hud-and-chat.md#in-a-run)):
 
 - It starts each run full (100%) and refills completely in 60 seconds. Each kill adds 0.25% more, but kills can at
   most double the refill rate.
@@ -165,17 +165,18 @@ beside the minimap ([HUD](hud-and-chat.md#in-a-run)):
 | Weapon | Special attack | Energy | What it does |
 |---|---|---|---|
 | Abyssal whip | Energy Drain | 50% | Hits for 1.25x, and slows the target and every monster within 2 tiles of it to half speed for 4 s |
-| Dragon scimitar | Sever | 55% | Hits for 1.5x and stuns the target for 1.5 s |
-| Magic shortbow | Snapshot | 55% | Two hits of 1.1x, 0.2 s apart |
+| Scimitars (every tier) | Sever | 55% | Hits for 1.5x and stuns the target for 1.5 s |
+| Shortbows (every tier) | Snapshot | 55% | Two hits of 1.1x, 0.2 s apart |
 | Toxic blowpipe | Toxic Siphon | 50% | Hits for 1.5x and heals you half the damage it dealt |
-| Fire Strike | Wildfire (Bonkscape's own) | 50% | Hits every monster in a 70 degree cone 5 tiles long for 1.5x |
+| Strikes | Gale (Wind), Torrent (Water), Quake (Earth), Wildfire (Fire): Bonkscape's own | 50% | Hits every monster in a 70 degree cone 5 tiles long for 1.5x |
 | Ice Barrage | Deep Freeze (Bonkscape's own) | 50% | Hits every monster within 4 tiles of you for 0.5x and freezes it for 3 s; its ice block shows on the target |
 | Trident of the seas | Tidal Chain (Bonkscape's own) | 50% | Hits 5 monsters in a chain, each the nearest within 3 tiles of the last, for 1x, 0.12 s apart |
 | Armadyl godsword | The Judgement | 50% | Hits for 2.5x, and every other monster within 2 tiles of the target for 0.5x |
 | Dragon claws | Slice and Dice | 50% | Four hits of 1.2x, 0.6x, 0.4x and 0.4x, 0.12 s apart |
 
-The Red chinchompa and the Scythe of vitur have none. Fire Strike, Ice Barrage and the Trident have no special
-attack in OSRS; Bonkscape gives them one.
+The Red chinchompa, the Scythe of vitur, the Void knight mace and the Barrows brothers' weapons have none. The
+Strikes, Ice Barrage and the Trident have no special attack in OSRS, nor do the ladders' lower tiers (only the dragon
+scimitar and the magic shortbow); Bonkscape gives them one.
 
 ## Caskets
 
@@ -205,7 +206,8 @@ OSRS's level-up sound plays. Each evolution happens once per run, and every run 
 
 Fire Surge's "projectiles x1" leaves the number of projectiles as it was.
 
-To aim for one: take the **Abyssal whip** with the **Kraken tentacle**, or **Fire Strike** with the **Tome of fire**
-([Gear passives](gear-passives.md)), level the weapon to 8, then open a casket.
+To aim for one: take the **Abyssal whip** with the **Kraken tentacle**, **Fire Strike** with the **Tome of fire**, or
+the **Armadyl godsword** with the **Godsword shard** ([Gear passives](gear-passives.md)), level the weapon to 8, then
+open a casket.
 
 <!-- sources: src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/Projectiles.cs src/Bonkscape.Plugin/Systems/PlayerSkin.cs src/Bonkscape.Plugin/Systems/Evolutions.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Combat.cs sheets/weapons.json sheets/evolutions.json src/Bonkscape.Plugin/Core/Rows.cs src/Bonkscape.Plugin/Systems/Skills.cs -->

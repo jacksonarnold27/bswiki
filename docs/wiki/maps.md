@@ -89,7 +89,7 @@ You and the monsters bump into these, but Megabonk's camera, its spawn checks an
 Your adventurer climbs slopes up to 62 degrees, steeper than Megabonk's own limit, for OSRS's steps and hills. Hold a
 direction without moving for a quarter of a second and you slide along the wall in front of you, or hop up the ledge
 when nothing is in front at knee height.
-Monsters find their way around walls on Lumbridge's tile grid ([Monsters](monsters-and-bosses.md#how-monsters-move)).
+Monsters find their way around walls on the map's tile grid ([Monsters](monsters-and-bosses.md#how-monsters-move)).
 
 ### See-through walls
 
@@ -263,15 +263,15 @@ You get Megabonk's own map instead (the Forest, the Desert or the Graveyard), dr
 
 In the fallback, Megabonk's trees, rocks and bushes are drawn with the OSRS models in the map's own row: for
 Lumbridge, Tree (with an Oak tree about 30% of the time), Tin rocks and Bush, at sensible sizes, keeping Megabonk's
-own colliders. Morytania's row lists none, so its fallback is Megabonk's plain Desert. Skilling spots are placed around where you start: 10 trees, 8 rocks and 4 fishing spots, 12 to 70 m
-away.
+own colliders. Morytania's and the God Wars Dungeon's rows list none, so their fallback is Megabonk's plain stage.
+Skilling spots are placed around where you start: 10 trees, 8 rocks and 4 fishing spots, 12 to 70 m away.
 
 ## Planned maps
 
 Every map in `sheets/maps.json`, built or planned:
 
 <!-- gen:maps -->
-| Map | Megabonk map | OSRS area (x0, y0, x1, y1) | Music (planned) | Minutes | Special rule | Status |
+| Map | Megabonk map | OSRS area (x0, y0, x1, y1) | Music (experimental) | Minutes | Special rule | Status |
 |---|---|---|---|---|---|---|
 | **Lumbridge & Swamp** | Forest stage 0 | 3140, 3140, 3266, 3300 | Harmony | 10 | none | <span class="st st-verified">verified</span> |
 | **Morytania** | Desert stage 1 | 3400, 3158, 3783, 3607 | Village | 9 | none | <span class="st st-built">built</span> |
@@ -287,4 +287,4 @@ Rek*; the Wilderness: *Wilderness*; Ardougne & Seers' Village: *Knightly*; the G
 cache (`Audio.OsrsMusic`), but only with its engine, which release builds don't include, so they play Megabonk's
 music ([HUD and chat](hud-and-chat.md#sounds)). More boss arenas are on the [docket](../dev/docket.md).
 
-<!-- sources: src/Bonkscape.Plugin/Systems/Arena.cs src/Bonkscape.Plugin/Systems/MapProps.cs src/Bonkscape.Plugin/Systems/Skilling.cs src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Core/Osrs.cs src/Bonkscape.Plugin/Core/Runner.cs src/Bonkscape.Cache/World/ sheets/maps.json src/Bonkscape.Plugin/Systems/LavaBurn.cs src/Bonkscape.Plugin/Systems/BossFight.cs src/Bonkscape.Plugin/Systems/Bonk.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Barrows.cs src/Bonkscape.Plugin/Systems/SecondForm.cs src/Bonkscape.Plugin/Systems/Graveyard.cs src/Bonkscape.Cache/World/WorldBuilder.cs -->
+<!-- sources: src/Bonkscape.Plugin/Systems/Arena.cs src/Bonkscape.Plugin/Systems/MapProps.cs src/Bonkscape.Plugin/Systems/Skilling.cs src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Core/Osrs.cs src/Bonkscape.Plugin/Core/Runner.cs sheets/maps.json src/Bonkscape.Plugin/Systems/LavaBurn.cs src/Bonkscape.Plugin/Systems/BossFight.cs src/Bonkscape.Plugin/Systems/Bonk.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Barrows.cs src/Bonkscape.Plugin/Systems/SecondForm.cs src/Bonkscape.Plugin/Systems/Graveyard.cs -->

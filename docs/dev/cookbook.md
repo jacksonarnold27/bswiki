@@ -2,19 +2,20 @@
 
 Short recipes for the content every release adds, so nobody works them out again: a map, a boss arena, a weapon and
 its special attack, an adventurer, a test check. Each one names the files and sheet columns to touch, the commands to
-run and the gotchas that bit 0.2.x. Written against **0.2.12** (`4e610d5`) and, for special attacks, the parked
-`specials-0.4` branch (`edf1ee4`). The why behind each gotcha is on [Gotchas](gotchas.md); every column is on the
-[Sheets reference](sheets-reference.md). The main session owns `src/` and `sheets/`: a prep session writes only its
+run and the gotchas that bit earlier releases. Checked against the code in the 0.15 cleanup. The why behind each
+gotcha is on [Gotchas](gotchas.md); every column is on the [Sheets reference](sheets-reference.md). The main session owns `src/` and `sheets/`: a prep session writes only its
 release's new rows, committed by name.
 
 ## Commands every recipe uses
 
-Run from the repo root (Git Bash). `bonk` is the tools project; `BONK_CACHE` picks the full dev cache and `BONK_OUT`
-where renders go (default the current folder):
+Run from the repo root (Git Bash). `bonk` is the tools project; `BONK_CACHE` picks the full dev cache (an archived
+OSRS cache with every model) and `BONK_OUT` where renders go (default the current folder). `MEGABONK`, the game
+folder, is for the preflight and `bonk unstripped` below:
 
 ```bash
 alias bonk='dotnet run -c Release --project src/Bonkscape.Tools --'
-export BONK_CACHE=D:/Modding/osrscache/cache BONK_OUT=derived/check
+export BONK_CACHE=/path/to/full/cache BONK_OUT=derived/check
+export MEGABONK=/path/to/steamapps/common/Megabonk
 ```
 
 **Preflight** (`bonk preflight <sheets> <interopDir> <devCache> <playerCache|-> <genOut|-> <report>`): checks every
@@ -22,7 +23,7 @@ sheet against Megabonk's interop assemblies and both caches, and rewrites `docs/
 `sheets/cache_assets.json` and `Generated/Sheets.g.cs`:
 
 ```bash
-bonk preflight sheets D:/Steam/steamapps/common/Megabonk/BepInEx/interop D:/Modding/osrscache/cache C:/Users/jacks/.runelite/jagexcache/oldschool/LIVE src/Bonkscape.Plugin/Generated/Sheets.g.cs docs/preflight.md
+bonk preflight sheets $MEGABONK/BepInEx/interop $BONK_CACHE ~/.runelite/jagexcache/oldschool/LIVE src/Bonkscape.Plugin/Generated/Sheets.g.cs docs/preflight.md
 ```
 
 Exit 0 means no phase-1 open items; exit 4 means some, and the code and report are written anyway, so read the exit
@@ -34,15 +35,17 @@ them.
 **Package** (after bumping `Plugin.Version` in `src/Bonkscape.Plugin/Plugin.cs`):
 
 ```bash
-python tools/package.py 0.3.0
+python tools/package.py 0.15.0
 ```
 
-It refuses, writing nothing to `dist/`, when `check_docs.py --head --release` fails, the Release build fails,
-`Plugin.Version` isn't the version asked for, `README.md`'s Settings table misses a `Config.Bind` key, or `bonk
-unstripped` finds a call into a member Il2CppInterop rebuilt (exit 3). The last one alone, on a built DLL:
+(the version you set). It refuses, writing nothing to `dist/`, when `check_docs.py --head --release` fails, the
+Release build fails, `Plugin.Version` isn't the version asked for (exit 5), `README.md`'s Settings table misses a
+`Config.Bind` key (exit 4), or `bonk unstripped` finds a call into a member Il2CppInterop rebuilt (exit 3); and it
+deletes a zip that holds anything but the mod's DLLs, `README.md`, `LICENSE` and `LICENSES/`, or the publish-gated
+music engine under any name (exit 6). The unstripped check alone, on a built DLL:
 
 ```bash
-bonk unstripped src/Bonkscape.Plugin/bin/Release/net6.0/Bonkscape.dll D:/Steam/steamapps/common/Megabonk/BepInEx/interop
+bonk unstripped src/Bonkscape.Plugin/bin/Release/net6.0/Bonkscape.dll $MEGABONK/BepInEx/interop
 ```
 
 **Try it in game** with the local loop ([Testing](testing.md#the-local-loop)): it builds, installs, launches Megabonk
@@ -64,25 +67,27 @@ then the docs ([How to update these docs](updating-docs.md)). A screen or HUD ch
 
 ## Add a map
 
-**What the code allows today.** `Rows.Maps` keeps one phase-1 `maps` row per Megabonk map (`EMap`), the lowest
-`bonk_base_stage`; `Bonk.Active`, `Rows.Current`, the waves, the stage names and the arena all key off that row, and
-every stage of that Megabonk map gets the same arena. Megabonk has three maps (`dump.json`): Forest (3 stages,
-Lumbridge's), Desert (3 stages, Morytania's) and Graveyard (1 stage), so only the Graveyard is free. A second
-phase-1 row on a taken map gets no arena, waves or runs, and its monsters join Lumbridge's pool (an enemies row whose
-`maps` has no phase-1 map gets `Bonk.LumbridgeMap`). Putting a map on a later stage of a taken map, as the milestone plan does for later
-releases, needs per-stage rows in the code first. The Graveyard's timeline names `Ent1` as its boss, the Forest's
-first boss base, which `giant_mole` already holds: find out what its boss fight really spawns before giving it a boss.
+**What the code allows today.** A map takes over one stage of a Megabonk map: `bonk_base_map` and `bonk_base_stage`.
+`Rows.Maps` keeps one phase-1 row per map and stage, and `Bonk.Active` sets `Rows.Current` to the row of the stage
+being played, so each stage has its own arena, waves, stage name and monsters (`Content.ApplyStage` puts the stage's
+rows on the Megabonk enemy types a map's stages share). Megabonk has three playable maps (`dump.json`): the Forest
+(3 stages), the Desert (3) and the Graveyard (1, plus the final stage its crypt door loads). All seven stages are
+taken: Lumbridge, Ardougne & Seers' Village and the God Wars Dungeon; Al Kharid, Morytania and TzHaar City; the
+Wilderness. So a new map needs a stage: one a map holds now, or one that code adds. An enemies row with no `maps` at all joins the Forest's pool (`Bonk.LumbridgeMap`).
 
 **Files and columns**
 
-- `sheets/maps.json`, one row ([columns](sheets-reference.md#maps)): `bonk_base_map` (a free `EMap`),
-  `bonk_base_stage` (below that map's stage count: autoplay starts `map.stages[bonk_base_stage]`), `osrs_area`
+- `sheets/maps.json`, one row ([columns](sheets-reference.md#maps)): `bonk_base_map` and `bonk_base_stage` (a stage
+  below that map's stage count that no other phase-1 row takes: autoplay starts the map and jumps to it), `osrs_area`
   (`[x0, y0, x1, y1]`, from an outline in the sketch tool), `spawn_tile` and `boss_tile` (walkable within 3 tiles),
   `osrs_music_track`, `props`, `skilling_nodes`, `waves_id` (the map's id), `boss_id` (a `bosses` row or `none`),
-  `fallback_enemy`, `difficulty` (Morytania 0.8), `sky` (`megabonk` or `#rrggbb`), `phase` 1, `status` `todo`.
+  `fallback_enemy`, `difficulty` (1 on every map so far), `sky` (`megabonk` or `#rrggbb`), and where it has them
+  `underground`, `osrs_plane`, `currency_item`, `shopkeeper_npc`, `boss_pool`, `special_rule`; `phase` 1, `status`
+  `todo`.
 - `sheets/enemies.json`, a row per monster ([columns](sheets-reference.md#enemies)) with `maps: ["<map id>"]`. Each
-  `bonk_base_enemy` must be a Megabonk `EEnemy` no other phase-1 row uses: `Rows.EnemyByBonk` holds one row per base
-  and the last row wins. Minibosses take `Miniboss*` bases; the boss takes the stage's boss base (the timeline's
+  `bonk_base_enemy` must be a Megabonk `EEnemy` no other phase-1 row of the same map uses: `Rows.EnemyByMapBonk` holds
+  one row per map and base, and the last one listed wins. Rows of the other maps on the same Megabonk map share the
+  base's `EnemyData`; the stage's own rows go on it as the stage starts. Minibosses take `Miniboss*` bases; the boss takes the stage's boss base (the timeline's
   `boss` in `dump.json`: `Ent1` to `Ent3` on the Forest, `Pharaoh1` to `Pharaoh3` on the Desert). The plan's rule:
   a monster's `hp` and `damage` are the stats of the Megabonk slot it fills, then the map's `difficulty` scales them.
   Minibosses and bosses keep Megabonk's own stats times `difficulty`.
@@ -92,8 +97,7 @@ first boss base, which `giant_mole` already holds: find out what its boss fight 
   written when `[Dev] DumpData` is on):
   Forest and Desert stage 0 have minibosses at 3 and 8 and swarms at 4 and 7; the Graveyard has minibosses at 3, 7,
   10 and 13 and swarms at 4, 8, 11 and 14.
-- Code (the main session's): `Content.StageName` names Lumbridge's later stages (*Lumbridge Swamp*, *Lumbridge Swamp
-  Caves*); every other map shows its row's name on every stage.
+- No code: `Content.StageName` names each stage after its own row.
 
 **Commands**
 
@@ -135,8 +139,8 @@ the grid and the slopes. Run it at the spawn tile, the boss tile and any hole be
 
 **Gotchas from 0.2.x**
 
-- A third phase-1 map changes test coverage: autoplay plays map `rotation mod <phase-1 maps>`, so a two-run test no
-  longer plays every map (0.2.1 alternated two).
+- Every phase-1 map changes test coverage: autoplay plays map `rotation mod <phase-1 maps>`, so a two-run test plays
+  two of the seven (0.2.1 alternated two).
 - Megabonk's Desert timeline names the Forest's minibosses at minute 8; Morytania's `miniboss` row at 8 replaces them.
   Give every event of the stage a row. The log line *"waves: <map> on Megabonk's <EMap> stage N: M timeline events
   set"* counts what matched.
@@ -172,7 +176,9 @@ since 0.2.10. `Osrs` builds it at load like a map, keyed by the boss id (`Osrs.A
 
 - `sheets/bosses.json` ([columns](sheets-reference.md#bosses)): `id`, `enemy_id` (the enemies row), `attacks`,
   `phase_thresholds`, `music_override`, `osrs_arena` (`[x0, y0, x1, y1]`), `arena_spawn_tile` and `arena_boss_tile`
-  (`[x, y]`, inside the arena and walkable within 3), `pet_item_id`, `pet_rate`, `phase` 1.
+  (`[x, y]`, inside the arena and walkable within 3), `arena_plane`, `pet_item_id`, `pet_rate`, `pet_npc_id`, `phase`
+  1; and for a scripted fight `attack_every_ms` with `random` attacks, `arena_waves`, `boss_at`, `healers`,
+  `prayer_blocks_fully`, `second_form`.
   `Rows.BossArenas` takes only rows with `phase` 1 or less, four `osrs_arena` numbers and two numbers in each tile.
 - `sheets/maps.json`: the map's `boss_id` names the row. `Rows.BossArenaFor` matches both `maps.boss_id` and the
   row's `enemy_id`, so the enemies row must be the one skinned as that stage's boss: its `bonk_base_enemy` holds the
@@ -208,13 +214,16 @@ boxes* count is the walled-off tiles.
 - `RenderSettings`' getters are stripped, so `Content.KeepLook` keeps each stage's sky at load; `LeaveBossArena` puts
   it back at each stage start and run end. A death in the lair restarts on the map.
 - Every lair gets the cave look (black fog, a black skybox copy, vertex colours at 82%) and the chat line *"You follow
-  the <boss> down into its lair."*; a lair above ground needs code.
-- `Bosses.cs` reads only `Rows.MoleBoss` (Lumbridge's `boss_id`) and only the `burrow_teleport_every_<N>s` pattern.
-  A new boss gets the lair, its tile and the cave fixes, not behaviour from `attacks` or `phase_thresholds`.
+  the <boss> down into its lair."* (*"You enter <boss>'s arena; the waves come first."* with `arena_waves`); a lair
+  above ground needs code.
+- `Bosses.cs` is only the Mole's dig (`Rows.MoleBoss`, the `burrow_teleport_every_<N>s` pattern, `phase_thresholds`).
+  A boss's own OSRS attacks come from `BossFight` (`attack_every_ms` and `random` attacks: Megabonk's are switched off
+  for it), its waves from `arena_waves` and `boss_at`, healers from `healers`, a second form from `SecondForm`
+  ([Sheets reference](sheets-reference.md#bosses)). Without those it fights with Megabonk's attacks.
 - Only the regions inside `osrs_arena` must exist (`WorldData.MissingAreaRegions`): the Mole lair's neighbours are void.
 - Where Megabonk's next-stage portal appears after a lair kill is unconfirmed: no test has killed the Mole.
-- Test runs call the boss at 1:15 (`TestMode.CallBoss` opens Megabonk's boss portal); `boss-spawned`, `boss-arena`
-  and `lair-dig` are optional, log-only checks.
+- Test runs call the boss at 1:15, or at 40 s when its lair has `arena_waves` (`TestMode.CallBoss` opens Megabonk's
+  boss portal or final portal); `boss-spawned`, `boss-arena` and `lair-dig` are optional, log-only checks.
 
 **Done when** the preflight passes the lair, `bonk boxes ... cave` around the spawn and boss tiles shows every tile
 beside a `W` as `W`, `S` or `z` (boxed), and a test run logs *"arena: in <boss>'s lair after N ms"* and passes
@@ -225,12 +234,14 @@ beside a `W` as `W`, `S` or `z` (boxed), and a test run logs *"arena: in <boss>'
 **Files and columns:** `sheets/weapons.json` ([columns](sheets-reference.md#weapons)).
 
 - `bonk_base`: the Megabonk `EWeapon` whose behaviour, prefab and projectile the row reuses. `Rows.WeaponByBonk` holds
-  one row per `EWeapon`. A `new:...` base passes the preflight but `Content.ApplyWeapon` and the level-up pool skip
+  one row per `EWeapon`: a ladder's tiers share one (the adventurer's tier goes on it), and a Barrows brother's
+  character-only weapon goes on its shared type only while he plays. A `new:...` base passes the preflight but `Content.ApplyWeapon` and the level-up pool skip
   it: the row does nothing until code adds the weapon type. `bonk members <interopDir> EWeapon` lists the values.
 - `damage` ... `knockback` replace the `WeaponData` and its `baseStats`; `level_curve` is `Stat:Type:Value` entries
   (`EStat`, `EStatModifyType`) that replace the upgrade pool.
-- `gear_reqs`: `"starting_weapon"` or `{"skill": level}`, the levels needed to start a run with it (keep
-  `skills.unlocks` in step).
+- `gear_reqs`: `{"skill": level}`, OSRS's levels to wield it (level-ups never offer it below them, and it's never a
+  starting weapon below them), or `"character:<id>"` for a brother's own weapon. Keep `skills.unlocks` in step (the
+  preflight checks both ways). `ladder` and `tier` put it on a ladder.
 - `osrs_item_id` (icon and model), `osrs_icon_sprite_id` (spells), `osrs_projectile_or_spotanim_id` (`item:<id>`,
   `spotanim:<id>` or `none`), `sfx_id`.
 - `osrs_attack_anim`: the sequence the adventurer plays when the weapon attacks, or -1. It's baked on every
@@ -238,10 +249,11 @@ beside a `W` as `W`, `S` or `z` (boxed), and a test run logs *"arena: in <boss>'
   interleave list, because spell casts have none.
 
 **Finding and checking the attack sequence.** Names come from RuneLite's gameval files
-(`D:\Modding\osrs-repos\cache\runelite\runelite-api\src\main\java\net\runelite\api\gameval\AnimationID.java`): for
+(`runelite-api/src/main/java/net/runelite/api/gameval/AnimationID.java` in a clone of
+[RuneLite](https://github.com/runelite/runelite)): for
 example `HUMAN_SWORD_SLASH = 390` (dragon scimitar), `SLAYER_ABYSSAL_WHIP_ATTACK = 1658`, `HUMAN_BOW = 426`,
-`HUMAN_CASTSTRIKE_STAFF = 1162`, `DCLAWS_HUMAN_ATTACK = 7527`. On `master` the preflight doesn't check
-`osrs_attack_anim`, so check it yourself:
+`HUMAN_CASTSTRIKE_STAFF = 1162`, `DCLAWS_HUMAN_ATTACK = 7527`. The preflight checks the id is a sequence in the
+cache that bakes (frame-based, not skeletal); to look at it:
 
 ```bash
 bonk seqinfo 390 7527
@@ -277,25 +289,15 @@ build logs each adventurer's baked sequences, and a sequence it couldn't bake un
 **Done when** the preflight passes, `bonk anim` shows the swing, and a test run's log shows the weapon's sequence
 baked (*"<adventurer> animations: ... attack:<id> ..."*).
 
-### Its special attack (parked on `specials-0.4`)
+### Its special attack
 
-Special attacks are built on the branch `specials-0.4` (`edf1ee4`: *"WIP 0.4 special attacks (parked, untested)"*),
-never run in game, and merge when 0.4 starts. Read it without switching branches:
+Special attacks are `Systems/Specials.cs` (since 0.4). **Columns** on `weapons`: `spec_cost` (% of the energy bar, 0 =
+no spec), `spec_anim` (the adventurer's sequence, baked as `spec:<id>` and played whole, at most 2.2 s; -1 falls back
+to the attack), `spec_spotanim` (a spot animation shown as a flipbook, `SpotFx`, or -1), `spec_spot_on` (`player` or
+`target`), `spec_name` and `spec_effect`: steps `verb:args` separated by commas, `x` being a multiple of the weapon's
+average hit this run:
 
-```bash
-git show specials-0.4:src/Bonkscape.Plugin/Systems/Specials.cs
-```
-
-```bash
-git show specials-0.4:sheets/weapons.json
-```
-
-**Columns it adds** to `weapons`: `spec_cost` (% of the energy bar, 0 = no spec), `spec_anim` (the adventurer's
-sequence, baked as `spec:<id>` and played whole, at most 2.2 s; -1 falls back to the attack), `spec_spotanim` (a spot
-animation shown as a flipbook, `SpotFx`, or -1), `spec_spot_on` (`player` or `target`), `spec_name` and `spec_effect`:
-steps `verb:args` separated by commas, `x` being a multiple of the weapon's average hit this run:
-
-| Step | Args | Example (branch) |
+| Step | Args | Example |
 |---|---|---|
 | `hit` | `x` | `hit:1.5,stun:1.5` (Sever) |
 | `hits` | `x/x/...:gap` | `hits:1.2/0.6/0.4/0.4:0.12` (Slice and Dice) |
@@ -308,17 +310,17 @@ steps `verb:args` separated by commas, `x` being a multiple of the weapon's aver
 | `chain` | `jumps:tiles:x` | `chain:5:3:1.0` (Tidal Chain) |
 
 Hits go through `Enemy.DamageFromPlayerWeapon` and debuffs through `AddDebuff`/`SetSpeedMultiplier`, so hitsplats, XP
-and kills work as for any hit; there are no new Harmony patches. Energy: full in 60 s, plus 0.25 a kill from a budget
-that builds up at the refill rate, so kills at most double it. Keys `[Special] FireKey` (`F`) and `SwitchKey` (`Q`).
-Autoplay fires when it can and switches every 20 s when it holds two spec weapons; `spec-fired` and `spec-switched`
-are optional checks. On the branch the preflight also checks sequences (a new kind `seq`, which refuses skeletal
-ones), `spec_cost` from 0 to 100, `spec_spot_on` and the `spec_effect` grammar.
+and kills work as for any hit; there are no Harmony patches for it. Energy: full in 60 s, plus 0.25 a kill from a
+budget that builds up at the refill rate, so kills at most double it. Keys `[Special] FireKey` (`F`) and `SwitchKey`
+(`Q`). Autoplay fires when it can and switches every 20 s when it holds two spec weapons; `spec-fired` is one of the
+twelve recipe checks, `spec-switched` and `spec-<weapon>` are optional. The preflight checks the sequences (frame-based
+only), `spec_cost` from 0 to 100, `spec_spot_on` and the `spec_effect` grammar. A ladder's tiers all fire its spec.
 
 **Finding the ids.** Grep RuneLite's gameval names in `AnimationID.java` and `SpotanimID.java` (same folder as above)
 for `SP_ATTACK`, `SPEC` or `SPECIAL`, then check each id in the cache:
 
 ```bash
-grep -n -E "SP_ATTACK|SPEC" D:/Modding/osrs-repos/cache/runelite/runelite-api/src/main/java/net/runelite/api/gameval/AnimationID.java
+grep -n -E "SP_ATTACK|SPEC" /path/to/runelite/runelite-api/src/main/java/net/runelite/api/gameval/AnimationID.java
 ```
 
 ```bash
@@ -329,35 +331,33 @@ bonk seqinfo 1872 7514 7644
 bonk render spotanim 347
 ```
 
-The branch's ids: dragon scimitar `SP_ATTACK_DRAGON_SCIMITAR = 1872` with `SP_ATTACK_DRAGON_SCIMITAR_TRAIL_SPOTANIM =
+The ids in the sheet: dragon scimitar `SP_ATTACK_DRAGON_SCIMITAR = 1872` with `SP_ATTACK_DRAGON_SCIMITAR_TRAIL_SPOTANIM =
 347`; magic shortbow `SNAPSHOT = 1074` with `SP_ATTACK_SNAPSHOT_SPOTANIM = 256`; dragon claws `HUMAN_DRAGON_CLAWS_SPEC
 = 7514` with `DRAGON_CLAWS_SPOT = 1171`; Armadyl godsword `AGS_SPECIAL_PLAYER = 7644` with
 `DH_SWORD_UPDATE_ARMADYL_SPECIAL_SPOTANIM = 1211`; the whip and blowpipe reuse their attacks (1658, 5061) with
 `SP_ATTACK_ABYSSAL_WHIP = 341` and `TOXIC_BLOWPIPE_SPECIALATTACK = 1043`. Invented specs (Wildfire, Deep Freeze, Tidal
 Chain) reuse the spell's cast and its projectile's spot animation. Then `bonk anim worn:<items> <spec_anim>` to see it.
 
-**When it merges**, the docs gates need, in the same commit: the two `[Special]` keys on
-[Settings](../wiki/settings.md) and in `README.md`'s Settings table (`package.py` refuses otherwise), the four new
-`spec_*` columns on the Sheets reference, and the optional checks on Testing. Its code comments still say 0.3.
+**Docs it needs:** its row in the specials table on [Weapons and evolutions](../wiki/weapons-and-evolutions.md#special-attacks).
 
 ## Add an adventurer
 
 **Files and columns:** `sheets/characters.json` ([columns](sheets-reference.md#characters)).
 
 - `bonk_base_character`: the Megabonk `ECharacter` whose slot, prefab, movement and hitbox it takes.
-  `Rows.CharacterByBonk` holds one row per `ECharacter`; taken: `SirOofie` (Warrior), `Robinette` (Ranger), `Fox`
-  (Mage), and `Ninja` and `SirChadwell` by the planned Pure and Ironman. `bonk members <interopDir> ECharacter` lists
-  them.
-- `style`, `attack_style`, `starting_weapon` (a phase-1 weapon of the same style; `Content.StartingWeapon` gives the
-  best weapon of that style whose `gear_reqs` the adventurer's skills meet), and the stat columns `hp` ... `luck`,
-  which replace the Megabonk character's own modifiers (0 removes it).
+  `Rows.CharacterByBonk` holds one row per `ECharacter`; fourteen are taken (the Megabonk slot column on
+  [Adventurers](../wiki/adventurers.md)). `bonk members <interopDir> ECharacter` lists them all.
+- `style`, `attack_style`, `starting_weapon` (a ladder's first tier makes the adventurer climb that ladder by their
+  own levels; any other weapon is theirs whatever their levels: `Content.StartingWeapon`), and the stat columns `hp`
+  ... `luck`, which replace the Megabonk character's own modifiers (0 removes it).
 - `osrs_player_model` (JSON): `osrs_kits_male` (seven identity kits: head, jaw, torso, arms, hands, legs, feet; the
-  Warrior's are `[0, 10, 18, 26, 33, 36, 42]`), `osrs_items` (worn item ids), `osrs_colors` (0, the only value used),
+  Warrior's are `[0, 10, 18, 26, 33, 36, 42]`), `osrs_items` (worn item ids), `osrs_colors` (0s; not read),
   `osrs_stand_anim` (808), `osrs_walk_anim` (819), `osrs_run_anim` (824), `osrs_death_anim` (836). Put the starting
   weapon's item in `osrs_items`: the own body holds it, and every other weapon gets a body of its own with its item
   swapped into the weapon slot (`Osrs.PlayerWeaponBodies`, 0.4), so a new weapon row needs an `osrs_item_id` with a
   worn model to show in hand.
-- `unlock_condition` isn't read by the code yet.
+- `unlock_condition` (`always`, `total_level_N`, `barrows_set_<id>` or `levels:...`, which replace Megabonk's unlock),
+  and where it has them `can_buy`, `extra_weapons`, `start_levels`, `locked_skills`, `set_effect`.
 
 **Commands**
 
@@ -380,13 +380,12 @@ bonk render player 0 0,10,18,26,33,36,42 1163,1127,1079,4587
 - Worn items missing from a player's cache are dropped and the body built again (log *"<name>: some worn items aren't
   in this cache; built with N/M"*); the preflight checks every kit and worn item, and that the whole body builds.
 - Megabonk characters' colliders differ (`colliderHeight` in `dump.json`), and the adventurer's size comes from it.
-  `Sizing.Measure` measures again when the adventurer changes between runs (0.1.30, log *"sizing: adventurer changed
-  (A -> B), measuring again"*), but no test has seen that yet: each Melty test is a fresh game (docket: *Sizing per
-  adventurer*). Collider bounds read 0 or tilted at times, so it measures upright (MODLOG 18).
+  `Sizing.Measure` measures again when the adventurer changes between runs (log *"sizing: adventurer changed (A ->
+  B), measuring again"*): each Melty test is a fresh game, so it shows only in a scenario suite (since 0.6). Collider bounds read 0 or tilted at times, so it measures upright (MODLOG 18).
 - Skills save per adventurer, `%LOCALAPPDATA%\Bonkscape\skills_<id>.json`, seeded once from the old shared
   `skills.json`: renaming an `id` starts a new save.
-- Test runs rotate the phase-1 adventurers: `(run - 1 + rotation) mod <count>`; `[Dev] AutoStartRun` plays the first
-  row.
+- Test runs rotate the phase-1 adventurers this PC has unlocked: `(run - 1 + rotation) mod <count>`; `[Dev]
+  AutoStartRun` plays the first row.
 - Starting weapons are set in the `DataManager.Load` postfix, once per game start; the character select panel works
   them out live, so it can show a weapon the run doesn't give until Megabonk restarts (untested).
 - Every phase-1 weapon's attack is baked on the new body too, which adds to the cache build.
@@ -402,8 +401,7 @@ A check reports that a feature ran in a test run. `TestMode.Pass(name)` records 
 **Choose: required or optional.** Melty reads at most 12 check lines, and `TestMode.Checks` holds 12 (the recipe's
 `test.checks`, set when the release is submitted). A new required check replaces one of them in both places;
 otherwise it's optional: logged as *"check passed: <name> (optional, log only)"* and never written to Melty's file.
-Optional today: `osrs-cache` (out of the twelve since 0.4, for `spec-fired`), `skill-rules`, `boss-spawned`, `boss-arena`, `lair-dig`,
-`skilling-gathered`, `gear-slot-rules`, `spec-switched`, `spec-<weapon>`, `weapon-in-hand`, `player-hit`, `run-restarted`.
+[Testing](testing.md#self-checks) lists both kinds.
 
 **Steps**
 
@@ -414,8 +412,8 @@ Optional today: `osrs-cache` (out of the twelve since 0.4, for `spec-fired`), `s
 3. Name it on [Testing](testing.md#self-checks): required checks in the table, optional ones in the list under it.
    `check_docs.py --head` reads `TestMode.Checks` from HEAD and fails when a name isn't on that page, so commit the
    code and the page together.
-4. Make sure autoplay reaches it in every run: both maps, every adventurer, inside the 2-minute run (the casket
-   fallback is at 45 s, the boss call at 1:15). For what autoplay can't reach, `[Dev] ManualTest` hands the run to you
+4. Make sure autoplay reaches it in every run: every map, every adventurer, inside the 2-minute run (the casket
+   fallback is at 45 s, the boss call at 1:15, or 40 s where the boss's lair has waves). For what autoplay can't reach, `[Dev] ManualTest` hands the run to you
    and still writes the checks.
 5. Give it a scenario that reaches it fast (`"expect": ["<name>"]`, steps that spawn or give what it needs) and run it
    with the local loop: the report marks it `pass` or `MISSING`, and the dead-hook list shows whether the hook behind
@@ -430,8 +428,9 @@ Optional today: `osrs-cache` (out of the twelve since 0.4, for `spec-fired`), `s
   (0.1.0's test had every check missing).
 - Melty fails a run on any warning or error from the mod's files (`loader-errors`): 0.2.7 failed on autoplay's chest
   warnings. `TestMode.Fail` logs a warning, so call it only for a real failure; log expected misses as info.
-- A hook IL2CPP inlined installs and never runs (`WeaponBase.Use` 0.1.31, the casket's open 0.1.33,
-  `PlayerInput.MovementInput` 0.1.35): give each new hook a counter or a check before trusting it.
+- A hook IL2CPP inlined installs and never runs (`WeaponBase.Use` 0.1.31, the casket's open 0.1.33), and a patch
+  whose attribute isn't on its class is never applied at all (`PlayerInput.MovementInput`, 0.1.33 to 0.15): give each
+  new hook a counter or a check before trusting it ([Gotchas](gotchas.md#il2cpp-and-harmony)).
 - A recipe check must pass in every run. When test runs began alternating maps (0.2.1), `lumbridge-arena` became
   `osrs-arena`.
 - Checks that depend on luck fail short runs: 0.2.9's first 2-minute run never got `prayer-blocked`. Autoplay now

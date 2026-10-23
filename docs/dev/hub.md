@@ -83,23 +83,24 @@ Relaunch the hub (it replaces the running one, because hub.json changed), then a
 [Architecture](architecture.md#projects).
 
 **The engine** (`hub.py`, `index.html`, `app.js`, `style.css`, `doc.html`, `doc.js`) is a copy from the project-hub
-kit at `D:\Modding\project-hub`, which any project can use. Don't edit it here: change the kit, then copy it in with
-`python D:\Modding\project-hub\scaffold.py update D:\Modding\Bonkscape`. `export_wiki.py` is Bonkscape's own.
+kit, its own repo beside this one, which any project can use. Don't edit it here: change the kit, then copy it in with
+`python ../project-hub/scaffold.py update .` from the repo root. `export_wiki.py` is Bonkscape's own.
 
 ## Hosting BSWiki
 
 BSWiki is online, **public**, at <https://jacksonarnold27.github.io/bswiki/>: the player and developer pages, from the
 public repo [jacksonarnold27/bswiki](https://github.com/jacksonarnold27/bswiki) (GitHub Pages, branch `main`). That repo
-holds only the exported wiki; Bonkscape's own repo stays private. Its local copy is `D:\Modding\bswiki`, and its
-commits use the GitHub no-reply address, not your e-mail.
+holds only the exported wiki; Bonkscape's own repo stays private. Its local clone sits beside this repo, as `bswiki`
+(`hub.json`'s `site`, `{root}/../bswiki`), and its commits use the GitHub no-reply address, not your e-mail.
 
 **To update it** after editing the docs (also on the hub's Commands card):
 
 ```
-python tools/hub/export_wiki.py --with-dev --out D:\Modding\bswiki --push
+python tools/hub/export_wiki.py --with-dev --out ../bswiki --push
 ```
 
-It exports, commits in `D:\Modding\bswiki` and pushes; the site changes a minute or two later. Nothing is pushed
+Run it from the repo root (from a worktree elsewhere, give the clone's full path). It exports, commits in that clone
+and pushes; the site changes a minute or two later. Nothing is pushed
 when the export hasn't changed.
 
 **What the export holds:** the wiki site's `index.html`, `app.js` (its paths made relative, so it works in a

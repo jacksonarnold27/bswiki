@@ -7,8 +7,8 @@ What isn't there yet, or behaves differently from what you'd expect. The [docket
 - **Music.** Release builds play Megabonk's music: the experimental OSRS music player needs its engine
   (`OsrsKit.Music.dll`), which isn't shipped yet. OSRS's jingles (level-up, death) aren't built.
 - **Prayer altars.** The chat tells you to recharge at an altar, but there's none; prayer potions are the only refill.
-- **More adventurers, weapons, gear, monsters and maps.** The Dwarf multicannon
-  and the Barrows crypts are designed (phase 2 and 3) but not in the game.
+- **More adventurers, weapons, gear, monsters and maps.** The Dwarf multicannon (phase 3) and the Vyrewatch Sentinel
+  (phase 2) are designed but not in the game.
 - **The Infernal cape.** The Fire cape's evolution is in the evolutions sheet, but it can't happen yet.
 - **The Fight Caves monsters' own abilities.** Tz-Kek don't split, Yt-MejKot don't heal, and Tok-Xil and Ket-Zek
   attack as the Megabonk enemies under them.
@@ -21,8 +21,6 @@ What isn't there yet, or behaves differently from what you'd expect. The [docket
 - **Megabonk's other maps change a little too.** Bonkscape edits Megabonk's data when the game loads, so its reskinned
   weapons, tomes and characters keep their OSRS names, icons and stats on every map, and the Megabonk enemies it remaps
   keep the OSRS rows' HP, damage and speed.
-- **The Forest's third stage is Lumbridge again.** It's named *Lumbridge Swamp Caves* but builds the same Lumbridge;
-  every other stage has its own map.
 - **Minibosses and bosses use Megabonk's stats** (times their map's difficulty) and, all but TzTok-Jad, the Kalphite
   Queen, the King Black Dragon, Sir Lancelot and the God Wars generals, Megabonk's own
   attacks; only ordinary monsters take the sheet's HP, damage and speed.
@@ -64,7 +62,8 @@ These only show up in Melty's automated test runs (autoplay):
 - 1:15 into a test run (test runs last 2 minutes), the adventurer is moved to the boss portal and opens it, so each
   test meets a stage boss (on the Wilderness it opens the boss door, never while a window has the game paused). The
   first PKer comes 40 s in. On TzHaar City it opens the final portal 40 s in, and the Fight Caves run at a quarter of
-  their times (a wave every 5 s, Jad at 30 s), so the waves and Jad fit in. Autoplay switches prayer when Jad starts
+  their times (a wave every 5 s, Jad at 30 s), so the waves and Jad fit in; the God Wars Dungeon's final portal opens
+  40 s in too, for its general's waves. Autoplay switches prayer when Jad starts
   an attack, as a player reading his wind-up would.
 - A test run's 6th kill always drops a clue scroll, so each test shows a clue trail.
 - A hit that would kill the adventurer in a test run leaves 1 hitpoint instead (then heals to half), so a test run

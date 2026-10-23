@@ -50,8 +50,7 @@ log says `autoplay map: <name> (Megabonk's <map>)`. `Dev.AutoStartRun` plays Lum
    of a style the prayer doesn't cover, switch to that style on the next tick and hold it for 6 s (0.2.1). When a
    scripted boss starts an attack (Jad), pray against its style at once and hold it until after the hit
    (`Prayer.AutoplayBraceFor`).
-4. **Movement** (`TestMode.LateTick`, after Megabonk's own update; the `PlayerInput.MovementInput` postfix too when it
-   runs): a slow circle (0.35 rad/s), bent away from any monster within 7 m and turned along walls found two tiles
+4. **Movement** (`TestMode.LateTick`, after Megabonk's own update): a slow circle (0.35 rad/s), bent away from any monster within 7 m and turned along walls found two tiles
    ahead on the map's tile grid, turned into camera-relative input. Until `prayer-blocked` has passed, monsters whose
    style the active prayer covers are let in (0.2.1: fleeing everything meant two hits in a whole run, and the check was
    luck).
@@ -62,7 +61,7 @@ log says `autoplay map: <name> (Megabonk's <map>)`. `Dev.AutoStartRun` plays Lum
 7. **Boss**: 1:15 into a test run, the adventurer is moved next to Megabonk's boss portal (on the row's `boss_tile`)
    and the portal is opened (`InteractableBossSpawner.Interact`): autoplay never walks there, and the stage boss (the
    Giant Mole, Dharok) was never seen in a test. Logged as `test mode: opened the boss portal at ...`. On a map whose
-   boss has `arena_waves` (TzHaar City) the call comes at 40 s and opens Megabonk's final portal
+   boss has a lair with `arena_waves` (TzHaar City, the God Wars Dungeon) the call comes at 40 s and opens Megabonk's final portal
    (`InteractableBossSpawnerFinal`), retried each second for up to 30 s while there's none yet, and the arena plays at
    0.25 of its sheet times (`TestMode.ArenaTimeScale`).
 
@@ -75,7 +74,7 @@ Each is reported once per game session as a `pass <name>` line (or `fail <name>:
 |---|---|---|
 | `spec-fired` | A special attack was fired (0.4; autoplay fires the armed weapon's spec whenever it's affordable and a monster that can take damage is in reach). It took `osrs-cache`'s place in the twelve: `osrs-arena` can't pass without the cache. | `Specials.Fire` |
 | `run-started` | A run on a Bonkscape map has been active for 1 s. | `TestMode.Tick` |
-| `osrs-arena` | The run's OSRS map (Lumbridge, Morytania or TzHaar City) was built and the adventurer moved in. (`lumbridge-arena` from 0.1.7; renamed in 0.2.1 when test runs began alternating maps, since every recipe check must pass in every run.) | `Arena.Build` |
+| `osrs-arena` | The run's OSRS map (any of the seven) was built and the adventurer moved in. (`lumbridge-arena` from 0.1.7; renamed in 0.2.1 when test runs began alternating maps, since every recipe check must pass in every run.) | `Arena.Build` |
 | `osrs-enemy-killed` | A monster wearing an OSRS model died. | `Combat` (`EnemyDied`) |
 | `osrs-item-picked` | Coins, food, flying coins or a prayer potion were picked up. | `Loot` |
 | `prayer-switched` | A protection prayer was turned on. | `Prayer.Toggle` |
@@ -133,7 +132,7 @@ a summary. A run **counts** only when Melty's checks, the self-checks and the fo
 
 What footage review is good for: things self-checks can't see. That the adventurer is in the courtyard, that
 monsters reach you around walls, that the HUD and the animations show, that sizes look right. What it misses:
-anything autoplay doesn't do (most weapons, skilling on purpose, the Giant Mole: runs end before it comes).
+anything autoplay doesn't do (most weapons, skilling on purpose, a boss's death: runs end soon after the boss call).
 
 ## Test history
 
@@ -209,16 +208,21 @@ Times are local (UTC-5). From Melty's release list and test results.
 | 0.14.0 | `dc84b98b` | 3 x 2 min | **failed** | Run 1's 12 self-checks passed, but `loader-errors` failed: Bonkscape's HUD logged NullReferenceExceptions (the clue arrow reading the God Wars map's ground while a final portal tore it down). |
 | 0.14.1 | `a53efa6b` | 3 x 2 min | **failed** | Run 1 Durial321 on TzHaar City passed: a clue trail, the combat tab after the style key (Aggressive, XP to Strength), Jad. Run 2 never reported `prayer-blocked`: the Giant Mole's ground attacks name no monster, so no prayer blocked them. |
 | 0.14.2 | `0681a9e7` | 3 x 2 min | **passed (publish test)** | Run 1 the Ranger on the Wilderness on the willow shortbow tier: a clue trail, the style key to Longrange on the combat tab, a Defence level from it, the King Black Dragon. Run 2 the Zerker on Al Kharid with his own dragon scimitar: Controlled, the Kalphite Queen. Run 3 Durial321 on Morytania on his own whip: Controlled, Karil. All 12 each. |
+| 0.15.0 | `932a78bf` | 3 x 2 min | **passed (publish test)** | The first build on osrs-kit's cache library. Run 1 on Ardougne & Seers' Village: a clue, the combat tab with the Void knight mace's styles, the Abyssal tentacle, Sir Lancelot's arena, a Defence level. Run 2 on the God Wars Dungeon: the bronze scimitar's styles, the tentacle, the boss portal into General Graardor's lair. Run 3 the Mage on TzHaar City: a clue, Fire Strike's casting styles, the tentacle, the Fight Caves with Jad and his waves. All 12 each; the footage review found it playing as 0.14.2 did. |
 
 Blank cells weren't looked up. `mcp__melty__test_result` with the test id gives the full record.
 
 ## The local loop
 
-`python -I tools/loop.py tools/scenarios/<name>.json [more.json ...] [--one-launch] [--no-build] [--shots N]`:
+`python -I tools/loop.py tools/scenarios/<name>.json [more.json ...] [--one-launch] [--no-build] [--shots N]`, or a
+scenario made from flags instead of a file: `--map`, `--stage`, `--adventurer`, `--seconds`, `--boss-at`,
+`--step at:kind:arg` (`--step 5:spawn:giant_mole`), `--level skill=N`, `--expect <check>`, `--no-autoplay`; with
+`--width`, `--height`, `--timeout` and `--hang-after` (`loop.py`'s own usage text has examples):
 
 1. Refuses if a Megabonk is running (it never closes a game it didn't start) or Melty's test file exists.
 2. Builds the plugin (`dotnet build`, about 1.5 s when little changed), backs up `BepInEx/plugins/Bonkscape`, installs
-   `Bonkscape.dll`, `Bonkscape.Cache.dll` and the local-only music engine, switches Melty's loader on
+   `Bonkscape.dll`, `OsrsKit.Cache.dll` and the local-only music engine (an older install's `Bonkscape.Cache.dll` is
+   set aside until the run ends), switches Melty's loader on
    (`winhttp.dll.melty-off` to `winhttp.dll`) and writes the scenario to `BepInEx/config/Bonkscape/scenario.json`.
 3. Backs up every save a run writes (Megabonk's `Saves` folder, which Steam Cloud syncs, and its Player logs;
    Bonkscape's skill saves, unlocks, breadcrumbs and test rotation) and launches `Megabonk.exe` directly (no Steam hand-off on
@@ -228,10 +232,16 @@ Blank cells weren't looked up. `mcp__melty__test_result` with the test id gives 
 4. Waits for the scenario report's last line, `done:`, then copies `LogOutput.log`, `scenario-report.txt` and the
    screenshots to `derived/loop/<time>-<name>/` (gitignored), closes the PID it started, and puts the plugin folder,
    the loader switch and every save back, byte for byte with their times (files the run made are removed). A loop
-   killed before that restores the saves on its next start (`derived/loop/PENDING-RESTORE.txt`).
+   killed before that restores the saves on its next start (`derived/loop/PENDING-RESTORE.txt`). A hang ends the wait
+   early: after `--hang-after` seconds (90) without log output, with the game's window not responding, the loop writes
+   `hang-threads.txt` (each thread's state, CPU time and name) and `hang.dmp` (a minidump with every thread's stack,
+   for WinDbg; `tools/hang_report.ps1`) into that folder before it closes the game ([Docket](docket.md): local suites
+   hang at a scene load).
 5. Prints a summary: timings, the in-game timing marks (`timing: <mark> at N s` lines from `Dev/Timing.cs`), the
-   checks that passed, every Bonkscape warning or error, the dead-hook report and the scenario report. Several
-   scenario files run one after another with a combined table; `--one-launch` runs them as a suite in one game.
+   checks that passed, every Bonkscape warning or error, the dead-hook report, the game's memory at each scenario's
+   end, the hang if there was one, and the scenario report. Several scenario files run one after another with a
+   combined table; `--one-launch` runs them as a suite in one game, and the scenarios a hang or a timeout left unrun
+   are failures in its table.
 
 **Scenarios** (`Systems/Scenario.cs`, files in `tools/scenarios/`): `map`, `stage` (a later stage is reached from the
 first, `TestMode.JumpToStage`; the clock waits for it, and its monsters lose Megabonk's per-stage hp and damage share, as
@@ -256,7 +266,7 @@ brother's full Barrows set owned, in memory only, for his unlock), `pool_boss` (
 unlocks.json, so a suite's later scenario proves a piece the earlier one saved survives a restart: `barrows-save` then
 `barrows-load`; the report counts the pieces owned and says whether the
 playing adventurer is unlocked), `save_skills` (`true` to test saving; the loop restores the files after), `shots` (seconds), `expect` (checks the report marks `pass` or `MISSING`), `deaths`
-(`"allow"` for real deaths), `ui` (the UI test; its `menus` may include `"title"` (0.12): at the last resolution each title screen button a test may press is pressed, what it opened screenshotted and the menu brought back, and Exit, Language and Discord are only checked as wired, so a test never quits, changes the language or opens a browser; a return to the main menu while it's open is skipped, since Megabonk's `SetWindow` toggles and would switch the menu off), `title_screen` (`false`: Megabonk's own main menu for that scenario), `music` (`true` for the OSRS music; it's off in scenarios otherwise, since 0.12: Melty's builds never carry the engine, and on local suites its track changes at scene loads hung the game), `dump_logo` (`true`: Megabonk's logo as the title screen reads it back, written raw into the shots folder for `bonk uisprites mock`; Megabonk's art, kept local), `suite` (several scenarios in one launch: each run is ended as at a
+(`"allow"` for real deaths), `ui` (the UI test; its `menus` may include `"title"` (0.12): at the last resolution each title screen button a test may press is pressed, what it opened screenshotted and the menu brought back, and Exit, Language and Discord are only checked as wired, so a test never quits, changes the language or opens a browser; a return to the main menu while it's open is skipped, since Megabonk's `SetWindow` toggles and would switch the menu off), `title_screen` (`false`: Megabonk's own main menu for that scenario), `music` (`true` for the OSRS music; it's off in scenarios otherwise, since 0.12: Melty's builds never carry the engine, and local suites hung at scene loads with it, though they have since without it too: the docket's row), `dump_logo` (`true`: Megabonk's logo as the title screen reads it back, written raw into the shots folder for `bonk uisprites mock`; Megabonk's art, kept local), `suite` (several scenarios in one launch: each run is ended as at a
 run's end and Megabonk goes back to its main menu, `TransitionUI.LoadMenu`, where the next run starts as after a launch;
 about 5 s a scenario. Starting it straight from the run with `MapController.StartNewMap` kept the last run's player,
 its adventurer and weapons, so suites before 0.4 ran every scenario as the first one's adventurer). Each scenario
@@ -330,7 +340,9 @@ health, so a run where monsters never hurt the adventurer shows.
 **The dead-hook report** (`Core/DeadHooks.cs`): in test runs every method Bonkscape patches gets a counting prefix;
 the report lists the patches that never ran (in the scenario report, and every 60 s in Melty runs' logs). A short run
 leaves situational ones (no chest opened, no death, no evade); a patch that never runs across scenarios built to
-reach it has been inlined by IL2CPP, as `WeaponBase.Use`, the casket's open and `PlayerInput.MovementInput` were.
+reach it has been inlined by IL2CPP, as `WeaponBase.Use` and the casket's open were. A patch that was never applied
+isn't in the report at all: compare N in the log's `dead-hook report: counting calls to N patched methods` with the
+distinct targets in [Architecture's patch table](architecture.md#harmony-patches) ([Gotchas](gotchas.md#il2cpp-and-harmony)).
 
 **The UI test** (not run every time; 0.12 builds on it): scenario `ui` sets each resolution in game
 (`Screen.SetResolution`; on a 2560x1600 desktop 3840x2160 clamps to 3840x1934) and, on the menu, opens each screen in
@@ -371,6 +383,6 @@ bug.
 - Offline: `bonk preflight` checks the sheets against the interop assemblies and both caches; `bonk worldscan`
   checks every map region decodes; `bonk render` and `bonk world` make images to look at.
 
-Gaps (per-feature checks, a hand-over playtest mode, the other adventurers) are on the [docket](docket.md).
+What testing still lacks is on the [docket](docket.md).
 
 <!-- sources: src/Bonkscape.Plugin/Systems/TestMode.cs src/Bonkscape.Plugin/Systems/Scenario.cs src/Bonkscape.Plugin/Systems/TestGuard.cs src/Bonkscape.Plugin/Systems/Shot.cs src/Bonkscape.Plugin/Core/DeadHooks.cs src/Bonkscape.Plugin/Dev/Timing.cs tools/loop.py -->

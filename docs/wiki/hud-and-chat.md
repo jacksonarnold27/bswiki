@@ -71,7 +71,7 @@ background, and a combined logo with BONK over OSRS's *SCAPE* and *OLD SCHOOL*, 
 The login box says *"Welcome to Bonkscape"* and holds Megabonk's main menu functions as its buttons: **Play**,
 **Shop**, **Unlocks**, **Quests**, **Settings** and **Exit**, with **Leaderboards**, **Credits**, the language and
 **Discord** under it. Each runs Megabonk's own; a yellow *!* marks a Megabonk alert. Megabonk's silver shows at the top
-right, and the lower right corner names both versions, as *"Bonkscape 0.12.0 - Megabonk ..."*. **Enter** or **Space**
+right, and the lower right corner names both versions, as *"Bonkscape 0.14.2 - Megabonk ..."* (the running ones). **Enter** or **Space**
 plays. When one of Megabonk's other screens or windows opens, it shows as Megabonk's own.
 
 The title's music is *Scape Main*, OSRS's login track, on builds with the music engine (not release builds), with
@@ -134,13 +134,13 @@ Every chat line is also written to the BepInEx log as `[chat] ...`.
 On character select, a panel at the top of the screen, in the gap between Megabonk's two windows and
 above your adventurer, on OSRS's stone background, shows (drawn a step smaller when it wouldn't fit):
 
-- the **name** of the adventurer whose button you're on, as OSRS's skills tab shows the player's, and his
+- the **name** of the adventurer whose button you're on, as OSRS's skills tab shows the player's, and their
   **combat level**, locked ones included, as *"Combat Lvl: 3"*
   ([Skills](skills-and-xp.md#combat-level)),
 - that adventurer's skills in two columns, each with its icon and level, the panel as wide as its longest skill name,
 - *"Starts with: Dragon scimitar"*, the weapon that adventurer will start with
   ([Adventurers](adventurers.md#starting-weapons)), and for a Barrows brother how much of his set you own, as
-  *"(set 4/4)"*; for a locked adventurer, what unlocks him instead: *"Locked: total level 250 on one adventurer
+  *"(set 4/4)"*; for a locked adventurer, what unlocks them instead: *"Locked: total level 250 on one adventurer
   (180)"* (the best you have) or *"Locked: his Barrows set (2/4)"*.
 
 Once you own a [boss pet](monsters-and-bosses.md#boss-pets), a pet line under the panel shows the pet out, *"Pet:
@@ -175,9 +175,6 @@ death) aren't built.
 | `pickup_coins` | pickup | `sfx:3924` | megabonk | <span class="st st-built">built</span> |
 | `level_up` | level_up | `sfx:3925` | none | <span class="st st-built">built</span> |
 | `level_up_jingle` | level_up | `jingle:level_up` | sfx:3925 | <span class="st st-todo">planned (phase 2)</span> |
-| `prayer_on_melee` | prayer_on | `sfx:2676` | none | <span class="st st-built">built</span> |
-| `prayer_on_missiles` | prayer_on | `sfx:2677` | none | <span class="st st-built">built</span> |
-| `prayer_on_magic` | prayer_on | `sfx:2675` | none | <span class="st st-built">built</span> |
 | `prayer_off` | prayer_off | `sfx:2663` | none | <span class="st st-built">built</span> |
 | `prayer_empty` | prayer_off | `sfx:2672` | none | <span class="st st-built">built</span> |
 | `chop` | pickup | `sfx:2735` | none | <span class="st st-built">built</span> |
@@ -236,7 +233,7 @@ The OSRS sprites and fonts each element uses (`sheets/ui.json`):
 | `dialogue_font` | font | `font:q8_full` | level-up dialogue (interface 233) | chatbox | <span class="st st-verified">verified</span> |
 <!-- /gen:ui -->
 
-Two rows aren't drawn although the sheet marks them done: `run_timer` (Bonkscape's OSRS-font clock was removed in
-0.1.7) and `hitsplat_poison` (nothing poisons yet).
+`hitsplat_poison` is built but never drawn: no hit on a monster counts as poison yet. `run_timer` is planned
+(phase 3); Megabonk's own timer shows meanwhile.
 
-<!-- sources: src/Bonkscape.Plugin/Systems/Projectiles.cs src/Bonkscape.Plugin/Systems/Skilling.cs src/Bonkscape.Plugin/Systems/Music.cs src/Bonkscape.Plugin/Systems/Hud.cs src/Bonkscape.Plugin/Systems/HudLayout.cs src/Bonkscape.Plugin/Systems/OsrsUi.cs src/Bonkscape.Plugin/Systems/MegabonkHud.cs src/Bonkscape.Plugin/Systems/LevelUpFx.cs src/Bonkscape.Cache/SpotAnimFrames.cs src/Bonkscape.Plugin/Systems/Chat.cs src/Bonkscape.Plugin/Systems/Evolutions.cs src/Bonkscape.Plugin/Systems/CharacterSelect.cs src/Bonkscape.Plugin/Systems/Combat.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Sfx.cs src/Bonkscape.Plugin/Core/OsrsAudio.cs src/Bonkscape.Plugin/Patches/CorePatches.cs sheets/ui.json sheets/audio.json src/Bonkscape.Plugin/Systems/BossFight.cs src/Bonkscape.Plugin/Systems/LavaBurn.cs src/Bonkscape.Plugin/Systems/Unlocks.cs src/Bonkscape.Plugin/Systems/Arena.cs src/Bonkscape.Plugin/Core/Runner.cs src/Bonkscape.Plugin/Core/Osrs.cs src/Bonkscape.Plugin/Systems/Barrows.cs src/Bonkscape.Plugin/Systems/SecondForm.cs src/Bonkscape.Plugin/Systems/Pkers.cs src/Bonkscape.Plugin/Systems/Graveyard.cs src/Bonkscape.Plugin/Systems/Inventory.cs src/Bonkscape.Plugin/Systems/TitleScreen.cs src/Bonkscape.Plugin/Systems/OsrsWindows.cs src/Bonkscape.Cache/TitleArt.cs src/Bonkscape.Plugin/Systems/Pets.cs src/Bonkscape.Plugin/Systems/Clues.cs src/Bonkscape.Plugin/Systems/AttackStyles.cs -->
+<!-- sources: src/Bonkscape.Plugin/Systems/Projectiles.cs src/Bonkscape.Plugin/Systems/Skilling.cs src/Bonkscape.Plugin/Systems/Music.cs src/Bonkscape.Plugin/Systems/Hud.cs src/Bonkscape.Plugin/Systems/HudLayout.cs src/Bonkscape.Plugin/Systems/OsrsUi.cs src/Bonkscape.Plugin/Systems/MegabonkHud.cs src/Bonkscape.Plugin/Systems/LevelUpFx.cs src/Bonkscape.Plugin/Systems/Chat.cs src/Bonkscape.Plugin/Systems/Evolutions.cs src/Bonkscape.Plugin/Systems/CharacterSelect.cs src/Bonkscape.Plugin/Systems/Combat.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Sfx.cs src/Bonkscape.Plugin/Core/OsrsAudio.cs src/Bonkscape.Plugin/Patches/CorePatches.cs sheets/ui.json sheets/audio.json src/Bonkscape.Plugin/Systems/BossFight.cs src/Bonkscape.Plugin/Systems/LavaBurn.cs src/Bonkscape.Plugin/Systems/Unlocks.cs src/Bonkscape.Plugin/Systems/Arena.cs src/Bonkscape.Plugin/Core/Runner.cs src/Bonkscape.Plugin/Core/Osrs.cs src/Bonkscape.Plugin/Systems/Barrows.cs src/Bonkscape.Plugin/Systems/SecondForm.cs src/Bonkscape.Plugin/Systems/Pkers.cs src/Bonkscape.Plugin/Systems/Graveyard.cs src/Bonkscape.Plugin/Systems/Inventory.cs src/Bonkscape.Plugin/Systems/TitleScreen.cs src/Bonkscape.Plugin/Systems/OsrsWindows.cs src/Bonkscape.Plugin/Systems/TitleArt.cs src/Bonkscape.Plugin/Systems/Pets.cs src/Bonkscape.Plugin/Systems/Clues.cs src/Bonkscape.Plugin/Systems/AttackStyles.cs -->

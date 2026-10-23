@@ -1,7 +1,7 @@
 # Gotchas
 
 Hard-won lessons, grouped by topic. Numbers in brackets are the numbered gotchas in `docs/MODLOG.md` (keep both in
-step: MODLOG is the short log, this page explains). Unnumbered ones were found while writing the wiki.
+step: MODLOG is the short log, this page explains). Unnumbered ones are on this page only.
 
 ## Melty and the loader
 
@@ -54,10 +54,17 @@ step: MODLOG is the short log, this page explains). Unnumbered ones were found w
   'Bonkscape.Core.UnityConv' threw an exception"* on every use. Create Unity objects lazily, on the main thread.
 
 - **IL2CPP inlines small methods, and a patch on an inlined method never runs** [20]. Harmony patches the method, but
-  its callers carry their own copy. Three Bonkscape hooks never fired: `WeaponBase.Use` for weapon attacks (0.1.31;
-  `WeaponAttack.SuccessfullySpawnedProjectile` works), `InteractableChest.OpenChestImplementation` for caskets (0.1.33;
-  `ChestWindowUi.OpenButton` works) and `PlayerInput.MovementInput` for autoplay (0.1.35; movement is now written in
-  `LateUpdate`). Give every hook a counter or a self-check, and prefer public entry points.
+  its callers carry their own copy. Two Bonkscape hooks never fired: `WeaponBase.Use` for weapon attacks (0.1.31;
+  `WeaponAttack.SuccessfullySpawnedProjectile` works) and `InteractableChest.OpenChestImplementation` for caskets
+  (0.1.33; `ChestWindowUi.OpenButton` works). Give every hook a counter or a self-check, and prefer public entry points.
+- **A `[HarmonyPatch]` attribute that slips off its class patches nothing, and nothing says so** [23]. 0.1.33 put a
+  new method between `[HarmonyPatch(typeof(PlayerInput), "MovementInput")]` and the patch class under it; the attribute
+  then sat on a method of `TestMode`, `PatchAll` skipped it, and the postfix was never applied. 0.1.35 took the
+  silence for inlining and moved autoplay's movement into `TestMode.LateTick`, where it still is (0.15 removed the
+  orphaned patch; whether `MovementInput` is inlined was never tested). The dead-hook report can't see it: it counts
+  only methods that were patched (`counting calls to N patched methods` in the log), and `check_docs`' `[patches]` check
+  reads the attribute's text. Keep the attribute directly on its class, and compare N with the distinct targets in
+  [Architecture's patch table](architecture.md#harmony-patches).
 
 ## Megabonk runtime
 
@@ -204,13 +211,12 @@ step: MODLOG is the short log, this page explains). Unnumbered ones were found w
 - **OSRS item models lie flat.** Fit ground items and projectiles by their longest side (`UnityConv.Longest`,
   `AttachFit`), not their height: 0.2.0 drew rune arrows metres long and single coins as big gold discs.
 - **Players' caches are partial** (the client downloads models on demand), hence stand-ins and graceful fallbacks
-  everywhere. The creator's PC uses `OSRS.CacheFolder = D:/Modding/osrscache/cache`, a full cache, for testing; this
-  PC's RuneLite cache now has the full archive too (preflight: 143/143 phase-1 assets).
+  everywhere. The creator's PC sets `[OSRS] CacheFolder` to an archived full cache for testing, and its RuneLite cache
+  has the full archive too.
 - **OSRS NPC models need their standing frame** [12] or they T-pose. Lighting is computed before the pose and the NPC
   scale after it, as the client does.
-- **Facing** [10]: MODLOG says OSRS models face +z after flipping OSRS y and z (yaw offset 0). Since `UnityConv` also
-  flips z (0.1.7, next point), they face -z (south) in Unity, so `EnemySkins` and `PlayerSkin` use a 180 degree
-  `YawOffset`.
+- **Facing** [10]: OSRS models face +z after flipping OSRS y and z; since `UnityConv` also flips z (0.1.7, next
+  point), they face -z (south) in Unity, so `EnemySkins` and `PlayerSkin` use a 180 degree `YawOffset`.
 - **Handedness** [13]. OSRS axes (x east, y down, z north) are right-handed; Unity is left-handed. `MeshData` keeps
   OSRS's frame with y and z flipped (a rotation), so `UnityConv` flips z once more (a reflection), or every model is
   mirrored (the sword in the wrong hand, the River Lum west of the castle). A reflection reverses winding, so triangles
@@ -243,16 +249,17 @@ step: MODLOG is the short log, this page explains). Unnumbered ones were found w
   measures again when the adventurer changes (`sizing: adventurer changed (A -> B), measuring again` in the log), so an
   adventurer whose Megabonk character has a different collider gets its own measurement.
 - **Arena colliders** [17]: walls are separate meshes in 8x8-tile cells, hidden while between camera and adventurer.
-  MODLOG describes the first version, colliders on layer 0. Since 0.1.11 they sit on a free physics layer (the highest
-  unnamed one) that is set to collide with the player's and the enemy layer, while Megabonk's camera, spawn raycasts
-  and projectiles ignore it.
+  The colliders sit on a free physics layer (the highest unnamed one; layer 0 until 0.1.11) that is set to collide
+  with the player's and the enemy layer, while Megabonk's camera, spawn raycasts and projectiles ignore it.
 - **Monster hitboxes read 0 at spawn, then turn out huge.** `Enemy.collider` bounds are 0 when `InitEnemy` runs and
   go live a moment later, which is also when Megabonk enlarges elites and minibosses; `FitHitbox` re-sizes then.
   Megabonk's hitboxes are tall capsules (5.4 m for a 3 m skeleton), so "never smaller than the hitbox" made monsters
   far too big: the floor is off by default since 0.1.15 (`Models.MinHitboxShare`).
 - **Megabonk's camera isn't always `Camera.main`.** The wall hiding looks for `PlayerCamera`'s own camera; the minimap
   has a separate orthographic camera (whose `orthographicSize` `Minimap.Zoom` divides).
-- **`Bonk.Active` is per map, not per stage**: every stage of the Forest map gets the same Lumbridge.
+- **A Megabonk map's stages share one `EMap`**: Bonkscape tells them apart by the stage loaded (`Bonk.StageIndex`), so
+  each stage carries its own `maps` row (`bonk_base_stage`); before 0.5 every stage of the Forest got the same
+  Lumbridge.
 
 ## Build, release and docs
 
@@ -269,8 +276,10 @@ step: MODLOG is the short log, this page explains). Unnumbered ones were found w
 - **`tools/package.py` copies `README.md` as it is.** Update the README before packaging: 0.1.7 to 0.1.11 shipped the
   pre-arena README describing "Megabonk's Forest map becomes Lumbridge".
 - **The preflight writes generated code even when it has phase-1 findings.** Check its exit code (4 = open items).
-- **`sheets/hooks.json` is behind the code**: ten patches have no row, five rows have no patch
-  ([Architecture](architecture.md#harmony-patches)). The preflight can only verify targets that have a row.
+- **Give every new patch its `sheets/hooks.json` row.** The preflight checks that each row's target still exists in
+  Megabonk's code, so a patch without a row goes unchecked; and nothing compares the sheet with the code (`check_docs`
+  compares the code with [Architecture's patch table](architecture.md#harmony-patches) only). Until 0.15 ten patches
+  had no row.
 - **Starting weapons are set in the `DataManager.Load` postfix**, once per game start; the character select panel
   computes them live, so it can show a weapon the run doesn't give until Megabonk restarts (untested).
 

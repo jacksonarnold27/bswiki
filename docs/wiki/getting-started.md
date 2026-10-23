@@ -23,10 +23,11 @@ Melty puts BepInEx in Megabonk's folder and the mod in `BepInEx/plugins/Bonkscap
 | File | What it is |
 |---|---|
 | `Bonkscape.dll` | The mod |
-| `Bonkscape.Cache.dll` | The OSRS cache reader |
+| `OsrsKit.Cache.dll` | The OSRS cache reader (from osrs-kit, Bonkscape's shared RuneScape library) |
 | `README.md`, `LICENSE`, `LICENSES/RuneLite-cache-BSD-2-Clause.txt` | Readme and licences |
 
-No OSRS or Megabonk files are in the download.
+No OSRS or Megabonk files are in the download. A `Bonkscape.Cache.dll` left there by an older version is no longer
+used and can be deleted.
 
 ## Where Bonkscape looks for your OSRS files
 
@@ -54,7 +55,7 @@ start Megabonk again."* and the mod stays out of the way.
 3. Megabonk's main menu shows as OSRS's login screen, its buttons running Megabonk's menu
    ([HUD](hud-and-chat.md#title-screen)); press **Play**.
 4. On character select, the selected adventurer's OSRS model stands where Megabonk's character would, and a
-   panel above it shows that adventurer's name, combat level, skill levels and the weapon he'll start with
+   panel above it shows that adventurer's name, combat level, skill levels and starting weapon
    ([HUD](hud-and-chat.md#character-select-panel)).
 5. Pick an adventurer: **Warrior** (it takes Megabonk's `SirOofie` slot), **Ranger** (`Robinette`), **Mage** (`Fox`),
    **Zerker** (`Calcium`), **Void Knight** (`Athena`) or **Durial321** (`Vlad`); the **Ironman** (`SirChadwell`), the **Pure** (`Ninja`) and the six
@@ -64,7 +65,8 @@ start Megabonk again."* and the mod stays out of the way.
    becomes **the Wilderness** ([Maps](maps.md#the-wilderness)). Bonkscape weapons and gear count as unlocked
    whatever your Megabonk progress is.
 6. Behind OSRS's *Loading - please wait.* screen you're moved into the castle courtyard (on the Desert, Al Kharid). A chat line greets
-   you: *"Welcome to Lumbridge. Press 1, 2 or 3 to pray against melee, missiles or magic."*
+   you: *"Welcome to Lumbridge. Press 1, 2 or 3 to pray against melee, missiles or magic."* (on another map, its
+   own name).
 
 Only the Forest, the Desert and the Graveyard become OSRS maps. Megabonk's other maps aren't fully plain Megabonk, though: Bonkscape edits
 Megabonk's data once when the game loads, so the weapons, tomes and characters it reskins keep their OSRS names,
@@ -84,4 +86,4 @@ Runs with Bonkscape loaded never upload scores to Megabonk's Steam leaderboards.
 - Log: `BepInEx/LogOutput.log`. Bonkscape's lines start with `[Info   : Bonkscape]`, and every chat message is
   logged too, as `[chat] ...`.
 
-<!-- sources: src/Bonkscape.Cache/OsrsCache.cs src/Bonkscape.Plugin/Plugin.cs src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/Hud.cs src/Bonkscape.Plugin/Patches/CorePatches.cs tools/package.py src/Bonkscape.Plugin/Systems/CharacterSelect.cs src/Bonkscape.Plugin/Systems/Unlocks.cs src/Bonkscape.Plugin/Systems/TitleScreen.cs -->
+<!-- sources: src/Bonkscape.Plugin/Plugin.cs src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/Hud.cs src/Bonkscape.Plugin/Patches/CorePatches.cs tools/package.py src/Bonkscape.Plugin/Systems/CharacterSelect.cs src/Bonkscape.Plugin/Systems/Unlocks.cs src/Bonkscape.Plugin/Systems/TitleScreen.cs -->

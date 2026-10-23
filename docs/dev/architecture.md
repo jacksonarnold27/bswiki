@@ -1,26 +1,28 @@
 # Architecture
 
 Bonkscape is a BepInEx 6 IL2CPP plugin for Megabonk (Unity 2023.2.22f1, IL2CPP, build 1.0.69) that reads the player's
-Old School RuneScape cache at run time. Nothing from either game is shipped. Written against **0.14.2** (`4df1113`).
+Old School RuneScape cache at run time. Nothing from either game is shipped. Written against **0.15.0** (`08c0e87`).
 
 ## Projects
 
 | Path | What it is | Target |
 |---|---|---|
-| `src/Bonkscape.Cache` | OSRS cache library: reads the cache and turns it into plain data (meshes as triangle soup, ARGB pixels, PCM samples). No Unity references. | net6.0 |
+| osrs-kit's `src/OsrsKit.Cache` | The OSRS cache library (`OsrsKit.Cache.dll`; its C# namespace is still `Bonkscape.Cache`), in the osrs-kit repo beside this one: reads the cache and turns it into plain data (meshes as triangle soup, ARGB pixels, PCM samples). No Unity references. The plugin references it by that sibling path; bonk by `OSRS_KIT`, else the folder beside this repo. | net6.0 |
 | `src/Bonkscape.Plugin` | The BepInEx plugin (`Bonkscape.dll`): Harmony patches, systems, HUD. Compiles its game code only when Megabonk's interop assemblies are found (`INTEROP` define). | net6.0 |
 | `src/Bonkscape.Tools` | `bonk.exe`: preflight and code generation, plus cache inspection and map tools. | net8.0 |
 | `tools/package.py` | Builds `dist/Bonkscape-<version>.zip` from the Release build. | Python 3 |
 | `tools/sketch` | Map sketch tool (Leaflet page + `server.py`, port 8790): the OSRS world map from your cache, for outlining future maps. | Python 3 |
 | `tools/wiki-site` | This wiki's local site (port 8791) and `gen_tables.py`. | Python 3 |
-| `tools/hub` | [The hub](hub.md) (port 8789): one page that starts, stops and links the wiki and the sketch tool and renders the other docs; `Bonkscape Hub.cmd` in the repo root launches it. Configured by `hub.json`; the engine is a copy from the project-hub kit (`D:\Modding\project-hub`). `export_wiki.py` writes BSWiki as a static site for hosting. | Python 3 |
+| `tools/hub` | [The hub](hub.md) (port 8789): one page that starts, stops and links the wiki and the sketch tool and renders the other docs; `Bonkscape Hub.cmd` in the repo root launches it. Configured by `hub.json`; the engine is a copy from the project-hub kit (its own repo, beside this one). `export_wiki.py` writes BSWiki as a static site for hosting. | Python 3 |
 | `sheets/*.json` | The design data: the source of truth. | |
 | `docs/` | `MODLOG.md` (versions, workflow, numbered gotchas), `preflight.md` (generated report), `wiki/`, `dev/`. | |
 
 Not in git: `lib/` (BepInEx assemblies), `derived/` (renders and map tiles made from the cache), `dist/` (release zips),
 `bin/`, `obj/`.
 
-### Cache library (`src/Bonkscape.Cache`)
+### Cache library (osrs-kit's `src/OsrsKit.Cache`)
+
+The library lives in osrs-kit (its README's *Bonkscape uses this library*); this repo has no copy. Its files:
 
 | File | Does |
 |---|---|
@@ -36,6 +38,8 @@ Not in git: `lib/` (BepInEx assemblies), `derived/` (renders and map tiles made 
 | `SpotAnimFrames.cs` | Renders a spot animation (model + sequence, e.g. 199, the level-up fireworks) frame by frame into ARGB images from one fixed camera, with each frame's length, for 2D flipbooks. |
 | `Raster.cs` | Software rasteriser: item inventory icons (`ItemIcon`, using the item's zoom/angles/offsets) and previews. |
 | `Sprites.cs`, `OsrsFont.cs` | Sprite groups and OSRS bitmap fonts (`p11_full`, `p12_full`, `b12_full`, `q8_full`). |
+| `LoginScreen.cs` | OSRS's login screen as the cache holds it: index 10's `title.jpg` and its mirror (decoded with the vendored StbImageSharp, internal to the library) and the login sprites' ids. |
+| `GameVals.cs` | Index 24's gamevals: Jagex's internal names for ids (items, NPCs, animations...). |
 | `SoundEffect.cs` | OSRS sound effect synthesiser (index 4 instruments) to 22,050 Hz PCM. |
 | `World/Region.cs` | Map regions: current caches' unnamed groups (`x << 8 \| y`, file 0 terrain, file 1 objects) and older named `m{x}_{y}`/`l{x}_{y}` files; procedural heights. |
 | `World/WorldBuilder.cs` | Builds an area: terrain meshes, object meshes, wall meshes in 8x8-tile cells, collision boxes, tile flags (blocked, water, roofed, solid, bridge), wall edges, and named objects to track (trees, rocks). |
@@ -46,7 +50,7 @@ Not in git: `lib/` (BepInEx assemblies), `derived/` (renders and map tiles made 
 1. `Settings.Load()` reads `%LOCALAPPDATA%\Bonkscape\settings.properties` (`OSRS_DIR`, `OSRS_CACHE`).
 2. Config keys are bound (`BepInEx/config/gg.melty.bonkscape.cfg`); a non-empty `OSRS.CacheFolder` overrides
    `OSRS_CACHE`; prayer keys are parsed.
-3. `Rows.Build()` (lookups over phase-1 rows; `Rows.Maps`, one row per Megabonk map), `Bonk.Init()` (each row's `EMap` from `maps.bonk_base_map`),
+3. `Rows.Build()` (lookups over phase-1 rows; `Rows.Maps`, one row per Megabonk map and stage), `Bonk.Init()` (each row's `EMap` from `maps.bonk_base_map`, and each map's first row),
    `Skills.Load()`, `Hud.Init()` (subscribes to XP drop and level-up events), `TestMode.Init()` (reads Melty's test file).
 4. `OsrsCache.FindCacheFolder()`. None found: `CacheMissing`, and `osrs-cache` is reported failed in test mode.
    Found: `Osrs.Start(folder)` starts the background build.
@@ -94,10 +98,13 @@ The plugin applies the rows to Megabonk's own data in the `DataManager.Load` pos
 
 - **Weapons**: base stats, `baseStats` entries and the upgrade pool of each `bonk_base` `WeaponData`; names.
 - **Tomes**: each passive's stat modifier, level description and name.
-- **Enemies**: HP/damage/speed/knockback for non-miniboss, non-boss bases, added to the Lumbridge map; unmapped
-  enemies removed from it; the timeline's start enemies, unlock times and swarm contents from `waves`.
-- **Characters**: stat modifiers, name, description and starting weapon (by skill levels).
-- **Map**: the name.
+- **Enemies**: HP/damage/speed/knockback for non-miniboss, non-boss bases, scaled by the map's `difficulty`, added to
+  the pools of their rows' maps; unmapped enemies removed from those maps; each stage's timeline (start enemies, unlock
+  times, swarm and miniboss contents) from `waves`. The maps of one Megabonk map share its enemy types, so
+  `Content.ApplyStage` puts the stage's own rows on them as each stage starts.
+- **Characters**: stat modifiers, name, description and starting weapon (a ladder's tier by skill levels).
+- **Maps**: each Megabonk map's name (its first stage's row), each stage's sky (`maps.sky`), and the look each stage
+  keeps for after a lair (`Content.KeepLook`).
 
 Icons and tome descriptions are written into Megabonk's data fields once the cache is decoded (`Content.ApplyIcons`),
 because Harmony can't call the original of an IL2CPP virtual method ([Gotchas](gotchas.md#il2cpp-and-harmony)).
@@ -105,9 +112,9 @@ because Harmony can't call the original of an IL2CPP virtual method ([Gotchas](g
 ## Run lifecycle (`Core/Runner.cs`)
 
 `Runner` is the per-frame driver. A run is "active" while `Bonk.Active` is true: Megabonk's current map is one a
-phase-1 `maps` row takes over (`EMap.Forest`: Lumbridge; `EMap.Desert`: Morytania) and it isn't the main menu.
-`Bonk.Active` also sets `Rows.Current` to that row, which every per-map system reads (spawn and boss tiles, props,
-skilling nodes, fallback enemy, music).
+phase-1 `maps` row takes over (the Forest, the Desert and the Graveyard all are) and it isn't the main menu.
+`Bonk.Active` also sets `Rows.Current` to the row for the current stage, which every per-map system reads (spawn and
+boss tiles, props, skilling nodes, fallback enemy, music).
 
 **Every frame (`Update`):**
 
@@ -116,7 +123,8 @@ skilling nodes, fallback enemy, music).
 2. `TestMode.Tick`, `Arena.Prewarm` once the cache is ready (meshes a few a frame within 8 ms, 40 ms while the
    loading cover is up: the current map's, then its boss lair's, and in the menu every other built arena's),
    `OsrsAudio.EnsureAttached` (keeps the mixer on the current AudioListener), `Music.Tick` (keeps
-   Megabonk's music source paused while an OSRS track plays). In test mode, `Dev.Breadcrumbs` marks each step.
+   Megabonk's music source paused while an OSRS track plays), `OsrsWindows.Tick` (restyles Megabonk's windows four
+   times a second, outside a run or while one is up over it). In test mode, `Dev.Breadcrumbs` marks each step.
 3. Stage start: when active and `MyPlayer.Instance` exists and is a new object (first stage, or a new stage), `OnStage`.
 4. Run end: when active turns false, `OnRunEnd`.
 5. While active: the props/arena timer, `Arena.TryBuild` until it succeeds, `Arena.Tick` (on the Graveyard after `Graveyard.Tick`, which leaves the
@@ -132,7 +140,7 @@ skilling nodes, fallback enemy, music).
 
 **`LateUpdate`** (while active): `EnemySkins.LateTick` (models follow enemies, Megabonk renderers stay hidden, hitbox
 floor, animation, `Bosses.Tick`, `BossFight.TickBoss` (a scripted boss's attacks), `Corpses.Tick`), `Arena.LateTick` (see-through walls, and `PlayerMoveFix.LateTick`), `PlayerSkin.LateTick`
-(follow and animate), then `TestMode.LateTick` (autoplay's movement written into `PlayerInput` after Megabonk's own
+(follow and animate), `Pets.LateTick` (the pet out follows), then `TestMode.LateTick` (autoplay's movement written into `PlayerInput` after Megabonk's own
 update).
 
 **`OnGUI`**: `Hud.OnGUI` (missing-cache message, the run HUD, or the character select panel; skipped when
@@ -166,8 +174,8 @@ enemy models, and fades the OSRS music out (`Music.Stop`, 1.2 s).
 
 ## The arena pipeline (`Systems/Arena.cs`)
 
-One arena per phase-1 `maps` row with an `osrs_area`: Lumbridge on the Forest, Morytania (the user's Map 1 outline,
-384x450 tiles) on the Desert. `Osrs.BuildArena` makes the `WorldData` and minimap off the main thread; maps over
+One arena per phase-1 `maps` row with an `osrs_area` (all seven have one, from the God Wars Dungeon's 128x128 tiles to
+the Wilderness's 448x448). `Osrs.BuildArena` makes the `WorldData` and minimap off the main thread; maps over
 40,000 tiles get the detail budget (`WorldOptions.SkipGroundDecor` and `MinObjectFaces` = `[Map] LargeMapMinFaces`,
 300, sparing `TrackNames` objects such as ore rocks: Morytania goes from 10.1M to 5.8M faces, and Canifis still reads the same in `bonk world` renders).
 
@@ -247,8 +255,8 @@ monster at its next tile.
 ## Harmony patches
 
 Everything Bonkscape patches, from the code (`[HarmonyPatch]` in `src/Bonkscape.Plugin`). The `hooks` column names the
-matching row in `sheets/hooks.json`; **"none"** means the sheet has no row, so the preflight never checks that the
-target still exists ([docket](docket.md)).
+patch's row in `sheets/hooks.json`; every patch has one, and the preflight checks that each row's target still exists
+in Megabonk's code.
 
 | Target | Kind | File | What it does | `hooks` row |
 |---|---|---|---|---|
@@ -257,59 +265,58 @@ target still exists ([docket](docket.md)).
 | `DataManager.Load` | postfix | Patches/CorePatches | Applies the sheets to Megabonk's data; optional data dump | `data_loaded` |
 | `DeathScreen.StartDeathScreen` | postfix | Patches/CorePatches | "Oh dear, you are dead!" title; death message timer; test mode keeps the screen | `death_screen` |
 | `UnlockableBase.GetName` | prefix (replace) | Systems/Content | OSRS names for weapons, tomes, characters, the map; reimplements the localized name otherwise | `names` |
-| `EnemyData.GetName` | prefix | Systems/Content | OSRS monster names | none |
-| `StageData.GetName` | prefix | Systems/Content | Stage names: Lumbridge & Swamp, Lumbridge Swamp, Lumbridge Swamp Caves on the Forest; Morytania on every Desert stage | none |
-| `UnlockUtility.GetAvailableWeapons` | postfix | Systems/Content | Level-up weapon offers: only Bonkscape weapons (in Lumbridge) | `weapon_pool` |
-| `UnlockUtility.GetAvailableTomes` | postfix | Systems/Content | Tome offers: only gear passives, one per slot, below max level | `tome_pool` |
+| `EnemyData.GetName` | prefix | Systems/Content | OSRS monster names | `enemy_name` |
+| `StageData.GetName` | prefix | Systems/Content | Stage names: each stage of a map Bonkscape takes over is named after its own `maps` row (the map's first row on a stage without one) | `stage_name` |
+| `UnlockUtility.GetAvailableWeapons` | postfix | Systems/Content | Level-up weapon offers: only Bonkscape weapons, none above the adventurer's levels (`gear_reqs`), a Barrows brother's own only for him | `weapon_pool` |
+| `UnlockUtility.GetAvailableTomes` | postfix | Systems/Content | Tome offers: only gear passives, one per slot, below max level, and a boss's unlock only once earned | `tome_pool` |
 | `MyAchievements.IsUnlocked(UnlockableBase, out string)` | postfix | Systems/Content | Bonkscape weapons and tomes count as unlocked; an adventurer's Megabonk character is unlocked by its row's `unlock_condition` (`Unlocks.CharacterUnlocked`), either way | `unlock_override` |
 | `Enemy.InitEnemy` | postfix | Systems/EnemySkins | OSRS model, size tier, hide Megabonk's renderer (re-sized in `LateTick` once the hitbox is live) | `enemy_spawn` |
-| `Enemy.ReleaseToPool` | postfix | Systems/EnemySkins | Hide the model of a pooled enemy | none |
+| `Enemy.ReleaseToPool` | postfix | Systems/EnemySkins | Hide the model of a pooled enemy | `enemy_release` |
 | `Enemy.DamageFromPlayerWeapon` | prefix + postfix | Systems/Combat | HP before/after: hitsplat and skill XP for damage dealt | `enemy_damaged` |
 | `Enemy.EnemyDied(DamageContainer)` | postfix | Systems/Combat | Kill count, prayer potion drops, `osrs-enemy-killed` | `enemy_died` |
 | `Enemy.EnemyDied(DamageContainer)` | prefix | Systems/SecondForm | A two-form boss's first death is called off: full health, Megabonk's death flags cleared, the second form's model in its place (`bosses.second_form`) | `boss_second_form` |
 | `InteractableCrypt.Interact` | prefix | Systems/Graveyard | The Graveyard's crypt door on a map with a boss lair loads Megabonk's final stage instead (the KBD's ladder) | `graveyard_door_interact` |
 | `InteractableCrypt.CanInteract` | postfix | Systems/Graveyard | The door can be opened until the final stage | `graveyard_door_can` |
 | `InteractableCrypt.GetInteractString` | postfix | Systems/Graveyard | The door says *Climb down to* the map's boss | `graveyard_door_text` |
-| `DamageNumbers.SetDamage(float, Color, Vector3, int)` | postfix | Systems/Combat | Blank Megabonk's damage numbers in Lumbridge | `damage_numbers` |
-| `DamageNumbers.SetDamage(string, Color, Vector3, int)` | postfix | Systems/Combat | Blank Megabonk's "-N" player damage text | none (covered by `damage_numbers` in spirit) |
+| `DamageNumbers.SetDamage(float, Color, Vector3, int)` | postfix | Systems/Combat | Blank Megabonk's damage numbers on Bonkscape's maps | `damage_numbers` |
+| `DamageNumbers.SetDamage(string, Color, Vector3, int)` | postfix | Systems/Combat | Blank Megabonk's "-N" player damage text | `damage_numbers` (the row names the method, so it covers both) |
 | `PlayerHealth.Damage` | prefix + postfix | Systems/Prayer | Protection prayers reduce or cancel damage by monster style (prefix); the player hitsplat from what the hit actually took, hp + shield + overheal (postfix): hits Megabonk's hit cooldown stops or 0-damage touches show nothing. In test runs the lethal-hit guard (`TestGuard`) cuts a hit that would kill to leave 1 hitpoint, then heals to half (prefix and postfix) | `player_damage` |
 | `PlayerHealth.DamagePlayerExternal` | prefix + postfix | Systems/Prayer | Megabonk's other damage call, with a bare amount (0.5: the hits the guard never saw came after a TzHaar-Ket champion, Megabonk's sand golem, joined): in jumped test runs the monster's hit loses the stage share, and the lethal-hit guard trims it; the first call logs whether it goes on to `Damage` (if not, the hit is counted here) | `player_damage_external` |
-| `PlayerHealth.PlayerDied` | prefix | Systems/TestGuard | Test runs: a death by any other way than a guarded hit is stopped and logged (heals to half); off with a scenario's `"deaths": "allow"` | none |
-| `PlayerHealth.KillPlayer` | prefix | Systems/TestGuard | The same for Megabonk's direct kill | none |
+| `PlayerHealth.PlayerDied` | prefix | Systems/TestGuard | Test runs: a death by any other way than a guarded hit is stopped and logged (heals to half); off with a scenario's `"deaths": "allow"` | `test_death_guard` |
+| `PlayerHealth.KillPlayer` | prefix | Systems/TestGuard | The same for Megabonk's direct kill | `test_kill_guard` |
 | `PlayerHealth.Evade` | postfix | Systems/Prayer | A Megabonk evade shows OSRS's 0 hitsplat (a miss) | `player_evade` |
 | `WeaponAttack.SuccessfullySpawnedProjectile` | postfix | Systems/PlayerSkin | The adventurer plays the weapon's OSRS attack sequence (merged with walking or running while moving) | `weapon_used` |
 | `PlayerHealth.UseAegis` | postfix | Systems/Prayer | An Aegis block shows OSRS's 0 hitsplat | `player_aegis` |
 | `PickupManager.SpawnPickup` | postfix | Systems/Loot | Coins and food wear OSRS item models | `pickup_spawn` |
-| `MusicController.OnPause` | postfix | Systems/Music | Megabonk's pause also pauses the OSRS track (experimental OSRS music) | none |
+| `MusicController.OnPause` | postfix | Systems/Music | Megabonk's pause also pauses the OSRS track (experimental OSRS music) | `music` |
 | `Pickup.ApplyPickup` | prefix + postfix | Systems/Loot | Food heals by its row; pickup sounds; `osrs-item-picked` | `pickup_apply` |
 | `InteractableChest.Start` | postfix | Systems/Loot | Chests wear the OSRS casket | `chest_spawn` |
-| `InteractableShadyGuy.Start` | postfix | Systems/Loot | The map's shopkeeper NPC (`maps.shopkeeper_npc`, TzHaar-Hur-Tel in TzHaar City) stands in for the Shady Guy | none |
+| `InteractableShadyGuy.Start` | postfix | Systems/Loot | The map's shopkeeper NPC (`maps.shopkeeper_npc`, TzHaar-Hur-Tel in TzHaar City) stands in for the Shady Guy | `shopkeeper` |
 | `CharacterMenu.BuyCharacter` | prefix | Systems/Unlocks | Megabonk's silver purchase of an adventurer Bonkscape keeps locked (a Barrows brother without his set, the Ironman before total level 250) is refused, and the chat says what unlocks him | `character_buy` |
 | `InteractableShadyGuy.Interact` | prefix | Systems/Loot | An adventurer whose `characters.can_buy` is false (the Ironman) is refused by the Shady Guy and every shopkeeper standing in for him: the interaction is stopped and the chat says so | `shop_refuse` |
 | `InteractableShadyGuy.GetInteractString` | postfix | Systems/Loot | The same adventurer's prompt reads "Ironmen can't trade" | `shop_prompt` |
-| `MoneyFlying.Set` | postfix | Systems/Loot | Flying coins wear the OSRS coin stack | none |
-| `MoneyFlying.Pickup` | postfix | Systems/Loot | Coin sound (rate-limited), `osrs-item-picked` | none |
+| `MoneyFlying.Set` | postfix | Systems/Loot | Flying coins wear the OSRS coin stack | `coins_flying` |
+| `MoneyFlying.Pickup` | postfix | Systems/Loot | Coin sound (rate-limited), `osrs-item-picked` | `coins_pickup` |
 | `ChestWindowUi.OpenButton` | postfix | Systems/Evolutions | Try evolutions when a casket's Open button is pressed (the old target, a private method, is inlined by IL2CPP and never ran); in test runs the first casket prepares one | `chest_open` |
 | `PlayerRenderer.SetCharacter` | postfix | Systems/PlayerSkin | The OSRS adventurer model | `player_model` |
-| `MapEdges.Set` | prefix | Systems/Arena | Remember the stage centre (Megabonk's Desert never calls it: Morytania is centred on the origin, as the Forest's is) | none |
-| `SpawnPositions.FindBounds` | postfix | Systems/Arena | Spawn bounds onto Lumbridge | none |
-| `SpawnPositions.GetEnemySpawnPosition` | postfix | Systems/Arena | In a boss's lair, a monster spawn off the cave floor goes to a reachable floor tile (`Pathing.RandomReachable`, 5 to 16 steps) | none |
-| `SpawnPositions.GetEnemySpawnPositionBiased` | postfix | Systems/Arena | The same, for Megabonk's biased spawns | none |
-| `SpawnPositions.GetEnemySpawnPositionAroundPoint` | postfix | Systems/Arena | The same, for spawns around a point | none |
-| `EnemyMovementRb.GetTargetPosition` | postfix | Systems/Pathing | Aim monsters at their next tile on the grid | none |
-| `PlayerInput.MovementInput` | postfix | Systems/TestMode | Autoplay movement (test mode only) | none |
+| `MapEdges.Set` | prefix | Systems/Arena | Remember the stage centre (Megabonk's Desert never calls it: its maps are centred on the origin, as the Forest's are) | `arena_edges` |
+| `SpawnPositions.FindBounds` | postfix | Systems/Arena | Spawn bounds onto the arena, 2 tiles in from its edges | `arena_spawn_bounds` |
+| `SpawnPositions.GetEnemySpawnPosition` | postfix | Systems/Arena | In a boss's lair, a monster spawn off the cave floor goes to a reachable floor tile (`Pathing.RandomReachable`, 5 to 16 steps) | `arena_spawn_floor` |
+| `SpawnPositions.GetEnemySpawnPositionBiased` | postfix | Systems/Arena | The same, for Megabonk's biased spawns | `arena_spawn_floor_biased` |
+| `SpawnPositions.GetEnemySpawnPositionAroundPoint` | postfix | Systems/Arena | The same, for spawns around a point | `arena_spawn_floor_around` |
+| `EnemyMovementRb.GetTargetPosition` | postfix | Systems/Pathing | Aim monsters at their next tile on the grid, and a boss's healer at its boss | `enemy_pathing` |
 
 Polled or called, not patched: `MyPlayer.Instance` (stage start, `run_started`), `RandomObjectPlacer` output after
 generation (`map_props`), `KillsAndGoldCounter.t_gold` (hidden, `gold_hud`), `UpgradeButton.SelectUpgrade` and
 `BaseEncounterWindow.ChooseOffer` (autoplay), `MapController.StartNewMap` (autoplay start), `PlayerCamera.offset3rdPerson`
 and `maxExtraZoomoutDistance` (camera distance), the minimap camera's `orthographicSize` (`Minimap.Zoom`), `MoneyUtility.SpawnMoney` and `statusEffects.TestPickup` (skilling),
 `HealthUI`, `XpBarUI` (hidden in a run; `desiredRatio` read for the XP counter's strip), `EnemyHpBar` (scanned every
-0.5 s in a run and hidden; a Harmony patch on `EnemyHpBar.Set` in 0.1.17 went with a crash), `MinimapUi.border` (measured
-for the minimap frame) and the active ability's `GetCooldown`/`readyAtTime` (the special attack orb).
+0.5 s in a run and hidden; a Harmony patch on `EnemyHpBar.Set` in 0.1.17 went with a crash) and `MinimapUi.border` (measured
+for the minimap frame).
 
-Rows in `hooks.json` with **no patch** in the code: `icons_weapon`, `icons_tome`, `icons_character` (icons are written
-into data fields instead), `music` (`MusicController.PlayMusicTrack`: no music synthesiser yet) and `timer`
-(`GameManager.GetAliveTime`: the OSRS clock was removed in 0.1.7). The sheet as it stands:
+`hooks.json` also has rows for what Bonkscape reads or writes without a patch (kind `data row`, `poll` or `call`): the
+icon fields, the gold counter, autoplay's move input, the player poll, the props and the level-up button. The sheet as
+it stands:
 
 <!-- gen:hooks -->
 | Hook | System | Target | Kind | Purpose | Status |
@@ -320,9 +327,9 @@ into data fields instead), `music` (`MusicController.PlayMusicTrack`: no music s
 | `weapon_pool` | data | `UnlockUtility.GetAvailableWeapons` | postfix | level-up picks offer only Bonkscape weapons | <span class="st st-verified">verified</span> |
 | `tome_pool` | data | `UnlockUtility.GetAvailableTomes` | postfix | level-up picks offer only gear passives | <span class="st st-verified">verified</span> |
 | `names` | presentation | `UnlockableBase.GetName` | prefix | OSRS names for reskinned weapons, tomes and characters | <span class="st st-verified">verified</span> |
-| `icons_weapon` | presentation | `WeaponData.GetIcon` | prefix | OSRS item icons rendered from the cache | <span class="st st-verified">verified</span> |
-| `icons_tome` | presentation | `TomeData.GetIcon` | prefix | OSRS gear icons rendered from the cache | <span class="st st-verified">verified</span> |
-| `icons_character` | presentation | `CharacterData.GetIcon` | prefix | character portraits rendered from the OSRS player model | <span class="st st-built">built</span> |
+| `icons_weapon` | presentation | `WeaponData.icon` | data row | OSRS item icons rendered from the cache, written into the data's icon once the cache decodes (Content.ApplyIcons) | <span class="st st-verified">verified</span> |
+| `icons_tome` | presentation | `TomeData.icon` | data row | OSRS gear icons rendered from the cache, written into the data's icon once the cache decodes (Content.ApplyIcons) | <span class="st st-verified">verified</span> |
+| `icons_character` | presentation | `CharacterData.icon` | data row | character portraits rendered from the OSRS player model, written into the data's icon once the cache decodes (Content.ApplyIcons) | <span class="st st-built">built</span> |
 | `enemy_spawn` | enemies | `Enemy.InitEnemy` | postfix | swap the enemy's mesh for its OSRS NPC model, add style marker | <span class="st st-verified">verified</span> |
 | `enemy_damaged` | combat | `Enemy.DamageFromPlayerWeapon` | prefix + postfix | OSRS hitsplats and skill XP from damage dealt | <span class="st st-verified">verified</span> |
 | `enemy_died` | combat | `Enemy.EnemyDied` | postfix | kill counting, prayer potion drops, test check | <span class="st st-verified">verified</span> |
@@ -335,27 +342,32 @@ into data fields instead), `music` (`MusicController.PlayMusicTrack`: no music s
 | `chest_open` | loot | `ChestWindowUi.OpenButton` | postfix | evolutions open from caskets | <span class="st st-built">built</span> |
 | `player_model` | presentation | `PlayerRenderer.SetCharacter` | postfix | the player becomes their OSRS adventurer model | <span class="st st-verified">verified</span> |
 | `level_up` | presentation | `UpgradeButton.SelectUpgrade` | call (test mode) | test autoplay presses the first level-up offer; Megabonk's level-ups otherwise stay as they are | <span class="st st-verified">verified</span> |
-| `timer` | presentation | `GameManager.GetAliveTime` | poll | run timer drawn in OSRS's font from Megabonk's run time | <span class="st st-verified">verified</span> |
 | `death_screen` | presentation | `DeathScreen.StartDeathScreen` | postfix | Oh dear, you are dead! | <span class="st st-built">built</span> |
-| `music` | audio | `MusicController.PlayMusicTrack` | prefix | OSRS music per map when it decodes, else Megabonk's | <span class="st st-built">built</span> |
+| `music` | audio | `MusicController.OnPause` | postfix | Megabonk's pause also pauses the map's OSRS track (experimental: Music.PlayForStage plays maps.osrs_music_track and pauses Megabonk's music source meanwhile) | <span class="st st-built">built</span> |
 | `run_started` | systems | `MyPlayer.get_Instance` | poll | a Lumbridge stage begins when Megabonk's player exists on the Lumbridge map: reset prayer, place skilling nodes, start test mode | <span class="st st-verified">verified</span> |
 | `map_props` | map | `RandomObjectPlacer.Generate` | poll | after the stage generates, Megabonk's trees, rocks and bushes are drawn with OSRS scenery models (their colliders stay) | <span class="st st-verified">verified</span> |
 | `gold_hud` | presentation | `KillsAndGoldCounter.t_gold` | data row | Megabonk's gold number and icon are hidden; the OSRS coin stack for the amount is drawn instead | <span class="st st-verified">verified</span> |
 | `arena_edges` | arena | `MapEdges.Set` | prefix | remember Megabonk's map centre so an OSRS map replaces the stage in place (Megabonk's Desert never calls it: those maps are centred on the origin, as every measured map is) | <span class="st st-verified">verified</span> |
 | `arena_spawn_bounds` | arena | `SpawnPositions.FindBounds` | postfix | enemy and pickup spawn bounds cover the Lumbridge arena | <span class="st st-verified">verified</span> |
-| `stage_name` | data | `StageData.GetName` | postfix | Lumbridge stage names | <span class="st st-verified">verified</span> |
-| `enemy_name` | data | `EnemyData.GetName` | postfix | OSRS monster names on Megabonk's enemies | <span class="st st-verified">verified</span> |
+| `arena_spawn_floor` | arena | `SpawnPositions.GetEnemySpawnPosition` | postfix | in a boss's lair, a monster spawn off the cave floor goes to a reachable floor tile (Pathing.RandomReachable) | <span class="st st-built">built</span> |
+| `arena_spawn_floor_biased` | arena | `SpawnPositions.GetEnemySpawnPositionBiased` | postfix | the same, for Megabonk's biased spawns | <span class="st st-built">built</span> |
+| `arena_spawn_floor_around` | arena | `SpawnPositions.GetEnemySpawnPositionAroundPoint` | postfix | the same, for spawns around a point | <span class="st st-built">built</span> |
+| `stage_name` | data | `StageData.GetName` | prefix | stage names for every stage of the maps Bonkscape takes over (Lumbridge & Swamp, Lumbridge Swamp, Lumbridge Swamp Caves on the Forest...) | <span class="st st-verified">verified</span> |
+| `enemy_name` | data | `EnemyData.GetName` | prefix | OSRS monster names on Megabonk's enemies | <span class="st st-verified">verified</span> |
 | `unlock_override` | data | `MyAchievements.IsUnlocked` | postfix | Bonkscape's weapons and tomes count as unlocked; an adventurer follows its characters.unlock_condition either way (Unlocks.CharacterUnlocked: the Ironman stays locked until total level 250) | <span class="st st-verified">verified</span> |
 | `enemy_release` | models | `Enemy.ReleaseToPool` | postfix | hide an enemy's OSRS model when Megabonk pools it | <span class="st st-verified">verified</span> |
 | `coins_flying` | loot | `MoneyFlying.Set` | postfix | flying coins wear the OSRS coin stack | <span class="st st-verified">verified</span> |
 | `coins_pickup` | loot | `MoneyFlying.Pickup` | postfix | coin pickup sound and test check | <span class="st st-verified">verified</span> |
 | `enemy_pathing` | arena | `EnemyMovementRb.GetTargetPosition` | postfix | monsters walk Lumbridge's tile grid round walls toward the adventurer | <span class="st st-verified">verified</span> |
-| `autoplay_input` | test | `PlayerInput.MovementInput` | postfix | test-mode autoplay movement | <span class="st st-verified">verified</span> |
+| `autoplay_input` | test | `PlayerInput.moveHorizontal` | data row | test-mode autoplay movement: TestMode.LateTick writes the move input (moveHorizontal, moveVertical) each frame | <span class="st st-verified">verified</span> |
+| `test_death_guard` | test | `PlayerHealth.PlayerDied` | prefix | test runs: a death any other way than a guarded hit is stopped and logged, and the adventurer healed to half (TestGuard; off with a scenario's deaths: allow) | <span class="st st-built">built</span> |
+| `test_kill_guard` | test | `PlayerHealth.KillPlayer` | prefix | test runs: the same for Megabonk's direct kill | <span class="st st-built">built</span> |
 | `player_evade` | presentation | `PlayerHealth.Evade` | postfix | a Megabonk evade shows OSRS's 0 hitsplat (a miss) | <span class="st st-built">built</span> |
 | `player_aegis` | presentation | `PlayerHealth.UseAegis` | postfix | an Aegis block shows OSRS's 0 hitsplat | <span class="st st-built">built</span> |
 | `weapon_used` | models | `WeaponAttack.SuccessfullySpawnedProjectile` | postfix | the adventurer plays the weapon's OSRS attack sequence | <span class="st st-built">built</span> |
 | `shop_refuse` | loot | `InteractableShadyGuy.Interact` | prefix | an adventurer who can't buy (characters.can_buy false: the Ironman) is refused by the Shady Guy and the shopkeepers standing in for him | <span class="st st-built">built</span> |
 | `shop_prompt` | loot | `InteractableShadyGuy.GetInteractString` | postfix | the same adventurer's prompt reads "Ironmen can't trade" | <span class="st st-built">built</span> |
+| `shopkeeper` | loot | `InteractableShadyGuy.Start` | postfix | the map's shopkeeper NPC (TzHaar-Hur-Tel in TzHaar City) stands in for the Shady Guy | <span class="st st-built">built</span> |
 | `character_buy` | data | `CharacterMenu.BuyCharacter` | prefix | Megabonk's purchase of an adventurer Bonkscape keeps locked is refused (characters.unlock_condition) | <span class="st st-built">built</span> |
 | `boss_second_form` | enemies | `Enemy.EnemyDied` | prefix | a two-form boss's first death called off: full health, the second form's model on the same enemy (the Kalphite Queen) | <span class="st st-built">built</span> |
 | `graveyard_door_interact` | map | `InteractableCrypt.Interact` | prefix | the Graveyard's crypt door on a map with a boss lair loads Megabonk's final stage, whose final boss is the map's boss (the KBD) | <span class="st st-built">built</span> |
@@ -378,13 +390,13 @@ into data fields instead), `music` (`MusicController.PlayMusicTrack`: no music s
 | `Systems/Bosses.cs` | The Giant Mole's dig (in its lair: to a reachable tile) |
 | `Systems/PlayerSkin.cs` | The OSRS adventurer model and its animation (stand, walk, run, death, weapon attacks from `WeaponAttack.SuccessfullySpawnedProjectile`). Since 0.4 the adventurer takes the attacking weapon in hand: its body (`Osrs.PlayerWeaponBodies`) is made on first use in a run, kept hidden between, drawn at the own body's scale and feet, and shown when that weapon attacks or specs; the same weapon's extra projectiles don't restart a swing, another weapon cuts in after 0.3 s (`MinShow`) |
 | `Systems/Projectiles.cs` | OSRS projectile models on Megabonk's projectiles, weapon attack sounds, monster hit and kill sounds |
-| `Systems/CameraTweak.cs` | `Camera.Distance`, and the toggle to `Camera.FarDistance` Since 0.4 the camera faces north (yaw 0: the arena puts OSRS north on +z) at `NearPitch` when the adventurer lands on a spawn tile (a run's start, a restart, a boss's lair and back; `Arena.Tick`), through `PlayerInput.cameraRotation` and `desiredCameraRotation` ((pitch, yaw, roll); Megabonk starts at (20, 270, 0)); the toggle key sets `FarPitch` or `NearPitch` too |
+| `Systems/CameraTweak.cs` | `[Camera] Distance`, and the toggle to `[Camera] FarDistance`. Since 0.4 the camera faces north (yaw 0: the arena puts OSRS north on +z) at `NearPitch` when the adventurer lands on a spawn tile (a run's start, a restart, a boss's lair and back; `Arena.Tick`), through `PlayerInput.cameraRotation` and `desiredCameraRotation` ((pitch, yaw, roll); Megabonk starts at (20, 270, 0)); the toggle key sets `FarPitch` or `NearPitch` too |
 | `Systems/Combat.cs` | Damage dealt, kills, Megabonk damage numbers |
 | `Systems/Prayer.cs` | Protection prayers |
 | `Systems/Barrows.cs` | The Barrows (0.7): the 24 pieces (drops of kind `barrows_piece`), the one a beaten hidden brother gives (never owned before; saved in `unlocks.json` under `_barrows`), a brother's full set (his unlock), the set line on character select |
 | `Systems/SetEffects.cs` | The Barrows sets' effects (0.7), from `set_effect`: on a brother's hits on the adventurer (Prayer: before the block, so Verac's pierce skips it; a hit naming no monster, a boss's projectile, counts as the nearest brother's within 10 m) and on the adventurer's hits as a brother (Combat). Dharok's rage always, the others a 25% chance in their style: Ahrim weakens (10% weaker hits, 6 s), Guthan heals by the damage, Karil slows (Megabonk's SlowPlayer on the adventurer), Torag drains (a 2 s slow: Megabonk's dash has no energy), Verac pierces prayers or (on monsters) armour, +25%. Tries and triggers per effect in the run's summary |
 | `Systems/LavaBurn.cs` | Lava edges burn (0.5): standing within 0.35 tiles of a lava tile (the world build's `FlagLava`, overlay texture 31) costs 2.4% of max health each OSRS tick through Megabonk's damage call; lava stays blocked, and the middle of a one-tile bridge is safe |
-| `Systems/Unlocks.cs` | Permanent unlocks per adventurer (0.5): a boss's death unlocks the passives whose `unlocked_by` names it (the Fire cape for Jad); saved in `%LOCALAPPDATA%/Bonkscape/unlocks.json` (not while skill saving is off, as in scenarios); gear offers leave locked ones out; `CharacterUnlocked` reads `characters.unlock_condition` (`always`, `total_level_N` on any one adventurer, `TotalLevel`), worked out at most every 2 s |
+| `Systems/Unlocks.cs` | Permanent unlocks per adventurer (0.5): a boss's death unlocks the passives whose `unlocked_by` names it (the Fire cape for Jad); saved in `%LOCALAPPDATA%/Bonkscape/unlocks.json` (not while skill saving is off, as in scenarios); gear offers leave locked ones out; `CharacterUnlocked` reads `characters.unlock_condition` (`always`, `total_level_N` on any one adventurer, `barrows_set_<id>`, `levels:...` on any one adventurer), worked out at most every 2 s |
 | `Systems/BossFight.cs` | Boss fights beyond the Mole's dig (0.5): a boss arena's own waves (in its lair, or since 0.10 on the stage's own map when the boss has no lair: the Knights before Sir Lancelot) (`bosses.arena_waves`, the boss held on its tile, frozen, unhurt and unseen until `boss_at`), scripted attacks (`attack_every_ms` with `random` attacks: Megabonk's own special attacks off, the sheet's attack picked each interval, its sequence and spot animations, the hit landed at impact with its style so the prayer counts then; Megabonk's touches don't hurt), healers (`bosses.healers`: called below a share of health, walk to the boss and heal it until hit), `SpawnAs` (a monster skinned as a given row) |
 | `Systems/SecondForm.cs` | A boss's second form (0.8, `bosses.second_form`: the Kalphite Queen): its first form's death called off (the `EnemyDied` prefix), its health back in full, `EnemySkins.Reskin` puts the second form's model on the same enemy (the first falls on a corpse, or `bosses.second_form_spotanim` plays in its place: the Queen's husk) and plays its `spawn` sequence when it has one, still and unhurt meanwhile; Combat's death postfix skips the called-off death. A second form never takes a Megabonk slot of its own (`Rows.Build` leaves it out of the slot lookups) |
 | `Systems/Graveyard.cs` | Megabonk's Graveyard under an OSRS map (0.9, the Wilderness): the starting crypt left by its exit door before the arena moves the adventurer (the stage clock starts only then), the surface crypt door put on the boss tile as the way down to the map's boss, opening it loads Megabonk's final stage (as TzHaar City's final portal does), whose final boss (Ent1) is the map's boss row in its lair |
@@ -393,18 +405,18 @@ into data fields instead), `music` (`MusicController.PlayMusicTrack`: no music s
 | `Systems/SpotFx.cs` | OSRS spot animations as flipbooks on the HUD (the specs' graphics), rendered from the cache off the main thread |
 | `Systems/Skills.cs` | Persistent skills, XP table, combat level; the attack styles' XP shares and names, the styles an adventurer can pick, locked skills (0.14) |
 | `Systems/Skilling.cs` | Trees, rocks, fishing spots |
-| `Systems/Loot.cs` | Coins, food, caskets, prayer potions |
+| `Systems/Loot.cs` | Coins, food, caskets, prayer potions; the map's shopkeeper NPC in the Shady Guy's place, and his refusal of an adventurer who can't buy |
 | `Systems/Evolutions.cs` | Evolutions on casket open |
 | `Systems/Hud.cs`, `Chat.cs`, `CharacterSelect.cs` | The OSRS HUD: what to show, from the game's state. `CharacterSelect` also hides the menu's `PlayerRenderer` and stands the adventurer's OSRS model in its place (its height and feet, facing the camera, the stand animation), and measures the free gap between Megabonk's windows (`FindGap`, over the top 3-45% of the screen) for `HudLayout.DrawCharacterPanel` |
 | `Systems/HudLayout.cs` | The HUD's layout and drawing from OSRS's interfaces (160 orbs, 122 XP counter, 162 chatbox, 233 level-up dialogue, 541 prayer book, 161 minimap frame and side panel, 149 inventory), sprite ids in `UiSprite`. No Unity: also compiled into `bonk.exe` for `uisprites mock`. |
 | `Systems/OsrsWindows.cs` | Megabonk's windows in OSRS's browns and stone (0.12): one pass over the active Images and texture-less RawImages by sprite name, covers laid over backgrounds and frames, Megabonk's own button colours retinted; nothing moved, so clicks and layout stay (`docs/design/ui-style.md`, *Megabonk's windows*) |
-| `Systems/TitleScreen.cs` | The title screen (0.12): OSRS's login screen (`title.jpg` and its mirror, logo, login box) over Megabonk's main menu while its main tab is open; the buttons run Megabonk's own `MainMenu.GoTo...`, `ExitGame`, language button and Discord link; Megabonk's menu stays underneath with its canvas's raycaster off. `HudLayout.DrawTitle` lays it out; `Bonkscape.Cache/TitleArt.cs` decodes the JPEG with the vendored StbImageSharp |
+| `Systems/TitleScreen.cs` | The title screen (0.12): OSRS's login screen (`title.jpg` and its mirror, logo, login box) over Megabonk's main menu while its main tab is open; the buttons run Megabonk's own `MainMenu.GoTo...`, `ExitGame`, language button and Discord link; Megabonk's menu stays underneath with its canvas's raycaster off. `HudLayout.DrawTitle` lays it out; the cache library's `LoginScreen.Background` decodes `title.jpg`, and `Systems/TitleArt.cs` (Unity-free, linked into bonk like `HudLayout.cs`) makes the combined logo (`TitleArt.CombinedLogo`) |
 | `Systems/Clues.cs` | Easy clue scrolls (0.13): the scroll's drop per kill and pickup, the trail of 2-3 `clue_steps` on the map, OSRS's hint arrow over the spot (441) and on the minimap (422, at its edge when further), the talk step's NPC, and the reward casket: coins and Megabonk's free chest window (`EncounterWindows.AddEncounter(ChestFree)`) |
 | `Systems/Pets.cs` | Boss pets (0.13): the 1-in-N drop on a boss's last death, owned for good in `unlocks.json` (`_pets`, the one out in `_pet_out`), the follower (its NPC model and stand/walk, built at load in `Osrs.BuildPet`), its luck added to every adventurer's stats, the choice on character select's pet line |
 | `Systems/Inventory.cs` | The OSRS side panel (0.12): the inventory tab (coins in the first slot, the weapons in the order taken with their Megabonk levels; `MegabonkHud` hides Megabonk's weapon slots), the prayer book tab, switched by F5 or a click on its tab, and the combat tab (0.14: the weapon in hand, the combat level, the adventurer's attack styles as OSRS's style buttons; a click picks one; the style key shows it for a few seconds) |
 | `Systems/AttackStyles.cs` | OSRS attack styles (0.14): the adventurer's style (saved per adventurer in `unlocks.json`, `_style_<id>`; `characters.attack_style` to start), the style key (`[Interface] AttackStyleKey`, F1) and the checks that the XP went where the style says (`style-xp`) and never into a locked skill (`locked-skill-kept`); `Skills.Shares` holds each style's split |
 | `Systems/OsrsUi.cs` | IMGUI canvas for `HudLayout`; loads its sprites and fonts; measures Megabonk's minimap |
-| `Systems/MegabonkHud.cs` | Hides Megabonk's health bars, XP bar and enemy health bars in a run and restores them after; reads run XP progress and the ability cooldown |
+| `Systems/MegabonkHud.cs` | Hides Megabonk's health bars, XP bar, weapon slots and enemy health bars in a run and restores them after; reads run XP progress |
 | `Systems/LevelUpFx.cs` | OSRS level-up fireworks (spot animation 199) as a flipbook at the adventurer's feet |
 | `Systems/Sfx.cs`, `Core/OsrsAudio.cs` | OSRS sounds through an `OnAudioFilterRead` mixer |
 | `Systems/Music.cs` | Experimental OSRS music through OsrsKit.Music (publish-gated: `tools/package.py` doesn't ship `OsrsKit.Music.dll`; without it Megabonk's music plays) |
@@ -430,26 +442,32 @@ Run from `src/Bonkscape.Tools`. Most commands find a cache like the plugin does,
 | `bonk npcs <name\|id...>` / `bonk items <name\|id...>` / `bonk objects <name...>` | Find definitions by name (or, for npcs and items, a number as the id), with model availability |
 | `bonk render npc\|item\|icon\|object\|spotanim\|player <id> [yaw pitch]` | PNG renders; textured faces take their texture's average colour, as `bonk world` does |
 | `bonk find <interopDir> <name>` | Every game type with a method or property of that name (any case), to find where a call lives |
+| `bonk members <interopDir> <TypeName>` | A game type's methods and fields from the interop assembly (no decompiler) |
+| `bonk uilayout [w h ...]` | The UI test's offline half: the HUD's boxes at each resolution, and any that overlap or leave the screen (exit 1) |
 | `bonk sprites <id...>`, `bonk text <font> <text>`, `bonk sfx <id...>` | Sprites, font text, synthesised sounds as WAV |
-| `bonk modelcolors <model...>` | Each model's format, face count and most common face colours (hue, saturation, lightness) |
+| `bonk modelcolors <model...>`, `bonk npccolors <npc>` | Each model's format, face count and most common face colours (hue, saturation, lightness); an NPC's recolours and its colours raw and recoloured |
 | `bonk uisprites sheet\|pick\|dump\|info\|iface\|healthbar\|hitsplat\|spotanim\|mock` | Interface sprites for the HUD: contact sheets, dumps, interface layouts, health bars, hitsplats, spot animation frames; `mock [w h]` draws the HUD layout into `mock_WxH.png` |
 | `bonk map ...`, `bonk world ...` | Top-down map renders and 3D previews of an area |
 | `bonk worldtiles ...` | Tile pyramids for the sketch tool (surface, underground, instances) |
+| `bonk tiles <x0 y0 x1 y1> [all]`, `bonk boxes <x0 y0 x1 y1> <cx cy r> [cave] [gridonly]` | Bridge flags and skipped walls of raised houses; an arena's colliders and tile grid around a tile ([Cookbook](cookbook.md#add-a-map)) |
 | `bonk worldscan`, `bonk revs` | Check every region decodes; index revisions |
 | `bonk locs x0 y0 x1 y1 <name>` | Placed objects by name in an area |
 | `bonk anim <npc> <seq>`, `bonk seqinfo <id...>`, `bonk mergeinfo <action> <move>` | Bake a sequence on an NPC into a frame strip; a sequence's frames, length and interleave groups; how an interleave splits the transforms |
 | `bonk unstripped <Bonkscape.dll> <interopDir>` | Lists the stripped methods the plugin calls that Il2CppInterop rebuilt (exit 3 when any): `tools/package.py` runs it |
-| `bonk probe`, `bonk names`, `bonk rawcfg`, `bonk kits` | Low-level inspection |
+| `bonk probe`, `bonk names`, `bonk rawcfg`, `bonk rawfile`, `bonk kits` | Low-level inspection (`rawfile`: one file's bytes as stored) |
 
 ## Build and release
 
 ```
 cd src/Bonkscape.Plugin && dotnet build -c Release
-python tools/package.py <version>      # dist/Bonkscape-<version>.zip: Bonkscape.dll, Bonkscape.Cache.dll, README, LICENSE, LICENSES/
+python tools/package.py <version>      # dist/Bonkscape-<version>.zip: Bonkscape.dll, OsrsKit.Cache.dll, README, LICENSE, LICENSES/
 ```
 
-The plugin compiles against `lib/bepinex-melty` (BepInEx 6.0.0-be.697 from the game folder, the build Melty installs)
-and Megabonk's interop assemblies (`InteropLib`, default `D:\Steam\steamapps\common\Megabonk\BepInEx\interop`). Bump
+Both builds need osrs-kit checked out beside this repo (its `OsrsKit.Cache`, and for local builds the experimental
+`OsrsKit.Music`, which no zip carries). The plugin compiles against `lib/bepinex-melty` (BepInEx 6.0.0-be.697 from the
+game folder, the build Melty installs)
+and Megabonk's interop assemblies (`InteropLib`: the game folder's `BepInEx\interop`; the csproj's default is the
+creator's Steam library, so pass `-p:InteropLib=<Megabonk>\BepInEx\interop` elsewhere). Bump
 `Plugin.Version` for every build you upload. `package.py` runs the docs checker first and refuses to build the zip
 when it fails (`--skip-docs` for emergencies; [the docs checker](updating-docs.md#the-docs-checker)). Then upload, submit and test through Melty ([Testing](testing.md)), and
 update the docs ([How to update these docs](updating-docs.md)).

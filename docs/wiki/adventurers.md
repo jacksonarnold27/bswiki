@@ -29,8 +29,6 @@ isn't zero. Move speed is added to Megabonk's move speed multiplier; the others 
 Megabonk character is left as Megabonk made it. A [boss pet](monsters-and-bosses.md#boss-pets) out adds +1% luck to
 every adventurer.
 
-Pure is planned: it's in the sheet, but **not built**, so character select shows Megabonk's own `Ninja` in its slot.
-
 ## Unlocking
 
 Six adventurers are open from the start. The others are earned:
@@ -64,12 +62,12 @@ as in *"Dharok can't be bought: his Barrows set (2/4)."*
 The **Warrior, Ranger, Mage, Ironman and Pure** climb OSRS's weapon ladders by their own
 [levels](skills-and-xp.md): each starts with the highest tier its levels allow
 ([Weapons](weapons-and-evolutions.md#weapon-ladders)), and once it meets a stronger weapon of its style past the
-ladder's top, that one instead (the one whose highest requirement is highest). Everyone else keeps their own weapon
-whatever their levels.
+ladder's top, that one instead (the one whose highest requirement is highest: a weapon outside the ladders counts as
+soon as that requirement is above the tier's). Everyone else keeps their own weapon whatever their levels.
 
 | Adventurer | Starts with | Climbs to |
 |---|---|---|
-| Warrior, Ironman, Pure (melee) | Bronze scimitar | the scimitar ladder by Attack (iron 2, steel 5, black 10, mithril 20, adamant 30, rune 40, dragon 60), then 70 Attack: **Abyssal whip**; 75 Attack: **Armadyl godsword**; 80 Attack and 90 Strength: **Scythe of vitur** |
+| Warrior, Ironman, Pure (melee) | Bronze scimitar | the scimitar ladder by Attack (iron 2, steel 5, black 10, mithril 20, adamant 30, rune 40, dragon 60), then 70 Attack: **Abyssal whip**; 75 Attack: **Armadyl godsword**; 80 Attack and 90 Strength: **Scythe of vitur**. Also the **Void knight mace** once all its requirements are met (42 in Attack, Strength, Defence, Hitpoints, Ranged and Magic, 22 Prayer) while the ladder gives no more than the rune scimitar |
 | Ranger (ranged) | Shortbow | the shortbow ladder by Ranged (oak 5, willow 20, maple 30, yew 40, magic 50), then 55 Ranged: **Red chinchompa**; 75 Ranged: **Toxic blowpipe** |
 | Mage (magic) | Wind Strike | the Strikes by Magic (Water 5, Earth 9, Fire 13), then 75 Magic: **Trident of the seas**; 94 Magic: **Ice Barrage** |
 | Zerker | Dragon scimitar | his own, always |

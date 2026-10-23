@@ -13,6 +13,50 @@ inside each release's DLL in `dist/`. No version has been published yet: every r
 
 ---
 
+## 0.15.0: review and cleanup
+
+*Build 2026-10-22 22:45, code in `08c0e87`. Test `932a78bf`: publish test, 3 runs x 2 min, passed. Run 1 on Ardougne &
+Seers' Village (a clue, the combat tab with the Void knight mace's styles, the Abyssal tentacle, Sir Lancelot's arena, a
+Defence level), run 2 on the God Wars Dungeon (the bronze scimitar's styles, the tentacle, the boss portal into General
+Graardor's lair), run 3 the Mage on TzHaar City (a clue, Fire Strike's casting styles, the tentacle, the final portal
+into the Fight Caves with Jad and his waves). All 12 self-checks each.*
+
+**Patch notes**
+- No change for players: a spring clean of the code, data and docs. Play is as in 0.14.2.
+- Bonkscape reads your OSRS files with osrs-kit's cache library, the one its sister RuneScape tools use: the download
+  holds `OsrsKit.Cache.dll` in place of `Bonkscape.Cache.dll` (one left by an older version is no longer used).
+
+**Changes**
+- The cache library is osrs-kit's: `src/Bonkscape.Cache` is gone. The plugin references the sibling osrs-kit repo's
+  `src/OsrsKit.Cache`, bonk `OSRS_KIT`'s, else the folder beside this repo; the C# namespace is still `Bonkscape.Cache`.
+  StbImageSharp is vendored in the kit, whose `LoginScreen.Background` decodes `title.jpg`. The release zip carries
+  `Bonkscape.dll` and `OsrsKit.Cache.dll` with the readme and licences: `tools/package.py` deletes and refuses a zip
+  holding anything else, and never packages `OsrsKit.Music.dll`.
+- New `Systems/TitleArt.cs`: the combined logo (`TitleArt.Bonk`, `TitleArt.CombinedLogo`), Unity-free and linked into
+  bonk like `HudLayout.cs`. New `Tools/TextureColours.cs`: a texture's average colour for bonk's flat-coloured renders
+  (`map`, `world`, `worldtiles`, `render`, `anim`).
+- `Settings` in `Plugin.cs` has no field defaults: each value comes from its `Config.Bind`, whose defaults are
+  unchanged.
+- The `PlayerInput.MovementInput` postfix in `TestMode` is removed: its `[HarmonyPatch]` had come off its class in
+  0.1.33, so it never ran. Autoplay steers from `TestMode.LateTick` alone, as before.
+- Cleanup, behaviour kept: one `EnemySkins.Alive` (it was copied in `BossFight`, `Pkers` and `Specials`), one
+  `Arena.PlacePlayer` (the adventurer moved with its rigidbody, for `Clues`, `Graveyard`, `LavaBurn`, `Scenario` and
+  `TestMode`), `HudLayout.Box.Contains`, `EnemySkins.FitHeight`, `Scenario`'s steps in one switch. Removed, read by
+  nothing: `Osrs.EnemyNpcUsed` and `CurrencyName`, `MegabonkHud.RunLevel` and `AbilityReady`,
+  `HudLayout.DrawPrayerPanel`, `Evolutions.ResultFor`, the systems' tallies (`BossFight.ScriptedAttacks`,
+  `Specials.Fired`, `Prayer.Switches` and others), a second `run-started` pass.
+- Sheets: columns `drops.amount`, `ui.billboard` and `hooks.bonk_assembly` dropped (read by nothing); audio rows
+  `prayer_on_melee`, `prayer_on_missiles` and `prayer_on_magic` dropped (a protection prayer's sound is its
+  `prayers.sfx_id`). `hooks` matches the patches again: rows `arena_spawn_floor`, `arena_spawn_floor_biased`,
+  `arena_spawn_floor_around`, `test_death_guard`, `test_kill_guard` and `shopkeeper` added, `timer` removed, the
+  `icons_*` rows and `autoplay_input` now data rows, `music` the `OnPause` postfix. `enemies.tz_kek_small` is `todo`
+  (nothing spawns it). About texts match the code.
+- `bonk preflight` checks the references it skipped: characters' `extra_weapons` and `start_levels` (skills, levels 1
+  to 99), passives' `unlocked_by`, enemies' `pk_weapon`, bosses' `arena_waves`, `healers`, `second_form`,
+  `second_form_spotanim`, `boss_at` and `attack_every_ms`, maps' `boss_pool`, `special_rule`, `currency_item` and
+  `shopkeeper_npc`, waves' `events`, drops' `weight_or_rate` (a number for food, potions and clues), prayers'
+  `style_blocked`; a boss's `pet_item_id` 0 is no pet. `bonk` with no arguments lists its commands.
+
 ## 0.14.2: the Mole's ground attacks
 
 *Build 2026-10-22 19:31, code in `4df1113`. Test `0681a9e7`: publish test, 3 runs x 2 min, passed. Run 1 the Ranger on

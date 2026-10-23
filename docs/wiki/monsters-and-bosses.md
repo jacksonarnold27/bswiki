@@ -53,7 +53,7 @@ stage, Megabonk's own stage scaling multiplies every monster's HP and damage on 
 | **TzTok-Jad** | TzTok-Jad (3127) | 6506, 15574 | 702 | magic | Pharaoh3 | 8000 | 40 | 3 | 1 | 1 | tzhaar_city | <span class="st st-verified">verified</span> |
 | **Tz-Kih** | Tz-Kih (3116) | 2189, 2190, 3117 | 22 | melee | Tumblebone | 7 | 9 | 11 | 0 | 1 | tztok_jad_boss | <span class="st st-verified">verified</span> |
 | **Tz-Kek** | Tz-Kek (3118) | 2191, 2192, 3119 | 45 | melee | Scorpion | 16 | 20 | 7 | 0 | 1 | tztok_jad_boss | <span class="st st-verified">verified</span> |
-| **Tz-Kek** | Tz-Kek (3120) | 2191, 2192 | 22 | melee | Mummy | 8 | 13 | 5.5 | 0 | 1 | tztok_jad_boss | <span class="st st-verified">verified</span> |
+| **Tz-Kek** | Tz-Kek (3120) | 2191, 2192 | 22 | melee | Mummy | 8 | 13 | 5.5 | 0 | 1 | tztok_jad_boss | <span class="st st-todo">planned (phase 1)</span> |
 | **Tok-Xil** | Tok-Xil (3121) | 2193, 2194, 3122 | 90 | ranged | CactusShooter | 15 | 30 | 5 | 0 | 1 | tztok_jad_boss | <span class="st st-verified">verified</span> |
 | **Yt-MejKot** | Yt-MejKot (3123) | 3124 | 180 | melee | MummyTank | 45 | 30 | 5 | 1 | 1 | tztok_jad_boss | <span class="st st-verified">verified</span> |
 | **Ket-Zek** | Ket-Zek (3125) | 3126, 15572 | 360 | magic | MummyAncient | 70 | 40 | 5 | 1 | 1 | tztok_jad_boss | <span class="st st-verified">verified</span> |
@@ -260,7 +260,7 @@ City on the Desert's first, second and third; the Wilderness on the Graveyard's 
   (TzTok-Jad, in the Fight Caves), and the Wilderness's when you open its boss door (the King Black Dragon).
 
 A swarm or miniboss row whose minute has no matching event in Megabonk's timeline spawns nothing; the log says how
-many events each map set (*"waves: Morytania on Megabonk's Desert stage 0: N timeline events set"*). Megabonk's own
+many events each map set (*"waves: Morytania on Megabonk's Desert stage 1: N timeline events set"*). Megabonk's own
 pacing decides how many monsters spawn and how fast.
 
 ## Stand-ins
@@ -346,7 +346,7 @@ instead, like OSRS monsters:
 | **TzTok-Jad** | Magic (magic, 1800 ms telegraph, random); Ranged (ranged, 1800 ms telegraph, random); Bite (melee, 0 ms telegraph, random) | 50% HP | TzRek-Jad, 1/20 | <span class="st st-verified">verified</span> |
 | **Kalphite Queen** | Jaws (melee, 0 ms telegraph, random); Spines (ranged, 600 ms telegraph, random); Lightning (magic, 900 ms telegraph, random) | 50% HP | Kalphite Princess, 1/50 | <span class="st st-built">built</span> |
 | **King Black Dragon** | Bite (melee, 0 ms telegraph, random); Dragonfire (magic, 600 ms telegraph, random); Toxic breath (magic, 600 ms telegraph, random); Icy breath (magic, 600 ms telegraph, random); Shocking breath (magic, 600 ms telegraph, random) | 50% HP | Prince Black Dragon, 1/30 | <span class="st st-built">built</span> |
-| **Sir Lancelot** | Slash (melee, 0 ms telegraph, random); Lunge (melee, 0 ms telegraph, random) | 50% HP | Dwarf remains, 1/0 | <span class="st st-built">built</span> |
+| **Sir Lancelot** | Slash (melee, 0 ms telegraph, random); Lunge (melee, 0 ms telegraph, random) | 50% HP | - | <span class="st st-built">built</span> |
 | **General Graardor** | Smash (melee, 0 ms telegraph, random); Slam (ranged, 600 ms telegraph, random) | 50% HP | Pet General Graardor, 1/40 | <span class="st st-built">built</span> |
 | **Kree'arra** | Wind (ranged, 600 ms telegraph, random); Tornado (magic, 600 ms telegraph, random); Claw (melee, 0 ms telegraph, random) | 50% HP | Pet Kree'arra, 1/40 | <span class="st st-built">built</span> |
 | **K'ril Tsutsaroth** | Slash (melee, 0 ms telegraph, random); Prayer smash (melee, 0 ms telegraph, random); Fireball (magic, 600 ms telegraph, random) | 50% HP | Pet K'ril Tsutsaroth, 1/40 | <span class="st st-built">built</span> |
@@ -646,8 +646,7 @@ One clue at a time. It waits while you're in a boss's lair, and moving on to ano
 
 ## Planned monsters
 
-## Planned monsters
-
-The Vyrewatch Sentinel is in the roster above as a planned row (phase 2). It doesn't spawn.
+The Vyrewatch Sentinel is in the roster above as a planned row (phase 2). It doesn't spawn. Nor does the small Tz-Kek
+a Tz-Kek splits into in OSRS: its row is there, but the split isn't built.
 
 <!-- sources: src/Bonkscape.Plugin/Systems/EnemySkins.cs src/Bonkscape.Plugin/Systems/Animator.cs src/Bonkscape.Plugin/Systems/Bosses.cs src/Bonkscape.Plugin/Systems/Pathing.cs src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Combat.cs src/Bonkscape.Plugin/Core/Sizing.cs src/Bonkscape.Plugin/Core/Osrs.cs src/Bonkscape.Plugin/Core/Rows.cs sheets/enemies.json sheets/bosses.json sheets/waves.json sheets/drops.json src/Bonkscape.Plugin/Systems/BossFight.cs src/Bonkscape.Plugin/Systems/Bonk.cs src/Bonkscape.Plugin/Systems/Unlocks.cs sheets/maps.json src/Bonkscape.Plugin/Systems/Barrows.cs src/Bonkscape.Plugin/Systems/SetEffects.cs src/Bonkscape.Plugin/Systems/SecondForm.cs src/Bonkscape.Plugin/Systems/Pkers.cs src/Bonkscape.Plugin/Systems/Graveyard.cs src/Bonkscape.Plugin/Systems/Pets.cs src/Bonkscape.Plugin/Systems/Clues.cs sheets/clue_steps.json -->

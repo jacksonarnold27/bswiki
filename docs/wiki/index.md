@@ -7,7 +7,7 @@ your own OSRS install while the game starts. Nothing from either game ships with
 
 This wiki says how each system works **in the code as it is now**. It doesn't describe plans as if they were built.
 
-> **Version:** BSWiki matches Bonkscape **0.14.2** (code at `4df1113`). What changed in each version:
+> **Version:** BSWiki matches Bonkscape **0.15.0** (code at `08c0e87`). What changed in each version:
 > [patch notes](../dev/changelog.md). How each version tested: [test history](../dev/testing.md#test-history).
 
 ## Pages
@@ -51,9 +51,12 @@ the same way everywhere:
   the Ironman or the Pure once you've earned them, or a Barrows brother once you own his set. Level-ups offer
   [OSRS weapons](weapons-and-evolutions.md) and [OSRS gear](gear-passives.md) in place of Megabonk's.
 - [Monsters](monsters-and-bosses.md) in Lumbridge are chickens, goblins, giant rats, guards, cows and giant frogs,
-  with the Giant Mole as the boss; Al Kharid has its desert monsters and the two-form Kalphite Queen; Morytania has its snails, ghouls, banshees, vampyres and the Vyrewatch, with
-  a hidden Barrows brother as the boss and the others as minibosses; TzHaar City has the TzHaar, and the Fight Caves' waves end with TzTok-Jad, whose attacks the
-  right prayer blocks completely. Each one fights in melee, ranged or magic, shown by the icon over its head.
+  with the Giant Mole as the boss. Ardougne & Seers' Village ends with the Knights of the Round Table, the God Wars
+  Dungeon with one of its four generals, and Al Kharid with the two-form Kalphite Queen. Morytania has its snails,
+  ghouls, banshees, vampyres and the Vyrewatch, with a hidden Barrows brother as the boss and the others as minibosses;
+  TzHaar City has the TzHaar, and the Fight Caves' waves end with TzTok-Jad, whose attacks the right prayer blocks
+  completely; the Wilderness has revenants, PKers and the King Black Dragon. Each monster fights in melee, ranged or
+  magic, shown by the icon over its head.
 - Press **1 / 2 / 3** to [pray](prayer.md) against melee, missiles or magic, and **F** for your weapon's
   [special attack](weapons-and-evolutions.md#special-attacks) (**Q** picks which weapon's).
 - Damage trains your OSRS [skills](skills-and-xp.md), and they're kept between runs. Your levels climb OSRS's weapon ladders (bronze to dragon scimitars,

@@ -17,7 +17,7 @@
 | **Weapon ladder** | OSRS's tiers of one weapon (bronze to dragon scimitars), each needing a higher level. |
 | **Protection prayer** | A prayer that blocks one combat style: Protect from Melee, Missiles or Magic. |
 | **Hitsplat** | The small marker with a damage number over whoever was hit. Red for damage, blue for 0. |
-| **Side panel** | OSRS's panel of tabs in the lower right: in Bonkscape, the inventory and the prayer book. |
+| **Side panel** | OSRS's panel of tabs in the lower right: in Bonkscape, the combat tab, the inventory and the prayer book. |
 | **XP drop** | The `+XP` that floats up the screen when you gain experience. |
 | **Game tick** | OSRS's 0.6-second heartbeat. Bonkscape groups XP drops per tick. |
 | **Combat level** | One number summing up your combat skills, worked out with OSRS's formula. |
@@ -56,7 +56,7 @@
 | **Adventurer** | Your OSRS character: Warrior, Ranger, Mage, Zerker, Void Knight, Durial321, Ironman, Pure or a Barrows brother. |
 | **Arena** | A real OSRS map built from your cache (Lumbridge, Ardougne & Seers' Village and the God Wars Dungeon on the Forest; Al Kharid, Morytania and TzHaar City on the Desert; the Wilderness on the Graveyard; and
 the bosses' lairs) that replaces the stage's ground. |
-| **Fallback stage** | Megabonk's own map (the Forest or the Desert) dressed in OSRS scenery, used when the arena can't be built. |
+| **Fallback stage** | Megabonk's own map (the Forest, the Desert or the Graveyard) dressed in OSRS scenery, used when the arena can't be built. |
 | **Gear passive** | A piece of OSRS gear that replaces a Megabonk tome. One per gear slot. |
 | **Evolution** | A maxed weapon plus its gear passive becoming its OSRS upgrade when a casket opens. |
 | **Stand-in** | Another OSRS NPC used when a monster's own model isn't in your cache. |
