@@ -13,6 +13,97 @@ inside each release's DLL in `dist/`. No version has been published yet: every r
 
 ---
 
+## 0.14.2: the Mole's ground attacks
+
+*Build 2026-10-22 19:31, code in `4df1113`. Test `0681a9e7`: publish test, 3 runs x 2 min, passed. Run 1 the Ranger on
+the Wilderness on the willow shortbow tier (the style key to Longrange on the combat tab, Defence levelling, the King
+Black Dragon), run 2 the Zerker on Al Kharid (Controlled, the Kalphite Queen), run 3 Durial321 on Morytania on his own
+whip (Controlled, Karil). A clue trail in each. All 12 self-checks each.*
+
+**Patch notes**
+- Protect from Melee half-blocks the Giant Mole's ground attacks.
+- A run's weapon tiers follow the adventurer actually playing.
+
+**Changes**
+- `Prayer`: a hit naming no monster (a boss's ground attack: the Giant Mole's roots, from 20 m and more) counts as the
+  nearest live boss's within 30 m, so its protection prayer works on it; test autoplay prays against a live boss within
+  30 m first. `Content.KeepWeaponsFor` puts the run's adventurer's ladder tiers and own weapons on once the new player
+  has its character data (0.14.0's first frames used the Warrior's).
+
+## 0.14.1: clues across a portal
+
+*Build 2026-10-22 19:09, code in `1afd2aa`. Test `a53efa6b`: failed. Run 1 Durial321 on TzHaar City passed (a clue
+trail, the combat tab after the style key, Jad); run 2 never reported `prayer-blocked`: the Giant Mole's ground attacks
+name no monster, so no prayer blocked them (fixed in 0.14.2).*
+
+**Patch notes**
+- A clue trail no longer errors while a final portal changes the stage.
+
+**Changes**
+- `Arena.Ready` (the arena up and its map still there) for `Clues`; `Arena.TileGround` returns the origin, never an
+  exception, once a stage change has taken the map down.
+
+## 0.14.0: skills that matter
+
+*Build 2026-10-22 19:02, code in `1105078`. Test `dc84b98b`: failed. Run 1's 12 self-checks passed, but its log had
+Bonkscape errors: the HUD's clue arrow asked `Arena.TileGround` of the God Wars map while a final portal tore it down
+(fixed in 0.14.1).*
+
+**Patch notes**
+- Weapon ladders: the Warrior, Ranger, Mage, Ironman and Pure start on OSRS's ladders and climb by their own levels:
+  scimitars bronze to dragon by Attack, shortbows normal to magic by Ranged (with arrows by tier), Wind to Fire Strike
+  by Magic, each tier with its own model and damage. The Zerker, Void Knight, Durial321 and the brothers keep their
+  own weapons.
+- Every weapon asks its OSRS levels (the whip Attack 70, the godsword 75, the scythe 80 Attack and 90 Strength...);
+  level-ups never offer one above your levels, and the chat box says when a level brings one into reach.
+- Attack styles: F1 or the new combat tab picks Accurate, Aggressive, Controlled or Defensive (Rapid and Longrange
+  with bows, defensive casting with spells), and XP follows OSRS's split. The style is saved per adventurer.
+- The Pure joins once one adventurer has Attack 60 with Defence 1, and never trains Defence.
+
+**Changes**
+- `weapons`: new columns `ladder` and `tier`, fifteen new tier rows (bronze to rune scimitars, five shortbows, Wind,
+  Water and Earth Strike), every `gear_reqs` real. `Rows.Ladders`, `ClimbLevel` (one more than the tier below when OSRS
+  asks the same), `TierFor`, `Meets`, `ReqText`, `ClimbedBy`; `Content.ApplyLadders` puts the adventurer's tier on the
+  ladder's Megabonk weapon as character select's choice changes and as a run starts; `Content.StartingWeapon` climbs
+  or keeps the adventurer's own; `Content.Offered` filters the level-up offers; `Content.LevelReached` names a weapon
+  brought into reach.
+- `characters`: new `locked_skills` (the Pure's `defence`, its XP dropped), the Pure at phase 1 with `unlock_condition`
+  `levels:attack>=60,defence<=1` (`Unlocks`: one played adventurer meets every part), the ladder starting weapons.
+  `skills.unlocks` rebuilt from `gear_reqs` (lists allowed); the preflight checks it both ways.
+- New `Systems/AttackStyles.cs` and `Skills.Shares`, `StyleName`, `StylesFor`: four style slots per adventurer, saved in
+  `unlocks.json` (`_style_<id>`), XP split as OSRS's; the combat tab (`Inventory`, `HudLayout`) and new setting
+  `[Interface] AttackStyleKey` (`F1`). Optional checks `style-switched`, `style-xp`, `locked-skill-kept`,
+  `combat-tab`, `ladder-tier`; scenarios `ladder-start`, `ladder-rune`, `attack-styles`, `pure`,
+  `clue-portal`, `mole-prayer` (0.14.0 to 0.14.2 also carried `style-key`, dropped afterwards in `6219a24`: no
+  scenario step can press F1).
+
+## 0.13.0: boss pets and easy clue scrolls
+
+*Build 2026-10-22 15:11, code in `97c83c0`. Test `5fe97177`: publish test, 3 runs x 2 min, passed. Each run showed a
+clue trail (the dialogue, the hint under the minimap, on Morytania the minimap's hint arrow): run 1 the Ranger on Al
+Kharid with the Kalphite Queen, run 2 the Zerker on Morytania with Verac, run 3 Durial321 on Ardougne & Seers'
+Village with Sir Lancelot. All 12 self-checks each.*
+
+**Patch notes**
+- Boss pets: a boss with an OSRS pet can drop it when its last form dies (Baby mole 1/50, Prince black dragon 1/30,
+  TzRek-Jad 1/20, Kalphite princess 1/50, each God Wars general's 1/40). A pet is kept for good; one is out at a time,
+  chosen on character select's pet line, follows you as its OSRS NPC and gives +1% luck.
+- Easy clue scrolls drop from kills: a 2-3 step trail on the current map (dig, search or talk), its hint in the chat
+  box and under the minimap with OSRS's yellow hint arrows, ending in a reward casket: coins and Megabonk's free chest.
+
+**Changes**
+- New `Systems/Pets.cs`: new `bosses` columns `pet_npc_id` and `pet_effect` (`luck:0.01`) and new `pet_rate`s (50, 20,
+  50, 30 and 40); `Pets.BossDied` from `Combat` on a boss's final form; owned in `unlocks.json` under `_pets`, the
+  pet out under `_pet_out` (`Unlocks.Choose`/`Chosen`); `Pets.LateTick` walks the NPC behind the adventurer;
+  `Content.ApplyCharacters` adds `Pets.LuckBonus` to every adventurer's Luck; `CharacterSelect`'s pet line
+  (`HudLayout.DrawPetLine`, a click cycles). The pets' NPC meshes and clips are built at load (`Osrs`).
+- New `Systems/Clues.cs` and sheet `clue_steps` (42 steps, 6 per map: dig, search or talk with a tile, an object or NPC
+  and a hint): the `drops` row `clue_trail` (0.002 a kill), a trail of 2-3 steps nearest first, `Hud.Dialogue`, the
+  hint arrow, the minimap arrow (`Arena.MinimapCamera`) and the hint under the minimap; the reward casket of 100-200
+  coins and Megabonk's `ChestFree` encounter. Preflight checks the clue steps.
+- Test mode: a test run's 6th kill drops a clue; optional checks `pet-dropped`, `clue-complete`; scenario keys
+  `pet` and `clue`.
+
 ## 0.12.0: the UI pass
 
 *Build 2026-10-22 14:17, code in `6037c77`. Test `9663b475`: publish test, 3 runs x 2 min, passed. Each run opened on

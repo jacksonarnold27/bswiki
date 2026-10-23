@@ -30,7 +30,8 @@ When a monster hits you and your prayer matches **that monster's style**:
 | TzTok-Jad's own attacks | **100%**, when the prayer matches the attack's style as it lands ([Monsters](monsters-and-bosses.md#tztok-jad)) |
 | Every other monster | **100%**: the hit shows as a blue 0 hitsplat |
 
-Megabonk counts its minibosses as bosses (a test run's log: `MinibossGolem … IsBoss True`), so a protection prayer
+A boss's hit that names no monster (the Giant Mole's ground attacks) counts as the nearest boss's within 30 m, so its
+protection prayer works on it. Megabonk counts its minibosses as bosses (a test run's log: `MinibossGolem … IsBoss True`), so a protection prayer
 halves a miniboss's hits too, like the Giant Mole's. Elites aren't bosses: prayers stop all of their damage.
 
 The overhead prayer icon glints (a small sparkle) whenever the prayer stops or halves a hit. Hits from a style you're

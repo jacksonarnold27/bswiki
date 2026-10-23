@@ -13,7 +13,8 @@
 | **Identity kit** | One of the body parts (head, torso, legs...) a player model is built from. |
 | **Combat style** | Melee, ranged or magic. |
 | **Special attack (spec)** | A weapon's special move, paid for with special attack energy. |
-| **Attack style** | How a melee attack trains: accurate (Attack), aggressive (Strength) or defensive (Defence). |
+| **Attack style** | Which skills your hits train: melee Accurate (Attack), Aggressive (Strength), Controlled (all three) or Defensive (Defence); ranged Accurate, Rapid or Longrange; magic Casting or Defensive casting. |
+| **Weapon ladder** | OSRS's tiers of one weapon (bronze to dragon scimitars), each needing a higher level. |
 | **Protection prayer** | A prayer that blocks one combat style: Protect from Melee, Missiles or Magic. |
 | **Hitsplat** | The small marker with a damage number over whoever was hit. Red for damage, blue for 0. |
 | **Side panel** | OSRS's panel of tabs in the lower right: in Bonkscape, the inventory and the prayer book. |
@@ -26,6 +27,8 @@
 | **Barrows brothers** | Six undead brothers buried at the Barrows in Morytania: Dharok, Ahrim, Guthan, Karil, Torag and Verac. Each wears an armour set with its own effect. |
 | **Set effect** | What a full Barrows set does on its wearer's hits, such as Guthan's healing. |
 | **Casket** | An OSRS reward container. In Bonkscape, Megabonk's chests. |
+| **Clue scroll** | An OSRS treasure trail: a scroll of steps (dig here, search there, talk to someone) that ends in a reward casket. |
+| **Pet** | A boss's rare drop that follows you around. |
 | **Tokkul** | The TzHaar's currency. In TzHaar City, Megabonk's gold. |
 | **Sequence** | An OSRS animation: frames that move a model's parts (stand, walk, run, attack, death). |
 | **Interleave** | How the OSRS client plays an attack on the upper body while the legs keep walking or running. |
@@ -50,7 +53,7 @@
 
 | Term | Meaning |
 |---|---|
-| **Adventurer** | Your OSRS character: Warrior, Ranger, Mage, Zerker, Void Knight, Durial321, Ironman or a Barrows brother. |
+| **Adventurer** | Your OSRS character: Warrior, Ranger, Mage, Zerker, Void Knight, Durial321, Ironman, Pure or a Barrows brother. |
 | **Arena** | A real OSRS map built from your cache (Lumbridge, Ardougne & Seers' Village and the God Wars Dungeon on the Forest; Al Kharid, Morytania and TzHaar City on the Desert; the Wilderness on the Graveyard; and
 the bosses' lairs) that replaces the stage's ground. |
 | **Fallback stage** | Megabonk's own map (the Forest or the Desert) dressed in OSRS scenery, used when the arena can't be built. |

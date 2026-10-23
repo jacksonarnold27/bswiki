@@ -57,7 +57,7 @@ start Megabonk again."* and the mod stays out of the way.
    panel above it shows that adventurer's name, combat level, skill levels and the weapon he'll start with
    ([HUD](hud-and-chat.md#character-select-panel)).
 5. Pick an adventurer: **Warrior** (it takes Megabonk's `SirOofie` slot), **Ranger** (`Robinette`), **Mage** (`Fox`),
-   **Zerker** (`Calcium`), **Void Knight** (`Athena`) or **Durial321** (`Vlad`); the **Ironman** (`SirChadwell`) and the six
+   **Zerker** (`Calcium`), **Void Knight** (`Athena`) or **Durial321** (`Vlad`); the **Ironman** (`SirChadwell`), the **Pure** (`Ninja`) and the six
    Barrows brothers are earned ([Adventurers](adventurers.md#unlocking)). Then start a
    run on Megabonk's Forest map, which Bonkscape renames **Lumbridge & Swamp** (its later stages are Ardougne & Seers' Village and the God Wars Dungeon), or its Desert map, which becomes
    **Al Kharid**, then Morytania and TzHaar City on its later stages ([Maps](maps.md#al-kharid)), or its Graveyard map, which
@@ -79,6 +79,7 @@ Runs with Bonkscape loaded never upload scores to Megabonk's Steam leaderboards.
 ## Where your progress lives
 
 - Skills: `%LOCALAPPDATA%\Bonkscape\skills_<adventurer>.json`, one per adventurer ([Skills and XP](skills-and-xp.md#saving)).
+- Unlocks (the Fire cape, Barrows pieces, pets and the pet out): `%LOCALAPPDATA%\Bonkscape\unlocks.json`.
 - Settings: `BepInEx/config/gg.melty.bonkscape.cfg` in Megabonk's folder ([Settings](settings.md)).
 - Log: `BepInEx/LogOutput.log`. Bonkscape's lines start with `[Info   : Bonkscape]`, and every chat message is
   logged too, as `[chat] ...`.

@@ -1,7 +1,7 @@
 # Architecture
 
 Bonkscape is a BepInEx 6 IL2CPP plugin for Megabonk (Unity 2023.2.22f1, IL2CPP, build 1.0.69) that reads the player's
-Old School RuneScape cache at run time. Nothing from either game is shipped. Written against **0.12.0** (`6037c77`).
+Old School RuneScape cache at run time. Nothing from either game is shipped. Written against **0.14.2** (`4df1113`).
 
 ## Projects
 
@@ -123,8 +123,9 @@ skilling nodes, fallback enemy, music).
    starting crypt), `BossFight.Tick` (a boss arena's waves and the held boss's release, healers), `Pkers.Tick` (the
    Wilderness's ambushes and their specs), `LavaBurn.Tick` (lava edges, once per 0.6 s), `Content.GiveExtraWeapons` (an adventurer's `extra_weapons`, once
    the inventory exists), `SetEffects.Tick` (monsters' set-effect slows run out), `SecondForm.Tick` (a risen
-   second form moves and can be hurt once its arrival sequence has played), `Pathing.Tick`,
-   `Prayer.Tick`, `CameraTweak.Tick` (the `[Camera] ToggleKey`, V, flips between `Distance` and `FarDistance`, and
+   second form moves and can be hurt once its arrival sequence has played), `Clues.Tick` (the clue scroll's pickup and
+   the trail's steps), `Pathing.Tick`,
+   `Prayer.Tick`, `Inventory.Tick`, `AttackStyles.Tick` (the style key; where the XP went), `CameraTweak.Tick` (the `[Camera] ToggleKey`, V, flips between `Distance` and `FarDistance`, and
    `NearPitch`/`FarPitch`), `Specials.Tick` (energy, the fire and switch keys), `Skills.GameTick`, `Loot.Tick`, `Skilling.Tick`, death detection.
 6. Always: `Skills.Tick` (autosave every 20 s), `Hud.Tick` (skipped when `Debug.OsrsHud` is off; hitsplats, XP drops, health bar timers, dialogues,
    `LevelUpFx.Tick`; outside a run `MegabonkHud.Restore` puts back the Megabonk HUD pieces it hid), `Chat.Tick`.
@@ -144,7 +145,7 @@ retried every 2 s and again when the screen size changes, else estimated) and dr
 
 **`OnStage(player)`**: on the first stage of a run, or the first stage after the adventurer died (Megabonk's restart
 keeps the map and only makes a new player), resets the run clock, prayer, evolutions, loot, lava burns, extra weapons, set
-effect counts, second forms, PKers and chat, puts a Barrows brother's own weapon on its shared Megabonk type
+effect counts, second forms, PKers, the pet, the clue and chat, puts a Barrows brother's own weapon on its shared Megabonk type
 (`Content.ApplyCharacterWeapons`), and posts the welcome line; a later stage on another maps row (TzHaar City after Morytania) gets the short *Welcome to
 <map>.* Every stage: `Sizing.Measure`, `CameraTweak.Apply`, `PlayerSkin.Apply` (if not skinned yet),
 `Skilling.SpawnForRun` (Forest-style nodes around the player, replaced if the arena builds), a 1.5 s timer, and
@@ -367,7 +368,7 @@ into data fields instead), `music` (`MusicController.PlayMusicTrack`: no music s
 | File | System |
 |---|---|
 | `Systems/Bonk.cs` | Is this a Bonkscape run, and on which map? (`Active`, `Rows.Current`, `MapOf`, `RowOf`) Since 0.5 a Megabonk map can carry one maps row per stage: the run's row is the one for its map and stage (`Bonk.StageIndex`: the loaded stage, not Megabonk's played-stage count), else the map's first; every stage a launch plays, the first included, puts its row's monsters on Megabonk's shared enemy types once (`Content.ApplyStage`, `Content.StageApplied`), since two maps' first stages can share a Megabonk boss (the Giant Mole and the King Black Dragon on `Ent1`). |
-| `Systems/Content.cs` | Sheets into Megabonk's data; names, icons, level-up pools, unlocks, starting weapons; `maps.difficulty` on enemy hp and damage; `maps.sky` on the stage's fog, skybox (a copy), ambient and sun (`ApplySky`), and each stage's look kept for after a lair (`KeepLook`) |
+| `Systems/Content.cs` | Sheets into Megabonk's data; names, icons, level-up pools (0.14: only weapons the adventurer meets the `gear_reqs` of), unlocks, starting weapons (0.14: a ladder's highest tier the adventurer meets, `ApplyLadders` putting it on the ladder's Megabonk weapon); `maps.difficulty` on enemy hp and damage; `maps.sky` on the stage's fog, skybox (a copy), ambient and sun (`ApplySky`), and each stage's look kept for after a lair (`KeepLook`) |
 | `Systems/Arena.cs` | The OSRS arenas (maps and boss lairs), the loading cover |
 | `Systems/PlayerMoveFix.cs` | The adventurer on an arena: slope limit 62 degrees (`PlayerMovement.maxSlopeAngle`), and after 0.25 s of holding a direction without moving, a slide along the wall in front or a hop up a ledge; restored when the arena goes |
 | `Systems/Pathing.cs` | Tile-grid pathing for monsters |
@@ -390,7 +391,7 @@ into data fields instead), `music` (`MusicController.PlayMusicTrack`: no music s
 | `Systems/Pkers.cs` | PKers (0.9, `maps.special_rule` `pkers_revenants`): an ambush every three to four minutes from the map's `pk_weapon` rows (none in a boss's lair), each PKer's health and damage from its row, and its weapon's special attack every 10-14 s in reach |
 | `Systems/Specials.cs` | Special attacks (0.4): the energy bar (60 s, plus 0.25% a kill, capped), the fire and switch keys, each spec's steps (`weapons.spec_effect`) through Megabonk's own damage and debuff calls, targets only monsters that can take damage, autoplay's specs in test runs, the scenario `spec` step |
 | `Systems/SpotFx.cs` | OSRS spot animations as flipbooks on the HUD (the specs' graphics), rendered from the cache off the main thread |
-| `Systems/Skills.cs` | Persistent skills, XP table, combat level |
+| `Systems/Skills.cs` | Persistent skills, XP table, combat level; the attack styles' XP shares and names, the styles an adventurer can pick, locked skills (0.14) |
 | `Systems/Skilling.cs` | Trees, rocks, fishing spots |
 | `Systems/Loot.cs` | Coins, food, caskets, prayer potions |
 | `Systems/Evolutions.cs` | Evolutions on casket open |
@@ -398,7 +399,10 @@ into data fields instead), `music` (`MusicController.PlayMusicTrack`: no music s
 | `Systems/HudLayout.cs` | The HUD's layout and drawing from OSRS's interfaces (160 orbs, 122 XP counter, 162 chatbox, 233 level-up dialogue, 541 prayer book, 161 minimap frame and side panel, 149 inventory), sprite ids in `UiSprite`. No Unity: also compiled into `bonk.exe` for `uisprites mock`. |
 | `Systems/OsrsWindows.cs` | Megabonk's windows in OSRS's browns and stone (0.12): one pass over the active Images and texture-less RawImages by sprite name, covers laid over backgrounds and frames, Megabonk's own button colours retinted; nothing moved, so clicks and layout stay (`docs/design/ui-style.md`, *Megabonk's windows*) |
 | `Systems/TitleScreen.cs` | The title screen (0.12): OSRS's login screen (`title.jpg` and its mirror, logo, login box) over Megabonk's main menu while its main tab is open; the buttons run Megabonk's own `MainMenu.GoTo...`, `ExitGame`, language button and Discord link; Megabonk's menu stays underneath with its canvas's raycaster off. `HudLayout.DrawTitle` lays it out; `Bonkscape.Cache/TitleArt.cs` decodes the JPEG with the vendored StbImageSharp |
-| `Systems/Inventory.cs` | The OSRS side panel (0.12): the inventory tab (coins in the first slot, the weapons in the order taken with their Megabonk levels; `MegabonkHud` hides Megabonk's weapon slots) and the prayer book tab, switched by F5 or a click on its tab |
+| `Systems/Clues.cs` | Easy clue scrolls (0.13): the scroll's drop per kill and pickup, the trail of 2-3 `clue_steps` on the map, OSRS's hint arrow over the spot (441) and on the minimap (422, at its edge when further), the talk step's NPC, and the reward casket: coins and Megabonk's free chest window (`EncounterWindows.AddEncounter(ChestFree)`) |
+| `Systems/Pets.cs` | Boss pets (0.13): the 1-in-N drop on a boss's last death, owned for good in `unlocks.json` (`_pets`, the one out in `_pet_out`), the follower (its NPC model and stand/walk, built at load in `Osrs.BuildPet`), its luck added to every adventurer's stats, the choice on character select's pet line |
+| `Systems/Inventory.cs` | The OSRS side panel (0.12): the inventory tab (coins in the first slot, the weapons in the order taken with their Megabonk levels; `MegabonkHud` hides Megabonk's weapon slots), the prayer book tab, switched by F5 or a click on its tab, and the combat tab (0.14: the weapon in hand, the combat level, the adventurer's attack styles as OSRS's style buttons; a click picks one; the style key shows it for a few seconds) |
+| `Systems/AttackStyles.cs` | OSRS attack styles (0.14): the adventurer's style (saved per adventurer in `unlocks.json`, `_style_<id>`; `characters.attack_style` to start), the style key (`[Interface] AttackStyleKey`, F1) and the checks that the XP went where the style says (`style-xp`) and never into a locked skill (`locked-skill-kept`); `Skills.Shares` holds each style's split |
 | `Systems/OsrsUi.cs` | IMGUI canvas for `HudLayout`; loads its sprites and fonts; measures Megabonk's minimap |
 | `Systems/MegabonkHud.cs` | Hides Megabonk's health bars, XP bar and enemy health bars in a run and restores them after; reads run XP progress and the ability cooldown |
 | `Systems/LevelUpFx.cs` | OSRS level-up fireworks (spot animation 199) as a flipbook at the adventurer's feet |

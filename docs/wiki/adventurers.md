@@ -7,14 +7,14 @@ portrait and model.
 <!-- gen:characters -->
 | Adventurer | Style (attack style) | Starting weapon | Megabonk slot | Stat changes | Worn OSRS items | Unlock | Status |
 |---|---|---|---|---|---|---|---|
-| **Warrior** | melee (aggressive) | Dragon scimitar | SirOofie | max HP +50, armour +0.15, move speed -0.02 | Rune full helm, Rune platebody, Rune platelegs, Dragon scimitar | always | <span class="st st-verified">verified</span> |
-| **Ranger** | ranged (accurate) | Magic shortbow | Robinette | armour +0.05, move speed +0.075 | Green d'hide body, Green d'hide chaps, Magic shortbow | always | <span class="st st-verified">verified</span> |
-| **Mage** | magic (accurate) | Fire Strike | Fox | move speed +0.04, luck +0.15 | Blue wizard hat, Blue wizard robe, Staff of fire | always | <span class="st st-verified">verified</span> |
-| **Pure** | melee (aggressive) | Dragon scimitar | Ninja | max HP -40, damage +0.35, move speed +0.1 | Dragon scimitar | defence 1 attack 60 | <span class="st st-todo">planned (phase 2)</span> |
+| **Warrior** | melee (aggressive) | Bronze scimitar | SirOofie | max HP +50, armour +0.15, move speed -0.02 | Rune full helm, Rune platebody, Rune platelegs, Dragon scimitar | always | <span class="st st-verified">verified</span> |
+| **Ranger** | ranged (accurate) | Shortbow | Robinette | armour +0.05, move speed +0.075 | Green d'hide body, Green d'hide chaps, Magic shortbow | always | <span class="st st-verified">verified</span> |
+| **Mage** | magic (accurate) | Wind Strike | Fox | move speed +0.04, luck +0.15 | Blue wizard hat, Blue wizard robe, Staff of fire | always | <span class="st st-verified">verified</span> |
+| **Pure** | melee (aggressive) | Bronze scimitar | Ninja | max HP -40, damage +0.35, move speed +0.1 | Amulet of glory, Obsidian cape, Mithril gloves, Climbing boots, Zamorak monk top, Zamorak monk bottom, Dragon scimitar | levels:attack>=60,defence<=1 | <span class="st st-built">built</span> |
 | **Zerker** | melee (aggressive) | Dragon scimitar | Calcium | max HP +30, armour +0.08, damage +0.15 | Helm of Neitiznot, Fighter torso, Rune platelegs, Dragon defender, Dragon scimitar, Climbing boots, Amulet of glory | always | <span class="st st-verified">verified</span> |
 | **Void Knight** | melee (accurate) | Void knight mace | Athena | max HP +25, armour +0.1, damage +0.1 | Void melee helm, Elite void top, Elite void robe, Void knight gloves, Void knight mace | always | <span class="st st-built">built</span> |
 | **Durial321** | melee (accurate) | Abyssal whip | Vlad | max HP +40, armour +0.1, damage +0.05, move speed +0.03 | Green partyhat, Ahrim's robetop, Ahrim's robeskirt, Fire cape, Barrows gloves, Abyssal whip, Toktz-ket-xil, Climbing boots | always | <span class="st st-verified">verified</span> |
-| **Ironman** | melee (defensive) | Dragon scimitar | SirChadwell | max HP +30, armour +0.1, luck +0.25 | Ironman helm, Ironman platebody, Ironman platelegs | total level 250 | <span class="st st-built">built</span> |
+| **Ironman** | melee (defensive) | Bronze scimitar | SirChadwell | max HP +30, armour +0.1, luck +0.25 | Ironman helm, Ironman platebody, Ironman platelegs | total level 250 | <span class="st st-built">built</span> |
 | **Dharok** | melee (aggressive) | Dharok's greataxe | Dicehead | max HP +40, armour +0.12, damage +0.2, move speed -0.03 | Dharok's helm, Dharok's platebody, Dharok's platelegs, Dharok's greataxe | barrows set dharok | <span class="st st-built">built</span> |
 | **Ahrim** | magic (accurate) | Ahrim's staff | Amog | max HP +20, armour +0.05, damage +0.1, luck +0.05 | Ahrim's hood, Ahrim's robetop, Ahrim's robeskirt, Ahrim's staff | barrows set ahrim | <span class="st st-built">built</span> |
 | **Guthan** | melee (accurate) | Guthan's warspear | Spaceman | max HP +50, armour +0.12, damage +0.05 | Guthan's helm, Guthan's platebody, Guthan's chainskirt, Guthan's warspear | barrows set guthan | <span class="st st-built">built</span> |
@@ -26,7 +26,8 @@ portrait and model.
 Stat changes are Megabonk stat modifiers. For each stat in the row (max HP, armour, damage, size, attack speed, move
 speed, luck), Bonkscape removes the Megabonk character's own modifier for that stat and adds the row's value, if it
 isn't zero. Move speed is added to Megabonk's move speed multiplier; the others are flat. Everything else about the
-Megabonk character is left as Megabonk made it.
+Megabonk character is left as Megabonk made it. A [boss pet](monsters-and-bosses.md#boss-pets) out adds +1% luck to
+every adventurer.
 
 Pure is planned: it's in the sheet, but **not built**, so character select shows Megabonk's own `Ninja` in its slot.
 
@@ -34,6 +35,7 @@ Pure is planned: it's in the sheet, but **not built**, so character select shows
 
 Six adventurers are open from the start. The others are earned:
 
+- the **Pure**, once any one adventurer you've played has Attack 60 or more with Defence still 1;
 - the **Ironman**, once any one adventurer you've played (one with a skills save of its own) reaches a **total level**
   of 250, all its skill levels added up;
 - each **Barrows brother** (Dharok, Ahrim, Guthan, Karil, Torag and Verac), once you own his full set: his helm, body,
@@ -51,41 +53,39 @@ as in *"Dharok can't be bought: his Barrows set (2/4)."*
   Ranged), with their own weapon, and carry their set's effect on their hits
   ([set effects](monsters-and-bosses.md#the-barrows-brothers)). Nothing is saved until a brother earns XP.
   *(unconfirmed: needs a Melty run or footage)*
+- **The Pure never trains Defence**: its Defence XP is dropped, and its combat styles never include Defensive or
+  Controlled.
 - **The Ironman can't trade.** Megabonk's Shady Guy, and TzHaar-Hur-Tel standing in for him in TzHaar City, won't deal
   with him: the prompt reads *Ironmen can't trade*, and pressing it says *"The shopkeeper won't trade with an
   Ironman."*
 
 ## Starting weapons
 
-Each adventurer starts with its row's weapon. Once that adventurer's own [skills](skills-and-xp.md) are high enough,
-it starts with a stronger weapon of the same style instead: of the ones whose requirements it meets, the one whose
-requirements add up highest.
+The **Warrior, Ranger, Mage, Ironman and Pure** climb OSRS's weapon ladders by their own
+[levels](skills-and-xp.md): each starts with the highest tier its levels allow
+([Weapons](weapons-and-evolutions.md#weapon-ladders)), and once it meets a stronger weapon of its style past the
+ladder's top, that one instead (the one whose highest requirement is highest). Everyone else keeps their own weapon
+whatever their levels.
 
-| Adventurer | Default | Upgrades |
+| Adventurer | Starts with | Climbs to |
 |---|---|---|
-| Warrior, Zerker, Ironman (melee) | Dragon scimitar | 60 Attack: **Dragon claws**; 70 Attack: **Abyssal whip**; 75 Attack: **Armadyl godsword**; 80 Attack and 90 Strength: **Scythe of vitur** |
-| Void Knight (melee) | Void knight mace | the same as the Warrior's |
-| Durial321 (melee) | Abyssal whip | the same as the Warrior's, from 75 Attack |
-| The Barrows brothers | their own weapon | none |
-| Ranger (ranged) | Magic shortbow | 55 Ranged: **Red chinchompa**; 75 Ranged: **Toxic blowpipe** |
-| Mage (magic) | Fire Strike | 75 Magic: **Trident of the seas**; 94 Magic: **Ice Barrage** |
+| Warrior, Ironman, Pure (melee) | Bronze scimitar | the scimitar ladder by Attack (iron 2, steel 5, black 10, mithril 20, adamant 30, rune 40, dragon 60), then 70 Attack: **Abyssal whip**; 75 Attack: **Armadyl godsword**; 80 Attack and 90 Strength: **Scythe of vitur** |
+| Ranger (ranged) | Shortbow | the shortbow ladder by Ranged (oak 5, willow 20, maple 30, yew 40, magic 50), then 55 Ranged: **Red chinchompa**; 75 Ranged: **Toxic blowpipe** |
+| Mage (magic) | Wind Strike | the Strikes by Magic (Water 5, Earth 9, Fire 13), then 75 Magic: **Trident of the seas**; 94 Magic: **Ice Barrage** |
+| Zerker | Dragon scimitar | his own, always |
+| Void Knight | Void knight mace | his own, always |
+| Durial321 | Abyssal whip | his own, always |
+| The Barrows brothers | their own weapon | their own, always |
 
-An upgrade must ask more than the default does: Durial321's whip asks 70 Attack, so he keeps it until the Armadyl
-godsword at 75. The Void knight mace asks nothing, so any upgrade met replaces it, and it is never an upgrade itself. A
-Barrows brother always starts with his own weapon.
+The character select panel shows which weapon the adventurer will start with. A ladder's tier goes on when you pick
+the adventurer and when a run starts, so a tier reached during a run comes with the next one (the chat box says so).
+A starting weapon past the ladder (the whip at Attack 70) is set when Megabonk loads its data; from the code, one
+reached during a play session may only reach a run after you restart Megabonk. That hasn't been tested yet
+([docket](../dev/docket.md)).
 
-These requirements only decide the weapon you **start** with. Level-ups offer all twelve shared weapons whatever your levels, and a Barrows brother his own too
-([Weapons](weapons-and-evolutions.md)).
-
-The character select panel shows which weapon the selected adventurer will start with. Bonkscape sets the starting
-weapon when Megabonk loads its data, which happens as the game starts. From the code, a level gained during a play
-session shows on the panel right away but may only reach the run after you restart Megabonk. That hasn't been tested
-yet ([docket](../dev/docket.md)).
-
-> **Warrior and Attack.** The Warrior fights in the *aggressive* style, so its melee damage trains **Strength**, not
-> Attack ([Skills](skills-and-xp.md#what-trains-what)), as do the Zerker and Dharok. Attack is trained by melee damage
-> from an *accurate* adventurer: the Void Knight, Durial321, Guthan and Verac, or the Ranger, Mage, Ahrim or Karil with
-> a melee weapon picked up on level-up. The Ironman and Torag fight *defensively* and train Defence.
+> **Attack styles.** Each adventurer starts on its row's attack style (the Warrior, Zerker, Pure and Dharok
+> aggressive, the Ironman and Torag defensive, the rest accurate), which decides which skills its hits train; switch
+> it with **F1** or the combat tab ([Skills](skills-and-xp.md#attack-styles)). The style is kept per adventurer.
 
 ## Looks
 
@@ -123,4 +123,4 @@ Your **hitbox** is still Megabonk's: a bigger adventurer doesn't get hit more.
 Monsters are drawn on your adventurer's scale: an OSRS human stands about as tall as your adventurer, and goblins,
 rats and chickens keep their OSRS ratios to them ([Monsters](monsters-and-bosses.md#size)).
 
-<!-- sources: src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/PlayerSkin.cs src/Bonkscape.Plugin/Systems/Animator.cs src/Bonkscape.Plugin/Systems/CharacterSelect.cs src/Bonkscape.Plugin/Core/Sizing.cs src/Bonkscape.Plugin/Core/Osrs.cs src/Bonkscape.Plugin/Plugin.cs sheets/characters.json sheets/weapons.json src/Bonkscape.Plugin/Systems/Barrows.cs src/Bonkscape.Plugin/Systems/SetEffects.cs src/Bonkscape.Plugin/Systems/Unlocks.cs src/Bonkscape.Plugin/Systems/Skills.cs -->
+<!-- sources: src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/PlayerSkin.cs src/Bonkscape.Plugin/Systems/Animator.cs src/Bonkscape.Plugin/Systems/CharacterSelect.cs src/Bonkscape.Plugin/Core/Sizing.cs src/Bonkscape.Plugin/Core/Osrs.cs src/Bonkscape.Plugin/Plugin.cs sheets/characters.json sheets/weapons.json src/Bonkscape.Plugin/Systems/Barrows.cs src/Bonkscape.Plugin/Systems/SetEffects.cs src/Bonkscape.Plugin/Systems/Unlocks.cs src/Bonkscape.Plugin/Systems/Skills.cs src/Bonkscape.Plugin/Systems/Pets.cs src/Bonkscape.Plugin/Core/Rows.cs src/Bonkscape.Plugin/Systems/AttackStyles.cs -->

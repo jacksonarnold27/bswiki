@@ -116,9 +116,11 @@ step: MODLOG is the short log, this page explains). Unnumbered ones were found w
   monster (`dc.enemy` null: the champion's slam hit for 91), and its second damage call, `DamagePlayerExternal` (a
   bare amount, used by shooters' projectiles), goes on to `Damage`.
 - **Most of a boss's or miniboss's hits name no monster**: their projectiles and slams reach `PlayerHealth.Damage` with
-  `dc.enemy` null (the log's "something hit for 4"), so nothing ties them to the brother who threw them: a protection
-  prayer doesn't block them, and 0.7's set effects take the nearest brother within 10 m as the hitter
-  (`SetEffects.NearestBrother`). A scenario's spawn step skins as the row it names (`EnemySkins.NextRow`); before 0.7
+  `dc.enemy` null (the log's "something hit for 4"), so nothing ties them to the brother who threw them. 0.7's set
+  effects take the nearest brother within 10 m as the hitter (`SetEffects.NearestBrother`); since 0.14.2 a protection
+  prayer takes the nearest live boss within 30 m (`Prayer.NearestBoss`: the Giant Mole's roots, Megabonk's Ent
+  `RootAttackSinglePredictive`, reach the adventurer from 20 m and more and had gone unblocked), and test autoplay prays
+  against that boss first. A scenario's spawn step skins as the row it names (`EnemySkins.NextRow`); before 0.7
   six brothers spawned on Pharaoh1 all came out as the first row on it.
 - **A monster can't be hurt for about its first second** (`Enemy.CanTakeDamage()` false): every hit then is ignored,
   Bonkscape's and Megabonk's alike, and `hp` doesn't change. When it can, `DamageFromPlayerWeapon` takes the hp off at

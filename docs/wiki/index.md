@@ -7,7 +7,7 @@ your own OSRS install while the game starts. Nothing from either game ships with
 
 This wiki says how each system works **in the code as it is now**. It doesn't describe plans as if they were built.
 
-> **Version:** BSWiki matches Bonkscape **0.12.0** (code at `6037c77`). What changed in each version:
+> **Version:** BSWiki matches Bonkscape **0.14.2** (code at `4df1113`). What changed in each version:
 > [patch notes](../dev/changelog.md). How each version tested: [test history](../dev/testing.md#test-history).
 
 ## Pages
@@ -16,10 +16,10 @@ This wiki says how each system works **in the code as it is now**. It doesn't de
 |---|---|
 | [Getting started](getting-started.md) | What you need, installing through Melty, the first launch |
 | [Maps](maps.md) | Lumbridge, Ardougne & Seers' Village, the God Wars Dungeon, Al Kharid, Morytania, TzHaar City and the Wilderness: what's built from your cache, spawn, portals, lava, minimap, see-through walls |
-| [Adventurers](adventurers.md) | The thirteen adventurers: unlocks, special rules, starting weapons, stats, looks and size |
+| [Adventurers](adventurers.md) | The fourteen adventurers: unlocks, special rules, starting weapons, stats, looks and size |
 | [Weapons and evolutions](weapons-and-evolutions.md) | Every weapon, its Megabonk behaviour and level-ups; caskets and the two evolutions |
 | [Gear passives](gear-passives.md) | The OSRS gear that replaces Megabonk's tomes, one item per slot, and the Fire cape |
-| [Monsters and bosses](monsters-and-bosses.md) | Who spawns when, combat styles, sizes, the Giant Mole's dig, the Knights of the Round Table, the God Wars generals, the Kalphite Queen, the Barrows brothers, the Fight Caves and TzTok-Jad, PKers and the King Black Dragon |
+| [Monsters and bosses](monsters-and-bosses.md) | Who spawns when, combat styles, sizes, the Giant Mole's dig, the Knights of the Round Table, the God Wars generals, the Kalphite Queen, the Barrows brothers, the Fight Caves and TzTok-Jad, PKers and the King Black Dragon, boss pets, clue scrolls |
 | [Prayer](prayer.md) | Protection prayers: keys, drain, how much they block, potions, the prayer bar |
 | [Skills and XP](skills-and-xp.md) | OSRS's XP table, what trains what, saving, unlocks by level, combat level |
 | [HUD and chat](hud-and-chat.md) | Hitsplats, XP drops, chat box, the inventory and prayer book, the title screen, Megabonk's windows, the character select panel |
@@ -47,8 +47,8 @@ the same way everywhere:
   Megabonk's Desert becomes **[Al Kharid](maps.md#al-kharid)**, then **[Morytania](maps.md#morytania)** (Canifis,
   Mort Myre and the Barrows) and **[TzHaar City](maps.md#tzhaar-city)**, whose final portal leads into the Fight
   Caves. The Graveyard becomes **[the Wilderness](maps.md#the-wilderness)**, with the King Black Dragon below it.
-- You play one of thirteen [adventurers](adventurers.md): the Warrior, Ranger, Mage, Zerker, Void Knight or Durial321,
-  the Ironman once you've earned him, or a Barrows brother once you own his set. Level-ups offer
+- You play one of fourteen [adventurers](adventurers.md): the Warrior, Ranger, Mage, Zerker, Void Knight or Durial321,
+  the Ironman or the Pure once you've earned them, or a Barrows brother once you own his set. Level-ups offer
   [OSRS weapons](weapons-and-evolutions.md) and [OSRS gear](gear-passives.md) in place of Megabonk's.
 - [Monsters](monsters-and-bosses.md) in Lumbridge are chickens, goblins, giant rats, guards, cows and giant frogs,
   with the Giant Mole as the boss; Al Kharid has its desert monsters and the two-form Kalphite Queen; Morytania has its snails, ghouls, banshees, vampyres and the Vyrewatch, with
@@ -56,8 +56,8 @@ the same way everywhere:
   right prayer blocks completely. Each one fights in melee, ranged or magic, shown by the icon over its head.
 - Press **1 / 2 / 3** to [pray](prayer.md) against melee, missiles or magic, and **F** for your weapon's
   [special attack](weapons-and-evolutions.md#special-attacks) (**Q** picks which weapon's).
-- Damage trains your OSRS [skills](skills-and-xp.md), and they're kept between runs. High levels change your starting
-  weapon.
+- Damage trains your OSRS [skills](skills-and-xp.md), and they're kept between runs. Your levels climb OSRS's weapon ladders (bronze to dragon scimitars,
+  normal to magic shortbows, Wind to Fire Strike) and open stronger weapons, and **F1** picks your attack style.
 - Stand next to the maps' trees, rocks and fishing spots to [skill](skilling.md) for coins, buffs and food.
 
 Developer documentation (architecture, sheets, gotchas, testing, changelog, task docket) is in [BSWiki's developer pages](../dev/index.md).

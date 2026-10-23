@@ -16,10 +16,11 @@ through `Generated/Sheets.g.cs`. Each file has the same shape:
 | Sheet | Rows | Columns | Row statuses |
 |---|---|---|---|
 | `audio.json` | 17 | 6 | 14 built, 3 todo |
-| `bosses.json` | 9 | 20 | 8 built, 1 verified |
-| `cache_assets.json` | 629 | 9 | 7 todo, 622 verified |
-| `characters.json` | 14 | 21 | 8 built, 1 todo, 5 verified |
-| `drops.json` | 36 | 10 | 31 built, 3 todo, 2 verified |
+| `bosses.json` | 9 | 22 | 8 built, 1 verified |
+| `cache_assets.json` | 685 | 9 | 7 todo, 678 verified |
+| `characters.json` | 14 | 22 | 9 built, 5 verified |
+| `clue_steps.json` | 42 | 9 | 42 built |
+| `drops.json` | 35 | 10 | 32 built, 1 todo, 2 verified |
 | `enemies.json` | 116 | 22 | 96 built, 1 todo, 19 verified |
 | `evolutions.json` | 4 | 10 | 3 built, 1 todo |
 | `hooks.json` | 47 | 9 | 17 built, 30 verified |
@@ -29,7 +30,7 @@ through `Generated/Sheets.g.cs`. Each file has the same shape:
 | `skills.json` | 10 | 8 | 5 built, 5 verified |
 | `ui.json` | 41 | 8 | 4 built, 1 todo, 36 verified |
 | `waves.json` | 63 | 8 | 55 built, 8 verified |
-| `weapons.json` | 19 | 27 | 17 built, 1 todo, 1 verified |
+| `weapons.json` | 34 | 29 | 32 built, 1 todo, 1 verified |
 <!-- /gen:sheet-list -->
 
 ## Rules the preflight checks on every sheet
@@ -74,14 +75,15 @@ One row per playable adventurer; each takes over a Megabonk character. Read by `
 | `id` | Row key. | |
 | `name` | Shown name (character select, `GetName`). | |
 | `style` | `melee` / `ranged` / `magic`. Decides which skill the default damage trains and which weapons can be its starting weapon. | |
-| `attack_style` | `accurate` / `aggressive` / `defensive`: melee XP goes to Attack / Strength / Defence. | |
-| `starting_weapon` | Weapon row it starts with before skill upgrades. | row of `weapons` |
+| `attack_style` | The style a new adventurer starts on (0.14; the style key and the combat tab change it, saved per adventurer in `unlocks.json` as `_style_<id>`, `Systems/AttackStyles.cs`): `accurate`, `aggressive`, `controlled` or `defensive`. With melee damage they train Attack, Strength, all three, Defence; with ranged, Ranged (`aggressive` is Rapid) or Ranged and Defence (`defensive` is Longrange); with magic, Magic or Magic and Defence (`defensive` is defensive casting). `Skills.Shares` holds the split. | one of the four; not one that trains a locked skill |
+| `starting_weapon` | 0.14: a ladder's first tier (`bronze_scimitar`, `shortbow`, `wind_strike`) makes the adventurer climb that ladder: they start with its highest tier their own levels allow, or a weapon of their style beyond its top once they meet it (`Content.StartingWeapon`). Any other weapon is the adventurer's own, given whatever their levels (the Zerker's dragon scimitar, Durial321's whip). | row of `weapons` |
 | `bonk_base_character` | Megabonk `ECharacter` whose slot, prefab, movement and hitbox it takes. | `ECharacter` value |
 | `hp`, `armor`, `damage`, `area`, `cooldown`, `speed`, `luck` | Stat modifiers replacing the Megabonk character's own for `MaxHealth`, `Armor`, `DamageMultiplier`, `SizeMultiplier`, `AttackSpeed` (flat) and `MoveSpeedMultiplier` (addition), `Luck` (flat). 0 = remove Megabonk's. | |
 | `osrs_player_model` | JSON: `osrs_items` (worn item ids), `osrs_kits_male` (identity kit ids), `osrs_colors` (0 = kit colours, the only value used), `osrs_stand_anim` (sequence for the pose), `osrs_walk_anim` (819), `osrs_run_anim` (824) and `osrs_death_anim` (836) for animations (0.2.0). | every kit and worn item resolves; the whole body builds |
 | `can_buy` | `false`: the Shady Guy, and every map's shopkeeper standing in for him (TzHaar-Hur-Tel), refuse this adventurer (the Ironman; `Loot`'s Interact patch, "Ironmen can't trade" on the prompt). | bool |
 | `extra_weapons` | JSON list of weapons ids given beside the starting weapon once a run's inventory exists, their `gear_reqs` not asked (`Content.GiveExtraWeapons`): Durial321's `["ice_barrage"]`. `[]` for none. | each a phase-1 `weapons` row |
-| `unlock_condition` | Replaces Megabonk's unlock for the base character the row takes over, either way (`Unlocks.CharacterUnlocked`, 0.6): `always`; `total_level_N`: any one adventurer has a total level of N (Ironman, 250). Conditions not built yet (Pure's `defence_1_attack_60`, 0.14) keep the character locked. | |
+| `unlock_condition` | Replaces Megabonk's unlock for the base character the row takes over, either way (`Unlocks.CharacterUnlocked`, 0.6): `always`; `total_level_N`: any one adventurer has a total level of N (Ironman, 250); `barrows_set_<id>` (0.7); `levels:attack>=60,defence<=1`: one played adventurer's levels meet every part (0.14, the Pure). | one of those forms |
+| `locked_skills` | JSON list of skills the adventurer never trains (0.14: the Pure's `["defence"]`): their XP is dropped (`Skills.Add`), and styles that would train one are never offered. `[]` for none. | skills ids |
 | `start_levels` | JSON `{skill: level}`: an adventurer with no skills save of their own starts at these levels (0.7: a Barrows brother at 70 in Attack, Strength, Defence, Hitpoints and his style's skill; `Skills.Of`, not saved until he earns XP). `{}` for none. | skills ids, levels 1-99 |
 | `set_effect` | JSON: the adventurer's Barrows set effect (0.7), the same as his `enemies` row's: `name` (`dharok_rage`, `ahrim_weaken`, `guthan_heal`, `karil_slow`, `torag_drain`, `verac_pierce`), `chance` (0.25; Dharok's 1.0), the style it triggers on (`on`), its numbers and `spotanim`. `{}` for none. | |
 | `phase`, `status` | See above. | |
@@ -89,7 +91,7 @@ One row per playable adventurer; each takes over a Megabonk character. Read by `
 ## weapons
 
 One row per OSRS weapon; each reuses a Megabonk weapon's behaviour. Read by `Content.ApplyWeapon`, `Combat`,
-`Content.StartingWeapon`, `Osrs` (items, sprites, sounds).
+`Content.StartingWeapon`, `Content.ApplyLadders`, `Osrs` (items, sprites, sounds).
 
 | Column | Meaning | Preflight |
 |---|---|---|
@@ -98,7 +100,8 @@ One row per OSRS weapon; each reuses a Megabonk weapon's behaviour. Read by `Con
 | `bonk_base` | Megabonk `EWeapon` it takes over, or `new:...` for a weapon type that doesn't exist yet (the plugin can't make one: such a row isn't built). Several rows may share a type when all but one are character-only: the other row is the type's default, and a character-only one goes on it only while its owner is chosen or plays (0.7: Guthan's, Torag's and Verac's weapons on CorruptSword, the Void knight mace's; `Content.ApplyCharacterWeapons`). | `EWeapon` value |
 | `damage`, `cooldown`, `area`, `amount`, `speed`, `pierce`, `duration`, `knockback` | Replace `WeaponData.damage`, `endCooldown`, `projectiles`, `projectileSpeed`, `projectileBounces` (from `pierce`), `attackDuration`, `knockback`, and the `baseStats` entries `DamageMultiplier`, `SizeMultiplier` (area), `Projectiles`, `ProjectileSpeedMultiplier`, `ProjectileBounces`, `DurationMultiplier`, `KnockbackMultiplier`. | |
 | `level_curve` | List of `Stat:Type:Value` that replaces the weapon's upgrade pool. | each `EStat` and `EStatModifyType` |
-| `gear_reqs` | `"starting_weapon"`, `"character:<id>"` (0.7: a Barrows brother's own weapon: only he starts with it, it's never upgraded away from him, and level-up offers give it to him alone), or `{"skill": level}`: levels needed to **start** a run with it (a skill upgrade must ask more than the adventurer's own weapon). | skills are rows of `skills` |
+| `gear_reqs` | `{"skill": level}`: OSRS's levels to wield it (0.14, from the OSRS Wiki): level-ups never offer it to an adventurer below them (`Content.Offered`: their own starting and extra weapons, and any weapon held, ask nothing), and it's never a starting weapon below them. Or `"character:<id>"` (0.7: a Barrows brother's own weapon: only he starts with it, it's never upgraded away from him, and level-up offers give it to him alone). | skills are rows of `skills`; each level listed in `skills.unlocks` |
+| `ladder`, `tier` | 0.14: rows sharing a ladder (`scimitar`: bronze 1 .. dragon 60 Attack; `shortbow`: normal 1 .. magic 50 Ranged; `strike`: Wind 1, Water 5, Earth 9, Fire 13 Magic) share one Megabonk weapon and its special attack; the adventurer playing gets the highest tier they meet, a tier asking the same level as the one below being climbed one level later (`Rows.ClimbLevel`: bronze and iron scimitars both ask Attack 1, so a new adventurer starts with bronze and gets iron at Attack 2) (`Content.ApplyLadders`, as character select's choice changes and as a run starts; a level-up mid-run says it comes with the next run), each tier with its own OSRS item (model in hand, icon), projectile and damage. A tier's damage maps its OSRS number (scimitar strength bonus, shortbow ranged attack, Strike max hit) onto 0.70-1.00 of the top tier's. Every tier fires the ladder's special attack (the Strike spells each their element's: Gale, Torrent, Quake, Wildfire). The top tier is the type's default. `none`/0 for other weapons. | tiers 1..n on one `bonk_base` and `style`; tier 1 asks level 1 of one skill; no tier asks less than the one below |
 | `osrs_item_id` | Item for the icon (and model). | item resolves |
 | `osrs_icon_sprite_id` | Sprite to use as the icon instead (spells), or `none`. | sprite resolves |
 | `osrs_projectile_or_spotanim_id` | `item:<id>`, `spotanim:<id>` or `none`: the OSRS model each projectile the weapon spawns carries (`Systems/Projectiles.cs`, 0.1.36), its longest axis along the flight. | resolves |
@@ -190,7 +193,9 @@ Boss behaviour layered on an enemies row. Read by `Systems/Bosses.cs` (phase 1: 
 | `prayer_blocks_fully` | `true`: the right protection prayer blocks this boss's hits completely (Jad), not the half every other boss's hits are cut by. | |
 | `second_form` | An `enemies` id: the form the boss rises in when its first form (`enemy_id`) dies (0.8: the Kalphite Queen's airborne form). Megabonk's death is called off, the health comes back in full and the second form's model takes the first's place on the same enemy (`SecondForm`); only the second form's death clears the stage and counts for unlocks. `none`: one form. | `none` or an `enemies` id |
 | `second_form_spotanim` | A spotanim played where the first form fell as the second rises (the Kalphite Queen's crawling husk, 1055, frame for frame with her 6270 rise), in place of the first form's corpse. While the second form's `spawn` sequence plays it stands still and can't be hurt. -1: none. | -1 or a spotanim id |
-| `pet_item_id`, `pet_rate` | Pet item and 1-in-N rate. Not used yet. | item resolves |
+| `pet_item_id`, `pet_rate` | The boss's pet (0.13): its item (character select's icon) and the 1-in-N chance its last form's death drops it (`Pets.BossDied`): Giant Mole and Kalphite Queen 50, the four generals 40, KBD 30, Jad 20, the milestone's rates. 0: no pet. | item resolves |
+| `pet_npc_id` | The OSRS NPC that follows the adventurer as the pet, with its own stand and walk sequences (`Pets`, built at load like a monster). 0: none. | NPC resolves |
+| `pet_effect` | What the pet out gives: `luck:F` adds F to every adventurer's Megabonk Luck (`Content.ApplyCharacters`). `none`. | |
 | `arena_plane` | The OSRS level `osrs_arena` is built from (0.11: Graardor's, Kree'arra's and K'ril's rooms on 2, Zilyana's on 0): that level's heights, floors, tile settings and objects become the ground (`WorldOptions.Plane`). 0 for every earlier lair. | the preflight checks the arena's tiles on this level |
 | `phase`, `status` | | |
 
@@ -248,7 +253,23 @@ What things drop and what picking them up does. Read by `Rows` (food, potion, co
 | `weight_or_rate` | Weight among food rows, or a per-kill chance (potion 0.025), or `megabonk`. | |
 | `amount` | Not read. | |
 | `osrs_item_id` | Model and icon. | item resolves |
-| `effect` | `heal:N` is read for food; the potion's `prayer:7+0.25` matches the code but is hard-coded; the `skilling` rows' effects are what gathering gives (`Skilling.ApplyEffect`: `gold:N` coins, `heal:N`, `speed:...` Megabonk's Haste, `armor:...` its Shield, the numbers after `speed`/`armor` not used). | |
+| `effect` | `clue_trail` (0.13) makes the row the easy clue scroll: its `weight_or_rate` is the chance per kill (one clue at a time), its item the scroll on the ground. `heal:N` is read for food; the potion's `prayer:7+0.25` matches the code but is hard-coded; the `skilling` rows' effects are what gathering gives (`Skilling.ApplyEffect`: `gold:N` coins, `heal:N`, `speed:...` Megabonk's Haste, `armor:...` its Shield, the numbers after `speed`/`armor` not used). | |
+| `phase`, `status` | | |
+
+## clue_steps
+
+The clue trail's spots (0.13), staged by the pipeline (`tools/pipeline clues`). An easy clue picks 2-3 of its map's steps,
+a random first and then each nearest (`Clues.Start`). Read by `Clues`.
+
+| Column | Meaning | Preflight |
+|---|---|---|
+| `id` | `<map>_<n>`. | |
+| `map_id` | The map the step is on. | row of `maps` |
+| `kind` | `dig` (stand there a moment), `search` (beside the object) or `talk` (beside the NPC, who stands there while it's the step). | dig, search or talk |
+| `tile` | `[x, y]` in OSRS world tiles, on the map's `osrs_plane`: where the hint arrow stands and the step is done (1.5 tiles for a dig, 1.8 for a search, 2.5 for a talk). | inside the map's `osrs_area`, a walkable tile within 1 |
+| `osrs_object_id` | The object searched (the `tile` is beside it); 0 otherwise. | object resolves (search) |
+| `osrs_npc_id` | The NPC spoken to, built at load and stood at the `tile`; 0 otherwise. | NPC resolves (talk) |
+| `hint` | The step's hint, in our own words: never OSRS's clue text. Shown in the chatbox's dialogue and under the minimap. | |
 | `phase`, `status` | | |
 
 ## prayers
@@ -277,7 +298,7 @@ Persistent skills. Read by `Skills`, `Hud`, `CharacterSelect`, `Prayer`, `Skilli
 | `trained_by` | Documentation of what trains it; the logic is in `Skills.SkillFor`, `Prayer.Tick`, `Skilling.Gather`. | |
 | `xp_rate` | XP per point of damage, per second praying, or per gather. **Read by the code.** | |
 | `osrs_skill_icon_id` | Skill icon sprite (also the style icons for attack/ranged/magic). | sprite resolves |
-| `unlocks` | `{"level": weapon}`. Documentation: the code uses `weapons.gear_reqs`. Keep both in step. | weapons are rows |
+| `unlocks` | `{"level": weapon}` or `{"level": [weapons]}`: the weapons whose `gear_reqs` ask that level of this skill. Documentation: the code uses `weapons.gear_reqs`. | weapons are rows; matches `weapons.gear_reqs` both ways (0.14) |
 | `phase`, `status` | | |
 
 ## ui

@@ -6,13 +6,13 @@ Bonkscape has ten OSRS skills. They're **kept between runs** and use OSRS's real
 <!-- gen:skills -->
 | Skill | Trained by (sheet) | XP rate | Starting weapon unlocks | Status |
 |---|---|---|---|---|
-| **Attack** | `melee_damage:accurate` | 0.25 | 70: Abyssal whip | <span class="st st-verified">verified</span> |
-| **Strength** | `melee_damage:aggressive` | 0.25 | - | <span class="st st-verified">verified</span> |
-| **Defence** | `melee_damage:defensive` | 0.25 | - | <span class="st st-built">built</span> |
-| **Ranged** | `ranged_damage` | 0.25 | 55: Red chinchompa, 75: Toxic blowpipe | <span class="st st-verified">verified</span> |
-| **Magic** | `magic_damage` | 0.25 | 75: Trident of the seas, 94: Ice Barrage | <span class="st st-built">built</span> |
-| **Hitpoints** | `any_damage:third` | 0.0833 | - | <span class="st st-verified">verified</span> |
-| **Prayer** | `seconds_praying` | 2 | - | <span class="st st-verified">verified</span> |
+| **Attack** | `melee_damage:accurate,controlled` | 0.25 | 1: Bronze scimitar / Iron scimitar, 5: Steel scimitar, 10: Black scimitar, 20: Mithril scimitar, 30: Adamant scimitar, 40: Rune scimitar, 42: Void knight mace, 60: Dragon scimitar / Dragon claws, 70: Abyssal whip, 75: Armadyl godsword, 80: Scythe of vitur | <span class="st st-verified">verified</span> |
+| **Strength** | `melee_damage:aggressive,controlled` | 0.25 | 42: Void knight mace, 90: Scythe of vitur | <span class="st st-verified">verified</span> |
+| **Defence** | `melee_damage:defensive,controlled; ranged_damage:longrange; magic_damage:defensive` | 0.25 | 42: Void knight mace | <span class="st st-built">built</span> |
+| **Ranged** | `ranged_damage` | 0.25 | 1: Shortbow, 5: Oak shortbow, 20: Willow shortbow, 30: Maple shortbow, 40: Yew shortbow, 42: Void knight mace, 50: Magic shortbow, 55: Red chinchompa, 75: Toxic blowpipe | <span class="st st-verified">verified</span> |
+| **Magic** | `magic_damage` | 0.25 | 1: Wind Strike, 5: Water Strike, 9: Earth Strike, 13: Fire Strike, 42: Void knight mace, 75: Trident of the seas, 94: Ice Barrage | <span class="st st-built">built</span> |
+| **Hitpoints** | `any_damage:third` | 0.0833 | 42: Void knight mace | <span class="st st-verified">verified</span> |
+| **Prayer** | `seconds_praying` | 2 | 22: Void knight mace | <span class="st st-verified">verified</span> |
 | **Woodcutting** | `node:tree` | 25 | - | <span class="st st-built">built</span> |
 | **Mining** | `node:rock` | 17.5 | - | <span class="st st-built">built</span> |
 | **Fishing** | `node:fishing` | 10 | - | <span class="st st-built">built</span> |
@@ -38,20 +38,33 @@ every other skill starts at 1.
 
 **Combat skills** get XP for the damage you actually deal: the HP a monster loses, not the number Megabonk rolled.
 
-| You deal damage with | Trains | XP per point of damage |
+Each point of damage is worth 0.25 XP, split by the weapon's style and your [attack style](#attack-styles) as in
+OSRS, and Hitpoints gets a third of that (0.0833) on top:
+
+| Weapon | Attack style | Trains |
 |---|---|---|
-| A melee weapon, as an *accurate* adventurer (Void Knight, Durial321, Guthan, Verac; Ranger, Mage, Ahrim, Karil) | Attack | 0.25 |
-| A melee weapon, as an *aggressive* adventurer (Warrior, Zerker, Dharok) | Strength | 0.25 |
-| A melee weapon, as a *defensive* adventurer (Ironman, Torag) | Defence | 0.25 |
-| A ranged weapon (any adventurer) | Ranged | 0.25 |
-| A magic weapon (any adventurer) | Magic | 0.25 |
-| Any weapon | Hitpoints, as well | 0.0833 (a third) |
+| Melee | Accurate | Attack |
+| Melee | Aggressive | Strength |
+| Melee | Controlled | Attack, Strength and Defence, a third each |
+| Melee | Defensive | Defence |
+| Ranged | Accurate or Rapid | Ranged |
+| Ranged | Longrange | Ranged and Defence, half each |
+| Magic | Casting | Magic |
+| Magic | Defensive casting | Magic (0.57) and Defence (0.43) |
 
-The weapon's style decides ranged and magic; for melee weapons your adventurer's attack style picks the skill. So:
+The Pure never trains Defence: XP for it is dropped.
 
-- the Warrior trains **Strength** (and Hitpoints) with melee weapons;
-- **Attack** only goes up when the Ranger or Mage deals damage with a melee weapon taken on level-up;
-- **Defence** is trained only by the Ironman and Torag, the adventurers who fight defensively.
+## Attack styles
+
+Every adventurer has one attack style, which decides only where its XP goes. It starts on its row's style (the
+Warrior, Zerker, Pure and Dharok aggressive, the Ironman and Torag defensive, the rest accurate) and is kept per
+adventurer. **F1** (`Interface.AttackStyleKey`, OSRS's own key for the combat tab) moves to the next style and shows the
+combat tab for 4 s; a click on a style on the combat tab picks it ([HUD](hud-and-chat.md#the-side-panel)). The chat box
+says *"Attack style: Longrange (Ranged, Defence XP)."*
+
+The styles follow your adventurer's own style: melee **Accurate**, **Aggressive**, **Controlled** and **Defensive**;
+ranged **Accurate**, **Rapid** and **Longrange**; magic **Casting** and **Defensive casting**. A style that would
+train a skill the adventurer never trains isn't offered (the Pure has no Defensive or Controlled).
 
 **Prayer** gets 2 XP for every second a protection prayer is on. **Gathering skills** get a fixed amount per action:
 Woodcutting 25, Mining 17.5 and Fishing 10 ([Skilling](skilling.md)).
@@ -68,23 +81,21 @@ Woodcutting 25, Mining 17.5 and Fishing 10 ([Skilling](skilling.md)).
 
 ## Unlocks by level
 
-Skill levels unlock better **starting weapons** ([Adventurers](adventurers.md#starting-weapons)):
+Skill levels decide your weapons, as OSRS's requirements do ([Weapons](weapons-and-evolutions.md#requirements)):
 
-| Skill | Level | Starting weapon |
-|---|---|---|
-| Attack | 60 | Dragon claws (melee adventurers) |
-| Attack | 70 | Abyssal whip (melee adventurers) |
-| Attack | 75 | Armadyl godsword (melee adventurers) |
-| Attack and Strength | 80 and 90 | Scythe of vitur (melee adventurers) |
-| Ranged | 55 | Red chinchompa (Ranger) |
-| Ranged | 75 | Toxic blowpipe (Ranger) |
-| Magic | 75 | Trident of the seas (Mage) |
-| Magic | 94 | Ice Barrage (Mage) |
+- the **weapon ladders**: the Warrior, Ranger, Mage, Ironman and Pure start each run on the highest tier their own
+  levels allow (scimitars by Attack, shortbows by Ranged, the Strikes by Magic), and stronger weapons of their style
+  past the ladder's top ([Adventurers](adventurers.md#starting-weapons));
+- **level-up offers** leave out any weapon whose requirements you don't meet (one you hold or start with is always
+  offered).
+
+When a level brings a weapon into reach, the chat box says so: *"You can now wield the rune scimitar (from your next
+run)."*, *"You can now cast Fire Strike."*
 
 Your Prayer level also raises your prayer points (20 + level). The **Ironman** unlocks once any one adventurer you've played
 (one with a skills save of its own) reaches a **total level** (all its skill levels added up) of 250
-([Adventurers](adventurers.md#unlocking)). The planned
-Pure's condition (*1 Defence, 60 Attack*) isn't built.
+([Adventurers](adventurers.md#unlocking)). The
+**Pure** unlocks once one adventurer you've played has Attack 60 with Defence 1.
 
 ## Combat level
 
@@ -107,4 +118,4 @@ and when you quit Megabonk, writing a temporary file first so a crash never leav
 read, that adventurer starts fresh (the log says *"skills save of … unreadable, starting fresh"*). To reset an
 adventurer's skills, delete their file while Megabonk is closed.
 
-<!-- sources: src/Bonkscape.Plugin/Systems/Skills.cs src/Bonkscape.Plugin/Systems/Combat.cs src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/Prayer.cs src/Bonkscape.Plugin/Systems/Skilling.cs src/Bonkscape.Plugin/Systems/CharacterSelect.cs src/Bonkscape.Plugin/Systems/Hud.cs src/Bonkscape.Plugin/Systems/HudLayout.cs src/Bonkscape.Plugin/Systems/LevelUpFx.cs sheets/skills.json src/Bonkscape.Plugin/Systems/Unlocks.cs -->
+<!-- sources: src/Bonkscape.Plugin/Systems/Skills.cs src/Bonkscape.Plugin/Systems/Combat.cs src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/Prayer.cs src/Bonkscape.Plugin/Systems/Skilling.cs src/Bonkscape.Plugin/Systems/CharacterSelect.cs src/Bonkscape.Plugin/Systems/Hud.cs src/Bonkscape.Plugin/Systems/HudLayout.cs src/Bonkscape.Plugin/Systems/LevelUpFx.cs sheets/skills.json src/Bonkscape.Plugin/Systems/Unlocks.cs src/Bonkscape.Plugin/Systems/AttackStyles.cs src/Bonkscape.Plugin/Core/Rows.cs -->

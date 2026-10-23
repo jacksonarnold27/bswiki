@@ -33,7 +33,8 @@ The `Debug.OsrsHud` setting turns it off, and with `Debug.HideMegabonkHud` off M
 | **Special attack graphics** | At your feet or the target's | The spec's OSRS graphic, rendered from your cache |
 | **Loading screen** | The whole screen | Black with OSRS's *Loading - please wait.* box: when a run starts, after a death restart and when a boss fight moves into its lair, until you stand on the OSRS map ([Maps](maps.md#when-its-built)) |
 | **Death message** | Centre | *"Oh dear, you are dead!"* in large red OSRS text. Megabonk's death screen title says it too. |
-| **Hint** | Above the side panel, first 45 s | *"Pray against the icon over a monster: 1 Melee 2 Missiles 3 Magic (F5: prayers)"* |
+| **Clue hint** | Under the minimap, while a clue trail is going | The current step's hint; OSRS's yellow hint arrow over the spot and an arrow on the minimap ([Clue scrolls](monsters-and-bosses.md#clue-scrolls)) |
+| **Hint** | Above the side panel, first 45 s | *"Pray against the icon over a monster: 1 Melee 2 Missiles 3 Magic (F5: prayers, F1: attack style)"* |
 
 Bonkscape doesn't draw a run clock: Megabonk's own timer stays.
 
@@ -43,8 +44,12 @@ nothing lies over the window or Megabonk's Stats and Inventory panels beside it.
 
 ## The side panel
 
-OSRS's side panel sits in the lower right, with two working tabs in its bottom row at OSRS's places (the other tab
-stones are empty, as on Tutorial Island):
+OSRS's side panel sits in the lower right, with three working tabs at OSRS's places (the other tab stones are
+empty, as on Tutorial Island):
+
+- **Combat**: the weapon of your style in hand, your combat level, your [attack styles](skills-and-xp.md#attack-styles)
+  as OSRS's buttons with the current one lit, *"XP: Attack, Strength, Defence"* for it and *"F1: next style"*. Click a
+  style to pick it.
 
 - **Inventory**: your money in the first slot, as OSRS's coin stack for the amount, with the amount in OSRS's colours
   (yellow, then white with K from 100,000, green with M from 10 million); in TzHaar City the Tokkul stack. Then each
@@ -55,8 +60,9 @@ stones are empty, as on Tutorial Island):
   corner; the active one on OSRS's glow and its key in yellow. Out of points, the prayers that aren't on are dimmed.
   Your prayer points show under the book, as *"43 / 52"*.
 
-**F5** (`Interface.PrayerTabKey`, OSRS's own key for the prayer book) switches between them, or click a tab when
-Megabonk shows the cursor. Each run starts on the inventory.
+**F5** (`Interface.PrayerTabKey`, OSRS's own key for the prayer book) switches between the prayer book and the
+inventory; **F1** (`Interface.AttackStyleKey`) moves to the next attack style and shows the combat tab for 4 s; or click
+a tab when Megabonk shows the cursor. Each run starts on the inventory.
 
 ## Title screen
 
@@ -91,6 +97,8 @@ What it says:
 | A run starts | *Welcome to Lumbridge. Press 1, 2 or 3 to pray against melee, missiles or magic.* (on the Desert: *Welcome to Al Kharid. ...*; on the Graveyard: *Welcome to The Wilderness. ...*) |
 | A later stage is another map | *Welcome to Ardougne & Seers' Village.* / *Welcome to God Wars Dungeon.* / *Welcome to Morytania.* / *Welcome to TzHaar City.* |
 | A skill levels up | *Congratulations, you just advanced a Mining level. You are now level 12.* |
+| A level brings a weapon into reach | *You can now wield the rune scimitar (from your next run).* / *You can now cast Fire Strike.* |
+| You switch attack style | *Attack style: Longrange (Ranged, Defence XP).* |
 | You eat | *You eat the lobster. It heals some health.* |
 | You drink a prayer potion | *You drink some of your prayer potion.* |
 | Prayer runs out | *You have run out of Prayer points, you can recharge at an altar.* |
@@ -113,6 +121,10 @@ What it says:
 | TzTok-Jad drops below half health | *TzTok-Jad calls for help!* |
 | A boss you kill unlocks gear | *You have been awarded a Fire cape!* |
 | Lava first burns you in a run | *The lava's heat burns you!* |
+| You pick up a clue scroll | *You find a clue scroll!*, then *You read the clue scroll: 3 steps on Lumbridge & Swamp.* and the first hint |
+| You finish a clue step | *You dig and find another clue (2 of 3).* (or *search*, *speak*), then the next hint |
+| You finish a clue trail | *You dig and find a reward casket: 150 coins!* |
+| A boss drops its pet | *You have a funny feeling like you're being followed.* (one you own already: *... like you would have been followed...*) |
 | You gather | *You get some logs.* / *You manage to mine some tin.* (the rock's ore; *stone* for plain rocks) / *You catch some shrimps.* |
 
 Every chat line is also written to the BepInEx log as `[chat] ...`.
@@ -130,6 +142,9 @@ above your adventurer, on OSRS's stone background, shows (drawn a step smaller w
   ([Adventurers](adventurers.md#starting-weapons)), and for a Barrows brother how much of his set you own, as
   *"(set 4/4)"*; for a locked adventurer, what unlocks him instead: *"Locked: total level 250 on one adventurer
   (180)"* (the best you have) or *"Locked: his Barrows set (2/4)"*.
+
+Once you own a [boss pet](monsters-and-bosses.md#boss-pets), a pet line under the panel shows the pet out, *"Pet:
+..."* with its icon; clicking it (*"Click to change"*) brings out the next one you own, then none.
 
 ## When your cache can't be found
 
@@ -224,4 +239,4 @@ The OSRS sprites and fonts each element uses (`sheets/ui.json`):
 Two rows aren't drawn although the sheet marks them done: `run_timer` (Bonkscape's OSRS-font clock was removed in
 0.1.7) and `hitsplat_poison` (nothing poisons yet).
 
-<!-- sources: src/Bonkscape.Plugin/Systems/Projectiles.cs src/Bonkscape.Plugin/Systems/Skilling.cs src/Bonkscape.Plugin/Systems/Music.cs src/Bonkscape.Plugin/Systems/Hud.cs src/Bonkscape.Plugin/Systems/HudLayout.cs src/Bonkscape.Plugin/Systems/OsrsUi.cs src/Bonkscape.Plugin/Systems/MegabonkHud.cs src/Bonkscape.Plugin/Systems/LevelUpFx.cs src/Bonkscape.Cache/SpotAnimFrames.cs src/Bonkscape.Plugin/Systems/Chat.cs src/Bonkscape.Plugin/Systems/Evolutions.cs src/Bonkscape.Plugin/Systems/CharacterSelect.cs src/Bonkscape.Plugin/Systems/Combat.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Sfx.cs src/Bonkscape.Plugin/Core/OsrsAudio.cs src/Bonkscape.Plugin/Patches/CorePatches.cs sheets/ui.json sheets/audio.json src/Bonkscape.Plugin/Systems/BossFight.cs src/Bonkscape.Plugin/Systems/LavaBurn.cs src/Bonkscape.Plugin/Systems/Unlocks.cs src/Bonkscape.Plugin/Systems/Arena.cs src/Bonkscape.Plugin/Core/Runner.cs src/Bonkscape.Plugin/Core/Osrs.cs src/Bonkscape.Plugin/Systems/Barrows.cs src/Bonkscape.Plugin/Systems/SecondForm.cs src/Bonkscape.Plugin/Systems/Pkers.cs src/Bonkscape.Plugin/Systems/Graveyard.cs src/Bonkscape.Plugin/Systems/Inventory.cs src/Bonkscape.Plugin/Systems/TitleScreen.cs src/Bonkscape.Plugin/Systems/OsrsWindows.cs src/Bonkscape.Cache/TitleArt.cs -->
+<!-- sources: src/Bonkscape.Plugin/Systems/Projectiles.cs src/Bonkscape.Plugin/Systems/Skilling.cs src/Bonkscape.Plugin/Systems/Music.cs src/Bonkscape.Plugin/Systems/Hud.cs src/Bonkscape.Plugin/Systems/HudLayout.cs src/Bonkscape.Plugin/Systems/OsrsUi.cs src/Bonkscape.Plugin/Systems/MegabonkHud.cs src/Bonkscape.Plugin/Systems/LevelUpFx.cs src/Bonkscape.Cache/SpotAnimFrames.cs src/Bonkscape.Plugin/Systems/Chat.cs src/Bonkscape.Plugin/Systems/Evolutions.cs src/Bonkscape.Plugin/Systems/CharacterSelect.cs src/Bonkscape.Plugin/Systems/Combat.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Sfx.cs src/Bonkscape.Plugin/Core/OsrsAudio.cs src/Bonkscape.Plugin/Patches/CorePatches.cs sheets/ui.json sheets/audio.json src/Bonkscape.Plugin/Systems/BossFight.cs src/Bonkscape.Plugin/Systems/LavaBurn.cs src/Bonkscape.Plugin/Systems/Unlocks.cs src/Bonkscape.Plugin/Systems/Arena.cs src/Bonkscape.Plugin/Core/Runner.cs src/Bonkscape.Plugin/Core/Osrs.cs src/Bonkscape.Plugin/Systems/Barrows.cs src/Bonkscape.Plugin/Systems/SecondForm.cs src/Bonkscape.Plugin/Systems/Pkers.cs src/Bonkscape.Plugin/Systems/Graveyard.cs src/Bonkscape.Plugin/Systems/Inventory.cs src/Bonkscape.Plugin/Systems/TitleScreen.cs src/Bonkscape.Plugin/Systems/OsrsWindows.cs src/Bonkscape.Cache/TitleArt.cs src/Bonkscape.Plugin/Systems/Pets.cs src/Bonkscape.Plugin/Systems/Clues.cs src/Bonkscape.Plugin/Systems/AttackStyles.cs -->

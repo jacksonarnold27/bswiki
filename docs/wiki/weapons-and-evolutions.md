@@ -11,14 +11,14 @@ attacks, its projectile and its visuals. Bonkscape replaces the rest:
 - **Name and icon**: the OSRS name, and an icon rendered from your cache. Fire Strike, Ice Barrage and Fire Surge use
   their OSRS spell icons; the rest use the item's inventory icon.
 
-On Bonkscape's maps, level-ups offer only the twelve weapons any adventurer can have, plus a Barrows brother's own
-weapon to him alone (Guthan's warspear, Torag's hammers and Verac's flail share the Void knight mace's Megabonk weapon,
-so they replace the mace while their brother plays), and they all count as unlocked whatever your Megabonk progress
-is. When a weapon fires:
+On Bonkscape's maps, level-ups offer only Bonkscape's weapons: one for each of twelve Megabonk weapons (a ladder's
+at your tier), plus a Barrows brother's own weapon to him alone (Guthan's warspear, Torag's hammers and Verac's flail
+share the Void knight mace's Megabonk weapon, so they replace the mace while their brother plays), and only those whose
+[requirements](#requirements) you meet. They all count as unlocked whatever your Megabonk progress is. When a weapon fires:
 
 - its projectile carries the OSRS model from the sheet, about a quarter of a tile along its longest side, centred
-  on the projectile and turned to point along its flight: the Magic shortbow's rune
-  arrow, the Toxic blowpipe's dragon dart, the Red chinchompa, Karil's crossbow's bolt, and Fire Strike's, Ice Barrage's, the Trident's and Ahrim's
+  on the projectile and turned to point along its flight: each shortbow's arrow (iron for the
+  Shortbow up to rune for the yew and magic shortbows), the Toxic blowpipe's dragon dart, the Red chinchompa, Karil's crossbow's bolt, and Fire Strike's, Ice Barrage's, the Trident's and Ahrim's
   staff's spell graphics (the Abyssal whip, Dragon scimitar, Scythe of vitur, Armadyl godsword, Dragon claws, Void
   knight mace and the other Barrows weapons have none). Megabonk's own projectile effects stay;
 - the weapon's OSRS attack sound plays, at most every 0.3 s;
@@ -26,16 +26,58 @@ is. When a weapon fires:
 
 How the projectiles look in a run is *(unconfirmed: needs a Melty run or footage)*.
 
+## Weapon ladders
+
+Three of the weapons are **ladders** of OSRS tiers on one Megabonk weapon. The Warrior, Ranger, Mage, Ironman and Pure
+start each run on the highest tier their own levels allow ([Adventurers](adventurers.md#starting-weapons)), and a
+level-up offers the ladder at your tier:
+
+| Ladder | Tiers, with the level each is climbed at |
+|---|---|
+| Scimitars (Attack) | Bronze 1, iron 2, steel 5, black 10, mithril 20, adamant 30, rune 40, dragon 60 |
+| Shortbows (Ranged) | Shortbow 1, oak 5, willow 20, maple 30, yew 40, magic 50 |
+| Strikes (Magic) | Wind 1, Water 5, Earth 9, Fire 13 |
+
+Iron asks Attack 1 in OSRS, as bronze does, so a new adventurer starts with bronze and climbs to iron at Attack 2. Each
+tier has its own OSRS model and damage, from 0.70 of the top tier's at the bottom, and keeps its ladder's special
+attack (the scimitars' Sever, the shortbows' Snapshot; each Strike its own: Gale, Torrent, Quake and Wildfire). A tier
+reached during a run comes with the next one: *"You can now wield the rune scimitar (from your next run)."* The
+Zerker keeps his own dragon scimitar whatever his Attack.
+
+## Requirements
+
+Every weapon asks its OSRS levels: the ladders' tiers as above, the Abyssal whip Attack 70, the Armadyl godsword 75,
+Dragon claws 60, the Scythe of vitur Attack 80 and Strength 90, the Toxic blowpipe Ranged 75, the Red chinchompa
+Ranged 55, the Trident of the seas Magic 75, Ice Barrage Magic 94, the Void knight mace 42 in every combat skill and
+Prayer 22. A level-up never offers a weapon above your levels; one you hold already, start with or carry as an extra
+weapon (Durial321's Ice Barrage) is exempt. When a level brings one into reach, the chat box names it: *"You can now
+wield the abyssal whip."*
+
 ## Weapons
 
 <!-- gen:weapons -->
 | Weapon | OSRS item | Style | Megabonk base | Damage | Cooldown | Area | Amount | Speed | Bounces | Duration | Knockback | Skill levels to start a run with it | Status |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | **Abyssal whip** | Abyssal whip | melee | Katana | 10 | 0.35 | 1.15 | 1 | 0 | 0 | 0.5 | 1 | 70 Attack | <span class="st st-built">built</span> |
-| **Dragon scimitar** | Dragon scimitar | melee | Sword | 11 | 0.7 | 1 | 1 | 1 | 0 | 0.5 | 2 | none (a starting weapon) | <span class="st st-verified">verified</span> |
-| **Magic shortbow** | Magic shortbow | ranged | Bow | 8 | 0.7 | 1 | 1 | 1.6 | 2 | 0.5 | 0.5 | none (a starting weapon) | <span class="st st-built">built</span> |
+| **Dragon scimitar** | Dragon scimitar | melee | Sword | 11 | 0.7 | 1 | 1 | 1 | 0 | 0.5 | 2 | 60 Attack | <span class="st st-verified">verified</span> |
+| **Bronze scimitar** | Bronze scimitar | melee | Sword | 7.7 | 0.7 | 1 | 1 | 1 | 0 | 0.5 | 2 | 1 Attack | <span class="st st-built">built</span> |
+| **Iron scimitar** | Iron scimitar | melee | Sword | 7.9 | 0.7 | 1 | 1 | 1 | 0 | 0.5 | 2 | 1 Attack | <span class="st st-built">built</span> |
+| **Steel scimitar** | Steel scimitar | melee | Sword | 8.1 | 0.7 | 1 | 1 | 1 | 0 | 0.5 | 2 | 5 Attack | <span class="st st-built">built</span> |
+| **Black scimitar** | Black scimitar | melee | Sword | 8.2 | 0.7 | 1 | 1 | 1 | 0 | 0.5 | 2 | 10 Attack | <span class="st st-built">built</span> |
+| **Mithril scimitar** | Mithril scimitar | melee | Sword | 8.5 | 0.7 | 1 | 1 | 1 | 0 | 0.5 | 2 | 20 Attack | <span class="st st-built">built</span> |
+| **Adamant scimitar** | Adamant scimitar | melee | Sword | 8.9 | 0.7 | 1 | 1 | 1 | 0 | 0.5 | 2 | 30 Attack | <span class="st st-built">built</span> |
+| **Rune scimitar** | Rune scimitar | melee | Sword | 9.8 | 0.7 | 1 | 1 | 1 | 0 | 0.5 | 2 | 40 Attack | <span class="st st-built">built</span> |
+| **Magic shortbow** | Magic shortbow | ranged | Bow | 8 | 0.7 | 1 | 1 | 1.6 | 2 | 0.5 | 0.5 | 50 Ranged | <span class="st st-built">built</span> |
+| **Shortbow** | Shortbow | ranged | Bow | 5.6 | 0.7 | 1 | 1 | 1.6 | 2 | 0.5 | 0.5 | 1 Ranged | <span class="st st-built">built</span> |
+| **Oak shortbow** | Oak shortbow | ranged | Bow | 5.8 | 0.7 | 1 | 1 | 1.6 | 2 | 0.5 | 0.5 | 5 Ranged | <span class="st st-built">built</span> |
+| **Willow shortbow** | Willow shortbow | ranged | Bow | 6.1 | 0.7 | 1 | 1 | 1.6 | 2 | 0.5 | 0.5 | 20 Ranged | <span class="st st-built">built</span> |
+| **Maple shortbow** | Maple shortbow | ranged | Bow | 6.4 | 0.7 | 1 | 1 | 1.6 | 2 | 0.5 | 0.5 | 30 Ranged | <span class="st st-built">built</span> |
+| **Yew shortbow** | Yew shortbow | ranged | Bow | 7.1 | 0.7 | 1 | 1 | 1.6 | 2 | 0.5 | 0.5 | 40 Ranged | <span class="st st-built">built</span> |
 | **Toxic blowpipe** | Toxic blowpipe | ranged | Revolver | 4 | 1 | 1 | 6 | 2.2 | 0 | 1 | 0.4 | 75 Ranged | <span class="st st-built">built</span> |
-| **Fire Strike** | Staff of fire | magic | FireStaff | 10 | 0.5 | 1 | 1 | 0.5 | 0 | 2 | 1 | none (a starting weapon) | <span class="st st-built">built</span> |
+| **Fire Strike** | Staff of fire | magic | FireStaff | 10 | 0.5 | 1 | 1 | 0.5 | 0 | 2 | 1 | 13 Magic | <span class="st st-built">built</span> |
+| **Wind Strike** | Staff of air | magic | FireStaff | 7 | 0.5 | 1 | 1 | 0.5 | 0 | 2 | 1 | 1 Magic | <span class="st st-built">built</span> |
+| **Water Strike** | Staff of water | magic | FireStaff | 8 | 0.5 | 1 | 1 | 0.5 | 0 | 2 | 1 | 5 Magic | <span class="st st-built">built</span> |
+| **Earth Strike** | Staff of earth | magic | FireStaff | 9 | 0.5 | 1 | 1 | 0.5 | 0 | 2 | 1 | 9 Magic | <span class="st st-built">built</span> |
 | **Ice Barrage** | Ancient staff | magic | Frostwalker | 9 | 1.25 | 1.1 | 0 | 0 | 0 | 1.6 | 0.5 | 94 Magic | <span class="st st-built">built</span> |
 | **Trident of the seas** | Trident of the Seas | magic | LightningStaff | 8 | 1 | 1 | 1 | 0.5 | 0 | 1 | 1 | 75 Magic | <span class="st st-built">built</span> |
 | **Red chinchompa** | Red chinchompa | ranged | Rockets | 11 | 0.35 | 1.2 | 1 | 1 | 0 | 5 | 2 | 55 Ranged | <span class="st st-built">built</span> |
@@ -44,7 +86,7 @@ How the projectiles look in a run is *(unconfirmed: needs a Melty run or footage
 | **Scythe of vitur** | Scythe of Vitur | melee | Scythe | 12 | 0.85 | 1.4 | 3 | 1 | 0 | 0.5 | 1 | 80 Attack, 90 Strength | <span class="st st-built">built</span> |
 | **Armadyl godsword** | Armadyl godsword | melee | HeroSword | 16 | 1.2 | 1.3 | 1 | 30 | 0 | 0.5 | 3 | 75 Attack | <span class="st st-built">built</span> |
 | **Dragon claws** | Dragon claws | melee | Dexecutioner | 9 | 0.6 | 1 | 1 | 1 | 0 | 0.5 | 1 | 60 Attack | <span class="st st-built">built</span> |
-| **Void knight mace** | Void knight mace | melee | CorruptSword | 10 | 0.85 | 1.1 | 1 | 1 | 0 | 0.5 | 2.5 | none (a starting weapon) | <span class="st st-built">built</span> |
+| **Void knight mace** | Void knight mace | melee | CorruptSword | 10 | 0.85 | 1.1 | 1 | 1 | 0 | 0.5 | 2.5 | 42 Attack, 42 Strength, 42 Defence, 42 Hitpoints, 42 Ranged, 42 Magic, 22 Prayer | <span class="st st-built">built</span> |
 | **Ahrim's staff** | Ahrim's staff | magic | BloodMagic | 10 | 1.1 | 1 | 1 | 1 | 0 | 0.75 | 1 | character:ahrim | <span class="st st-built">built</span> |
 | **Guthan's warspear** | Guthan's warspear | melee | CorruptSword | 11 | 0.85 | 1.2 | 1 | 1 | 0 | 0.5 | 1.5 | character:guthan | <span class="st st-built">built</span> |
 | **Karil's crossbow** | Karil's crossbow | ranged | Sniper | 12 | 0.7 | 1 | 1 | 2 | 1 | 1 | 1 | character:karil | <span class="st st-built">built</span> |
@@ -68,9 +110,24 @@ When a weapon levels up, Megabonk offers upgrades from its pool. Bonkscape's poo
 |---|---|---|---|
 | **Abyssal whip** | damage +2.0 (flat); attack speed +0.08 (addition); attack size +0.15 (addition); crit chance +0.06 (flat) | Energy Drain (hit:1.25,slow:2:0.5:4, not built) | <span class="st st-built">built</span> |
 | **Dragon scimitar** | damage +2.0 (flat); attack size +0.2 (addition); projectiles +1 (flat); knockback +0.25 (addition) | Sever (hit:1.5,stun:1.5, not built) | <span class="st st-verified">verified</span> |
+| **Bronze scimitar** | damage +2.0 (flat); attack size +0.2 (addition); projectiles +1 (flat); knockback +0.25 (addition) | Sever (hit:1.5,stun:1.5, not built) | <span class="st st-built">built</span> |
+| **Iron scimitar** | damage +2.0 (flat); attack size +0.2 (addition); projectiles +1 (flat); knockback +0.25 (addition) | Sever (hit:1.5,stun:1.5, not built) | <span class="st st-built">built</span> |
+| **Steel scimitar** | damage +2.0 (flat); attack size +0.2 (addition); projectiles +1 (flat); knockback +0.25 (addition) | Sever (hit:1.5,stun:1.5, not built) | <span class="st st-built">built</span> |
+| **Black scimitar** | damage +2.0 (flat); attack size +0.2 (addition); projectiles +1 (flat); knockback +0.25 (addition) | Sever (hit:1.5,stun:1.5, not built) | <span class="st st-built">built</span> |
+| **Mithril scimitar** | damage +2.0 (flat); attack size +0.2 (addition); projectiles +1 (flat); knockback +0.25 (addition) | Sever (hit:1.5,stun:1.5, not built) | <span class="st st-built">built</span> |
+| **Adamant scimitar** | damage +2.0 (flat); attack size +0.2 (addition); projectiles +1 (flat); knockback +0.25 (addition) | Sever (hit:1.5,stun:1.5, not built) | <span class="st st-built">built</span> |
+| **Rune scimitar** | damage +2.0 (flat); attack size +0.2 (addition); projectiles +1 (flat); knockback +0.25 (addition) | Sever (hit:1.5,stun:1.5, not built) | <span class="st st-built">built</span> |
 | **Magic shortbow** | damage +1.6 (flat); projectiles +1 (flat); projectile speed +0.2 (addition); crit chance +0.08 (flat) | Snapshot (hits:1.1/1.1:0.2, not built) | <span class="st st-built">built</span> |
+| **Shortbow** | damage +1.6 (flat); projectiles +1 (flat); projectile speed +0.2 (addition); crit chance +0.08 (flat) | Snapshot (hits:1.1/1.1:0.2, not built) | <span class="st st-built">built</span> |
+| **Oak shortbow** | damage +1.6 (flat); projectiles +1 (flat); projectile speed +0.2 (addition); crit chance +0.08 (flat) | Snapshot (hits:1.1/1.1:0.2, not built) | <span class="st st-built">built</span> |
+| **Willow shortbow** | damage +1.6 (flat); projectiles +1 (flat); projectile speed +0.2 (addition); crit chance +0.08 (flat) | Snapshot (hits:1.1/1.1:0.2, not built) | <span class="st st-built">built</span> |
+| **Maple shortbow** | damage +1.6 (flat); projectiles +1 (flat); projectile speed +0.2 (addition); crit chance +0.08 (flat) | Snapshot (hits:1.1/1.1:0.2, not built) | <span class="st st-built">built</span> |
+| **Yew shortbow** | damage +1.6 (flat); projectiles +1 (flat); projectile speed +0.2 (addition); crit chance +0.08 (flat) | Snapshot (hits:1.1/1.1:0.2, not built) | <span class="st st-built">built</span> |
 | **Toxic blowpipe** | damage +2.0 (flat); projectiles +1 (flat); crit chance +0.08 (flat); projectile speed +0.2 (addition) | Toxic Siphon (hit:1.5,heal:0.5, not built) | <span class="st st-built">built</span> |
 | **Fire Strike** | damage +2.5 (flat); projectiles +1 (flat); projectile speed +0.2 (addition); attack size +0.16 (addition) | Wildfire (cone:5:70:1.5, not built) | <span class="st st-built">built</span> |
+| **Wind Strike** | damage +2.5 (flat); projectiles +1 (flat); projectile speed +0.2 (addition); attack size +0.16 (addition) | Gale (cone:5:70:1.5, not built) | <span class="st st-built">built</span> |
+| **Water Strike** | damage +2.5 (flat); projectiles +1 (flat); projectile speed +0.2 (addition); attack size +0.16 (addition) | Torrent (cone:5:70:1.5, not built) | <span class="st st-built">built</span> |
+| **Earth Strike** | damage +2.5 (flat); projectiles +1 (flat); projectile speed +0.2 (addition); attack size +0.16 (addition) | Quake (cone:5:70:1.5, not built) | <span class="st st-built">built</span> |
 | **Ice Barrage** | attack size +0.12 (addition); damage +2.0 (flat); duration +0.12 (flat) | Deep Freeze (freeze:4:3:0.5, not built) | <span class="st st-built">built</span> |
 | **Trident of the seas** | damage +2.0 (flat); projectiles +1 (flat); bounces +1 (flat); attack size +0.2 (addition) | Tidal Chain (chain:5:3:1.0, not built) | <span class="st st-built">built</span> |
 | **Red chinchompa** | damage +2.0 (flat); projectiles +1 (flat); projectile speed +0.2 (addition); attack size +0.15 (addition) | - | <span class="st st-built">built</span> |
@@ -151,4 +208,4 @@ Fire Surge's "projectiles x1" leaves the number of projectiles as it was.
 To aim for one: take the **Abyssal whip** with the **Kraken tentacle**, or **Fire Strike** with the **Tome of fire**
 ([Gear passives](gear-passives.md)), level the weapon to 8, then open a casket.
 
-<!-- sources: src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/Projectiles.cs src/Bonkscape.Plugin/Systems/PlayerSkin.cs src/Bonkscape.Plugin/Systems/Evolutions.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Combat.cs sheets/weapons.json sheets/evolutions.json src/Bonkscape.Plugin/Core/Rows.cs -->
+<!-- sources: src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/Projectiles.cs src/Bonkscape.Plugin/Systems/PlayerSkin.cs src/Bonkscape.Plugin/Systems/Evolutions.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Combat.cs sheets/weapons.json sheets/evolutions.json src/Bonkscape.Plugin/Core/Rows.cs src/Bonkscape.Plugin/Systems/Skills.cs -->

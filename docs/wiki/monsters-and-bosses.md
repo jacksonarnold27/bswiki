@@ -342,15 +342,15 @@ instead, like OSRS monsters:
 <!-- gen:bosses -->
 | Boss | Attacks | Phase thresholds | Pet (rate) | Status |
 |---|---|---|---|---|
-| **Giant Mole** | Claw (melee, 0 ms telegraph, contact); Dig (melee, 1200 ms telegraph, burrow teleport every 12s) | 50% HP | Baby Mole, 1/3000 | <span class="st st-built">built</span> |
-| **TzTok-Jad** | Magic (magic, 1800 ms telegraph, random); Ranged (ranged, 1800 ms telegraph, random); Bite (melee, 0 ms telegraph, random) | 50% HP | TzRek-Jad, 1/200 | <span class="st st-verified">verified</span> |
-| **Kalphite Queen** | Jaws (melee, 0 ms telegraph, random); Spines (ranged, 600 ms telegraph, random); Lightning (magic, 900 ms telegraph, random) | 50% HP | Kalphite Princess, 1/3000 | <span class="st st-built">built</span> |
-| **King Black Dragon** | Bite (melee, 0 ms telegraph, random); Dragonfire (magic, 600 ms telegraph, random); Toxic breath (magic, 600 ms telegraph, random); Icy breath (magic, 600 ms telegraph, random); Shocking breath (magic, 600 ms telegraph, random) | 50% HP | Prince Black Dragon, 1/3000 | <span class="st st-built">built</span> |
+| **Giant Mole** | Claw (melee, 0 ms telegraph, contact); Dig (melee, 1200 ms telegraph, burrow teleport every 12s) | 50% HP | Baby Mole, 1/50 | <span class="st st-built">built</span> |
+| **TzTok-Jad** | Magic (magic, 1800 ms telegraph, random); Ranged (ranged, 1800 ms telegraph, random); Bite (melee, 0 ms telegraph, random) | 50% HP | TzRek-Jad, 1/20 | <span class="st st-verified">verified</span> |
+| **Kalphite Queen** | Jaws (melee, 0 ms telegraph, random); Spines (ranged, 600 ms telegraph, random); Lightning (magic, 900 ms telegraph, random) | 50% HP | Kalphite Princess, 1/50 | <span class="st st-built">built</span> |
+| **King Black Dragon** | Bite (melee, 0 ms telegraph, random); Dragonfire (magic, 600 ms telegraph, random); Toxic breath (magic, 600 ms telegraph, random); Icy breath (magic, 600 ms telegraph, random); Shocking breath (magic, 600 ms telegraph, random) | 50% HP | Prince Black Dragon, 1/30 | <span class="st st-built">built</span> |
 | **Sir Lancelot** | Slash (melee, 0 ms telegraph, random); Lunge (melee, 0 ms telegraph, random) | 50% HP | Dwarf remains, 1/0 | <span class="st st-built">built</span> |
-| **General Graardor** | Smash (melee, 0 ms telegraph, random); Slam (ranged, 600 ms telegraph, random) | 50% HP | Pet General Graardor, 1/5000 | <span class="st st-built">built</span> |
-| **Kree'arra** | Wind (ranged, 600 ms telegraph, random); Tornado (magic, 600 ms telegraph, random); Claw (melee, 0 ms telegraph, random) | 50% HP | Pet Kree'arra, 1/5000 | <span class="st st-built">built</span> |
-| **K'ril Tsutsaroth** | Slash (melee, 0 ms telegraph, random); Prayer smash (melee, 0 ms telegraph, random); Fireball (magic, 600 ms telegraph, random) | 50% HP | Pet K'ril Tsutsaroth, 1/5000 | <span class="st st-built">built</span> |
-| **Commander Zilyana** | Sword (melee, 0 ms telegraph, random); Light (magic, 0 ms telegraph, random) | 50% HP | Pet Zilyana, 1/5000 | <span class="st st-built">built</span> |
+| **General Graardor** | Smash (melee, 0 ms telegraph, random); Slam (ranged, 600 ms telegraph, random) | 50% HP | Pet General Graardor, 1/40 | <span class="st st-built">built</span> |
+| **Kree'arra** | Wind (ranged, 600 ms telegraph, random); Tornado (magic, 600 ms telegraph, random); Claw (melee, 0 ms telegraph, random) | 50% HP | Pet Kree'arra, 1/40 | <span class="st st-built">built</span> |
+| **K'ril Tsutsaroth** | Slash (melee, 0 ms telegraph, random); Prayer smash (melee, 0 ms telegraph, random); Fireball (magic, 600 ms telegraph, random) | 50% HP | Pet K'ril Tsutsaroth, 1/40 | <span class="st st-built">built</span> |
+| **Commander Zilyana** | Sword (melee, 0 ms telegraph, random); Light (magic, 0 ms telegraph, random) | 50% HP | Pet Zilyana, 1/40 | <span class="st st-built">built</span> |
 <!-- /gen:bosses -->
 
 The Giant Mole is Lumbridge's stage boss <span class="st st-built">built</span>. You call it by using the boss portal
@@ -359,7 +359,8 @@ at the swamp's dark hole ([Maps](maps.md)). **The fight then moves into the Mole
 in the middle of it and the chat box saying *"You follow the Giant Mole down into its lair."* The cave is darker, with
 black beyond its walls. Monsters still alive come with you, and chests and shrines move onto the lair's open ground.
 
-The Mole attacks with Megabonk's own boss attacks, and Bonkscape adds its **dig**:
+The Mole attacks with Megabonk's own boss attacks; Protect from Melee halves them, its ground attacks too (a hit
+that names no monster counts as the nearest boss's within 30 m). Bonkscape adds its **dig**:
 
 1. **12 seconds** after it appears, and 12 seconds after each dig, the chat box says *"The Giant Mole burrows into
    the ground!"* and it plays its OSRS burrowing sequence (3314). Without the sequences in your cache, it sinks into
@@ -372,7 +373,8 @@ Below **50% HP** it digs more often, every 8 seconds. After the kill you stay in
 to the next stage appears then is *(unconfirmed: needs a Melty run or footage)*: no test run has killed the Mole yet.
 Dying in the lair restarts the run on Lumbridge with its own sky.
 
-Planned for the Mole: its own drops (Mole claw, the Baby mole pet at 1/3000) and OSRS stats. Neither is built.
+Its death can drop its pet, the Baby mole (1 in 50, [Boss pets](#boss-pets)). Planned for the Mole: its own drop (the
+Mole claw) and OSRS stats; neither is built.
 
 ## Ardougne and Seers' Village
 
@@ -426,7 +428,7 @@ The hits are scaled by each attack's OSRS max hit against Jad's 97. The right pr
 any boss, and stops K'ril's poison, except his **Prayer smash**: it goes straight through your protection prayer and
 drains your prayer points, half your maximum times the share of your health it took.
 
-The general's death ends the run. The planned pets (1/5000) aren't built. Melty's test of 0.11.0 showed General
+The general's death ends the run, and can drop his pet (1 in 40, [Boss pets](#boss-pets)). Melty's test of 0.11.0 showed General
 Graardor in his room with his bodyguards, his melee reaching the adventurer; the other generals, the Prayer smash and
 a general's death are *(unconfirmed: needs a Melty run or footage)*
 
@@ -459,7 +461,7 @@ husk stays behind, and she rises airborne (OSRS NPC 965), still and unhurt while
 Queen rises again!"* Then she fights on with the same attacks in her airborne animations. Only her second death
 counts: it ends the fight and the stage. *(unconfirmed: needs a Melty run or footage)*
 
-The planned pet (Kalphite Princess, 1/3000) isn't built.
+Her second death can drop her pet, the Kalphite princess (1 in 50, [Boss pets](#boss-pets)).
 
 ## The Wilderness
 
@@ -503,7 +505,7 @@ So beside him a third of his attacks are bites, and away from him half are drago
 max hits (25, 65 and 50) against Jad's 97. **Protect from Magic** halves his fire and breaths, as for any boss, and
 stops the breaths' poison, freeze and shock. In OSRS an anti-dragon shield blocks dragonfire; there's none here.
 
-His death ends the run. The planned pet (Prince black dragon, 1/3000) isn't built. The breaths' effects and his death
+His death ends the run, and can drop his pet, the Prince black dragon (1 in 30, [Boss pets](#boss-pets)). The breaths' effects and his death
 are *(unconfirmed: needs a Melty run or footage)*
 
 ## The Barrows brothers
@@ -583,7 +585,8 @@ it completely ([Prayer](prayer.md#what-it-blocks)): watch his wind-up and switch
 seconds. Hit one and it leaves him for good and comes after you.
 
 **The Fire cape.** Killing him unlocks the [Fire cape](gear-passives.md#the-fire-cape) for the adventurer you're
-playing: *"You have been awarded a Fire cape!"*
+playing: *"You have been awarded a Fire cape!"* His death can also drop his pet,
+TzRek-Jad (1 in 20, [Boss pets](#boss-pets)).
 
 As a boss his HP is Megabonk's (its `Pharaoh3`'s), times TzHaar City's difficulty of 1. Melty's test of 0.5.0 showed
 the Fight Caves, the waves and Jad joining the fight; his attacks against a prayer, the healers, his death and the
@@ -599,12 +602,52 @@ Monsters drop Megabonk's normal pickups, dressed as OSRS items, plus Bonkscape's
 | **Shrimps** (60%), **Lobster** (30%), **Shark** (10%) | Megabonk's health pickup, as a random OSRS food | Heals 15, 30 or 60 HP in place of Megabonk's amount: *"You eat the shrimps. It heals some health."* |
 | **Prayer potion(4)** | Bonkscape's own pickup, 2.5% chance per kill | Restores prayer points ([Prayer](prayer.md#prayer-potions)) |
 | **Casket** | Megabonk's chest | Megabonk's chest reward, and [evolutions](weapons-and-evolutions.md#evolutions) |
+| **Clue scroll (easy)** | Bonkscape's own pickup, 0.2% chance per kill (1 in 500) | Starts a clue trail ([Clue scrolls](#clue-scrolls)) |
 
-The sheet also plans a rare clue scroll (easy) drop, the Mole claw, the Baby mole and Jad's pet, TzRek-Jad; none of
-those is built.
+The sheet also plans the Giant Mole's own drop, the Mole claw; it isn't built.
+
+## Boss pets
+
+A boss with an OSRS pet can drop it when its last form dies (the Kalphite Queen's second):
+
+| Boss | Pet | Chance |
+|---|---|---|
+| Giant Mole | Baby mole | 1 in 50 |
+| TzTok-Jad | TzRek-Jad | 1 in 20 |
+| Kalphite Queen | Kalphite princess | 1 in 50 |
+| King Black Dragon | Prince black dragon | 1 in 30 |
+| Each God Wars general | his own pet | 1 in 40 |
+
+Sir Lancelot and the Barrows brothers have none. A drop says *"You have a funny feeling like you're being followed."*,
+or *"You have a funny feeling like you would have been followed..."* for a pet you already own.
+
+A pet is yours for good, for every adventurer (kept in `unlocks.json`). One is out at a time: your first pet comes out
+at once, and the pet line on character select (*"Pet: ..."*, *"Click to change"*) goes through the ones you own, then
+none. The pet out follows you through each run as its OSRS NPC, walking and standing with its own animations, and
+gives every adventurer +1% luck (Megabonk's Luck). *(unconfirmed: needs a Melty run or footage)*
+
+## Clue scrolls
+
+Any kill can drop an **easy clue scroll**, a 0.2% chance (1 in 500), while you have no clue going. It spins on the
+ground and slides to you once you're within about 9 m: *"You find a clue scroll!"* and *"You read the clue scroll: 3
+steps on Lumbridge & Swamp."*
+
+The trail is 2 or 3 of the map's own clue steps, nearest first, each a dig, a search or a talk:
+
+- The step's hint shows in the chat box, as a dialogue (*"Clue scroll (easy): step 1 of 2"*) for a few seconds, and
+  stays under the minimap. OSRS's yellow hint arrow stands over the spot, and a minimap arrow marks it (on the
+  minimap's edge when it's further away). For a talk step, the NPC stands at the spot, facing you.
+- Stand there for 0.8 s (within 1.5 tiles to dig, 1.8 to search, 2.5 to talk): *"You dig and find another clue (2 of
+  3)."*
+- The last step pays a **reward casket**: 100 to 200 coins (*"You dig and find a reward casket: 150 coins!"*) and one
+  of Megabonk's free chests.
+
+One clue at a time. It waits while you're in a boss's lair, and moving on to another stage loses it.
+
+## Planned monsters
 
 ## Planned monsters
 
 The Vyrewatch Sentinel is in the roster above as a planned row (phase 2). It doesn't spawn.
 
-<!-- sources: src/Bonkscape.Plugin/Systems/EnemySkins.cs src/Bonkscape.Plugin/Systems/Animator.cs src/Bonkscape.Plugin/Systems/Bosses.cs src/Bonkscape.Plugin/Systems/Pathing.cs src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Combat.cs src/Bonkscape.Plugin/Core/Sizing.cs src/Bonkscape.Plugin/Core/Osrs.cs src/Bonkscape.Plugin/Core/Rows.cs sheets/enemies.json sheets/bosses.json sheets/waves.json sheets/drops.json src/Bonkscape.Plugin/Systems/BossFight.cs src/Bonkscape.Plugin/Systems/Bonk.cs src/Bonkscape.Plugin/Systems/Unlocks.cs sheets/maps.json src/Bonkscape.Plugin/Systems/Barrows.cs src/Bonkscape.Plugin/Systems/SetEffects.cs src/Bonkscape.Plugin/Systems/SecondForm.cs src/Bonkscape.Plugin/Systems/Pkers.cs src/Bonkscape.Plugin/Systems/Graveyard.cs -->
+<!-- sources: src/Bonkscape.Plugin/Systems/EnemySkins.cs src/Bonkscape.Plugin/Systems/Animator.cs src/Bonkscape.Plugin/Systems/Bosses.cs src/Bonkscape.Plugin/Systems/Pathing.cs src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/Loot.cs src/Bonkscape.Plugin/Systems/Combat.cs src/Bonkscape.Plugin/Core/Sizing.cs src/Bonkscape.Plugin/Core/Osrs.cs src/Bonkscape.Plugin/Core/Rows.cs sheets/enemies.json sheets/bosses.json sheets/waves.json sheets/drops.json src/Bonkscape.Plugin/Systems/BossFight.cs src/Bonkscape.Plugin/Systems/Bonk.cs src/Bonkscape.Plugin/Systems/Unlocks.cs sheets/maps.json src/Bonkscape.Plugin/Systems/Barrows.cs src/Bonkscape.Plugin/Systems/SetEffects.cs src/Bonkscape.Plugin/Systems/SecondForm.cs src/Bonkscape.Plugin/Systems/Pkers.cs src/Bonkscape.Plugin/Systems/Graveyard.cs src/Bonkscape.Plugin/Systems/Pets.cs src/Bonkscape.Plugin/Systems/Clues.cs sheets/clue_steps.json -->
