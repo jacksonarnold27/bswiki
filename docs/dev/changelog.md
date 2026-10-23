@@ -13,6 +13,33 @@ inside each release's DLL in `dist/`. No version has been published yet: every r
 
 ---
 
+## 0.16.5: a whole run on a simulated controller
+
+*Build 2026-10-23 03:13, code in `c3e0325`. Test `234c387a`: publish test, 3 runs x 2 min, passed. Run 1 on Morytania
+into Dharok, run 2 the Mage on Ardougne & Seers' Village into Camelot, run 3 on the God Wars Dungeon into Kree'arra.
+All 12 self-checks each; the simulated pad stays out of Melty's runs.*
+
+**Patch notes**
+- Fixed: pressing A on a controller during a run no longer reaches the title screen's buttons behind the scenes.
+- Bonkscape's tests now play a whole run on a simulated gamepad, from the title through Megabonk's character and map
+  select, moving, level-up picks, the pause menu and the death screen.
+
+**Changes**
+- `MenuPad.Tick` does nothing during a run: `TitleScreen.Shown` keeps its last menu value through a run, so a pad's A
+  in a level-up window pressed the title's Play.
+- New `Dev/VirtualPad.cs`, tests only: prefixes, patched at runtime, on Rewired's `Player` reads (`GetAxis`,
+  `GetAxisRaw`, `GetButton`, `GetButtonDown`, `GetButtonUp`, `GetNegativeButton*`, `GetButtonRepeating`, by action
+  name and by id, as Megabonk's UI module reads) return the simulated pad's value for an action it holds and leave
+  every other read to Rewired; `MyInputManager.IsUsingController` says a pad is in use. Installed only for a
+  scenario's `virtual_pad`, `pad_play` or `start_by_pad`. Bonkscape's own pad buttons still come through
+  `Controls.Inject`.
+- Scenarios: `pad_play` (autoplay's stick goes to the Move axes; A on level-ups and the death screen), `start_by_pad`
+  (the run is started by pad steps, and test mode counts it as requested), `vpad` steps; optional checks
+  `pad-started`, `pad-moved`, `pad-levelup`, `pad-paused` and `pad-death-screen`; scenarios `pad-run`, `pad-play`,
+  `pad-death` and `pad-megabonk-controls`. `Dev/InputCalls` marks a read by id with `#`.
+- Suites: the test runs' early potion is offered again in each scenario (`Loot.PotionDrunk` reset at the boundary);
+  `specials-melee` spawns goblins in the godsword's retry window.
+
 ## 0.16.4: the test potion within reach
 
 *Build 2026-10-23 02:39, code in `fbb32f2`. Test `c5b95a38`: publish test, 3 runs x 2 min, passed. Run 1 the Zerker on

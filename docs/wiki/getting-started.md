@@ -104,7 +104,12 @@ and Start), while Megabonk is in controller mode:
   or Start closes the page.
 - **Character select**: Y changes the pet out (*"Press Y to change"*).
 
-Moving the mouse hands the screens back to it. Megabonk's own menus keep their own controller navigation.
+Moving the mouse hands the screens back to it. Megabonk's own menus keep their own controller navigation, and
+during a run the pad's A is Megabonk's alone.
+
+Bonkscape's tests play a whole run on a simulated gamepad: the title, Megabonk's character and map select, moving,
+level-up picks, the pause menu and the death screen. On a real controller it's *(unconfirmed: needs a run with a
+controller)*.
 
 ## Leaderboards
 
@@ -119,4 +124,4 @@ Runs with Bonkscape loaded never upload scores to Megabonk's Steam leaderboards.
 - Log: `BepInEx/LogOutput.log`. Bonkscape's lines start with `[Info   : Bonkscape]`, and every chat message is
   logged too, as `[chat] ...`.
 
-<!-- sources: src/Bonkscape.Plugin/Plugin.cs src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/Hud.cs src/Bonkscape.Plugin/Patches/CorePatches.cs tools/package.py src/Bonkscape.Plugin/Systems/CharacterSelect.cs src/Bonkscape.Plugin/Systems/Unlocks.cs src/Bonkscape.Plugin/Systems/TitleScreen.cs src/Bonkscape.Plugin/Systems/Controls.cs src/Bonkscape.Plugin/Systems/ControlsPage.cs src/Bonkscape.Plugin/Systems/MenuPad.cs -->
+<!-- sources: src/Bonkscape.Plugin/Plugin.cs src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/Hud.cs src/Bonkscape.Plugin/Patches/CorePatches.cs tools/package.py src/Bonkscape.Plugin/Systems/CharacterSelect.cs src/Bonkscape.Plugin/Systems/Unlocks.cs src/Bonkscape.Plugin/Systems/TitleScreen.cs src/Bonkscape.Plugin/Systems/Controls.cs src/Bonkscape.Plugin/Systems/ControlsPage.cs src/Bonkscape.Plugin/Systems/MenuPad.cs src/Bonkscape.Plugin/Dev/VirtualPad.cs -->

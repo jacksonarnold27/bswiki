@@ -1,7 +1,7 @@
 # Architecture
 
 Bonkscape is a BepInEx 6 IL2CPP plugin for Megabonk (Unity 2023.2.22f1, IL2CPP, build 1.0.69) that reads the player's
-Old School RuneScape cache at run time. Nothing from either game is shipped. Written against **0.16.4** (`fbb32f2`).
+Old School RuneScape cache at run time. Nothing from either game is shipped. Written against **0.16.5** (`c3e0325`).
 
 ## Projects
 
@@ -419,7 +419,7 @@ it stands:
 | `Systems/AttackStyles.cs` | OSRS attack styles (0.14): the adventurer's style (saved per adventurer in `unlocks.json`, `_style_<id>`; `characters.attack_style` to start), the style key (`[Interface] AttackStyleKey`, F1) and the checks that the XP went where the style says (`style-xp`) and never into a locked skill (`locked-skill-kept`); `Skills.Shares` holds each style's split |
 | `Systems/Controls.cs` | Bonkscape's actions on a controller (0.16): each action's button of Rewired's standard gamepad template (`[Controller]` settings), read once a frame on every pad Rewired sees as a gamepad through non-generic calls (`GetTemplate(GamepadTemplate.typeGuid)`, `GetElement`, `justPressed`); `Pad(act)` answers for `Prayer`, `Specials`, `AttackStyles`, `Inventory` and `CameraTweak` beside their keys, never while the time scale is 0; `Inject` for the scenario step `pad`; the controls page's `Key`, `SetKey`, `SetPad` and `Defaults`, which set the `ConfigEntry` `Plugin` bound for each key and button (BepInEx saves the .cfg on set) |
 | `Systems/ControlsPage.cs` | Bonkscape's controls page (0.16.2), opened by the title's Controls button: drawn by `HudLayout.DrawControls` over the title (`Hud.OnGUI` gives it every click and key while open), a key cell and a controller cell per action; a waiting cell takes the next key, or the next gamepad-template button any pad presses (`Tick`, `Controls.AnyPadPressed`); Esc cancels; Defaults and Done. Changes go through `Controls.SetKey` and `SetPad` |
-| `Systems/MenuPad.cs` | Bonkscape's screens on a controller (0.16.3): menu moves from Megabonk's own UI actions through its Rewired player (`UIHorizontal`, `UIVertical`, `UISubmit`, `UICancel`, `UIAbort`), only while `MyInputManager.IsUsingController()` and never on a frame with Enter, Space or Esc; the pad leads until the mouse moves. `Tick` hands a move to `ControlsPage.PadNav`, else `TitleScreen.PadNav` (each keeps a `Focus`, moved by `HudLayout.Neighbour`), and on character select the template's Y to `CharacterSelect.PadCyclePet`; `Inject` for the UI test's `nav:` steps |
+| `Systems/MenuPad.cs` | Bonkscape's screens on a controller (0.16.3): menu moves from Megabonk's own UI actions through its Rewired player (`UIHorizontal`, `UIVertical`, `UISubmit`, `UICancel`, `UIAbort`), never during a run, only while `MyInputManager.IsUsingController()` and never on a frame with Enter, Space or Esc; the pad leads until the mouse moves. `Tick` hands a move to `ControlsPage.PadNav`, else `TitleScreen.PadNav` (each keeps a `Focus`, moved by `HudLayout.Neighbour`), and on character select the template's Y to `CharacterSelect.PadCyclePet`; `Inject` for the UI test's `nav:` steps |
 | `Systems/OsrsUi.cs` | IMGUI canvas for `HudLayout`; loads its sprites and fonts; measures Megabonk's minimap |
 | `Systems/MegabonkHud.cs` | Hides Megabonk's health bars, XP bar, weapon slots and enemy health bars in a run and restores them after; reads run XP progress |
 | `Systems/LevelUpFx.cs` | OSRS level-up fireworks (spot animation 199) as a flipbook at the adventurer's feet |
@@ -434,7 +434,8 @@ it stands:
 | `Core/UnityConv.cs` | `MeshData`/pixels into Unity meshes, textures, objects (main thread); OSRS colours gamma-to-linear in Linear colour space; `SpritePart` (part of a sprite frame as its own texture) |
 | `Dev/DataDump.cs` | `Dev.DumpData`: Megabonk's data as JSON |
 | `Dev/InputDump.cs` | Megabonk's Rewired setup as text (actions, map categories, joystick layouts, the gamepad template's default map per category), once the OSRS assets are ready: `[Dev] DumpData` writes `BepInEx/config/Bonkscape/input-dump.txt`, a scenario's `dump_input` its `<scenario>-input-dump.txt` in the shots |
-| `Dev/InputCalls.cs` | Development only (0.16.4): with a scenario's `count_input`, a counting prefix, patched at runtime, on every public read of Rewired's `Player` and on `MyInputManager`'s static wrappers; the scenario report lists the counts by method and action |
+| `Dev/InputCalls.cs` | Development only (0.16.4): with a scenario's `count_input`, a counting prefix, patched at runtime, on every public read of Rewired's `Player` and on `MyInputManager`'s static wrappers; the scenario report lists the counts by method and action (a read by id marked `#`) |
+| `Dev/VirtualPad.cs` | Tests only (0.16.5): a simulated gamepad. Prefixes patched at runtime on Rewired's `Player` reads (axes and buttons, by action name and by id) answer for the actions it holds, the rest go to Rewired, and `MyInputManager.IsUsingController` says a pad is in use; installed only for a scenario's `virtual_pad`, `pad_play` or `start_by_pad`. Bonkscape's own pad buttons still come through `Controls.Inject` |
 | `Dev/Timing.cs` | `timing: <mark> at N s` lines from the plugin's load (OSRS assets ready, main menu, run requested, run started, arena built) for the local loop |
 | `Dev/Breadcrumbs.cs` | Test mode: `%LOCALAPPDATA%\Bonkscape\breadcrumbs.txt`, one flushed line per step, so a native crash's last line names the step |
 

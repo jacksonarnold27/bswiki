@@ -23,7 +23,10 @@ What isn't there yet, or behaves differently from what you'd expect. The [docket
   turn a button off, bind Esc or bind Start (they cancel a wait there); those, and every change without the title
   screen, go through the settings file. Character select's pet button is Y, not a setting. Bonkscape's screens
   follow Megabonk's menu controls only while Megabonk is in controller mode, and a real pad there is
-  *(unconfirmed: needs a run with a controller)* too (tests feed the menu moves directly) ([Playing on a controller](getting-started.md#playing-on-a-controller)).
+  *(unconfirmed: needs a run with a controller)* too: tests simulate one (Megabonk's input reads answered by a
+  virtual pad, Bonkscape's buttons fed in directly). Megabonk's own controller remapping, in its Settings, opens and
+  works by pad in those tests, but rebinding a key there takes a real key press, which no test makes: *(unconfirmed:
+  needs a hand check)* ([Playing on a controller](getting-started.md#playing-on-a-controller)).
 - **Your cache decides what you see.** The OSRS client downloads models on demand. Monsters missing from your cache use
   stand-ins; if a map's regions are missing, you get Megabonk's own map (the Forest, the Desert or the Graveyard) instead.
 - **Megabonk's other maps change a little too.** Bonkscape edits Megabonk's data when the game loads, so its reskinned
