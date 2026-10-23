@@ -90,7 +90,8 @@ their keys, on buttons Megabonk leaves free in a run:
 
 They're buttons of Rewired's standard gamepad layout (Megabonk reads its input through Rewired), so they mean the same
 on any controller Rewired sees as a gamepad. They do nothing while a Megabonk window has the game paused. Change them
-in [Settings](settings.md); `None` turns one off. Test runs press them through Bonkscape's test tools, not on a real
+on Bonkscape's controls page (the title screen's **Controls** button: [HUD](hud-and-chat.md#the-controls-page)) or
+in [Settings](settings.md), where `None` turns one off. Test runs press them through Bonkscape's test tools, not on a real
 controller: whether a real pad's presses reach Bonkscape is *(unconfirmed: needs a run with a controller)*.
 
 ## Leaderboards
@@ -106,4 +107,4 @@ Runs with Bonkscape loaded never upload scores to Megabonk's Steam leaderboards.
 - Log: `BepInEx/LogOutput.log`. Bonkscape's lines start with `[Info   : Bonkscape]`, and every chat message is
   logged too, as `[chat] ...`.
 
-<!-- sources: src/Bonkscape.Plugin/Plugin.cs src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/Hud.cs src/Bonkscape.Plugin/Patches/CorePatches.cs tools/package.py src/Bonkscape.Plugin/Systems/CharacterSelect.cs src/Bonkscape.Plugin/Systems/Unlocks.cs src/Bonkscape.Plugin/Systems/TitleScreen.cs src/Bonkscape.Plugin/Systems/Controls.cs -->
+<!-- sources: src/Bonkscape.Plugin/Plugin.cs src/Bonkscape.Plugin/Systems/Content.cs src/Bonkscape.Plugin/Systems/Hud.cs src/Bonkscape.Plugin/Patches/CorePatches.cs tools/package.py src/Bonkscape.Plugin/Systems/CharacterSelect.cs src/Bonkscape.Plugin/Systems/Unlocks.cs src/Bonkscape.Plugin/Systems/TitleScreen.cs src/Bonkscape.Plugin/Systems/Controls.cs src/Bonkscape.Plugin/Systems/ControlsPage.cs -->

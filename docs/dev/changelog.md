@@ -13,6 +13,34 @@ inside each release's DLL in `dist/`. No version has been published yet: every r
 
 ---
 
+## 0.16.2: the controls page
+
+*Build 2026-10-23 02:05, code in `339992c`. Test `b2f28801`: publish test, 3 runs x 2 min, passed. Run 1 on Morytania
+(Guthan the hidden brother), run 2 on Ardougne & Seers' Village (Sir Lancelot), run 3 on the God Wars Dungeon (General
+Graardor). The title screen's new Controls button in each run's footage. All 12 self-checks each.*
+
+**Patch notes**
+- Change your controls in game: the title screen's new **Controls** button opens a page listing Bonkscape's actions
+  with their keyboard key and controller button. Click one, then press the new key or button (Esc cancels);
+  **Defaults** puts everything back. Changes take effect at once and are saved, so they're still there next time.
+- Megabonk's own controls stay in its Settings, as before.
+
+**Changes**
+- New `Systems/ControlsPage.cs` and `HudLayout.DrawControls`: a stone window over the title (opened by its new
+  `controls` button) with a row per action and a key cell and a controller cell each; `Hud.OnGUI` gives it every click
+  and key while it's open, and `ControlsPage.Tick` (each frame, from `Runner`) gives a waiting controller cell the
+  first gamepad-template button any pad presses (`Controls.AnyPadPressed`). Esc cancels a wait, or closes the page.
+- `Controls`: each action's key and button can be read and changed in one place (`Key`, `SetKey`, `SetPad`,
+  `Defaults`); a change sets the `ConfigEntry` that `Plugin` bound, which BepInEx saves to the .cfg at once. No new
+  setting: the page writes the existing keys (`Prayer.Keys`, `Camera.ToggleKey`, `Special.FireKey` and `SwitchKey`,
+  `Interface.PrayerTabKey` and `AttackStyleKey`) and the six `[Controller]` buttons.
+- The UI test's `"controls"` steps (`open`, `fits`, `click:`, `key:`, `pad:`, `shot:`, `expect:`); optional checks
+  `controls-page`, `control-rebound` and `binding-kept`; scenarios `controls-rebind` and `controls-kept`, in separate
+  launches. `title-screen` passes on every title draw (TestMode keeps it once a scenario), so a suite's later
+  scenarios pass it too.
+- Tools: `loop.py` backs Bonkscape's .cfg up once for the whole loop and puts it back at the end, naming the lines that
+  changed (`derived/loop/PENDING-CFG.txt` when a loop is killed).
+
 ## 0.16.1: lava safe across a stage change
 
 *Build 2026-10-23 01:33, code in `f716b88`. Test `ee096614`: publish test, 3 runs x 2 min, passed. Run 1 on Lumbridge

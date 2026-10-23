@@ -19,8 +19,9 @@ What isn't there yet, or behaves differently from what you'd expect. The [docket
 - **Controllers.** Bonkscape's controller buttons are read through Rewired's standard gamepad layout, so a controller
   Rewired doesn't see as a gamepad gets none (its keys still work). Test runs press them through the test tools,
   never on a real pad: whether a real controller's presses reach Bonkscape is *(unconfirmed: needs a run with a
-  controller)*. The buttons are changed in the settings file only ([Playing on a
-  controller](getting-started.md#playing-on-a-controller)).
+  controller)*. The controls page (the title screen's **Controls**) changes keys and buttons but can't
+  turn a button off or bind Esc, which cancels; both, and every change without the title screen, go through the
+  settings file ([Playing on a controller](getting-started.md#playing-on-a-controller)).
 - **Your cache decides what you see.** The OSRS client downloads models on demand. Monsters missing from your cache use
   stand-ins; if a map's regions are missing, you get Megabonk's own map (the Forest, the Desert or the Graveyard) instead.
 - **Megabonk's other maps change a little too.** Bonkscape edits Megabonk's data when the game loads, so its reskinned

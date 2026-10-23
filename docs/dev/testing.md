@@ -96,7 +96,8 @@ boss took its OSRS model: `EnemySkins`, log `boss skinned: <Megabonk boss> as <r
 fight moved into the boss's lair, log `arena: in Giant Mole's lair after N ms`), `lair-dig` (the Mole resurfaced on a
 reachable lair tile, log `boss: the Giant Mole resurfaced in its lair at ...`), `skilling-gathered`
 (`Skilling.Gather`) and `gear-slot-rules` (`Content.TomePool` left a passive out of the offers because its gear slot
-was taken or it reached its max level; the log says `gear offers: left out …`). Since 0.5: `arena-waves` (a boss
+was taken or it reached its max level; the log says `gear offers: left out …`). Since 0.4: `spec-switched` (the switch key, or its controller button, armed another weapon's special attack).
+Since 0.5: `arena-waves` (a boss
 arena's first wave), `arena-boss-released` (the held boss joined after the waves), `boss-healers` and `boss-healed`
 (Jad's healers called, and one healed him), `boss-blocked-fully` (a boss hit blocked completely), `lava-burned` (a lava
 burn cost health) and `unlock-earned` (a boss's death unlocked a passive). Since 0.6: `extra-weapon` (an
@@ -105,7 +106,7 @@ adventurer's `extra_weapons` given), `shop-refused` (a shopkeeper refused an adv
 hidden brother picked), `barrows-piece` and `barrows-set` (a piece given; a set completed), `set-effect` (a set
 effect triggered) and `weapon-takeover` (a brother's weapon put on its shared Megabonk type). Since 0.8:
 `boss-second-form` (a two-form boss's first form fell and its second rose). Since 0.9: `crypt-left` (a Graveyard run left its starting crypt by its exit door), `pker-ambush` and `pker-spec` (a PKer came, and fired its special attack) and `boss-breath-effect` (a boss's breath poisoned, froze or shocked the adventurer; since 0.11 also K'ril's prayer-piercing smash). Since 0.12: `osrs-inventory` (the OSRS side panel's inventory showed a weapon) and `title-screen` (the OSRS title screen stood in for Megabonk's main menu). Since 0.13: `pet-dropped` (a boss dropped its pet), `pet-following` (the pet out walked after the adventurer), `clue-started` (a clue trail began) and `clue-complete` (its reward casket paid out). In Melty's runs the sixth kill drops a clue scroll, so its trail shows in the footage. Since 0.14: `ladder-tier` (a ladder's Megabonk weapon took a tier below its top for the adventurer), `gear-reqs` (a level-up's offers left out a weapon above the adventurer's levels), `style-switched` (the attack style changed), `style-xp` (after a switch, the adventurer's own style earned XP only in the new style's skills), `combat-tab` (the side panel's combat tab opened) and `locked-skill-kept` (an adventurer with a locked skill earned XP this run and none in it: the Pure's Defence). Since 0.16:
-`controller-action` (a Bonkscape action came from its controller button, a pad's or a scenario's `pad` step). In Melty's runs the twelfth kill presses the style key, so the combat tab and a style switch show in the footage; the `skill-rules` self-check also covers the styles' XP shares, the Pure's styles, the ladders' tiers and the whip's and scythe's requirements.
+`controller-action` (a Bonkscape action came from its controller button, a pad's or a scenario's `pad` step); since 0.16.2 also `controls-page` (Bonkscape's controls page opened from the title), `control-rebound` (a key or controller button changed on it) and `binding-kept` (the UI test's `expect:` found the bindings it named; in a later launch that proves the save). In Melty's runs the twelfth kill presses the style key, so the combat tab and a style switch show in the footage; the `skill-rules` self-check also covers the styles' XP shares, the Pure's styles, the ladders' tiers and the whip's and scythe's requirements.
 
 **Each Melty run's own log** (0.9.1): in Melty's test mode Bonkscape copies its log lines to `%LOCALAPPDATA%/Bonkscape/melty-run-N.log` as they come, since BepInEx's `LogOutput.log` starts over with each launch and a test's first run was gone by its last. Test mode never calls a boss while the game is paused (time scale 0).
 
@@ -214,6 +215,7 @@ Times are local (UTC-5). From Melty's release list and test results.
 | 0.15.2 | `a348ef8e` | 3 x 2 min | **passed (publish test)** | Run 1 on Morytania with the Void knight mace: a clue, the combat tab, the Abyssal tentacle, Torag as the hidden brother. Run 2 on Ardougne & Seers' Village with an iron scimitar: a clue, the combat tab, the tentacle, Sir Lancelot's arena. Run 3 on the God Wars Dungeon with Fire Strike: a clue, the combat tab, the level-up offers in OSRS's stone, the tentacle, Kree'arra's lair after the final-stage load. All 12 each. |
 | 0.16.0 | `b4021c47` | 3 x 2 min (1 run) | **failed** | Run 1 on TzHaar City passed all 12 self-checks, but `loader-errors` failed on one logged warning, *lava: NullReferenceException*, as the final portal loaded the Fight Caves (`LavaBurn` read the adventurer Megabonk had just destroyed). The test stopped after run 1. |
 | 0.16.1 | `ee096614` | 3 x 2 min | **passed (publish test)** | Run 1 on Lumbridge with Fire Strike: a clue, its casting styles, the Abyssal tentacle, the Giant Mole's lair. Run 2 on the Wilderness with the Void knight mace: a clue, its styles, the tentacle, the King Black Dragon's lair. Run 3 on Al Kharid with an iron scimitar: a clue, its styles, the tentacle, the Kalphite Queen's lair. All 12 each. Melty's runs press no controller buttons; the `controller-pad` scenario does, through its `pad` steps. |
+| 0.16.2 | `b2f28801` | 3 x 2 min | **passed (publish test)** | The title screen's new Controls button in each run. Run 1 on Morytania: Guthan the hidden brother. Run 2 on Ardougne & Seers' Village: Sir Lancelot. Run 3 on the God Wars Dungeon: General Graardor. All 12 each. The controls page itself is tested locally (`controls-rebind`, `controls-kept`). |
 
 Blank cells weren't looked up. `mcp__melty__test_result` with the test id gives the full record.
 
@@ -318,6 +320,8 @@ written as PNG by the plugin (Unity's own capture and PNG encoder are stripped f
 | `weapon-warrior` | the Warrior given the magic shortbow and Ice Barrage on Morytania: the bow in hand for its shots, the scimitar back |
 | `camera` | Lumbridge without autoplay: the run starts facing north at the near pitch, the far camera at 3 s, the near one again at 5.5 s (screenshots at 4 and 7 s) |
 | `controller-pad` | Lumbridge as the Warrior at 99 without autoplay, the whip and goblins: every Bonkscape action by its controller button through `pad` steps (a prayer on d-pad left, the spec on Y, the prayer tab on d-pad down and back, the style on Back, the spec switch on the left stick button, the camera on the right stick button twice): `controller-action`, `prayer-switched`, `spec-fired`, `style-switched`, `combat-tab`, `spec-switched` |
+| `controls-rebind` | the UI test's controls page at four sizes, then the special attack moved to the P key and the B button, a cancelled wait, and the bindings checked; in the run the spec fires from B: `controls-page`, `control-rebound`, `binding-kept`, `controller-action`, `spec-fired`. Run it with `controls-kept` after it, in separate launches |
+| `controls-kept` | the launch after `controls-rebind`: the P key and B button still on the special attack after the restart (`binding-kept`), then Defaults puts every key and button back (checked and reported) |
 | `saves` | `"save_skills": true`: `Skills.Tick`'s save (every 20 s once XP changed) reads back as written, `skills-saved`; the loop restores the save after |
 | `tzhaar-city` | TzHaar City (the Desert's third stage, reached by the jump) as the Warrior: a kill, and at 15 s the adventurer put against a lava edge (`lava-burned`) |
 | `fight-caves` | TzHaar City as the Mage with Prayer, Hitpoints and Magic at 99 (not saved), the final portal at 3 s: the Fight Caves (`boss-arena`), the waves at the sheet's times (`arena-waves`), Jad released at 120 s (`arena-boss-released`) and his hits (`player-hit`) |
@@ -369,7 +373,15 @@ passed a panel lying over the adventurer's description and weapon name. It also 
 (0.6: the adventurer's OSRS model, `CharacterSelect.Preview`; the panel sits in the free gap it measures between
 Megabonk's two windows, and passes at all four sizes). `"adventurers": true` in `"ui"` presses each phase-1 adventurer's
 button there too and screenshots it (`menu-characters-<id>-WxH`); a locked one (the Ironman, before total level 250)
-is reported as locked, as Megabonk keeps the last selection. In the run it screenshots the HUD at each
+is reported as locked, as Megabonk keeps the last selection. `"controls": [...]` in `"ui"` (0.16.2) opens Bonkscape's
+controls page from the title at each resolution, screenshots it (`menu-controls-WxH`) and checks its window and all 16
+cells are drawn on screen (`fits`); at the last resolution it then runs the list's steps: `click:<cell>` (`key 4`,
+`pad 4`, `defaults`, `done`, as a mouse click), `key:<KeyCode>` (a key pressed: the waiting key cell takes it, `Escape`
+cancels), `pad:<button>` (a controller button pressed, through `Controls.Inject`), `shot:<name>` and
+`expect:<Act> key|pad <name>,...` (the bindings now in effect: all matching passes `binding-kept`, a mismatch is
+reported and fails it). The page is closed before the run. The loop backs Bonkscape's .cfg up once for all its launches
+and puts it back at the end, so `controls-rebind` (launch 1) can change bindings and `controls-kept` (launch 2) can
+check they survived the restart, then put the defaults back. In the run it screenshots the HUD at each
 resolution and checks Bonkscape's HUD boxes against the real minimap (`HudLayout.Boxes` and `Problems`: the orb cluster
 drawn as one, the minimap as a circle). `bonk uilayout [w h ...]` runs the HUD check offline for eight resolutions. A
 text's box can be wider than its letters, so a covered text is worth a look at the screenshot before it's called a
@@ -400,4 +412,4 @@ bug.
 
 What testing still lacks is on the [docket](docket.md).
 
-<!-- sources: src/Bonkscape.Plugin/Systems/TestMode.cs src/Bonkscape.Plugin/Systems/Scenario.cs src/Bonkscape.Plugin/Systems/TestGuard.cs src/Bonkscape.Plugin/Systems/Shot.cs src/Bonkscape.Plugin/Core/DeadHooks.cs src/Bonkscape.Plugin/Dev/Timing.cs tools/loop.py src/Bonkscape.Plugin/Systems/Controls.cs -->
+<!-- sources: src/Bonkscape.Plugin/Systems/TestMode.cs src/Bonkscape.Plugin/Systems/Scenario.cs src/Bonkscape.Plugin/Systems/TestGuard.cs src/Bonkscape.Plugin/Systems/Shot.cs src/Bonkscape.Plugin/Core/DeadHooks.cs src/Bonkscape.Plugin/Dev/Timing.cs tools/loop.py src/Bonkscape.Plugin/Systems/Controls.cs src/Bonkscape.Plugin/Systems/ControlsPage.cs -->

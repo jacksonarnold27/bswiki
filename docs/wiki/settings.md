@@ -2,7 +2,8 @@
 
 Bonkscape's settings are in **`BepInEx/config/gg.melty.bonkscape.cfg`** in Megabonk's folder. BepInEx writes the file,
 with every key at its default, the first time Megabonk starts with Bonkscape. Edit it with Megabonk closed: settings
-are read once, when the game starts. For every number key but `Audio.OsrsVolume`, a value outside the range is clamped to the nearest end.
+are read once, when the game starts. The keys and controller buttons can also be changed in game, on the title
+screen's controls page ([HUD](hud-and-chat.md#the-controls-page)), which writes them here at once. For every number key but `Audio.OsrsVolume`, a value outside the range is clamped to the nearest end.
 
 | Section | Key | Default | Range | What it does |
 |---|---|---|---|---|
@@ -52,4 +53,4 @@ when each monster spawns.
 `OSRS_CACHE=` (a cache folder, used when `OSRS.CacheFolder` is empty). Your saves and the log are listed in
 [Getting started](getting-started.md#where-your-progress-lives).
 
-<!-- sources: src/Bonkscape.Plugin/Plugin.cs src/Bonkscape.Plugin/Systems/Controls.cs src/Bonkscape.Plugin/Systems/CameraTweak.cs src/Bonkscape.Plugin/Core/Sizing.cs src/Bonkscape.Plugin/Dev/DataDump.cs -->
+<!-- sources: src/Bonkscape.Plugin/Plugin.cs src/Bonkscape.Plugin/Systems/Controls.cs src/Bonkscape.Plugin/Systems/CameraTweak.cs src/Bonkscape.Plugin/Core/Sizing.cs src/Bonkscape.Plugin/Dev/DataDump.cs src/Bonkscape.Plugin/Systems/ControlsPage.cs -->

@@ -7,7 +7,7 @@ your own OSRS install while the game starts. Nothing from either game ships with
 
 This wiki says how each system works **in the code as it is now**. It doesn't describe plans as if they were built.
 
-> **Version:** BSWiki matches Bonkscape **0.16.1** (code at `f716b88`). What changed in each version:
+> **Version:** BSWiki matches Bonkscape **0.16.2** (code at `339992c`). What changed in each version:
 > [patch notes](../dev/changelog.md). How each version tested: [test history](../dev/testing.md#test-history).
 
 ## Pages
@@ -59,11 +59,12 @@ the same way everywhere:
   magic, shown by the icon over its head.
 - Press **1 / 2 / 3** to [pray](prayer.md) against melee, missiles or magic, and **F** for your weapon's
   [special attack](weapons-and-evolutions.md#special-attacks) (**Q** picks which weapon's). On a controller they're on
-  the d-pad, Y and a left-stick click ([Playing on a controller](getting-started.md#playing-on-a-controller)).
+  the d-pad, Y and a left-stick click ([Playing on a controller](getting-started.md#playing-on-a-controller)); the
+  title screen's **Controls** button changes any key or button.
 - Damage trains your OSRS [skills](skills-and-xp.md), and they're kept between runs. Your levels climb OSRS's weapon ladders (bronze to dragon scimitars,
   normal to magic shortbows, Wind to Fire Strike) and open stronger weapons, and **F1** picks your attack style.
 - Stand next to the maps' trees, rocks and fishing spots to [skill](skilling.md) for coins, buffs and food.
 
 Developer documentation (architecture, sheets, gotchas, testing, changelog, task docket) is in [BSWiki's developer pages](../dev/index.md).
 
-<!-- sources: src/Bonkscape.Plugin/Plugin.cs src/Bonkscape.Plugin/Systems/Controls.cs -->
+<!-- sources: src/Bonkscape.Plugin/Plugin.cs src/Bonkscape.Plugin/Systems/Controls.cs src/Bonkscape.Plugin/Systems/ControlsPage.cs -->
